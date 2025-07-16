@@ -57,7 +57,7 @@ body {
 #ghost-behind {
   position: absolute;
   top: 120px;       /* bring it down from the top */
-  right: 40px;      /* tuck it in from the right */
+  right: 80px;      /* tuck it in from the right */
   opacity: 0.25;
   animation: ghostPulse 6s ease-in-out infinite;
   z-index: 1;
