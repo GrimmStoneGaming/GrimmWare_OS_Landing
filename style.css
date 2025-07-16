@@ -63,11 +63,15 @@ body {
 }
 
 .about-container {
-  max-width: 800px;
-  width: 90%;
+  padding: 0 20px;
+  max-width: 1000px;
   margin: 0 auto;
-  text-align: center;
+}
+
+.about-text {
   line-height: 1.6;
+  font-size: 1rem;
+  text-align: center;
 }
 
 .about-text h2 {
@@ -77,43 +81,19 @@ body {
 }
 
 .about-text p {
-  font-size: 1rem;
   margin-bottom: 0.75rem;
 }
 
-.about-text .red {
-  font-weight: bold;
-}
-
-.about-text .cyan {
+.about-text .red,
+.about-text .cyan,
+.about-text .green,
+.about-text .pink,
+.about-text .blue {
   font-weight: bold;
 }
 
 .about-text .green {
   font-style: italic;
-}
-
-/* ========== KEYFRAMES ========== */
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 /* ========== TYPOGRAPHY ========== */
@@ -180,6 +160,7 @@ h1, h2, h3, p {
 .pink   { color: #ff69b4; }
 .cyan   { color: #00ffff; }
 .white  { color: #ffffff; }
+.blue   { color: #00bfff; }
 .bold   { font-weight: bold; }
 
 /* ========== LOADING CONTAINERS ========== */
@@ -197,6 +178,30 @@ h1, h2, h3, p {
   padding: 8px 20px;
   font-size: 1rem;
 }
+
+/* ========== KEYFRAMES ========== */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ========== REVEAL SCROLL ANIMATION ========== */
 .reveal {
   opacity: 0;
@@ -208,4 +213,3 @@ h1, h2, h3, p {
   opacity: 1;
   transform: translateY(0);
 }
-
