@@ -26,8 +26,35 @@ body {
 }
 .hidden-egg {
   position: absolute;
-  left: -9999px;
-  visibility: hidden;
+  top: auto;
+  left: 20px;
+  opacity: 0;
+  color: #ff0000;
+  font-family: monospace;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  z-index: 0;
+  pointer-events: none;
+  animation: ghostPulse 6s ease-in-out infinite;
+}
+
+#bleeding-syntax {
+  top: 65%;
+  left: 20px;
+}
+
+#ghost-behind {
+  top: 80%;
+  left: 40px;
+}
+
+@keyframes ghostPulse {
+  0%, 100% {
+    opacity: 0.05;
+  }
+  50% {
+    opacity: 0.15;
+  }
 }
 /* ========== LOGO CONTAINER ========== */
 .logo-container {
