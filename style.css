@@ -248,6 +248,7 @@ iframe {
 }
 
 #hidden-message {
+  display: none;
   position: absolute;
   top: 20px;
   left: 1150px; /* stays hidden off screen until hunted */
