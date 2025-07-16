@@ -5,7 +5,7 @@
   <title>GrimmWare OS</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </head>
 <body>
   <canvas id="matrix"></canvas>
@@ -60,12 +60,7 @@ if (pain > threshold) {
     </div>
   </section>
 
-   <!-- TERMINAL BLACK BAR 1 -->
-  <section class="terminal-wrapper reveal">
-    <div id="loading-1" class="terminal-box">
-      <p class="cyan">>>> Booting GrimmWare OS...</p>
-    </div>
-  </section>
+  <section id="loading-1" class="terminal-lines reveal"></section>
 
   <div class="emo-banner-container reveal">
     <img src="images/emotion-is-executable.png" alt="Emotion is Executable Banner" class="emo-banner" />
@@ -104,13 +99,7 @@ if (pain > threshold) {
     </div>
   </section>
 
-    <!-- TERMINAL BLACK BAR 2 -->
-  <section class="terminal-wrapper reveal">
-    <div id="loading-2" class="terminal-box">
-      <p class="cyan">>>> Awaiting transmission data...</p>
-    </div>
-  </section>
-     <div class="spacer"></div>
+  <section id="loading-2" class="terminal-lines reveal"></section>
   <section id="featured-track" class="featured-track reveal">
   <h3>>> File attached: <span class="cyan">I See It All</span></h3>
   <p><span class="green">Status: Declassified</span></p>
