@@ -55,18 +55,9 @@ body {
 }
 
 #ghost-behind {
-  position: absolute;
-  top: 120px;       /* bring it down from the top */
-  right: 10px;      /* tuck it in from the right */
-  opacity: 0.25;
-  animation: ghostPulse 6s ease-in-out infinite;
-  z-index: 1;
-  font-size: 0.75rem;
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid red;
+  top: 120px;
+  right: 40px;
 }
-
-
 
 @keyframes ghostPulse {
   0%, 100% {
