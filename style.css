@@ -52,8 +52,9 @@ body {
 }
 
 #ghost-behind {
-  top: 80%;
-  left: 40px;
+  top: 100px;
+  right: 40px;
+  left: auto;
 }
 
 @keyframes ghostPulse {
