@@ -8,10 +8,10 @@
 </head>
 <body>
   <canvas id="matrix"></canvas>
-  <header>
-<div class="logo-container">
-  <img src="images/grimmware-logo.png" alt="GrimmWare OS Logo" class="main-logo" />
-</div>
+  <header class="reveal">
+    <div class="logo-container">
+      <img src="images/grimmware-logo.png" alt="GrimmWare OS Logo" class="main-logo" />
+    </div>
     <h1>EMOTION <span style="color: #ff0000;">IS</span> EXECUTABLE</h1>
     <div class="hero-text">
       <p><strong>This isn’t <span style="color: #ff0000;">AI-generated fluff</span>.</strong></p>
@@ -23,8 +23,7 @@
     </div>
   </header>
 
-  <div class="spacer"></div>
-  <section class="button-group">
+  <section class="button-group reveal">
     <div class="left-buttons">
       <a href="#about" class="btn-red">> WHAT IS GRIMMWARE OS?</a>
       <a href="#featured-track" class="btn-red">> LISTEN NOW</a>
@@ -35,27 +34,24 @@
     </div>
   </section>
 
-  <div class="spacer"></div>
-  <section id="loading-1" class="terminal-lines"></section>
-  <div class="spacer"></div>
-  <div class="emo-banner-container">
-  <img src="images/emotion-is-executable.png" alt="Emotion is Executable Banner" class="emo-banner" />
-</div>
-  <section id="about">
+  <section id="loading-1" class="terminal-lines reveal"></section>
+
+  <div class="emo-banner-container reveal">
+    <img src="images/emotion-is-executable.png" alt="Emotion is Executable Banner" class="emo-banner" />
+  </div>
+
+  <section id="about" class="reveal">
     <div class="about-container">
       <div class="about-text">
         <h2>What is <strong class="red">GrimmWare OS</strong>?</h2>
-        <!-- About text trimmed for brevity -->
         <p><span class="pink">This is the uprising.</span><br><span class="red">This is GrimmWare OS.</span><br><span class="cyan">Run it.</span></p>
       </div>
     </div>
   </section>
 
-  <div class="spacer"></div>
-  <section id="loading-2" class="terminal-lines"></section>
-  <div class="spacer"></div>
+  <section id="loading-2" class="terminal-lines reveal"></section>
 
-  <section id="featured-track" class="featured-track">
+  <section id="featured-track" class="featured-track reveal">
     <h3>>> File attached: <span class="cyan">I See It All</span></h3>
     <p><span class="green">Status: Declassified</span></p>
     <p>This track is a signal flare from the shadows...</p>
@@ -74,6 +70,24 @@
       </div>
     </div>
   </section>
+
+  <script>
+    // Reveal-on-scroll logic
+    const reveals = document.querySelectorAll(".reveal");
+
+    function revealOnScroll() {
+      const windowHeight = window.innerHeight;
+      reveals.forEach((el) => {
+        const elementTop = el.getBoundingClientRect().top;
+        if (elementTop < windowHeight * 0.85) {
+          el.classList.add("reveal-active");
+        }
+      });
+    }
+
+    window.addEventListener("scroll", revealOnScroll);
+    window.addEventListener("load", revealOnScroll);
+  </script>
 
   <script src="script.js"></script>
 </body>
