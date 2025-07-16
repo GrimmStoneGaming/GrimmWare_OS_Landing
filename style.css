@@ -53,10 +53,14 @@ body {
 .hero-section {
   position: relative;
 }
+
 #ghost-behind {
-  top: 100px;
-  right: 40px;
+  position: absolute;
+  top: 40px;
+  right: 30px;
   left: auto;
+  opacity: 0.05;
+  animation: ghostPulse 6s ease-in-out infinite;
 }
 
 @keyframes ghostPulse {
