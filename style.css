@@ -57,7 +57,7 @@ body {
 #ghost-behind {
   position: absolute;
   top: 720px;    /* Adjust this if it needs to drop more */
-  right: 2580px;   /* Pulls it inward from the edge */
+  right: 5000px;   /* Pulls it inward from the edge */
   left: auto;
   opacity: 0.05;
   animation: ghostPulse 6s ease-in-out infinite;
