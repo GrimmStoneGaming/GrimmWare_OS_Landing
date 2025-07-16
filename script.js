@@ -1,47 +1,99 @@
 
-document.addEventListener("DOMContentLoaded", () => {
-  const sequences = {
-    "loading-1": [
-      ">>> Initializing GrimmWare OS...",
-      ">>> Loading neural subroutines...",
-      ">>> Injecting audio malware...",
-      ">>> Establishing uplink with Gizmo...",
-      ">>> Emotion = Executable"
-    ],
-    "loading-2": [
-      ">>> Receiving encrypted payload...",
-      ">>> Decrypting track metadata...",
-      ">>> Parsing lyrical substructure...",
-      ">>> Embedding sentiment protocol...",
-      ">>> System ready. Engage transmission."
-    ]
-  };
+window.addEventListener('DOMContentLoaded', () => {
+  const canvas = document.getElementById('matrix');
+  const ctx = canvas.getContext('2d');
 
-  const typeLine = (element, line, delay = 50) => {
-    return new Promise((resolve) => {
-      let i = 0;
-      const interval = setInterval(() => {
-        element.textContent += line.charAt(i);
-        i++;
-        if (i === line.length) {
-          clearInterval(interval);
-          element.textContent += "\n";
-          resolve();
-        }
-      }, delay);
-    });
-  };
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
 
-  const runTypingAnimation = async (containerId, lines) => {
-    const container = document.getElementById(containerId);
-    container.innerHTML = "";
-    for (let line of lines) {
-      const lineElem = document.createElement("div");
-      container.appendChild(lineElem);
-      await typeLine(lineElem, line);
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  const characters = '01GWO$';
+  const charsArray = characters.split('');
+  const fontSize = 16;
+  const columns = Math.floor(canvas.width / fontSize);
+  const drops = new Array(columns).fill(1);
+
+  function drawMatrix() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = '#ff3b3b';
+    ctx.font = `${fontSize}px monospace`;
+
+    for (let i = 0; i < drops.length; i++) {
+      const text = charsArray[Math.floor(Math.random() * charsArray.length)];
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+
+      drops[i]++;
     }
-  };
+  }
 
-  runTypingAnimation("loading-1", sequences["loading-1"]);
-  runTypingAnimation("loading-2", sequences["loading-2"]);
+  setInterval(drawMatrix, 33);
+
+  function runTypedAnimation(containerId, lines, colorClass = '') {
+    const container = document.querySelector(containerId);
+    let lineIndex = 0;
+
+    function typeNextLine() {
+      if (lineIndex >= lines.length) {
+        setTimeout(() => {
+          container.innerHTML = '';
+          lineIndex = 0;
+          typeNextLine();
+        }, 2000);
+        return;
+      }
+
+      const line = lines[lineIndex];
+      const p = document.createElement('p');
+      const span = document.createElement('span');
+      if (colorClass) span.classList.add(colorClass);
+      p.appendChild(span);
+      container.appendChild(p);
+
+      let charIndex = 0;
+
+      function typeChar() {
+        if (charIndex < line.length) {
+          span.innerHTML = line.slice(0, charIndex + 1);
+          charIndex++;
+          setTimeout(typeChar, 50);
+        } else {
+          lineIndex++;
+          setTimeout(typeNextLine, 500);
+        }
+      }
+
+      typeChar();
+    }
+
+    container.innerHTML = '';
+    typeNextLine();
+  }
+
+  runTypedAnimation('#loading-1', [
+    '>>> Authenticating system integrity...',
+    '>>> Initializing GWOS...',
+    '>>> SYSTEM BREACH IMMINENT...'
+  ]);
+
+  runTypedAnimation('#loading-2', [
+    '>>> Compiling pain... Complete',
+    '>>> Parsing guilt... Complete',
+    '>>> Injecting honesty... Complete',
+    '>>> WARNING: Emotional stability compromised...',
+    '>>> Manifesting audio signature...',
+    '>>> SIGNAL DISTORTION DETECTED...',
+    '>>> ...recalibrating...',
+    '>>> AUTHORIZED OVERRIDE — PLAYBACK UNLOCKED',
+    '>>> Deploying featured track: I See It All'
+  ]);
 });
