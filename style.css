@@ -197,3 +197,15 @@ h1, h2, h3, p {
   padding: 8px 20px;
   font-size: 1rem;
 }
+/* ========== REVEAL SCROLL ANIMATION ========== */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.reveal.reveal-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
