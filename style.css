@@ -50,7 +50,9 @@ body {
   top: 65%;
   left: 20px;
 }
-
+.hero-section {
+  position: relative;
+}
 #ghost-behind {
   top: 100px;
   right: 40px;
