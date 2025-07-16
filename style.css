@@ -47,8 +47,15 @@ body {
 
 }
 #bleeding-syntax {
-  top: 65%;
-  left: 20px;
+  position: absolute;
+  top: 160px;         /* Adjust this to push it lower/higher */
+  left: 80px;         /* Adjust this to nudge right/left */
+  z-index: 1;
+  font-size: 0.75rem;
+  opacity: 0.25;
+  animation: ghostPulse 6s ease-in-out infinite;
+  background: rgba(0, 0, 0, 0.6);  /* Dev aid */
+  border: 1px solid red;           /* Dev aid */
 }
 .hero-section {
   position: relative;
