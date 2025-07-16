@@ -26,53 +26,40 @@ body {
 }
 .hidden-egg {
   display: block;
-  color: #ff0000;
+  position: absolute;
   font-family: monospace;
   font-size: 0.85rem;
   line-height: 1.4;
   white-space: pre;
+  color: #ff0000;
+  background: rgba(0, 0, 0, 0.4); /* Dev visual aid */
+  border: 1px solid red;         /* Dev visual aid */
   pointer-events: none;
   user-select: none;
-  z-index: 9;
-  animation: ghostPulse 6s ease-in-out infinite;
-  position: absolute;
-  background: rgba(0,0,0,0.6); /* test aid */
-  border: 1px solid red;       /* test aid */
-}
-
-@keyframes ghostPulse {
-  0%, 100% { opacity: 0.25; } /* was 0.05 */
-  50% { opacity: 0.5; }       /* was 0.15 */
-}
-
-}
-#bleeding-syntax {
-  position: absolute;
-  top: 160px;         /* Adjust this to push it lower/higher */
-  left: 80px;         /* Adjust this to nudge right/left */
-  z-index: 1;
-  font-size: 0.75rem;
   opacity: 0.25;
+  z-index: 1;
   animation: ghostPulse 6s ease-in-out infinite;
-  background: rgba(0, 0, 0, 0.6);  /* Dev aid */
-  border: 1px solid red;           /* Dev aid */
-}
-.hero-section {
-  position: relative;
 }
 
 #ghost-behind {
-  top: 120px;
-  right: 40px;
+  top: 60px;
+  right: 60px;
+  font-size: 0.75rem;
+}
+
+#bleeding-syntax {
+  top: 100px;
+  left: 80px;
+  font-size: 0.85rem;
 }
 
 @keyframes ghostPulse {
-  0%, 100% {
-    opacity: 0.05;
-  }
-  50% {
-    opacity: 0.15;
-  }
+  0%, 100% { opacity: 0.25; }
+  50%      { opacity: 0.5; }
+}
+
+.hero-section {
+  position: relative;
 }
 /* ========== LOGO CONTAINER ========== */
 .logo-container {
