@@ -26,7 +26,6 @@ body {
 }
 .hidden-egg {
   position: absolute;
-  left: 20px;
   color: #ff0000;
   font-family: monospace;
   font-size: 0.85rem;
@@ -34,13 +33,10 @@ body {
   white-space: pre;
   pointer-events: none;
   user-select: none;
-  z-index: 1;
+  z-index: 5;
   opacity: 0.05;
   animation: ghostPulse 6s ease-in-out infinite;
-  .hidden-egg {
-  display: block; /* <- this will make sure it's rendering in flow */
 }
-
 }
 #bleeding-syntax {
   top: 65%;
