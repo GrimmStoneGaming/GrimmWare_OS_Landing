@@ -198,9 +198,13 @@ h1, h2, h3, p {
 
 /* ========== HIGHLIGHT COLORS ========== */
 .green  { color: #00ff00; }
+.red    { color: #ff003c; }
 .red    { color: #ff0000; }
 .pink   { color: #ff69b4; }
+.pink   { color: #ff00ff; }
 .cyan   { color: #00ffff; }
+.gray   { color: #bbbbbb; }
+.lime   { color: #66ff66; }
 .white  { color: #ffffff; }
 .blue   { color: #00bfff; }
 .bold   { font-weight: bold; }
