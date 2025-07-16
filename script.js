@@ -1,5 +1,3 @@
-// script.js
-
 function revealOnScroll() {
   const reveals = document.querySelectorAll(".reveal");
   const windowHeight = window.innerHeight;
