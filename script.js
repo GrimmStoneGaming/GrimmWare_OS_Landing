@@ -9,9 +9,41 @@ function revealOnScroll() {
   });
 }
 
+// ========== TYPING TERMINAL ANIMATION ==========
+function runTypedAnimation(containerId, lines, colorClass = '') {
+  const container = document.querySelector(containerId);
+  let lineIndex = 0;
+
+  function typeNextLine() {
+    if (lineIndex >= lines.length) {
+      setTimeout(() => {
+        container.innerHTML = '';
+        lineIndex = 0;
+        typeNextLine();
+      }, 2000);
+      return;
+    }
+
+    const line = lines[lineIndex];
+    const p = document.createElement("p");
+    const span = document.createElement("span");
+    if (colorClass) span.classList.add(colorClass);
+    span.innerHTML = line;
+    p.appendChild(span);
+    container.appendChild(p);
+
+    lineIndex++;
+    setTimeout(typeNextLine, 500);
+  }
+
+  container.innerHTML = '';
+  typeNextLine();
+}
+
 // ========== MATRIX EFFECT ==========
-window.addEventListener("DOMContentLoaded", () => {
+function startMatrixEffect() {
   const canvas = document.getElementById("matrix");
+  if (!canvas) return;
   const ctx = canvas.getContext("2d");
 
   function resizeCanvas() {
@@ -48,39 +80,12 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   setInterval(drawMatrix, 33);
+}
 
-  // ========== TYPING TERMINAL ANIMATION ==========
-  function runTypedAnimation(containerId, lines, colorClass = '') {
-    const container = document.querySelector(containerId);
-    let lineIndex = 0;
-
-    function typeNextLine() {
-      if (lineIndex >= lines.length) {
-        setTimeout(() => {
-          container.innerHTML = '';
-          lineIndex = 0;
-          typeNextLine();
-        }, 2000);
-        return;
-      }
-
-      const line = lines[lineIndex];
-      const p = document.createElement("p");
-      const span = document.createElement("span");
-      if (colorClass) span.classList.add(colorClass);
-      span.innerHTML = line;
-      p.appendChild(span);
-      container.appendChild(p);
-
-      lineIndex++;
-      setTimeout(typeNextLine, 500);
-    }
-
-    container.innerHTML = '';
-    typeNextLine();
-  }
-
-  // ========== INIT ==========  
+// ========== BOOTSTRAP EVERYTHING ==========
+window.addEventListener("DOMContentLoaded", () => {
+  // Make sure everything runs in sequence
+  startMatrixEffect();
   revealOnScroll();
   window.addEventListener("scroll", revealOnScroll);
 
