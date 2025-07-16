@@ -1,7 +1,9 @@
-const reveals = document.querySelectorAll(".reveal");
+// script.js
 
 function revealOnScroll() {
+  const reveals = document.querySelectorAll(".reveal");
   const windowHeight = window.innerHeight;
+
   reveals.forEach((el) => {
     const elementTop = el.getBoundingClientRect().top;
     if (elementTop < windowHeight * 0.85) {
@@ -10,6 +12,7 @@ function revealOnScroll() {
   });
 }
 
-window.addEventListener("DOMContentLoaded", revealOnScroll);
-window.addEventListener("load", revealOnScroll);
-window.addEventListener("scroll", revealOnScroll);
+window.addEventListener("DOMContentLoaded", () => {
+  revealOnScroll();
+  window.addEventListener("scroll", revealOnScroll);
+});
