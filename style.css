@@ -417,5 +417,37 @@ footer a:hover {
   text-decoration: underline;
 }
 
+/* STATIC BLACK BAR CONTAINERS */
+.loading-bar {
+  position: absolute;
+  width: 100%;
+  background-color: black;
+  border: 1px solid red;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Top loading bar (shorter) */
+#loading-bar-1 {
+  top: 120px;
+  height: 100px;
+}
+
+/* Bottom loading bar (taller) */
+#loading-bar-2 {
+  top: 250px;
+  height: 410px;
+}
+
+/* Typing text styling */
+#loading-1, #loading-2 {
+  position: absolute;
+  font-family: 'Courier New', monospace;
+  font-size: 0.95rem;
+  color: #fff;
+  z-index: 3;
+  white-space: pre;
+  padding: 10px;
+}
 
 
