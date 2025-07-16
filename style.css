@@ -14,7 +14,7 @@ body {
   min-height: 100vh;
 }
 
-/* ========== MATRIX CANVAS ========== */
+/* ========== MATRIX CANVAS/HIDDEN EGGS ========== */
 #matrix {
   position: fixed;
   top: 0;
@@ -24,7 +24,11 @@ body {
   height: 100vh;
   background: black;
 }
-
+.hidden-egg {
+  position: absolute;
+  left: -9999px;
+  visibility: hidden;
+}
 /* ========== LOGO CONTAINER ========== */
 .logo-container {
   display: flex;
