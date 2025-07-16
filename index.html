@@ -5,9 +5,32 @@
   <title>GrimmWare OS</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
 </head>
 <body>
   <canvas id="matrix"></canvas>
+  <!-- Hidden Easter Eggs -->
+  <pre id="bleeding-syntax" class="hidden-egg">
+ERROR: Syntax is bleeding...
+if (pain > threshold) {
+    scream();
+} else {
+    compile(hope);
+}
+  </pre>
+
+  <pre id="ghost-behind" class="hidden-egg">
+  (      )
+   \____/    . . .
+   |    |   (o o)
+   |____|    >_<
+  /| || |\   |||
+ /_|_||_|_\  |||
+   |    |    ||
+   |    |    ||
+  /______\  /__\
+  </pre>
+
   <header class="reveal">
     <div class="logo-container">
       <img src="images/grimmware-logo.png" alt="GrimmWare OS Logo" class="main-logo" />
@@ -152,14 +175,32 @@
     </div> <!-- .lyrics-container -->
   </div> <!-- .track-container -->
 </section>
-  <script>
-    // Reveal-on-scroll logic
-    const reveals = document.querySelectorAll(".reveal");
+<div class="spacer"></div>
 
-    window.addEventListener("scroll", revealOnScroll);
-    window.addEventListener("load", revealOnScroll);
-  </script>
+<section id="uplink" class="cta-section">
+  <div class="cta-container">
+    <div class="cta-content">
+      <div class="cta-text">
+        <h3>>> TRANSMISSION STANDING BY.</h3>
+        <p>Secure your uplink. Expect encrypted chaos, decrypted truth, and exclusive drops.</p>
+        <ul>
+          <li><span class="red">✚</span> No spam. No fluff. Just raw intel.</li>
+          <li><span class="red">✚</span> Priority access to classified updates & releases.</li>
+        </ul>
+      </div>
+      <form class="cta-form">
+        <input type="email" placeholder=">>> INPUT NODE: Secure uplink address" required>
+        <input type="text" placeholder="Alias (Required For Authentication)" required>
+        <button type="submit">>>> INITIATE UPLINK</button>
+        <small>Data is encrypted. No signal sold. Only transmissions you asked for.</small>
+      </form>
+    </div>
+  </div>
+</section>
 
-  <script src="script.js"></script>
-</body>
+<footer>
+  <p>© 2025 GrimmWare OS | The future doesn't ask for permission. <br>It Executes.</p>
+  <p><a href="mailto:contact@grimmwareos.com">contact@grimmwareos.com</a></p>
+</footer>
+  </body>
 </html>
