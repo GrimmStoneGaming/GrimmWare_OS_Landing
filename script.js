@@ -1,1 +1,3 @@
-// JavaScript from earlier master file including matrix + animations
+window.addEventListener("DOMContentLoaded", revealOnScroll);
+window.addEventListener("load", revealOnScroll);
+window.addEventListener("scroll", revealOnScroll);
