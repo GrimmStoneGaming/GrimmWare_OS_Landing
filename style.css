@@ -419,34 +419,52 @@ footer a:hover {
 
 /* STATIC BLACK BAR CONTAINERS */
 .loading-bar {
-  position: absolute;
   width: 100%;
   background-color: black;
-  border: 1px solid red; /* Dev aid — remove later if needed */
-  z-index: 2;
-  pointer-events: none;
+  z-index: 1;
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid #ff0000;
+  border-bottom: 1px solid #ff0000;
 }
 
 /* Top loading bar (shorter) */
 #loading-bar-1 {
-  top: 120px;
   height: 100px;
+  /* Removed top: 120px; as it's relative positioning */
 }
 
 /* Bottom loading bar (taller) */
 #loading-bar-2 {
-  top: 250px;
   height: 410px;
+  /* Removed top: 250px; as it's relative positioning */
 }
 
 /* Typing text styling */
 #loading-1,
 #loading-2 {
+  padding: 20px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9rem;
+  color: white;
+  background: transparent;
   position: absolute;
-  font-family: 'Courier New', monospace;
-  font-size: 0.95rem;
-  color: #fff;
-  z-index: 3;
-  white-space: pre;
-  padding: 10px;
+  z-index: 2;
 }
+
+#loading-1 {
+  top: 50px;
+}
+
+#loading-2 {
+  top: 205px;
+}
+
+.blink {
+  animation: blink 1s step-start infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
