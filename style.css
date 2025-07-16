@@ -422,7 +422,7 @@ footer a:hover {
   position: absolute;
   width: 100%;
   background-color: black;
-  border: 1px solid red;
+  border: 1px solid red; /* Dev aid — remove later if needed */
   z-index: 2;
   pointer-events: none;
 }
@@ -440,7 +440,8 @@ footer a:hover {
 }
 
 /* Typing text styling */
-#loading-1, #loading-2 {
+#loading-1,
+#loading-2 {
   position: absolute;
   font-family: 'Courier New', monospace;
   font-size: 0.95rem;
@@ -449,5 +450,3 @@ footer a:hover {
   white-space: pre;
   padding: 10px;
 }
-
-
