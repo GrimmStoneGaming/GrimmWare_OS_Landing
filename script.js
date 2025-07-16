@@ -19,32 +19,42 @@ window.addEventListener("DOMContentLoaded", () => {
   const loading1 = document.getElementById("loading-1");
   const loading2 = document.getElementById("loading-2");
 
-  function typeToElement(el, lines, delay = 100) {
+  function typeToElement(el, lines, delay = 75, showCursor = false) {
     let i = 0;
     let line = 0;
+
+    const cursorSpan = document.createElement("span");
+    if (showCursor) {
+      cursorSpan.classList.add("blink");
+      cursorSpan.textContent = "█";
+      el.appendChild(cursorSpan);
+    }
+
     function type() {
       if (line < lines.length) {
         if (i < lines[line].length) {
-          el.innerHTML += lines[line].charAt(i);
+          cursorSpan.before(document.createTextNode(lines[line].charAt(i)));
           i++;
           setTimeout(type, delay);
         } else {
-          el.innerHTML += "<br/>";
+          el.insertBefore(document.createElement("br"), cursorSpan);
           i = 0;
           line++;
-          setTimeout(type, delay);
+          setTimeout(type, delay * 2);
         }
       }
     }
+
     type();
   }
 
   if (loading1 && loading2) {
     typeToElement(loading1, [
-      "> Authenticating system integrity...",
-      "> Initializing GWOS...",
-      "> SYSTEM BREACH IMMINENT..."
-    ]);
+      ">>> Initializing GrimmWare OS_",
+      "Authenticating system integrity...",
+      "Initializing GWOS...",
+      "SYSTEM BREACH IMMINENT..."
+    ], 60, true);
 
     setTimeout(() => {
       typeToElement(loading2, [
@@ -53,8 +63,8 @@ window.addEventListener("DOMContentLoaded", () => {
         "> Detecting honesty...  Complete",
         "!! WARNING: Emotional stability compromised...",
         "> Manifesting audio signal..."
-      ]);
-    }, 3000);
+      ], 65);
+    }, 3500);
   }
 });
 
