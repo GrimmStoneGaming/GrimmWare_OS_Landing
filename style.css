@@ -213,3 +213,52 @@ h1, h2, h3, p {
   opacity: 1;
   transform: translateY(0);
 }
+/* ========== FEATURED TRACK GOODIES ========== */
+#featured-track {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.track-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+iframe {
+  width: 80%;
+  max-width: 720px;
+  height: 405px;
+  margin-bottom: 30px;
+  border: none;
+}
+
+.lyrics-container {
+  width: 80%;
+  max-width: 800px;
+  position: relative;
+}
+
+#hidden-message {
+  position: absolute;
+  top: 20px;
+  left: 1150px; /* stays hidden off screen until hunted */
+  z-index: 2;
+  color: white;
+  font-weight: bold;
+  pointer-events: none;
+  user-select: none;
+}
+
+.lyrics-box {
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  text-align: left;
+  color: white;
+  line-height: 1.6;
+}
