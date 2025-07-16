@@ -381,4 +381,16 @@ footer a:hover {
   text-decoration: underline;
 }
 
+/* HIDDEN EASTER EGG STYLING */
+.hidden-egg {
+  display: none;
+  position: absolute;
+  color: #ff0000;
+  font-family: monospace;
+  font-size: 14px;
+  white-space: pre;
+  pointer-events: none;
+  user-select: none;
+  z-index: 10;
+}
 
