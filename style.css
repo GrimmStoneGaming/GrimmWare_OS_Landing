@@ -204,6 +204,11 @@ h1, h2, h3, p {
 .white  { color: #ffffff; }
 .blue   { color: #00bfff; }
 .bold   { font-weight: bold; }
+.red    {color: #ff003c; }
+.pink   {color: #ff00ff; }
+.limegreen {color: #00ff66; }
+.blue   {color: #00ccff;}
+
 
 /* ========== LOADING CONTAINERS ========== */
 #loading-container {
