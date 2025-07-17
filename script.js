@@ -91,17 +91,28 @@ if (canvas) {
   canvas.height = window.innerHeight;
   canvas.width = window.innerWidth;
 
- const letters = [
-  ..."01",                      // Binary
-  ..."GWOS",                   // GrimmWare OS core
-  ..."I SEE IT ALL",           // Full phrase broken down
-  ..."RUN IT.",                // Tagline broken down
-  ..."GRMOSSYS",               // Additional acronyms
-  ..."GZGMZg",                 // Gizmo nods
-  "#", "@", ">", "~", "|",     // Terminal glyphs
-  "▓", "░", "█",               // Glitch blocks
-  ..."ABCDEF"                  // Hex
-];
+  const letters = [
+    ..."01",                      // Binary
+    ..."GWOS",                   // Core acronym
+    ..."I SEE IT ALL",           // Theme phrase
+    ..."RUN IT.",                // Tagline
+    ..."GRMOSSYS",               // Acronyms
+    ..."GZGMZg",                 // Gizmo tags
+    ..."U R NT ALNE",            // New Phrase 1
+    ..."EMO is EXE",             // New Phrase 2
+    "#", "@", ">", "~", "|",     // Glyphs
+    "▓", "░", "█",               // Glitch blocks
+    ..."ABCDEF"                  // Hex
+  ];
+
+  const glitchPhrases = [
+    "I SEE IT ALL",
+    "U R NT ALNE",
+    "EMO IS EXE",
+    "RUN IT.",
+    "GRIMMWARE_OS",
+    "GIZ // SIGNAL FOUND"
+  ];
 
   const fontSize = 16;
   const columns = canvas.width / fontSize;
@@ -127,5 +138,19 @@ if (canvas) {
     });
   }
 
+  // 👇 👇 👇 Moved OUTSIDE the draw() function
+  function drawHorizontalGlitch() {
+    const phrase = glitchPhrases[Math.floor(Math.random() * glitchPhrases.length)];
+    const x = Math.floor(Math.random() * (canvas.width - 300));
+    const y = Math.floor(Math.random() * canvas.height);
+
+    ctx.font = "bold 14px monospace";
+    const colors = ["#ff003c", "#00ffff", "#ff69b4", "#00ff66", "#ffffff"];
+    ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+
+    ctx.fillText(phrase, x, y);
+  }
+
   setInterval(draw, 33);
+  setInterval(drawHorizontalGlitch, 3000);
 }
