@@ -125,7 +125,7 @@ if (canvas) {
   canvas.height = window.innerHeight;
   canvas.width = window.innerWidth;
 
-  // 🔧 RGBA utility for fading glitch text
+  // 🔧 RGBA utility for glitch text
   function hexToRGBA(hex, alpha) {
     const shorthand = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
     hex = hex.replace(shorthand, (m, r, g, b) =>
@@ -151,22 +151,20 @@ if (canvas) {
   ];
 
   const activeGlitchLines = [];
-  const fontSize = 16;
-  const columns = 300; // higher = more rain
-  const columns = (canvas.width / fontSize) * 3;  // double the streams
-  const drops = Array.from({ length: columns }, () => 1);
+  const fontSize = 14;
+  const columnCount = 300; // 🎯 increase this for denser rain
+  const spacing = canvas.width / columnCount;
+  const drops = Array.from({ length: columnCount }, () => 1);
 
+  const draw = () => {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.1)"; // controls trail fade — tweak if needed
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
- const draw = () => {
-  ctx.fillStyle = "rgba(0, 0, 0, 0.1)"; //Darker fade to clear old lines
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  ctx.fillStyle = "#ff0000";
-  ctx.font = `${fontSize}px monospace`;
+    ctx.fillStyle = "#ff0000";
+    ctx.font = `${fontSize}px monospace`;
 
     drops.forEach((y, i) => {
       const text = letters[Math.floor(Math.random() * letters.length)];
-      const spacing = fontSize / 2;  // or fontSize / 1.5 if you want overlap
       const x = i * spacing;
       ctx.fillText(text, x, y * fontSize);
 
@@ -177,6 +175,7 @@ if (canvas) {
       drops[i]++;
     });
 
+    // 🧠 Glitch text fade overlay
     for (let i = activeGlitchLines.length - 1; i >= 0; i--) {
       const line = activeGlitchLines[i];
       ctx.font = "bold 14px monospace";
@@ -204,11 +203,12 @@ if (canvas) {
       y,
       color,
       alpha: 1.0,
-      fadeRate: Math.random() * 0.015 + 0.01 // randomize fade speed for extra effect
+      fadeRate: Math.random() * 0.015 + 0.01
     });
   };
 
-  setInterval(draw, 33);
-  setInterval(drawHorizontalGlitch, 3000);
+  setInterval(draw, 33);              // ~30fps
+  setInterval(drawHorizontalGlitch, 3000); // glitch every 3s
 }
+
 
