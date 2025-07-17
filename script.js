@@ -91,17 +91,20 @@ if (canvas) {
   canvas.height = window.innerHeight;
   canvas.width = window.innerWidth;
 
-  const letters = [
+ const letters = [
   ..."01",                      // Binary
-  ..."GWOS",                   // GrimmWare OS core
-  ..."I SEE IT ALL",           // Full phrase broken down
-  ..."RUN IT.",                // Tagline broken down
-  ..."GRMOSSYS",               // Additional acronyms
-  ..."GZGMZg",                 // Gizmo nods
-  "#", "@", ">", "~", "|",     // Terminal glyphs
+  ..."GWOS",                   // Core acronym
+  ..."I SEE IT ALL",           // Theme phrase
+  ..."RUN IT.",                // Tagline
+  ..."GRMOSSYS",               // Acronyms
+  ..."GZGMZg",                 // Gizmo tags
+  ..."U R NT ALNE",            // New Phrase 1
+  ..."EMO is EXE",             // New Phrase 2
+  "#", "@", ">", "~", "|",     // Glyphs
   "▓", "░", "█",               // Glitch blocks
   ..."ABCDEF"                  // Hex
 ];
+
 
   const fontSize = 16;
   const columns = canvas.width / fontSize;
