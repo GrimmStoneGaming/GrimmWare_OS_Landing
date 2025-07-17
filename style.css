@@ -198,13 +198,9 @@ h1, h2, h3, p {
 
 /* ========== HIGHLIGHT COLORS ========== */
 .green  { color: #00ff00; }
-.red    { color: #ff003c; }
 .red    { color: #ff0000; }
 .pink   { color: #ff69b4; }
-.pink   { color: #ff00ff; }
 .cyan   { color: #00ffff; }
-.gray   { color: #bbbbbb; }
-.lime   { color: #66ff66; }
 .white  { color: #ffffff; }
 .blue   { color: #00bfff; }
 .bold   { font-weight: bold; }
@@ -421,46 +417,41 @@ footer a:hover {
   text-decoration: underline;
 }
 
+
+
+
+
 /* === STATIC BLACK BAR CONTAINERS === */
-.loading-bar {
+#loading-bar-1, #loading-bar-2 {
   width: 100%;
   background-color: black;
   position: relative;
-  z-index: 1;
   overflow: hidden;
   border-top: 1px solid #ff0000;
   border-bottom: 1px solid #ff0000;
+  z-index: 1;
 }
 
-/* Set bar heights */
-#loading-bar-1 {
-  height: 100px;
-}
+/* Bar Heights */
+#loading-bar-1 { height: 100px; }
+#loading-bar-2 { height: 410px; }
 
-#loading-bar-2 {
-  height: 410px;
-}
-
-/* === Typing Text Inside Bars === */
-#loading-1,
-#loading-2 {
+/* Text inside loading bars */
+#loading-1, #loading-2 {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);  /* centers horizontally only */
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 0.9rem;
-  color: white;
-  white-space: pre-wrap;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  text-align: left;
+  padding-left: 20px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.95rem;
+  line-height: 1.5;
   z-index: 2;
 }
 
-#loading-1 {
-  top: 50px;
-}
-
-#loading-2 {
-  top: 205px;
-}
+#loading-1 { color: #ff003c; }
+#loading-2 { color: #00ffff; }
 
 .blink {
   animation: blink 1s step-start infinite;
@@ -469,4 +460,3 @@ footer a:hover {
 @keyframes blink {
   50% { opacity: 0; }
 }
-
