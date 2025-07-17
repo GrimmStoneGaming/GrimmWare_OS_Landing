@@ -105,9 +105,9 @@ floatingEggs.forEach((egg) => {
   const loopAnimations = () => {
     if (!loading1 || !loading2) return;
 
-    typeLines(loading1, lines1, 60, () => {
+    typeLines(loading1, lines1, 40, () => {
       setTimeout(() => {
-        typeLines(loading2, lines2, 60, () => {
+        typeLines(loading2, lines2, 40, () => {
           setTimeout(loopAnimations, 1500);
         });
       }, 1000);
