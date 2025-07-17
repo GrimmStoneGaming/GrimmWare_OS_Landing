@@ -91,7 +91,15 @@ if (canvas) {
   canvas.height = window.innerHeight;
   canvas.width = window.innerWidth;
 
-  const letters = "01".split("");
+  const letters = [
+  ..."01GWOSISETALLGRMOSSYS",    // Core characters & acronyms
+  ..."RUN IT.",                  // Tagline as fragments
+  "I SEE IT ALL",               // Full phrase for rare full-string drops
+  "GZ", "GMZ", "Z", "g",        // Gizmo tags
+  "#", "@", ">", "~", "|",      // Terminal glyphs
+  "▓", "░", "█",                // Blocky glitchy data feel
+  ..."ABCDEF"                   // Hexy
+];
   const fontSize = 16;
   const columns = canvas.width / fontSize;
   const drops = Array.from({ length: columns }, () => 1);
