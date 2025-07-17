@@ -97,7 +97,7 @@ if (canvas) {
     ..."I SEE IT ALL",           // Theme phrase
     ..."RUN IT.",                // Tagline
     ..."GRMOSSYS",               // Acronyms
-    ..."GIZGZMO",                 // Gizmo tags
+    ..."GIZGZMO",                // Gizmo tags
     ..."U R NT ALNE",            // New Phrase 1
     ..."EMO IS EXE",             // New Phrase 2
     "#", "@", ">", "~", "|",     // Glyphs
@@ -113,6 +113,7 @@ if (canvas) {
     "GRIMMWARE_OS",
     "GIZ // SIGNAL FOUND"
   ];
+
   const activeGlitchLines = [];  // stores active phrases with position + lifespan
 
   const fontSize = 16;
@@ -120,35 +121,58 @@ if (canvas) {
   const drops = Array.from({ length: columns }, () => 1);
 
   function draw() {
-  // Slightly transparent background to create fading effect
-  ctx.fillStyle = "rgba(0, 0, 0, 0.03)";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Slightly transparent background to create fading effect
+    ctx.fillStyle = "rgba(0, 0, 0, 0.03)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Matrix vertical rain
-  ctx.fillStyle = "#ff0000";
-  ctx.font = fontSize + "px monospace";
+    // Matrix vertical rain
+    ctx.fillStyle = "#ff0000";
+    ctx.font = fontSize + "px monospace";
 
-  drops.forEach((y, i) => {
-    const text = letters[Math.floor(Math.random() * letters.length)];
-    const x = i * fontSize;
-    ctx.fillText(text, x, y * fontSize);
+    drops.forEach((y, i) => {
+      const text = letters[Math.floor(Math.random() * letters.length)];
+      const x = i * fontSize;
+      ctx.fillText(text, x, y * fontSize);
 
-    if (y * fontSize > canvas.height && Math.random() > 0.975) {
-      drops[i] = 0;
-    }
+      if (y * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
 
-    drops[i]++;
-  });
+      drops[i]++;
+    });
 
-  // 👇 Horizontal glitch phrases on top
-  activeGlitchLines.forEach((line, index) => {
-    ctx.font = "bold 14px monospace";
-    ctx.fillStyle = line.color;
-    ctx.fillText(line.phrase, line.x, line.y);
+    // 👇 Horizontal glitch phrases on top
+    activeGlitchLines.forEach((line, index) => {
+      ctx.font = "bold 14px monospace";
+      ctx.fillStyle = line.color;
+      ctx.fillText(line.phrase, line.x, line.y);
 
-    line.life--;
-    if (line.life <= 0) {
-      activeGlitchLines.splice(index, 1);
-    }
-  });
+      line.life--;
+      if (line.life <= 0) {
+        activeGlitchLines.splice(index, 1);
+      }
+    });
+  }
+
+  // 👇 Function to generate horizontal glitch text
+  function drawHorizontalGlitch() {
+    const phrase = glitchPhrases[Math.floor(Math.random() * glitchPhrases.length)];
+    const x = Math.floor(Math.random() * (canvas.width - 300));
+    const y = Math.floor(Math.random() * canvas.height);
+
+    const colors = ["#ff003c", "#00ffff", "#ff69b4", "#00ff66", "#ffffff"];
+    const color = colors[Math.floor(Math.random() * colors.length)];
+
+    activeGlitchLines.push({
+      phrase,
+      x,
+      y,
+      color,
+      life: 90 // roughly 3 seconds
+    });
+  }
+
+  // ✅ Start animation loops
+  setInterval(draw, 33);
+  setInterval(drawHorizontalGlitch, 3000);
 }
