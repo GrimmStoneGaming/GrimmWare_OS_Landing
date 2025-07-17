@@ -69,6 +69,19 @@ body {
 }
 
 .drifting-egg {
+  display: block;
+  position: absolute;
+  font-family: monospace;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  white-space: pre;
+  color: #ff0000;
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.15);
+  pointer-events: none;
+  user-select: none;
+  z-index: 1000;
+  opacity: 0.05;
   animation: ghostPulse 8s ease-in-out infinite, driftAround 60s ease-in-out infinite;
 }
 
@@ -83,6 +96,7 @@ body {
 .delay-2 {
   animation-delay: 3s, 1s, 2s;
 }
+
 
 /* ========== HERO & EMO SECTIONS ========== */
 .hero-section {
