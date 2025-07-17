@@ -441,21 +441,24 @@ footer a:hover {
 }
 
 #loading-bar-2 {
-  height: 205px;       /* Previously 410px */
+  height: 205px !important;   /* Enforce height strictly */
   margin-top: 250px;
+  overflow: hidden;           /* Prevent inner content from stretching it */
+  position: relative;
 }
 
 /* Text inside loading bars */
 #loading-1,
 #loading-2 {
   position: absolute;
+  top: 0;
+  left: 0;
   padding: 20px;
   font-family: 'Courier New', Courier, monospace;
   font-size: 0.9rem;
   color: white;
-  top: 0;
-  left: 0;
   z-index: 2;
+  pointer-events: none;
 }
 
 #loading-1 { color: #ff003c; }
