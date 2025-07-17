@@ -1,16 +1,13 @@
-// === REVEAL ON SCROLL + FLOATING EGGS === 
+// === GRIMMWARE OS CORE JS ===
+
+// INIT ON DOM READY
 document.addEventListener("DOMContentLoaded", () => {
-  // 🌪 Randomize floating egg positions
+  // 🎯 FLOATING EGGS — Randomized position and drifting animation
   const floatingEggs = document.querySelectorAll(".drifting-egg");
   floatingEggs.forEach((egg) => {
-    const top = Math.random() * 80 + 10;  // 10vh to 90vh
-    const left = Math.random() * 80 + 10; // 10vw to 90vw
-    egg.style.top = `${top}vh`;
-    egg.style.left = `${left}vw`;
-  });
+    egg.style.top = `${Math.random() * 80 + 10}vh`;
+    egg.style.left = `${Math.random() * 80 + 10}vw`;
 
-  // 👻 Animate drifting
-  floatingEggs.forEach((egg) => {
     egg.animate(
       [
         { transform: 'translate(0, 0)' },
@@ -19,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
         { transform: 'translate(0, 0)' }
       ],
       {
-        duration: 15000 + Math.random() * 10000, // 15–25s
+        duration: 15000 + Math.random() * 10000,
         iterations: Infinity,
         direction: 'alternate',
         easing: 'ease-in-out'
@@ -27,23 +24,20 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   });
 
-  // 👁 Reveal on Scroll
-  function revealOnScroll() {
+  // 👁 REVEAL ON SCROLL
+  const revealOnScroll = () => {
     const reveals = document.querySelectorAll(".reveal");
-    const windowHeight = window.innerHeight;
-
+    const winH = window.innerHeight;
     reveals.forEach((el) => {
-      const elementTop = el.getBoundingClientRect().top;
-      if (elementTop < windowHeight) {
+      if (el.getBoundingClientRect().top < winH) {
         el.classList.add("reveal-active");
       }
     });
-  }
-
-  revealOnScroll();
+  };
   window.addEventListener("scroll", revealOnScroll);
+  revealOnScroll();
 
-  // === TYPING LOADER ANIMATION ===
+  // 🧠 TYPING ANIMATION
   const loading1 = document.getElementById("loading-1");
   const loading2 = document.getElementById("loading-2");
 
@@ -65,13 +59,13 @@ document.addEventListener("DOMContentLoaded", () => {
     "&gt;&gt;&gt; Deploying featured track: <span class='blue'><i>I See It All</i></span>"
   ];
 
-function typeLines(target, lines, delay = 60, callback) {
+  const typeLines = (target, lines, delay = 60, callback) => {
     let lineIndex = 0;
     target.innerHTML = "";
 
-    function typeLine() {
+    const typeLine = () => {
       if (lineIndex >= lines.length) {
-        if (callback) callback();
+        callback?.();
         return;
       }
 
@@ -79,7 +73,7 @@ function typeLines(target, lines, delay = 60, callback) {
       let charIndex = 0;
       let currentLine = "";
 
-      function typeChar() {
+      const typeChar = () => {
         currentLine += line.charAt(charIndex);
         target.innerHTML = lines.slice(0, lineIndex).join("<br>") + "<br>" + currentLine + `<span class="blink">|</span>`;
         charIndex++;
@@ -90,15 +84,15 @@ function typeLines(target, lines, delay = 60, callback) {
           lineIndex++;
           setTimeout(typeLine, delay);
         }
-      }
+      };
 
       typeChar();
-    }
+    };
 
     typeLine();
-  }
+  };
 
-  function loopAnimations() {
+  const loopAnimations = () => {
     if (!loading1 || !loading2) return;
 
     typeLines(loading1, lines1, 60, () => {
@@ -108,12 +102,12 @@ function typeLines(target, lines, delay = 60, callback) {
         });
       }, 1000);
     });
-  }
+  };
 
   loopAnimations();
 });
 
-// === RED MATRIX EFFECT ===
+// === RED MATRIX RAIN CANVAS ===
 const canvas = document.getElementById("matrix");
 if (canvas) {
   const ctx = canvas.getContext("2d");
@@ -122,42 +116,25 @@ if (canvas) {
   canvas.width = window.innerWidth;
 
   const letters = [
-    ..."01",                      // Binary
-    ..."GWOS",                   // Core acronym
-    ..."I SEE IT ALL",           // Theme phrase
-    ..."RUN IT.",                // Tagline
-    ..."GRMOSSYS",               // Acronyms
-    ..."GIZGZMO",                // Gizmo tags
-    ..."U R NT ALNE",            // New Phrase 1
-    ..."EMO IS EXE",             // New Phrase 2
-    "#", "@", ">", "~", "|",     // Glyphs
-    "▓", "░", "█",               // Glitch blocks
-    ..."ABCDEF"                  // Hex
+    ..."01", ..."GWOS", ..."I SEE IT ALL", ..."RUN IT.", ..."GRMOSSYS", ..."GIZGZMO", ..."U R NT ALNE", ..."EMO IS EXE",
+    "#", "@", ">", "~", "|", "▓", "░", "█", ..."ABCDEF"
   ];
 
   const glitchPhrases = [
-    "I SEE IT ALL",
-    "U R NT ALNE",
-    "EMO IS EXE",
-    "RUN IT",
-    "GRIMMWARE_OS",
-    "GIZ // SIGNAL FOUND"
+    "I SEE IT ALL", "U R NT ALNE", "EMO IS EXE", "RUN IT", "GRIMMWARE_OS", "GIZ // SIGNAL FOUND"
   ];
 
-  const activeGlitchLines = [];  // stores active phrases with position + lifespan
-
+  const activeGlitchLines = [];
   const fontSize = 16;
   const columns = canvas.width / fontSize;
   const drops = Array.from({ length: columns }, () => 1);
 
-  function draw() {
-    // Slightly transparent background to create fading effect
+  const draw = () => {
     ctx.fillStyle = "rgba(0, 0, 0, 0.03)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Matrix vertical rain
     ctx.fillStyle = "#ff0000";
-    ctx.font = fontSize + "px monospace";
+    ctx.font = `${fontSize}px monospace`;
 
     drops.forEach((y, i) => {
       const text = letters[Math.floor(Math.random() * letters.length)];
@@ -171,21 +148,17 @@ if (canvas) {
       drops[i]++;
     });
 
-    // 👇 Horizontal glitch phrases on top
-    activeGlitchLines.forEach((line, index) => {
+    activeGlitchLines.forEach((line, idx) => {
       ctx.font = "bold 14px monospace";
       ctx.fillStyle = line.color;
       ctx.fillText(line.phrase, line.x, line.y);
 
       line.life--;
-      if (line.life <= 0) {
-        activeGlitchLines.splice(index, 1);
-      }
+      if (line.life <= 0) activeGlitchLines.splice(idx, 1);
     });
-  }
+  };
 
-  // 👇 Function to generate horizontal glitch text
-  function drawHorizontalGlitch() {
+  const drawHorizontalGlitch = () => {
     const phrase = glitchPhrases[Math.floor(Math.random() * glitchPhrases.length)];
     const x = Math.floor(Math.random() * (canvas.width - 300));
     const y = Math.floor(Math.random() * canvas.height);
@@ -193,61 +166,9 @@ if (canvas) {
     const colors = ["#ff003c", "#00ffff", "#ff69b4", "#00ff66", "#ffffff"];
     const color = colors[Math.floor(Math.random() * colors.length)];
 
-    activeGlitchLines.push({
-      phrase,
-      x,
-      y,
-      color,
-      life: 90 // roughly 3 seconds
-    });
-  }
+    activeGlitchLines.push({ phrase, x, y, color, life: 90 });
+  };
 
-  // ✅ Start animation loops
   setInterval(draw, 33);
   setInterval(drawHorizontalGlitch, 3000);
 }
-document.addEventListener("DOMContentLoaded", () => {
-  // 🌪 Randomize floating egg positions
-  const floatingEggs = document.querySelectorAll(".drifting-egg");
-  floatingEggs.forEach((egg) => {
-    const top = Math.random() * 80 + 10;  // 10vh to 90vh
-    const left = Math.random() * 80 + 10; // 10vw to 90vw
-    egg.style.top = `${top}vh`;
-    egg.style.left = `${left}vw`;
-  });
-
-  // 👻 Animate wandering
-  floatingEggs.forEach((egg) => {
-    egg.animate(
-      [
-        { transform: 'translate(0, 0)' },
-        { transform: 'translate(5px, -10px)' },
-        { transform: 'translate(-5px, 5px)' },
-        { transform: 'translate(0, 0)' }
-      ],
-      {
-        duration: 15000 + Math.random() * 10000, // 15-25s
-        iterations: Infinity,
-        direction: 'alternate',
-        easing: 'ease-in-out'
-      }
-    );
-  });
-
-  // Reveal logic (if still needed)
-  function revealOnScroll() {
-    const reveals = document.querySelectorAll(".reveal");
-    const windowHeight = window.innerHeight;
-
-    reveals.forEach((el) => {
-      const elementTop = el.getBoundingClientRect().top;
-      if (elementTop < windowHeight) {
-        el.classList.add("reveal-active");
-      }
-    });
-  }
-
-  window.addEventListener("scroll", revealOnScroll);
-  revealOnScroll();
-});
-
