@@ -24,13 +24,18 @@ window.addEventListener("DOMContentLoaded", () => {
     "> SYSTEM BREACH IMMINENT..."
   ];
 
-  const lines2 = [
-    "> Compiling pain...  <span class='green'>Complete</span>",
-    "> Processing guilt...  <span class='green'>Complete</span>",
-    "> Detecting honesty...  <span class='green'>Complete</span>",
-    "!! <span class='red'>WARNING</span>: Emotional stability compromised...",
-    "> Manifesting audio signal..."
-  ];
+ const lines2 = [
+  ">>> Compiling pain... <span class='green'>Complete</span>",
+  ">>> Parsing guilt... <span class='green'>Complete</span>",
+  ">>> Injecting honesty... <span class='green'>Complete</span>",
+  ">>> <span class='red'>WARNING: Emotional stability compromised...</span>",
+  ">>> <span class='pink'>Manifesting audio signature...</span>",
+  ">>> <span class='red'>SIGNAL DISTORTION DETECTED...</span>",
+  ">>> ...recalibrating...",
+  ">>> <span class='limegreen'>AUTHORIZED OVERRIDE — PLAYBACK UNLOCKED</span>",
+  ">>> Deploying featured track: <span class='blue'><i>I See It All</i></span>"
+];
+
 
   function typeLines(target, lines, delay = 100, callback) {
     let lineIndex = 0;
