@@ -33,12 +33,13 @@ body {
   line-height: 1.4;
   white-space: pre;
   color: #ff0000;
-  background: rgba(0, 0, 0, 0.4); /* Dev visual aid (you can remove later) */
-  border: 1px solid red;         /* Dev visual aid (you can remove later) */
+  background: rgba(0, 0, 0, 0.1);  /* Lower opacity background */
+  border: 1px solid rgba(255, 0, 0, 0.15);  /* Faint border */
   pointer-events: none;
   user-select: none;
   z-index: 1;
-  animation: ghostPulse 6s ease-in-out infinite;
+  opacity: 0.05;  /* 👈 SUPER subtle */
+  animation: ghostPulse 8s ease-in-out infinite; /* Slower pulse */
 }
 
 #ghost-behind {
@@ -56,8 +57,8 @@ body {
 }
 
 @keyframes ghostPulse {
-  0%, 100% { opacity: 0.25; }
-  50%      { opacity: 0.5; }
+  0%, 100% { opacity: 0.05; }
+  50%      { opacity: 0.12; } /* brief flicker visibility */
 }
 
 
