@@ -422,12 +422,9 @@ footer a:hover {
   text-decoration: underline;
 }
 
-
-
-
-
 /* === STATIC BLACK BAR CONTAINERS === */
-#loading-bar-1, #loading-bar-2 {
+#loading-bar-1,
+#loading-bar-2 {
   width: 100%;
   background-color: black;
   position: relative;
@@ -442,8 +439,9 @@ footer a:hover {
   height: 100px;
   margin-top: 120px;
 }
+
 #loading-bar-2 {
-  height: 410px;
+  height: 205px;       /* Previously 410px */
   margin-top: 250px;
 }
 
