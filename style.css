@@ -98,7 +98,7 @@ body {
 
 /* ========== ABOUT SECTION ========== */
 #about {
-  margin-top: 40px;
+  margin-top: 30px;
   margin-bottom: 0px;
   padding: 10px 20px;
   display: flex;
@@ -443,7 +443,7 @@ footer a:hover {
 
 #loading-bar-2 {
   height: 205px !important;
-  margin-top: 80px;  /* way less gap */
+  margin-top: 40px;  /* way less gap */
   overflow: hidden;
   position: relative;
 }
