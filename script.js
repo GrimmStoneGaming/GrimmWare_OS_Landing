@@ -52,10 +52,10 @@ floatingEggs.forEach((egg) => {
   const loading2 = document.getElementById("loading-2");
 
   const lines1 = [
-    "&gt;&gt;&gt; Authenticating system integrity...",
-    "&gt;&gt;&gt; Initializing GWOS...",
-    "&gt;&gt;&gt; <span class='red'>System breach imminent...</span>"
-  ];
+  "&gt;&gt;&gt; <span class='white'>Authenticating system integrity...</span>",
+  "&gt;&gt;&gt; <span class='cyan'>Initializing GWOS...</span>",
+  "&gt;&gt;&gt; <span class='red'>System breach imminent...</span>"
+];
 
   const lines2 = [
     "&gt;&gt;&gt; Compiling pain... <span class='green'>Complete</span>",
@@ -108,7 +108,7 @@ floatingEggs.forEach((egg) => {
     typeLines(loading1, lines1, 60, () => {
       setTimeout(() => {
         typeLines(loading2, lines2, 60, () => {
-          setTimeout(loopAnimations, 3000);
+          setTimeout(loopAnimations, 1500);
         });
       }, 1000);
     });
