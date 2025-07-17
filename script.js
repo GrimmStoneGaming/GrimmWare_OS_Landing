@@ -1,4 +1,4 @@
-// === REVEAL ON SCROLL ===
+// === REVEAL ON SCROLL === 
 function revealOnScroll() {
   const reveals = document.querySelectorAll(".reveal");
   const windowHeight = window.innerHeight;
@@ -19,49 +19,55 @@ window.addEventListener("DOMContentLoaded", () => {
   const loading2 = document.getElementById("loading-2");
 
   const lines1 = [
-    "> Authenticating system integrity...",
-    "> Initializing GWOS...",
-    "> SYSTEM BREACH IMMINENT..."
+    "&gt;&gt;&gt; Authenticating system integrity...",
+    "&gt;&gt;&gt; Initializing GWOS...",
+    "&gt;&gt;&gt; <span class='red'>System breach imminent...</span>"
   ];
 
- const lines2 = [
-  ">>> Compiling pain... <span class='green'>Complete</span>",
-  ">>> Parsing guilt... <span class='green'>Complete</span>",
-  ">>> Injecting honesty... <span class='green'>Complete</span>",
-  ">>> <span class='red'>WARNING: Emotional stability compromised...</span>",
-  ">>> <span class='pink'>Manifesting audio signature...</span>",
-  ">>> <span class='red'>SIGNAL DISTORTION DETECTED...</span>",
-  ">>> ...recalibrating...",
-  ">>> <span class='limegreen'>AUTHORIZED OVERRIDE — PLAYBACK UNLOCKED</span>",
-  ">>> Deploying featured track: <span class='blue'><i>I See It All</i></span>"
-];
+  const lines2 = [
+    "&gt;&gt;&gt; Compiling pain... <span class='green'>Complete</span>",
+    "&gt;&gt;&gt; Parsing guilt... <span class='green'>Complete</span>",
+    "&gt;&gt;&gt; Injecting honesty... <span class='green'>Complete</span>",
+    "&gt;&gt;&gt; <span class='red'>WARNING: Emotional stability compromised...</span>",
+    "&gt;&gt;&gt; <span class='pink'>Manifesting audio signature...</span>",
+    "&gt;&gt;&gt; <span class='red'>SIGNAL DISTORTION DETECTED...</span>",
+    "&gt;&gt;&gt; ...recalibrating...",
+    "&gt;&gt;&gt; <span class='limegreen'>AUTHORIZED OVERRIDE — PLAYBACK UNLOCKED</span>",
+    "&gt;&gt;&gt; Deploying featured track: <span class='blue'><i>I See It All</i></span>"
+  ];
 
-
-  function typeLines(target, lines, delay = 100, callback) {
+  function typeLines(target, lines, delay = 60, callback) {
     let lineIndex = 0;
-    let charIndex = 0;
     target.innerHTML = "";
 
-    function type() {
-      if (lineIndex < lines.length) {
-        const currentLine = lines[lineIndex];
-        const visible = currentLine.slice(0, charIndex);
-        const hidden = currentLine.slice(charIndex);
-        target.innerHTML = lines.slice(0, lineIndex).join("<br>") + "<br>" + visible + `<span class="blink">${hidden.charAt(0) || " "}</span>`;
-        charIndex++;
-        if (charIndex <= currentLine.length) {
-          setTimeout(type, delay);
-        } else {
-          charIndex = 0;
-          lineIndex++;
-          setTimeout(type, delay);
-        }
-      } else if (callback) {
-        callback();
+    function typeLine() {
+      if (lineIndex >= lines.length) {
+        if (callback) callback();
+        return;
       }
+
+      const line = lines[lineIndex];
+      let charIndex = 0;
+      let currentLine = "";
+
+      function typeChar() {
+        const char = line.charAt(charIndex);
+        currentLine += char;
+        target.innerHTML = lines.slice(0, lineIndex).join("<br>") + "<br>" + currentLine + `<span class="blink">|</span>`;
+
+        charIndex++;
+        if (charIndex < line.length) {
+          setTimeout(typeChar, delay);
+        } else {
+          lineIndex++;
+          setTimeout(typeLine, delay);
+        }
+      }
+
+      typeChar();
     }
 
-    type();
+    typeLine();
   }
 
   function loopAnimations() {
