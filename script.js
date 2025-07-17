@@ -125,7 +125,7 @@ if (canvas) {
   canvas.height = window.innerHeight;
   canvas.width = window.innerWidth;
 
- // 🔧 RGBA utility for fading glitch text
+  // 🔧 RGBA utility for fading glitch text
   function hexToRGBA(hex, alpha) {
     const shorthand = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
     hex = hex.replace(shorthand, (m, r, g, b) =>
@@ -140,7 +140,7 @@ if (canvas) {
     const b = parseInt(result[3], 16);
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
   }
-  
+
   const letters = [
     ..."01", ..."GWOS", ..."I SEE IT ALL", ..."RUN IT.", ..."GRMOSSYS", ..."GIZGZMO", ..."U R NT ALNE", ..."EMO IS EXE",
     "#", "@", ">", "~", "|", "▓", "░", "█", ..."ABCDEF"
@@ -156,7 +156,7 @@ if (canvas) {
   const drops = Array.from({ length: columns }, () => 1);
 
   const draw = () => {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.03)";
+    ctx.fillStyle = "rgba(0, 0, 0, 0.1)"; // Darker fade to help clear old lines
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     ctx.fillStyle = "#ff0000";
@@ -174,17 +174,18 @@ if (canvas) {
       drops[i]++;
     });
 
-  for (let i = activeGlitchLines.length - 1; i >= 0; i--) {
-  const line = activeGlitchLines[i];
-  ctx.font = "bold 14px monospace";
-  ctx.fillStyle = hexToRGBA(line.color, line.alpha);
-  ctx.fillText(line.phrase, line.x, line.y);
+    for (let i = activeGlitchLines.length - 1; i >= 0; i--) {
+      const line = activeGlitchLines[i];
+      ctx.font = "bold 14px monospace";
+      ctx.fillStyle = hexToRGBA(line.color, line.alpha);
+      ctx.fillText(line.phrase, line.x, line.y);
 
-  line.alpha -= line.fadeRate;
-  if (line.alpha <= 0) {
-    activeGlitchLines.splice(i, 1);
-  }
-}
+      line.alpha -= line.fadeRate;
+      if (line.alpha <= 0) {
+        activeGlitchLines.splice(i, 1);
+      }
+    }
+  };
 
   const drawHorizontalGlitch = () => {
     const phrase = glitchPhrases[Math.floor(Math.random() * glitchPhrases.length)];
@@ -194,16 +195,17 @@ if (canvas) {
     const colors = ["#ff003c", "#00ffff", "#ff69b4", "#00ff66", "#ffffff"];
     const color = colors[Math.floor(Math.random() * colors.length)];
 
-   activeGlitchLines.push({
-  phrase,
-  x,
-  y,
-  color,
-  alpha: 1.0,       // start fully visible
-  fadeRate: 0.02    // tweak this for speed (0.01 = slow, 0.03 = fast)
-});
-
+    activeGlitchLines.push({
+      phrase,
+      x,
+      y,
+      color,
+      alpha: 1.0,
+      fadeRate: Math.random() * 0.015 + 0.01 // randomize fade speed for extra effect
+    });
+  };
 
   setInterval(draw, 33);
   setInterval(drawHorizontalGlitch, 3000);
 }
+
