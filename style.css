@@ -43,23 +43,18 @@ body {
 }
 
 #ghost-behind {
-  top: 550px;
-  right: 800px;
   font-size: 0.75rem;
-   /* Starting opacity matches ghostPulse keyframe */
 }
 
 #bleeding-syntax {
-  top: 100px;
-  left: 80px;
   font-size: 0.85rem;
-   /* Starting opacity matches ghostPulse keyframe */
 }
 
 @keyframes ghostPulse {
   0%, 100% { opacity: 0.05; }
   50% { opacity: 0.15; }
 }
+
 @keyframes driftAround {
   0%   { transform: translate(0, 0); }
   25%  { transform: translate(10px, -20px); }
@@ -68,14 +63,28 @@ body {
   100% { transform: translate(0, 0); }
 }
 
+@keyframes flickerGlow {
+  0%, 100% { filter: none; }
+  50% { filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.4)); }
+}
+
 .drifting-egg {
   animation: ghostPulse 8s ease-in-out infinite, driftAround 60s ease-in-out infinite;
 }
 
-  50%      { opacity: 0.12; } /* brief flicker visibility */
+.flicker-egg {
+  animation: ghostPulse 8s ease-in-out infinite, driftAround 60s ease-in-out infinite, flickerGlow 4s ease-in-out infinite;
 }
 
+.delay-1 {
+  animation-delay: 1s, 0s, 0s;
+}
 
+.delay-2 {
+  animation-delay: 3s, 1s, 2s;
+}
+
+/* ========== HERO & EMO SECTIONS ========== */
 .hero-section {
   position: relative;
   display: flex;
@@ -84,6 +93,7 @@ body {
   justify-content: center;
   padding: 3rem 1rem;
 }
+
 .hero-bg {
   background-color: rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 0, 0, 0.2);
@@ -92,7 +102,7 @@ body {
   max-width: 720px;
   width: 100%;
 }
-/* ========== LOGO CONTAINER ========== */
+
 .logo-container {
   display: flex;
   justify-content: center;
@@ -108,7 +118,6 @@ body {
   animation: fadeIn 2s ease-in-out;
 }
 
-/* ========== EMO BANNER ========== */
 .emo-banner-container {
   display: flex;
   justify-content: center;
@@ -226,18 +235,14 @@ h1, h2, h3, p {
 }
 
 /* ========== HIGHLIGHT COLORS ========== */
-.green  { color: #00ff00; }
-.red    { color: #ff0000; }
-.pink   { color: #ff69b4; }
-.cyan   { color: #00ffff; }
-.white  { color: #ffffff; }
-.blue   { color: #00bfff; }
-.bold   { font-weight: bold; }
-.red    {color: #ff003c; }
-.pink   {color: #ff00ff; }
-.limegreen {color: #00ff66; }
-.blue   {color: #00ccff;}
-
+.green      { color: #00ff00; }
+.red        { color: #ff003c; }
+.pink       { color: #ff00ff; }
+.cyan       { color: #00ffff; }
+.white      { color: #ffffff; }
+.blue       { color: #00ccff; }
+.limegreen  { color: #00ff66; }
+.bold       { font-weight: bold; }
 
 /* ========== LOADING CONTAINERS ========== */
 #loading-container {
@@ -289,6 +294,7 @@ h1, h2, h3, p {
   opacity: 1;
   transform: translateY(0);
 }
+
 /* ========== FEATURED TRACK GOODIES ========== */
 #featured-track {
   text-align: center;
@@ -329,7 +335,7 @@ iframe {
 }
 
 .lyrics-box {
-  height: 200px !important;       /* Force it down — no more Mr. Nice Max-Height */
+  height: 200px !important;
   overflow-y: auto;
   background-color: rgba(255, 255, 255, 0.05);
   padding: 20px;
@@ -339,6 +345,7 @@ iframe {
   color: white;
   line-height: 1.6;
 }
+
 /* ========== CALL TO ACTION SECTION ========== */
 .cta-section {
   padding: 60px 20px;
@@ -370,7 +377,7 @@ iframe {
 }
 
 .cta-text h3 {
-  color: #ff3b3b;
+  color: #ff0000;
   margin-bottom: 10px;
 }
 
@@ -407,6 +414,11 @@ iframe {
   font-weight: bold;
   font-family: 'Roboto', sans-serif;
   border-radius: 4px;
+  outline: none;
+}
+
+.cta-form input:focus {
+  outline: 2px solid #fff;
 }
 
 .cta-form button {
@@ -426,10 +438,11 @@ iframe {
 }
 
 .cta-form small {
-  color: #ff3b3b;
+  color: #ff0000;
   font-size: 0.75rem;
+  display: block;
+  margin-top: 5px;
 }
-
 /* ========== FOOTER ========== */
 footer {
   padding: 40px 20px;
@@ -451,7 +464,7 @@ footer a:hover {
   text-decoration: underline;
 }
 
-/* === STATIC BLACK BAR CONTAINERS === */
+/* ========== STATIC BLACK BAR CONTAINERS ========== */
 #loading-bar-1,
 #loading-bar-2 {
   width: 100%;
@@ -471,13 +484,12 @@ footer a:hover {
 
 #loading-bar-2 {
   height: 205px !important;
-  margin-top: 40px;  /* way less gap */
+  margin-top: 40px;
   overflow: hidden;
   position: relative;
 }
 
-
-/* Text inside loading bars */
+/* ========== TEXT INSIDE LOADING BARS ========== */
 #loading-1,
 #loading-2 {
   position: absolute;
@@ -491,7 +503,7 @@ footer a:hover {
   pointer-events: none;
 }
 
-#loading-1 { color: #ff003c; }
+#loading-1 { color: #ff0000; }
 #loading-2 { color: #00ffff; }
 
 .blink {
@@ -501,47 +513,22 @@ footer a:hover {
 @keyframes blink {
   50% { opacity: 0; }
 }
-/* =====TEXT BG =====*/
+
+/* ========== TEXT OVERLAY NARROW FIX ========== */
 .text-overlay {
   background-color: rgba(0, 0, 0, 0.55);
   padding: 20px;
   border-radius: 8px;
   border: 1px solid #333;
   box-shadow: 0 0 15px rgba(255, 0, 0, 0.25);
-}
-.hero-section .text-overlay,
-.featured-track .text-overlay {
   max-width: 720px;
   margin: 0 auto;
   text-align: center;
 }
 
-
-@keyframes driftAround {
-  0%   { transform: translate(0, 0); }
-  25%  { transform: translate(10px, -20px); }
-  50%  { transform: translate(20px, 10px); }
-  75%  { transform: translate(-10px, 15px); }
-  100% { transform: translate(0, 0); }
-}
-
-@keyframes flickerGlow {
-  0%, 100% { filter: none; }
-  50% { filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.4)); }
-}
-
-.drifting-egg {
-  animation: ghostPulse 8s ease-in-out infinite, driftAround 60s ease-in-out infinite;
-}
-
-.flicker-egg {
-  animation: ghostPulse 8s ease-in-out infinite, driftAround 60s ease-in-out infinite, flickerGlow 4s ease-in-out infinite;
-}
-
-.delay-1 {
-  animation-delay: 1s, 0s, 0s;
-}
-
-.delay-2 {
-  animation-delay: 3s, 1s, 2s;
+.hero-section .text-overlay,
+.featured-track .text-overlay {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
 }
