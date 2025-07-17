@@ -1,19 +1,31 @@
-// === REVEAL ON SCROLL === 
-function revealOnScroll() {
+// === REVEAL ON SCROLL + FLOATING EGGS === 
+window.addEventListener("DOMContentLoaded", () => {
+  // 🌪 Randomize floating egg positions
+  const floatingEggs = document.querySelectorAll(".drifting-egg");
+  floatingEggs.forEach((egg) => {
+    const top = Math.random() * 80 + 10;  // 10vh to 90vh
+    const left = Math.random() * 80 + 10; // 10vw to 90vw
+    egg.style.top = `${top}vh`;
+    egg.style.left = `${left}vw`;
+  });
+
+  // 👁 Reveal on Scroll Logic
   const reveals = document.querySelectorAll(".reveal");
   const windowHeight = window.innerHeight;
 
-  reveals.forEach((el) => {
-    const elementTop = el.getBoundingClientRect().top;
-    if (elementTop < windowHeight) {
-      el.classList.add("reveal-active");
-    }
-  });
-}
+  function revealOnScroll() {
+    reveals.forEach((el) => {
+      const elementTop = el.getBoundingClientRect().top;
+      if (elementTop < windowHeight) {
+        el.classList.add("reveal-active");
+      }
+    });
+  }
 
-window.addEventListener("DOMContentLoaded", () => {
-  revealOnScroll();
+  revealOnScroll(); // run once on load
   window.addEventListener("scroll", revealOnScroll);
+});
+
 
   const loading1 = document.getElementById("loading-1");
   const loading2 = document.getElementById("loading-2");
