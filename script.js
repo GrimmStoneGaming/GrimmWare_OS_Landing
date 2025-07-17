@@ -73,31 +73,32 @@ floatingEggs.forEach((egg) => {
     let lineIndex = 0;
     target.innerHTML = "";
 
-    const typeLine = () => {
-      if (lineIndex >= lines.length) {
-        callback?.();
-        return;
-      }
+   const typeLine = () => {
+  if (lineIndex >= lines.length) {
+    callback?.();
+    return;
+  }
 
-      const line = lines[lineIndex];
-      let charIndex = 0;
-      let currentLine = "";
+  const line = lines[lineIndex];
+  let charIndex = 0;
+  let currentLine = "";
 
-      const typeChar = () => {
-        currentLine += line.charAt(charIndex);
-        target.innerHTML = lines.slice(0, lineIndex).join("<br>") + "<br>" + currentLine + `<span class="blink">|</span>`;
-        charIndex++;
+  const typeChar = () => {
+    currentLine += line.charAt(charIndex);
+    target.innerHTML = lines.slice(0, lineIndex).join("<br>") + "<br>" + currentLine + `<span class="blink">|</span>`;
+    charIndex++;
 
-        if (charIndex < line.length) {
-          setTimeout(typeChar, delay);
-        } else {
-          lineIndex++;
-          setTimeout(typeLine, delay);
-        }
-      };
+    if (charIndex < line.length) {
+      setTimeout(typeChar, delay);
+    } else {
+      lineIndex++;
+      setTimeout(typeLine, 0); // 🔥 no pause between lines
+    }
+  };
 
-      typeChar();
-    };
+  typeChar();
+};
+
 
     typeLine();
   };
@@ -108,7 +109,7 @@ floatingEggs.forEach((egg) => {
     typeLines(loading1, lines1, 40, () => {
       setTimeout(() => {
         typeLines(loading2, lines2, 40, () => {
-          setTimeout(loopAnimations, 1500);
+          setTimeout(loopAnimations, 3000);
         });
       }, 1000);
     });
