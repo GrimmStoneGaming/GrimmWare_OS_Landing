@@ -1,4 +1,3 @@
-
 // === REVEAL ON SCROLL ===
 function revealOnScroll() {
   const reveals = document.querySelectorAll(".reveal");
