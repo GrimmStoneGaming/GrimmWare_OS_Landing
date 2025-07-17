@@ -125,6 +125,22 @@ if (canvas) {
   canvas.height = window.innerHeight;
   canvas.width = window.innerWidth;
 
+ // 🔧 RGBA utility for fading glitch text
+  function hexToRGBA(hex, alpha) {
+    const shorthand = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    hex = hex.replace(shorthand, (m, r, g, b) =>
+      r + r + g + g + b + b
+    );
+
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    if (!result) return `rgba(255,255,255,${alpha})`;
+
+    const r = parseInt(result[1], 16);
+    const g = parseInt(result[2], 16);
+    const b = parseInt(result[3], 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
+  
   const letters = [
     ..."01", ..."GWOS", ..."I SEE IT ALL", ..."RUN IT.", ..."GRMOSSYS", ..."GIZGZMO", ..."U R NT ALNE", ..."EMO IS EXE",
     "#", "@", ">", "~", "|", "▓", "░", "█", ..."ABCDEF"
@@ -158,15 +174,17 @@ if (canvas) {
       drops[i]++;
     });
 
-    activeGlitchLines.forEach((line, idx) => {
-      ctx.font = "bold 14px monospace";
-      ctx.fillStyle = line.color;
-      ctx.fillText(line.phrase, line.x, line.y);
+  for (let i = activeGlitchLines.length - 1; i >= 0; i--) {
+  const line = activeGlitchLines[i];
+  ctx.font = "bold 14px monospace";
+  ctx.fillStyle = hexToRGBA(line.color, line.alpha);
+  ctx.fillText(line.phrase, line.x, line.y);
 
-      line.life--;
-      if (line.life <= 0) activeGlitchLines.splice(idx, 1);
-    });
-  };
+  line.alpha -= line.fadeRate;
+  if (line.alpha <= 0) {
+    activeGlitchLines.splice(i, 1);
+  }
+}
 
   const drawHorizontalGlitch = () => {
     const phrase = glitchPhrases[Math.floor(Math.random() * glitchPhrases.length)];
@@ -176,8 +194,15 @@ if (canvas) {
     const colors = ["#ff003c", "#00ffff", "#ff69b4", "#00ff66", "#ffffff"];
     const color = colors[Math.floor(Math.random() * colors.length)];
 
-    activeGlitchLines.push({ phrase, x, y, color, life: 90 });
-  };
+   activeGlitchLines.push({
+  phrase,
+  x,
+  y,
+  color,
+  alpha: 1.0,       // start fully visible
+  fadeRate: 0.02    // tweak this for speed (0.01 = slow, 0.03 = fast)
+});
+
 
   setInterval(draw, 33);
   setInterval(drawHorizontalGlitch, 3000);
