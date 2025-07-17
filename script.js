@@ -1,3 +1,17 @@
+
+// === REVEAL ON SCROLL ===
+function revealOnScroll() {
+  const reveals = document.querySelectorAll(".reveal");
+  const windowHeight = window.innerHeight;
+
+  reveals.forEach((el) => {
+    const elementTop = el.getBoundingClientRect().top;
+    if (elementTop < windowHeight) {
+      el.classList.add("reveal-active");
+    }
+  });
+}
+
 window.addEventListener("DOMContentLoaded", () => {
   revealOnScroll();
   window.addEventListener("scroll", revealOnScroll);
@@ -5,58 +19,92 @@ window.addEventListener("DOMContentLoaded", () => {
   const loading1 = document.getElementById("loading-1");
   const loading2 = document.getElementById("loading-2");
 
-  function typeToElement(el, lines, delay = 60, loopDelay = 3000) {
-    let i = 0, line = 0;
-    el.innerHTML = "";
+  const lines1 = [
+    "> Authenticating system integrity...",
+    "> Initializing GWOS...",
+    "> SYSTEM BREACH IMMINENT..."
+  ];
+
+  const lines2 = [
+    "> Compiling pain...  <span class='green'>Complete</span>",
+    "> Processing guilt...  <span class='green'>Complete</span>",
+    "> Detecting honesty...  <span class='green'>Complete</span>",
+    "!! <span class='red'>WARNING</span>: Emotional stability compromised...",
+    "> Manifesting audio signal..."
+  ];
+
+  function typeLines(target, lines, delay = 100, callback) {
+    let lineIndex = 0;
+    let charIndex = 0;
+    target.innerHTML = "";
 
     function type() {
-      if (line < lines.length) {
-        if (i < lines[line].text.length) {
-          const span = el.lastElementChild || document.createElement("span");
-          if (!el.lastElementChild) {
-            span.className = lines[line].class;
-            el.appendChild(span);
-          }
-          span.innerHTML += lines[line].text.charAt(i);
-          i++;
+      if (lineIndex < lines.length) {
+        const currentLine = lines[lineIndex];
+        const visible = currentLine.slice(0, charIndex);
+        const hidden = currentLine.slice(charIndex);
+        target.innerHTML = lines.slice(0, lineIndex).join("<br>") + "<br>" + visible + `<span class="blink">${hidden.charAt(0) || " "}</span>`;
+        charIndex++;
+        if (charIndex <= currentLine.length) {
           setTimeout(type, delay);
         } else {
-          el.innerHTML += "<br/>";
-          i = 0;
-          line++;
+          charIndex = 0;
+          lineIndex++;
           setTimeout(type, delay);
         }
-      } else {
-        setTimeout(() => {
-          el.innerHTML = "";
-          i = 0;
-          line = 0;
-          type();
-        }, loopDelay);
+      } else if (callback) {
+        callback();
       }
     }
 
     type();
   }
 
-  if (loading1 && loading2) {
-    typeToElement(loading1, [
-      { text: ">>> Initializing GWOS...", class: "cyan" },
-      { text: ">>> System breach imminent...", class: "red" }
-    ]);
-
-    setTimeout(() => {
-      typeToElement(loading2, [
-        { text: ">>> Compiling pain...  Complete", class: "green" },
-        { text: ">>> Parsing guilt...  Complete", class: "green" },
-        { text: ">>> Injecting honesty...  Complete", class: "green" },
-        { text: ">>> WARNING: Emotional stability compromised...", class: "red" },
-        { text: ">>> Manifesting audio signature...", class: "pink" },
-        { text: ">>> SIGNAL DISTORTION DETECTED...", class: "red" },
-        { text: ">>> ...recalibrating...", class: "gray" },
-        { text: ">>> AUTHORIZED OVERRIDE — PLAYBACK UNLOCKED", class: "lime" },
-        { text: ">>> Deploying featured track: I See It All", class: "cyan" }
-      ]);
-    }, 2500);
+  function loopAnimations() {
+    typeLines(loading1, lines1, 60, () => {
+      setTimeout(() => {
+        typeLines(loading2, lines2, 60, () => {
+          setTimeout(loopAnimations, 3000);
+        });
+      }, 1000);
+    });
   }
+
+  if (loading1 && loading2) loopAnimations();
 });
+
+// === RED MATRIX EFFECT ===
+const canvas = document.getElementById("matrix");
+if (canvas) {
+  const ctx = canvas.getContext("2d");
+
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+
+  const letters = "01".split("");
+  const fontSize = 16;
+  const columns = canvas.width / fontSize;
+  const drops = Array.from({ length: columns }, () => 1);
+
+  function draw() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.03)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#ff0000";
+    ctx.font = fontSize + "px monospace";
+
+    drops.forEach((y, i) => {
+      const text = letters[Math.floor(Math.random() * letters.length)];
+      const x = i * fontSize;
+      ctx.fillText(text, x, y * fontSize);
+
+      if (y * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+
+      drops[i]++;
+    });
+  }
+
+  setInterval(draw, 33);
+}
