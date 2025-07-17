@@ -152,12 +152,12 @@ if (canvas) {
 
   const activeGlitchLines = [];
   const fontSize = 14;
-  const columnCount = 300; // 🎯 increase this for denser rain
+  const columnCount = 400; // 🎯 increase this for denser rain
   const spacing = canvas.width / columnCount;
   const drops = Array.from({ length: columnCount }, () => 1);
 
   const draw = () => {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.1)"; // controls trail fade — tweak if needed
+    ctx.fillStyle = "rgba(0, 0, 0, 0.08)"; // controls trail fade — tweak if needed
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     ctx.fillStyle = "#ff0000";
