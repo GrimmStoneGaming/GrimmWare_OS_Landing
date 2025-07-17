@@ -46,18 +46,30 @@ body {
   top: 550px;
   right: 800px;
   font-size: 0.75rem;
-  opacity: 0.25; /* Starting opacity matches ghostPulse keyframe */
+   /* Starting opacity matches ghostPulse keyframe */
 }
 
 #bleeding-syntax {
   top: 100px;
   left: 80px;
   font-size: 0.85rem;
-  opacity: 0.25; /* Starting opacity matches ghostPulse keyframe */
+   /* Starting opacity matches ghostPulse keyframe */
 }
 
 @keyframes ghostPulse {
   0%, 100% { opacity: 0.05; }
+@keyframes driftAround {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(10px, -20px); }
+  50%  { transform: translate(20px, 10px); }
+  75%  { transform: translate(-10px, 15px); }
+  100% { transform: translate(0, 0); }
+}
+
+.drifting-egg {
+  animation: ghostPulse 8s ease-in-out infinite, driftAround 60s ease-in-out infinite;
+}
+
   50%      { opacity: 0.12; } /* brief flicker visibility */
 }
 
