@@ -28,9 +28,6 @@ body {
 .hidden-egg {
   display: block;
   position: absolute;
-  top: 50%;              /* 👈 Sets starting point */
-  left: 50%;             /* 👈 Needed for transform to work */
-  transform: translate(-50%, -50%);  /* Centered baseline for driftAround */
   font-family: monospace;
   font-size: 0.85rem;
   line-height: 1.4;
@@ -42,7 +39,7 @@ body {
   user-select: none;
   z-index: 1;
   opacity: 0.05;
-  animation: ghostPulse 8s ease-in-out infinite;
+  animation: ghostPulse 8s ease-in-out infinite, driftAround 60s ease-in-out infinite;
 }
 
 #ghost-behind {
@@ -61,6 +58,8 @@ body {
 
 @keyframes ghostPulse {
   0%, 100% { opacity: 0.05; }
+  50% { opacity: 0.15; }
+}
 @keyframes driftAround {
   0%   { transform: translate(0, 0); }
   25%  { transform: translate(10px, -20px); }
