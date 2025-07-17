@@ -156,7 +156,7 @@ if (canvas) {
   const drops = Array.from({ length: columns }, () => 1);
 
   const draw = () => {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.25)"; // Darker fade to help clear old lines
+    ctx.fillStyle = "rgba(0, 0, 0, 0.75)"; // Darker fade to help clear old lines
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     ctx.fillStyle = "#ff0000";
