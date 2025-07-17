@@ -2,27 +2,37 @@
 
 // INIT ON DOM READY
 document.addEventListener("DOMContentLoaded", () => {
-  // 🎯 FLOATING EGGS — Randomized position and drifting animation
-  const floatingEggs = document.querySelectorAll(".drifting-egg");
-  floatingEggs.forEach((egg) => {
-    egg.style.top = `${Math.random() * 80 + 10}vh`;
-    egg.style.left = `${Math.random() * 80 + 10}vw`;
 
-    egg.animate(
-      [
-        { transform: 'translate(0, 0)' },
-        { transform: 'translate(5px, -10px)' },
-        { transform: 'translate(-5px, 5px)' },
-        { transform: 'translate(0, 0)' }
-      ],
-      {
-        duration: 15000 + Math.random() * 10000,
-        iterations: Infinity,
-        direction: 'alternate',
-        easing: 'ease-in-out'
-      }
-    );
-  });
+  // 🎯 FLOATING EGGS — Randomized position across full page height + drifting animation
+const floatingEggs = document.querySelectorAll(".drifting-egg");
+
+floatingEggs.forEach((egg) => {
+  const pageHeight = document.body.scrollHeight;
+  const pageWidth = document.body.scrollWidth;
+
+  const top = Math.random() * (pageHeight - 100);  // adjust 100 based on egg size
+  const left = Math.random() * (pageWidth - 100);
+
+  egg.style.position = "absolute";
+  egg.style.top = `${top}px`;
+  egg.style.left = `${left}px`;
+  egg.style.zIndex = "1000";
+
+  egg.animate(
+    [
+      { transform: 'translate(0, 0)' },
+      { transform: 'translate(5px, -10px)' },
+      { transform: 'translate(-5px, 5px)' },
+      { transform: 'translate(0, 0)' }
+    ],
+    {
+      duration: 15000 + Math.random() * 10000,
+      iterations: Infinity,
+      direction: 'alternate',
+      easing: 'ease-in-out'
+    }
+  );
+});
 
   // 👁 REVEAL ON SCROLL
   const revealOnScroll = () => {
