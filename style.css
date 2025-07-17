@@ -28,18 +28,21 @@ body {
 .hidden-egg {
   display: block;
   position: absolute;
+  top: 50%;              /* 👈 Sets starting point */
+  left: 50%;             /* 👈 Needed for transform to work */
+  transform: translate(-50%, -50%);  /* Centered baseline for driftAround */
   font-family: monospace;
   font-size: 0.85rem;
   line-height: 1.4;
   white-space: pre;
   color: #ff0000;
-  background: rgba(0, 0, 0, 0.1);  /* Lower opacity background */
-  border: 1px solid rgba(255, 0, 0, 0.15);  /* Faint border */
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.15);
   pointer-events: none;
   user-select: none;
   z-index: 1;
-  opacity: 0.05;  /* 👈 SUPER subtle */
-  animation: ghostPulse 8s ease-in-out infinite; /* Slower pulse */
+  opacity: 0.05;
+  animation: ghostPulse 8s ease-in-out infinite;
 }
 
 #ghost-behind {
