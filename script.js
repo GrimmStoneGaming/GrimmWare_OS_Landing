@@ -152,7 +152,8 @@ if (canvas) {
 
   const activeGlitchLines = [];
   const fontSize = 16;
-  const columns = (canvas.width / fontSize) * 8;  // double the streams
+  const columns = 300; // higher = more rain
+  const columns = (canvas.width / fontSize) * 3;  // double the streams
   const drops = Array.from({ length: columns }, () => 1);
 
 
@@ -165,7 +166,8 @@ if (canvas) {
 
     drops.forEach((y, i) => {
       const text = letters[Math.floor(Math.random() * letters.length)];
-      const x = i * fontSize;
+      const spacing = fontSize / 2;  // or fontSize / 1.5 if you want overlap
+      const x = i * spacing;
       ctx.fillText(text, x, y * fontSize);
 
       if (y * fontSize > canvas.height && Math.random() > 0.975) {
