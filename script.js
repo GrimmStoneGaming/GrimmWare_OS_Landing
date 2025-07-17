@@ -188,3 +188,48 @@ if (canvas) {
   setInterval(draw, 33);
   setInterval(drawHorizontalGlitch, 3000);
 }
+document.addEventListener("DOMContentLoaded", () => {
+  // 🌪 Randomize floating egg positions
+  const floatingEggs = document.querySelectorAll(".drifting-egg");
+  floatingEggs.forEach((egg) => {
+    const top = Math.random() * 80 + 10;  // 10vh to 90vh
+    const left = Math.random() * 80 + 10; // 10vw to 90vw
+    egg.style.top = `${top}vh`;
+    egg.style.left = `${left}vw`;
+  });
+
+  // 👻 Animate wandering
+  floatingEggs.forEach((egg) => {
+    egg.animate(
+      [
+        { transform: 'translate(0, 0)' },
+        { transform: 'translate(5px, -10px)' },
+        { transform: 'translate(-5px, 5px)' },
+        { transform: 'translate(0, 0)' }
+      ],
+      {
+        duration: 15000 + Math.random() * 10000, // 15-25s
+        iterations: Infinity,
+        direction: 'alternate',
+        easing: 'ease-in-out'
+      }
+    );
+  });
+
+  // Reveal logic (if still needed)
+  function revealOnScroll() {
+    const reveals = document.querySelectorAll(".reveal");
+    const windowHeight = window.innerHeight;
+
+    reveals.forEach((el) => {
+      const elementTop = el.getBoundingClientRect().top;
+      if (elementTop < windowHeight) {
+        el.classList.add("reveal-active");
+      }
+    });
+  }
+
+  window.addEventListener("scroll", revealOnScroll);
+  revealOnScroll();
+});
+
