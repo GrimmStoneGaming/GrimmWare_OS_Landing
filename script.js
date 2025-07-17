@@ -152,8 +152,9 @@ if (canvas) {
 
   const activeGlitchLines = [];
   const fontSize = 16;
-  const columns = canvas.width / fontSize;
+  const columns = (canvas.width / fontSize) * 2;  // double the streams
   const drops = Array.from({ length: columns }, () => 1);
+
 
  const draw = () => {
   ctx.fillStyle = "rgba(0, 0, 0, 0.1)"; //Darker fade to clear old lines
