@@ -98,8 +98,9 @@ body {
 
 /* ========== ABOUT SECTION ========== */
 #about {
-  margin-top: 60px;
-  padding: 20px;
+  margin-top: 40px;
+  margin-bottom: 0px;
+  padding: 10px 20px;
   display: flex;
   justify-content: center;
 }
@@ -441,11 +442,12 @@ footer a:hover {
 }
 
 #loading-bar-2 {
-  height: 205px !important;   /* Enforce height strictly */
-  margin-top: 250px;
-  overflow: hidden;           /* Prevent inner content from stretching it */
+  height: 205px !important;
+  margin-top: 80px;  /* way less gap */
+  overflow: hidden;
   position: relative;
 }
+
 
 /* Text inside loading bars */
 #loading-1,
