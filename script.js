@@ -152,7 +152,7 @@ if (canvas) {
 
   const activeGlitchLines = [];
   const fontSize = 16;
-  const columns = (canvas.width / fontSize) * 2;  // double the streams
+  const columns = (canvas.width / fontSize) * 4;  // double the streams
   const drops = Array.from({ length: columns }, () => 1);
 
 
