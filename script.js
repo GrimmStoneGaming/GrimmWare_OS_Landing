@@ -1,5 +1,5 @@
 // === REVEAL ON SCROLL + FLOATING EGGS === 
-window.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
   // 🌪 Randomize floating egg positions
   const floatingEggs = document.querySelectorAll(".drifting-egg");
   floatingEggs.forEach((egg) => {
@@ -9,11 +9,29 @@ window.addEventListener("DOMContentLoaded", () => {
     egg.style.left = `${left}vw`;
   });
 
-  // 👁 Reveal on Scroll Logic
-  const reveals = document.querySelectorAll(".reveal");
-  const windowHeight = window.innerHeight;
+  // 👻 Animate drifting
+  floatingEggs.forEach((egg) => {
+    egg.animate(
+      [
+        { transform: 'translate(0, 0)' },
+        { transform: 'translate(5px, -10px)' },
+        { transform: 'translate(-5px, 5px)' },
+        { transform: 'translate(0, 0)' }
+      ],
+      {
+        duration: 15000 + Math.random() * 10000, // 15–25s
+        iterations: Infinity,
+        direction: 'alternate',
+        easing: 'ease-in-out'
+      }
+    );
+  });
 
+  // 👁 Reveal on Scroll
   function revealOnScroll() {
+    const reveals = document.querySelectorAll(".reveal");
+    const windowHeight = window.innerHeight;
+
     reveals.forEach((el) => {
       const elementTop = el.getBoundingClientRect().top;
       if (elementTop < windowHeight) {
@@ -22,11 +40,10 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  revealOnScroll(); // run once on load
+  revealOnScroll();
   window.addEventListener("scroll", revealOnScroll);
-});
 
-
+  // === TYPING LOADER ANIMATION ===
   const loading1 = document.getElementById("loading-1");
   const loading2 = document.getElementById("loading-2");
 
@@ -48,7 +65,7 @@ window.addEventListener("DOMContentLoaded", () => {
     "&gt;&gt;&gt; Deploying featured track: <span class='blue'><i>I See It All</i></span>"
   ];
 
-  function typeLines(target, lines, delay = 60, callback) {
+function typeLines(target, lines, delay = 60, callback) {
     let lineIndex = 0;
     target.innerHTML = "";
 
@@ -63,11 +80,10 @@ window.addEventListener("DOMContentLoaded", () => {
       let currentLine = "";
 
       function typeChar() {
-        const char = line.charAt(charIndex);
-        currentLine += char;
+        currentLine += line.charAt(charIndex);
         target.innerHTML = lines.slice(0, lineIndex).join("<br>") + "<br>" + currentLine + `<span class="blink">|</span>`;
-
         charIndex++;
+
         if (charIndex < line.length) {
           setTimeout(typeChar, delay);
         } else {
@@ -83,6 +99,8 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   function loopAnimations() {
+    if (!loading1 || !loading2) return;
+
     typeLines(loading1, lines1, 60, () => {
       setTimeout(() => {
         typeLines(loading2, lines2, 60, () => {
@@ -92,7 +110,7 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  if (loading1 && loading2) loopAnimations();
+  loopAnimations();
 });
 
 // === RED MATRIX EFFECT ===
