@@ -204,35 +204,46 @@ body {
   100% { text-shadow: none; }
 }
 
-/* === RUN IT BUTTON === */
+/* === RUN IT BUTTON (GLITCHED) === */
 #run-button {
   display: none;
   margin-top: 30px;
-  padding: 12px 28px;
-  font-size: 1.1rem;
+  padding: 14px 34px;
+  font-size: 1.2rem;
   font-family: 'Courier New', Courier, monospace;
-  font-weight: bold;
-  color: #000;
-  background-color: #00ff66;
+  font-weight: 900;
+  color: black;
+  background-color: #ff1a1a;
   border: none;
   border-radius: 6px;
-  box-shadow: 0 0 10px #00ff66;
   cursor: pointer;
-  animation: pulseBtn 2s infinite;
-  transition: opacity 0.6s ease-in-out;
+
+  text-shadow: 0 0 4px #ff5555;
+  box-shadow: 0 0 12px #ff0000;
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+
+  animation: pulseGlitch 1.8s infinite, glitchButton 2.5s infinite;
 }
 
-@keyframes pulseBtn {
-  0% {
+/* === GLOW PULSE === */
+@keyframes pulseGlitch {
+  0%, 100% {
+    box-shadow: 0 0 8px #ff1a1a, 0 0 14px #ff1a1a;
     transform: scale(1);
-    box-shadow: 0 0 8px #00ff66;
   }
   50% {
-    transform: scale(1.05);
-    box-shadow: 0 0 16px #00ff66;
+    box-shadow: 0 0 24px #ff4444, 0 0 48px #ff4444;
+    transform: scale(1.04);
   }
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 8px #00ff66;
-  }
+}
+
+/* === GLITCH SHAKE === */
+@keyframes glitchButton {
+  0% { filter: none; }
+  20% { filter: hue-rotate(10deg) brightness(1.1); }
+  40% { transform: translateX(-1px); }
+  50% { transform: translateX(1px); }
+  60% { filter: contrast(1.2); }
+  80% { transform: translateX(-0.5px); }
+  100% { filter: none; transform: translateX(0); }
 }
