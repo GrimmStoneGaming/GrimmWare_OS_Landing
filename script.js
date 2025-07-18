@@ -2,15 +2,18 @@ const boxes = document.querySelectorAll('.box');
 const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
 let currentGreenIndex = null;
 let solved = Array(boxes.length).fill(false);
+let greenCycleInterval = null;
+let redCycleInterval = null;
 
-// Cycle red characters
+// === RANDOM CHAR ===
 function getRandomChar() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return chars.charAt(Math.floor(Math.random() * chars.length));
 }
 
+// === RED BOXES CYCLE ===
 function cycleCharacters() {
-  setInterval(() => {
+  redCycleInterval = setInterval(() => {
     boxes.forEach((box, i) => {
       if (!solved[i] && i !== currentGreenIndex) {
         box.textContent = getRandomChar();
@@ -19,8 +22,9 @@ function cycleCharacters() {
   }, 100);
 }
 
+// === GREEN BOX PULSE ===
 function startCycling() {
-  setInterval(() => {
+  greenCycleInterval = setInterval(() => {
     let next;
     do {
       next = Math.floor(Math.random() * boxes.length);
@@ -43,7 +47,7 @@ function startCycling() {
   }, 1500);
 }
 
-// Click interaction
+// === BOX CLICK ===
 boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
     if (i === currentGreenIndex && !solved[i]) {
@@ -54,14 +58,15 @@ boxes.forEach((box, i) => {
       box.classList.add('green');
 
       if (solved.every(Boolean)) {
-        clearInterval(currentGreenIndex);
-        setTimeout(showAccessGranted, 1000);
+        clearInterval(greenCycleInterval);
+        clearInterval(redCycleInterval);
+        setTimeout(showAccessGranted, 800);
       }
     }
   });
 });
 
-// Show access granted
+// === ACCESS GRANTED ===
 function showAccessGranted() {
   const accessMessage = document.getElementById('access-message');
   const runButton = document.getElementById('run-button');
@@ -80,9 +85,9 @@ function showAccessGranted() {
       clearInterval(typeInterval);
       setTimeout(() => {
         typeLine2();
-      }, 1000);
+      }, 800);
     }
-  }, 50);
+  }, 40);
 
   function typeLine2() {
     const wrapper = document.createElement('div');
@@ -102,9 +107,9 @@ function showAccessGranted() {
         setTimeout(() => {
           glitchRandomChars();
           runButton.style.display = 'block';
-        }, 800);
+        }, 600);
       }
-    }, 100);
+    }, 80);
   }
 
   function glitchRandomChars() {
@@ -117,7 +122,7 @@ function showAccessGranted() {
   }
 }
 
-// Rain transition
+// === RAIN TRIGGER ===
 document.getElementById('run-button').addEventListener('click', () => {
   const overlay = document.getElementById('gateway-overlay');
   overlay.innerHTML = '';
@@ -144,6 +149,6 @@ document.getElementById('run-button').addEventListener('click', () => {
   }, 40 * 60 + 1400);
 });
 
-// Initialize
+// === INIT ===
 cycleCharacters();
 startCycling();
