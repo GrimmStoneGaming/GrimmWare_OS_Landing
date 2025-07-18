@@ -77,29 +77,59 @@ function showAccessGranted() {
 
   let index = 0;
 
-  accessMessage.classList.remove('hidden');
+  accessMessage.classList.remove('hidden', 'glitch', 'blink');
   accessMessage.textContent = '';
-  accessMessage.classList.remove('glitch');
 
-  // Type line 1
+  // Line 1 typing
   const typeInterval = setInterval(() => {
     accessMessage.textContent += line1.charAt(index);
     index++;
     if (index === line1.length) {
       clearInterval(typeInterval);
 
-      // Delay before glitch line drops
+      // Pause before line 2
       setTimeout(() => {
-        accessMessage.classList.add('glitch');
-        accessMessage.textContent += '\n' + line2;
-        setTimeout(() => {
-          runButton.style.display = 'block';
-          runButton.classList.add('pulse');
-        }, 600);
-      }, 1000); // pause before line 2
+        typeLine2();
+      }, 1000);
     }
   }, 50);
+
+  // Line 2 slow type effect with red styling + span wrapping
+  function typeLine2() {
+    const wrapper = document.createElement('div');
+    wrapper.classList.add('line-two');
+    accessMessage.appendChild(wrapper);
+
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < line2.length) {
+        const charSpan = document.createElement('span');
+        charSpan.textContent = line2.charAt(i);
+        charSpan.classList.add('line2-char');
+        wrapper.appendChild(charSpan);
+        i++;
+      } else {
+        clearInterval(interval);
+        setTimeout(() => {
+          glitchRandomChars(); // Begin glitching effect
+          runButton.style.display = 'block';
+          runButton.classList.add('pulse');
+        }, 800);
+      }
+    }, 100); // Slower typing speed
+  }
+
+  // Random flicker glitch
+  function glitchRandomChars() {
+    const chars = document.querySelectorAll('.line2-char');
+    const totalGlitches = 8;
+    for (let i = 0; i < totalGlitches; i++) {
+      const rand = Math.floor(Math.random() * chars.length);
+      chars[rand].classList.add('glitch-char');
+    }
+  }
 }
+
 
 // RUN IT button action placeholder
 document.getElementById('run-button').addEventListener('click', () => {
