@@ -71,23 +71,34 @@ boxes.forEach((box, i) => {
 function showAccessGranted() {
   const accessMessage = document.getElementById('access-message');
   const runButton = document.getElementById('run-button');
-  const message = 'ACCESS GRANTED. SYSTEM UNLOCKED.';
+
+  const line1 = 'ACCESS GRANTED. SYSTEM UNLOCKED.';
+  const line2 = '>>> RUNNING THIS MAY CHANGE YOU.';
+
   let index = 0;
 
   accessMessage.classList.remove('hidden');
   accessMessage.textContent = '';
+  accessMessage.classList.remove('glitch');
 
+  // Type line 1
   const typeInterval = setInterval(() => {
-    accessMessage.textContent += message.charAt(index);
+    accessMessage.textContent += line1.charAt(index);
     index++;
-    if (index === message.length) {
+    if (index === line1.length) {
       clearInterval(typeInterval);
+
+      // Delay before glitch line drops
       setTimeout(() => {
-        runButton.style.display = 'block';
-        runButton.classList.add('pulse');
-      }, 500);
+        accessMessage.classList.add('glitch');
+        accessMessage.textContent += '\n' + line2;
+        setTimeout(() => {
+          runButton.style.display = 'block';
+          runButton.classList.add('pulse');
+        }, 600);
+      }, 1000); // pause before line 2
     }
-  }, 60);
+  }, 50);
 }
 
 // RUN IT button action placeholder
