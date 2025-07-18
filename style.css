@@ -280,16 +280,16 @@ h1, h2, h3, p {
   text-shadow: 0 0 10px rgba(111, 43, 122, 0.7);
   filter: drop-shadow(0 0 12px rgba(111, 43, 122, 0.8));
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 900px) {
   .btn-red,
   .btn-cyan,
   .btn-muted {
-    padding: 24px 36px !important;  /* bigger tap area */
-    font-size: 1.5rem !important;   /* more readable */
+    padding: 24px 36px !important;
+    font-size: 1.75rem !important;
   }
 
   .left-buttons {
-    max-width: 90vw !important; /* expand touch zone */
+    max-width: 90vw !important;
   }
 }
 
