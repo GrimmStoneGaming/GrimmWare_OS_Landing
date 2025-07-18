@@ -8,52 +8,54 @@
 </head>
 <body>
 
-  <!-- LOCKED TOP SECTION -->
-  <div class="top-container">
-    <div class="logo-container">
-      <img class="logo-main" src="images/grimmware-logo.png" alt="GRIMMWARE OS Logo"/>
-      <img class="tagline" src="images/emotion-is-executable.png" alt="Emotion is Executable"/>
-    </div>
-
-    <div class="decrypt-wrapper">
-      <div class="decrypt-boxes">
-        <div class="box" id="box0">G</div>
-        <div class="box" id="box1">W</div>
-        <div class="box" id="box2">O</div>
-        <div class="box" id="box3">S</div>
-        <div class="separator">_</div>
-        <div class="box" id="box4">E</div>
-        <div class="box" id="box5">X</div>
-        <div class="box" id="box6">E</div>
-      </div>
-    </div>
-
-    <div class="decrypt-instruction">
-      Tap <span class="green-glow">green</span> to decrypt.
-    </div>
-  </div>
-
-  <!-- ACCESS MESSAGE -->
-  <div id="access-message" class="hidden">
-    <span class="granted"></span>
-    <span class="warning" id="warning-line"></span>
-  </div>
-
-  <!-- RUN IT BUTTON -->
-  <div class="run-button-wrapper" id="run-wrapper">
-    <button id="run-button">>>> RUN IT</button>
-  </div>
-
-  <!-- STRIP WIPE OVERLAY -->
-  <div id="gateway-overlay"></div>
-
-  <!-- PLACEHOLDER LANDING PAGE -->
-  <div id="landing-page" class="hidden">
+  <!-- LANDING PAGE (Already Loaded Behind Gateway) -->
+  <div id="landing-page" class="preloaded">
     <div class="lp-content">
       <h1>Welcome to GrimmWare OS</h1>
       <p>This is your system now.</p>
     </div>
   </div>
+
+  <!-- LOCKED TOP SECTION (Gateway UI) -->
+  <div id="gateway-ui">
+    <div class="top-container">
+      <div class="logo-container">
+        <img class="logo-main" src="images/grimmware-logo.png" alt="GRIMMWARE OS Logo"/>
+        <img class="tagline" src="images/emotion-is-executable.png" alt="Emotion is Executable"/>
+      </div>
+
+      <div class="decrypt-wrapper">
+        <div class="decrypt-boxes">
+          <div class="box" id="box0">G</div>
+          <div class="box" id="box1">W</div>
+          <div class="box" id="box2">O</div>
+          <div class="box" id="box3">S</div>
+          <div class="separator">_</div>
+          <div class="box" id="box4">E</div>
+          <div class="box" id="box5">X</div>
+          <div class="box" id="box6">E</div>
+        </div>
+      </div>
+
+      <div class="decrypt-instruction">
+        Tap <span class="green-glow">green</span> to decrypt.
+      </div>
+    </div>
+
+    <!-- ACCESS MESSAGE -->
+    <div id="access-message" class="hidden">
+      <span class="granted"></span>
+      <span class="warning" id="warning-line"></span>
+    </div>
+
+    <!-- RUN IT BUTTON -->
+    <div class="run-button-wrapper" id="run-wrapper">
+      <button id="run-button">>>> RUN IT</button>
+    </div>
+  </div>
+
+  <!-- STRIP WIPE OVERLAY -->
+  <div id="gateway-overlay"></div>
 
   <script src="script.js"></script>
 </body>
