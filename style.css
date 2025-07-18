@@ -265,19 +265,21 @@ h1, h2, h3, p {
 }
 
 .btn-cyan {
-  color: rgba(111, 43, 122, 0.25); /* muted ghost purple */
+  color: rgba(111, 43, 122, 0.25);
   border-color: rgba(111, 43, 122, 0.15);
   background-color: transparent;
-  filter: drop-shadow(0 0 4px rgba(111, 43, 122, 0.05));
+  animation: hackerFlicker 3.5s infinite;
+  transition: all 0.3s ease;
 }
 
 .btn-cyan:hover {
+  color: rgba(111, 43, 122, 0.9);
+  border-color: rgba(111, 43, 122, 0.5);
   background-color: rgba(111, 43, 122, 0.1);
-  color: rgba(111, 43, 122, 0.6);
-  border-color: rgba(111, 43, 122, 0.35);
-  filter: drop-shadow(0 0 6px rgba(111, 43, 122, 0.2));
+  animation: none;
+  text-shadow: 0 0 10px rgba(111, 43, 122, 0.7);
+  filter: drop-shadow(0 0 12px rgba(111, 43, 122, 0.8));
 }
-
 
 /* ========== HIGHLIGHT COLORS ========== */
 .green      { color: #00ff00; }
@@ -306,6 +308,7 @@ h1, h2, h3, p {
 }
 
 /* ========== KEYFRAMES ========== */
+/* ========== KEYFRAMES ========== */
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -325,6 +328,29 @@ h1, h2, h3, p {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes hackerFlicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    opacity: 0.25;
+    text-shadow: none;
+    filter: drop-shadow(0 0 0px rgba(111, 43, 122, 0));
+  }
+  20%, 24%, 55% {
+    opacity: 0.85;
+    text-shadow: 0 0 6px rgba(111, 43, 122, 0.5);
+    filter: drop-shadow(0 0 10px rgba(111, 43, 122, 0.6));
+  }
+  22%, 26% {
+    opacity: 0.5;
+    text-shadow: 0 0 3px rgba(111, 43, 122, 0.3);
+    filter: drop-shadow(0 0 6px rgba(111, 43, 122, 0.4));
+  }
+  40% {
+    opacity: 0.15;
+    text-shadow: none;
+    filter: none;
   }
 }
 
