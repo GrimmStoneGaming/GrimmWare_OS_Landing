@@ -151,7 +151,7 @@ document.getElementById('run-button').addEventListener('click', () => {
     strip.classList.add('strip', 'cover');
     strip.style.left = `${(100 / numStrips) * indexes[i]}%`;
     strip.style.width = `${100 / numStrips}%`;
-    strip.style.animationDelay = `${indexes[i] * delayBetween}ms`;
+    strip.style.animationDelay = `${i * delayBetween}ms`;
     overlay.appendChild(strip);
   }
 
