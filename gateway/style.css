@@ -34,6 +34,23 @@ body {
   height: auto;
   margin-top: 10px;
 }
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; /* Stack vertically */
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.logo-container img {
+  max-width: 80%;
+  height: auto;
+  max-height: 200px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 5px red);
+}
+
 
 /* === BOX CONTAINER === */
 .decrypt-boxes {
