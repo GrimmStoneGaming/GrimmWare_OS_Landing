@@ -123,11 +123,15 @@ body {
 
 #access-message .warning {
   color: #ff4444;
-  text-shadow: 0 0 8px #ff4444;
+  text-shadow:
+    0 0 6px #ff0000,
+    0 0 12px #ff2222,
+    0 0 18px #ff4444;
+  font-style: italic;
+  font-weight: bold;
   margin-top: 6px;
   display: block;
 }
-
 /* === RUN BUTTON === */
 .run-button-wrapper {
   margin-top: 30px;
