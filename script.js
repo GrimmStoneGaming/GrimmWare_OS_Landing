@@ -163,28 +163,31 @@ document.getElementById('run-button').addEventListener('click', () => {
     gatewayUI.style.opacity = 0;
   }, totalCoverTime + 300); // small pause after blackout
 
-  // === PHASE 3: Switch strips to reveal ===
-  setTimeout(() => {
-    const strips = document.querySelectorAll('.strip');
-    strips.forEach((strip, i) => {
-      strip.classList.remove('cover');
-      strip.classList.add('reveal');
-      strip.style.animationDelay = `${i * delayBetween}ms`; // same stagger for reveal
-    });
-  }, totalCoverTime + holdBeforeReveal);
+  // === PHASE 3 & 4: LANDING PAGE REVEAL + STRIPS FALL AWAY ===
+setTimeout(() => {
+  // Turn on LP underneath (still hidden)
+  landingPage.style.display = 'flex';
+  landingPage.style.opacity = 0;
+  landingPage.style.transition = 'opacity 1s ease';
 
-  // === PHASE 4: Show landing page ===
+  // Hide gateway UI just before LP fades in
+  gatewayUI.style.display = 'none';
+
+  // STRIPS FALL AWAY
+  const coverStrips = document.querySelectorAll('.strip.cover');
+  coverStrips.forEach((strip, idx) => {
+    strip.style.animation = `fall 0.6s forwards`;
+    strip.style.animationDelay = `${idx * delayBetween}ms`;
+  });
+
+  // Fade in LP beneath as strips fall
   setTimeout(() => {
+    landingPage.style.opacity = 1;
     overlay.style.display = 'none';
-    gatewayUI.style.display = 'none';
+  }, numStrips * delayBetween + 800); // wait for strips to fall off
 
-    landingPage.style.display = 'flex';
-    landingPage.style.opacity = 0;
-    landingPage.style.transition = 'opacity 1s ease';
-    requestAnimationFrame(() => {
-      landingPage.style.opacity = 1;
-    });
-  }, totalCoverTime + holdBeforeReveal + (numStrips * delayBetween) + revealDuration);
+}, totalCoverTime + 600); // slight pause after blackout to feel weighty
+
 });
 
 // === INIT ===
