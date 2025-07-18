@@ -112,7 +112,7 @@ body {
   text-shadow: 0 0 6px #00ff66, 0 0 12px #00ff66;
 }
 
-/* === ACCESS GRANTED === */
+/* === ACCESS MESSAGE ANIMATION === */
 #access-message {
   color: #00ffcc;
   font-family: 'Courier New', Courier, monospace;
@@ -123,9 +123,29 @@ body {
   overflow: hidden;
   border-right: 2px solid #00ffcc;
   width: 0;
-  animation: typing 3s steps(40, end) forwards, blink 0.75s step-end infinite;
+
+  /* Separate control: typing + blink */
+  animation-name: typing;
+  animation-duration: 3s;
+  animation-timing-function: steps(40, end);
+  animation-fill-mode: forwards;
 }
 
+/* === CURSOR BLINK === */
+#access-message.blink {
+  animation-name: blink;
+  animation-duration: 0.75s;
+  animation-iteration-count: infinite;
+  animation-timing-function: step-end;
+}
+
+/* === GLITCH EFFECT (for second line) === */
+.access-message.glitch {
+  animation: glitchyText 0.25s steps(2, end) 3;
+  white-space: pre-wrap;
+}
+
+/* === KEYFRAMES === */
 @keyframes typing {
   to {
     width: 100%;
@@ -136,6 +156,13 @@ body {
   50% {
     border-color: transparent;
   }
+}
+
+@keyframes glitchyText {
+  0%   { text-shadow: 2px 0 red, -2px 0 blue; }
+  33%  { text-shadow: -2px 0 red, 2px 0 blue; }
+  66%  { text-shadow: 2px 2px red, -2px -2px blue; }
+  100% { text-shadow: none; }
 }
 
 /* === RUN IT BUTTON === */
