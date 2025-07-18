@@ -76,10 +76,11 @@ function typeText(target, text, delay = 60, callback = null) {
     }
   }, delay);
 }
+
 function startIdleGlitch(target, originalText, frequency = 150) {
   const glitchChars = "!@#$%^&*()_+=~{}|<>?/\\";
   let glitchInterval = setInterval(() => {
-    let glitchedText = originalText.split('').map((char, i) => {
+    let glitchedText = originalText.split('').map((char) => {
       if (Math.random() < 0.05 && char !== ' ') {
         return glitchChars[Math.floor(Math.random() * glitchChars.length)];
       } else {
@@ -89,23 +90,11 @@ function startIdleGlitch(target, originalText, frequency = 150) {
     target.textContent = glitchedText;
   }, frequency);
 
-  // Stop glitch on mouseover, if needed:
   target.addEventListener('mouseenter', () => {
     clearInterval(glitchInterval);
     target.textContent = originalText;
   });
 }
-
-    target.textContent = displayText;
-
-    index++;
-    if (index > finalText.length) {
-      clearInterval(interval);
-      target.textContent = finalText;
-    }
-  }, delay);
-}
-
 
 // === ACCESS GRANTED + WARNING ===
 function showAccessGranted() {
@@ -126,31 +115,16 @@ function showAccessGranted() {
   typeText(grantedLine, grantedText, 40, () => {
     // Then type the warning
     typeText(warningLine, warningText, 75, () => {
-      // Then start glitch loop
+      // Start idle glitch after warning typed
       startIdleGlitch(warningLine, warningText);
 
-      // Then glitch RUN IT in
+      // Glitch in the RUN IT button
       setTimeout(() => {
         runWrapper.classList.add('glitch-in');
         runWrapper.style.display = 'block';
       }, 600);
     });
   });
-}
-
-  let index = 0;
-
-  const typeInterval = setInterval(() => {
-    grantedLine.textContent += grantedText.charAt(index);
-    index++;
-    if (index === grantedText.length) {
-      clearInterval(typeInterval);
-     setTimeout(() => {
-  glitchTypeText(warningLine, warningText, 90);
-  runWrapper.style.display = 'block';
-}, 1000);
-    }
-  }, 50);
 }
 
 // === RUN BUTTON WIPES SCREEN ===
@@ -177,6 +151,7 @@ document.getElementById('run-button').addEventListener('click', () => {
     document.getElementById('landing-page').style.display = 'flex';
   }, numStrips * 80 + 1000);
 });
+
 // === DEV BUTTON: Instant Solve for Testing ===
 document.getElementById("dev-solve-btn").addEventListener("click", () => {
   const solution = "GWOS_EXE";
@@ -185,11 +160,13 @@ document.getElementById("dev-solve-btn").addEventListener("click", () => {
   for (let i = 0; i < letterBoxes.length; i++) {
     if (solution[i] !== "_") {
       letterBoxes[i].textContent = solution[i];
-      letterBoxes[i].classList.add("correct"); // highlight in green
+      letterBoxes[i].classList.add("green");
+      solved[i] = true;
     }
   }
 
-  showAccessGranted();
+  clearInterval(intervalId);
+  setTimeout(showAccessGranted, 500);
 });
 
 // === INIT ===
