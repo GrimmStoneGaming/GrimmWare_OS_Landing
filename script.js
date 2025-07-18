@@ -148,18 +148,19 @@ const typeLines2 = (target, lines, delay = 60, callback) => {
 const loopLoading1 = () => {
   if (!loading1) return;
 
-  typeLines(loading1, lines1, 60, () => {
-    setTimeout(loopLoading1, 1000); // controls how fast it restarts
+  typeLines1(loading1, lines1, 60, () => {
+    setTimeout(loopLoading1, 2000); // restart delay for section 1
   });
 };
 
 const loopLoading2 = () => {
   if (!loading2) return;
 
-  typeLines(loading2, lines2, 60, () => {
-    setTimeout(loopLoading2, 1000); // controls how fast it restarts
+  typeLines2(loading2, lines2, 60, () => {
+    setTimeout(loopLoading2, 2000); // restart delay for section 2
   });
 };
+
 
 // 🚀 Kick them off separately
 loopLoading1();
