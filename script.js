@@ -3,6 +3,7 @@ const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
 let currentGreenIndex = null;
 let intervalId = null;
 let solved = Array(boxes.length).fill(false);
+let transitionInProgress = false; // <- Anti-spam lock
 
 // === Random Char Generator ===
 function getRandomChar() {
@@ -62,6 +63,9 @@ boxes.forEach((box, i) => {
       }
     }
   });
+
+  // Optional accessibility improvement
+  // box.setAttribute('aria-label', `Decryption character ${i + 1}`);
 });
 
 // === Glitch Typing Effect ===
@@ -125,6 +129,9 @@ function showAccessGranted() {
 
 // === RUN BUTTON WIPES SCREEN ===
 document.getElementById('run-button').addEventListener('click', () => {
+  if (transitionInProgress) return; // Anti-spam protection
+  transitionInProgress = true;
+
   const overlay = document.getElementById('gateway-overlay');
   overlay.innerHTML = '';
   overlay.style.display = 'flex';
@@ -135,11 +142,11 @@ document.getElementById('run-button').addEventListener('click', () => {
     const strip = document.createElement('div');
     strip.classList.add('strip');
     strip.style.animationDelay = `${i * 80}ms`;
-    strip.style.zIndex = 1100 + i;
+    strip.style.zIndex = 1100; // Uniform z-index works fine
     overlay.appendChild(strip);
   }
 
-  // Hide all gateway content *after* strips fall
+  // 80ms * 30 strips = 2400ms, plus 1000ms buffer = 3400ms
   setTimeout(() => {
     document.getElementById('gateway-ui').style.display = 'none';
     overlay.style.display = 'none';
