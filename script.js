@@ -4,7 +4,7 @@ let currentGreenIndex = null;
 let intervalId = null;
 let solved = Array(boxes.length).fill(false);
 
-// === Random Char Gen ===
+// === Random Char Generator ===
 function getRandomChar() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return chars[Math.floor(Math.random() * chars.length)];
@@ -21,7 +21,7 @@ function cycleCharacters() {
   }, 100);
 }
 
-// === Highlight One Box in Green Every 1.5s ===
+// === Green Pulse Box Targeting ===
 function startCycling() {
   intervalId = setInterval(() => {
     let nextIndex;
@@ -29,7 +29,6 @@ function startCycling() {
       nextIndex = Math.floor(Math.random() * boxes.length);
     } while (solved[nextIndex]);
 
-    // Reset all unsolved boxes
     boxes.forEach((box, i) => {
       if (!solved[i]) {
         box.classList.remove('green');
@@ -38,7 +37,6 @@ function startCycling() {
       }
     });
 
-    // Set the new green box
     currentGreenIndex = nextIndex;
     const box = boxes[currentGreenIndex];
     box.classList.add('green');
@@ -48,7 +46,7 @@ function startCycling() {
   }, 1500);
 }
 
-// === Box Click Handler ===
+// === Box Click Logic ===
 boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
     if (i === currentGreenIndex && !solved[i]) {
@@ -66,31 +64,38 @@ boxes.forEach((box, i) => {
   });
 });
 
-// === ACCESS GRANTED Sequence ===
+// === ACCESS GRANTED SEQUENCE ===
 function showAccessGranted() {
   const accessMessage = document.getElementById('access-message');
-  const runButton = document.getElementById('run-button');
-  const line = 'ACCESS GRANTED. SYSTEM UNLOCKED.';
-  let index = 0;
+  const grantedLine = accessMessage.querySelector('.granted');
+  const warningLine = accessMessage.querySelector('.warning');
+  const runWrapper = document.querySelector('.run-button-wrapper');
 
+  grantedLine.textContent = '';
+  warningLine.textContent = '';
   accessMessage.classList.remove('hidden');
-  accessMessage.textContent = '';
   accessMessage.style.opacity = 1;
 
+  const grantedText = 'ACCESS GRANTED. SYSTEM UNLOCKED.';
+  const warningText = '>>> WARNING: THIS MAY CHANGE YOU.';
+
+  let index = 0;
+
   const typeInterval = setInterval(() => {
-    accessMessage.textContent += line.charAt(index);
+    grantedLine.textContent += grantedText.charAt(index);
     index++;
-    if (index === line.length) {
+    if (index === grantedText.length) {
       clearInterval(typeInterval);
+
       setTimeout(() => {
-        runButton.classList.remove('hidden');
-        runButton.style.display = 'block';
-      }, 800);
+        warningLine.textContent = warningText;
+        runWrapper.style.display = 'block';
+      }, 1000);
     }
   }, 50);
 }
 
-// === RUN IT: Vertical Strip Wipe Reveal ===
+// === STRIP WIPE + LP REVEAL ===
 document.getElementById('run-button').addEventListener('click', () => {
   const overlay = document.getElementById('gateway-overlay');
   overlay.innerHTML = '';
@@ -103,10 +108,10 @@ document.getElementById('run-button').addEventListener('click', () => {
     overlay.appendChild(strip);
   }
 
-  document.querySelector('.decrypt-boxes').style.display = 'none';
+  document.querySelector('.decrypt-wrapper').style.display = 'none';
   document.querySelector('.decrypt-instruction').style.display = 'none';
   document.getElementById('access-message').style.display = 'none';
-  document.getElementById('run-button').style.display = 'none';
+  document.querySelector('.run-button-wrapper').style.display = 'none';
 
   overlay.style.display = 'flex';
 
