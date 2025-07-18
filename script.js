@@ -141,10 +141,6 @@ document.getElementById('run-button').addEventListener('click', () => {
   gatewayUI.style.transition = 'opacity 0.65s ease';
   gatewayUI.style.opacity = 0;
 
-  // === PHASE 1: FADE OUT GATEWAY UI ===
-gatewayUI.style.transition = 'opacity 0.65s ease';
-gatewayUI.style.opacity = 0;
-
 setTimeout(() => {
   gatewayUI.style.display = 'none';
 
@@ -185,8 +181,6 @@ setTimeout(() => {
     }, 300 + numStrips * delayBetween);
 
   }, totalCoverTime + 100); // wait until screen is fully covered
-
-}, 700); // wait for gateway fade out to complete
 
   }, 700); // matches gateway fade out time
 });
