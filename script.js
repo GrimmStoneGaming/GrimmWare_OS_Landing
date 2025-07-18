@@ -140,7 +140,7 @@ document.getElementById('run-button').addEventListener('click', () => {
   const delayBetween = 80;
   const totalDuration = numStrips * delayBetween + 1000;
 
-  // Add strips
+  // STEP 1: Add strips
   for (let i = 0; i < numStrips; i++) {
     const strip = document.createElement('div');
     strip.classList.add('strip');
@@ -149,11 +149,15 @@ document.getElementById('run-button').addEventListener('click', () => {
     overlay.appendChild(strip);
   }
 
-  // Fade out gateway during wipe
+  // STEP 2: Trigger animation on next frame
+  requestAnimationFrame(() => {
+    overlay.classList.add('active');
+  });
+
+  // STEP 3: Transition between gateway and landing page
   gatewayUI.style.transition = `opacity ${totalDuration - 1000}ms ease`;
   gatewayUI.style.opacity = 0;
 
-  // Fade in landing page after delay
   setTimeout(() => {
     gatewayUI.style.display = 'none';
     landingPage.style.display = 'flex';
