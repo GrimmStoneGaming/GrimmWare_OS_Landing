@@ -3,7 +3,7 @@ const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
 let currentGreenIndex = null;
 let intervalId = null;
 let solved = Array(boxes.length).fill(false);
-let transitionInProgress = false; // Anti-spam lock
+let transitionInProgress = false;
 
 // === Random Char Generator ===
 function getRandomChar() {
@@ -133,55 +133,54 @@ document.getElementById('run-button').addEventListener('click', () => {
   const gatewayUI = document.getElementById('gateway-ui');
   const landingPage = document.getElementById('landing-page');
 
-  overlay.innerHTML = '';
-  overlay.style.display = 'flex';
-
   const numStrips = 60;
   const delayBetween = 30;
   const fallDuration = 500;
-  const holdBeforeReveal = 1200;
-  const revealDuration = 500;
 
-  // === PHASE 1: COVER ===
-  let indexes = Array.from({ length: numStrips }, (_, i) => i);
-  indexes.sort(() => Math.random() - 0.5); // shuffle order
-
-  for (let i = 0; i < numStrips; i++) {
-    const strip = document.createElement('div');
-    strip.classList.add('strip', 'cover');
-    strip.style.left = `${(100 / numStrips) * indexes[i]}%`;
-    strip.style.width = `${100 / numStrips}%`;
-    strip.style.animationDelay = `${i * delayBetween}ms`;
-    overlay.appendChild(strip);
-  }
-
-  const totalCoverTime = (numStrips * delayBetween) + fallDuration;
-
-// === PHASE 3 & 4: BLACKOUT COMPLETE → LANDING PAGE REVEAL & STRIPS FALL ===
-setTimeout(() => {
-  // Immediately hide gateway UI once fully blacked out
+  // === PHASE 1: FADE OUT GATEWAY UI ===
+  gatewayUI.style.transition = 'opacity 0.65s ease';
   gatewayUI.style.opacity = 0;
-  gatewayUI.style.display = 'none';
 
-  // Prep landing page under black cover
-  landingPage.style.display = 'flex';
-  landingPage.style.opacity = 0;
-  landingPage.style.transition = 'opacity 1s ease';
-
-  // Trigger fall animation
-  const coverStrips = document.querySelectorAll('.strip.cover');
-  coverStrips.forEach((strip, idx) => {
-    strip.style.animation = 'fall 0.6s forwards';
-    strip.style.animationDelay = `${idx * delayBetween}ms`;
-  });
-
-  // Delay LP fade just slightly to keep the illusion tight
   setTimeout(() => {
-    landingPage.style.opacity = 1;
-    overlay.style.display = 'none';
-  }, 300 + numStrips * delayBetween); // strips falling + hold
+    gatewayUI.style.display = 'none';
 
-}, totalCoverTime + 300); // SLIGHTLY earlier to cut out the flash
+    // === PHASE 2: BUILD & DROP STRIPS ===
+    overlay.innerHTML = '';
+    overlay.style.display = 'flex';
+
+    const indexes = Array.from({ length: numStrips }, (_, i) => i).sort(() => Math.random() - 0.5);
+
+    for (let i = 0; i < numStrips; i++) {
+      const strip = document.createElement('div');
+      strip.classList.add('strip', 'cover');
+      strip.style.left = `${(100 / numStrips) * indexes[i]}%`;
+      strip.style.width = `${100 / numStrips}%`;
+      strip.style.animationDelay = `${i * delayBetween}ms`;
+      overlay.appendChild(strip);
+    }
+
+    const totalCoverTime = (numStrips * delayBetween) + fallDuration;
+
+    // === PHASE 3: LP REVEAL + STRIP FALL
+    setTimeout(() => {
+      landingPage.style.display = 'flex';
+      landingPage.style.opacity = 0;
+      landingPage.style.transition = 'opacity 1s ease';
+
+      const coverStrips = document.querySelectorAll('.strip.cover');
+      coverStrips.forEach((strip, idx) => {
+        strip.style.animation = 'fall 0.6s forwards';
+        strip.style.animationDelay = `${idx * delayBetween}ms`;
+      });
+
+      setTimeout(() => {
+        landingPage.style.opacity = 1;
+        overlay.style.display = 'none';
+      }, 300 + numStrips * delayBetween);
+
+    }, totalCoverTime + 300);
+
+  }, 700); // matches gateway fade out time
 });
 
 // === INIT ===
