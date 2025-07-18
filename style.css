@@ -284,8 +284,12 @@ h1, h2, h3, p {
   .btn-red,
   .btn-cyan,
   .btn-muted {
-    padding: 18px 30px; /* bigger thumb area */
-    font-size: 1.2rem;  /* larger, more readable text */
+    padding: 24px 36px !important;  /* bigger tap area */
+    font-size: 1.5rem !important;   /* more readable */
+  }
+
+  .left-buttons {
+    max-width: 90vw !important; /* expand touch zone */
   }
 }
 
