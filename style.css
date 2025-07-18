@@ -434,6 +434,36 @@ iframe {
   color: white;
   line-height: 1.6;
 }
+#message-trigger {
+  display: block;
+  text-align: right;
+  margin-top: 8px;
+  font-family: 'Courier New', monospace;
+  color: rgba(255, 255, 255, 0.1);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+#message-trigger:hover {
+  color: #ff0080; /* hot magenta */
+}
+
+#hidden-message {
+  display: none;
+  margin-top: 10px;
+  padding: 12px;
+  font-size: 1rem;
+  border-left: 2px solid #ff0080;
+  color: #ff0080;
+  font-weight: bold;
+  animation: fadeInMsg 0.3s ease-in;
+}
+
+@keyframes fadeInMsg {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
 /* ========== CALL TO ACTION SECTION ========== */
 .cta-section {
