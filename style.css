@@ -217,7 +217,7 @@ h1, h2, h3, p {
   gap: 2rem;
   margin: 30px auto;
   max-width: 800px;
-  position: relative;
+  position: relative; /* Needed for pinning the right-button */
 }
 
 .left-buttons {
@@ -233,6 +233,12 @@ h1, h2, h3, p {
   display: block;
   width: 100%;
   text-align: center;
+}
+
+.right-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
 }
 
 .btn-red,
@@ -264,6 +270,7 @@ h1, h2, h3, p {
   background-color: #00ffff;
   color: #000;
 }
+
 
 /* ========== HIGHLIGHT COLORS ========== */
 .green      { color: #00ff00; }
