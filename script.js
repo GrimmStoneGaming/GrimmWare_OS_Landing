@@ -112,8 +112,10 @@ function showAccessGranted() {
         clearInterval(interval);
         setTimeout(() => {
           glitchRandomChars(); // Begin glitching effect
-          runButton.style.display = 'block';
-          runButton.classList.add('pulse');
+       // Add glitchy pulse to the RUN IT button
+runButton.style.display = 'block';
+runButton.classList.add('glitch'); // Optional if you want a toggle class
+
         }, 800);
       }
     }, 100); // Slower typing speed
