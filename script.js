@@ -123,8 +123,29 @@ function showAccessGranted() {
 
 // Run button action: trigger rain-away
 document.getElementById('run-button').addEventListener('click', () => {
-  createRainOverlay();
-  triggerRainAway();
+  const overlay = document.getElementById('gateway-overlay');
+  const strips = overlay.querySelectorAll('.strip');
+
+  // Show the rain overlay
+  overlay.style.display = 'flex';
+
+  // Animate rain strips
+  strips.forEach((strip, i) => {
+    setTimeout(() => {
+      strip.classList.add('rain-away');
+    }, i * 60); // Stagger each strip
+  });
+
+  // Hide existing UI
+  document.querySelector('.decrypt-boxes').style.display = 'none';
+  document.querySelector('.decrypt-instruction').style.display = 'none';
+  document.getElementById('access-message').style.display = 'none';
+  document.getElementById('run-button').style.display = 'none';
+
+  // Show LP after rain clears
+  setTimeout(() => {
+    document.getElementById('landing-page').style.display = 'block';
+  }, strips.length * 60 + 1400); // Rain completion buffer
 });
 
 // === RAIN AWAY EFFECT ===
