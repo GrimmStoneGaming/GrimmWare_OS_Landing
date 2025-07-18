@@ -10,30 +10,39 @@
 
   <!-- LOGO + TAGLINE -->
   <div class="logo-container">
-    <img class="logo-main" src="assets/logo.png" alt="GRIMMWARE OS Logo"/>
-    <img class="tagline" src="assets/tagline.png" alt="Emotion is Executable"/>
+    <img class="logo-main" src="images/grimmware-logo.png" alt="GRIMMWARE OS Logo"/>
+    <img class="tagline" src="images/emotion-is-executable.png" alt="Emotion is Executable"/>
   </div>
 
-  <!-- CIPHER BOXES -->
-  <div class="decrypt-boxes">
-    <div class="box" id="box0">G</div>
-    <div class="box" id="box1">W</div>
-    <div class="box" id="box2">O</div>
-    <div class="box" id="box3">S</div>
-    <div class="separator">_</div>
-    <div class="box" id="box4">E</div>
-    <div class="box" id="box5">X</div>
-    <div class="box" id="box6">E</div>
+  <!-- CIPHER PANEL -->
+  <div class="decrypt-wrapper">
+    <div class="decrypt-boxes">
+      <div class="box" id="box0">G</div>
+      <div class="box" id="box1">W</div>
+      <div class="box" id="box2">O</div>
+      <div class="box" id="box3">S</div>
+      <div class="separator">_</div>
+      <div class="box" id="box4">E</div>
+      <div class="box" id="box5">X</div>
+      <div class="box" id="box6">E</div>
+    </div>
   </div>
 
-  <!-- INSTRUCTION -->
-  <div class="decrypt-instruction">Tap <span class="green-glow">green</span> to decrypt.</div>
+  <!-- DECRYPT INSTRUCTION -->
+  <div class="decrypt-instruction">
+    Tap <span class="green-glow">green</span> to decrypt.
+  </div>
 
   <!-- ACCESS MESSAGE -->
-  <div id="access-message" class="hidden"></div>
+  <div id="access-message" class="hidden">
+    <span class="granted"></span>
+    <span class="warning"></span>
+  </div>
 
-  <!-- RUN BUTTON -->
-  <button id="run-button" class="hidden">>>> RUN IT</button>
+  <!-- RUN IT BUTTON CONTAINER -->
+  <div class="run-button-wrapper">
+    <button id="run-button">>>> RUN IT</button>
+  </div>
 
   <!-- GATEWAY STRIP OVERLAY -->
   <div id="gateway-overlay"></div>
