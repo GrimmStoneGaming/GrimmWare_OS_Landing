@@ -2,52 +2,42 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>GWOS Gateway</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GRIMMWARE OS</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" type="image/png" href="images/gwos-favicon.png" />
 </head>
 <body>
-  <!-- GATEWAY WRAPPER -->
-  <div id="gateway-screen">
-    <!-- LOGO + TAGLINE -->
-    <div class="logo-container">
-      <img src="images/grimmware-logo.png" alt="GRIMMWARE OS Logo" class="logo-main" />
-      <img src="images/emotion-is-executable.png" alt="Emotion Is Executable" class="tagline" />
+  <div id="gateway">
+    <img src="logo.png" alt="GRIMMWARE OS Logo" class="logo" />
+
+    <div class="slogan">
+      <img src="slogan.png" alt="Emotion is Executable" />
     </div>
 
-    <!-- DECRYPT BOXES -->
-    <div class="decrypt-boxes">
-      <div class="box" id="box0">G</div>
-      <div class="box" id="box1">W</div>
-      <div class="box" id="box2">O</div>
-      <div class="box" id="box3">S</div>
-      <div class="separator">_</div>
-      <div class="box" id="box4">E</div>
-      <div class="box" id="box5">X</div>
-      <div class="box" id="box6">E</div>
+    <div id="cipher-container">
+      <!-- Cipher letter boxes -->
+      <div id="cipher-boxes"></div>
+      <p class="cipher-instructions">
+        <em>Tap <span class="green-text">green</span> to decrypt.</em>
+      </p>
     </div>
 
-    <!-- INSTRUCTIONS -->
-    <div class="decrypt-instruction">
-      Tap <span class="green-glow">green</span> to decrypt.
+    <div id="access-granted-message" class="hidden">
+      <p class="access-text">Access granted. Running this may corrupt your soul...</p>
+      <button id="run-it-btn" class="glitch-btn hidden">RUN IT</button>
     </div>
-
-    <!-- ACCESS MESSAGE + WARNING + BUTTON -->
-    <div id="access-message" class="access-message hidden"></div>
-    <div id="access-warning" class="line-two hidden"></div>
-    <button id="run-button" class="run-it-button hidden">>>> RUN IT</button>
   </div>
 
-  <!-- RAIN STRIPS OVERLAY (empty initially, filled by JS) -->
-  <div id="gateway-overlay"></div>
+  <!-- Strip Reveal Container (Initially hidden and JS-generated) -->
+  <div id="strips" class="hidden"></div>
 
-  <!-- LANDING PAGE -->
-  <div id="landing-page">
-    <div class="landing-message">GRIMMWARE OS Booted. Welcome.</div>
-    <img src="images/emotion-is-executable.png" alt="Emotion is Executable" class="landing-tagline" />
+  <!-- LANDING PAGE: Hidden until RUN IT is completed -->
+  <div id="landing-page" class="hidden">
+    <p class="boot-text">GRIMMWARE OS Booted. Welcome.</p>
+    <img src="emotion-executable-banner.png" alt="Emotion is Executable Banner" class="lp-banner" />
+    <!-- Add more LP content here -->
   </div>
 
-  <!-- SCRIPT -->
-  <script src="script.js" defer></script>
+  <script src="script.js"></script>
 </body>
 </html>
