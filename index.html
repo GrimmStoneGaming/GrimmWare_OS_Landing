@@ -96,12 +96,12 @@
 </head>
 <body>
 
-  <!-- LANDING PAGE CONTENT (hidden behind the gateway) -->
+  <!-- LANDING PAGE CONTENT (replace with your actual LP) -->
   <div id="landing-page">
     GRIMMWARE OS BOOT COMPLETE.
   </div>
 
-  <!-- STRIP OVERLAY -->
+  <!-- MATRIX RAIN OVERLAY -->
   <div id="gateway-overlay"></div>
 
   <!-- RUN IT BUTTON -->
@@ -111,7 +111,7 @@
     const overlay = document.getElementById('gateway-overlay');
     const runBtn = document.getElementById('run-button');
 
-    // Create strips
+    // Create blank strips (not UI clones!)
     const stripCount = 40;
     for (let i = 0; i < stripCount; i++) {
       const strip = document.createElement('div');
@@ -119,6 +119,7 @@
       overlay.appendChild(strip);
     }
 
+    // Trigger rain on click
     runBtn.addEventListener('click', () => {
       const strips = document.querySelectorAll('.strip');
       strips.forEach((strip, i) => {
