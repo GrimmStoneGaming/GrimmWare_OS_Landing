@@ -69,54 +69,63 @@ floatingEggs.forEach((egg) => {
     "&gt;&gt;&gt; Deploying featured track: <span class='blue'><i>I See It All</i></span>"
   ];
 
-  const typeLines = (target, lines, delay = 60, callback) => {
-    let lineIndex = 0;
-    target.innerHTML = "";
+const typeLines = (target, lines, delay = 60, callback) => {
+  let lineIndex = 0;
+  target.innerHTML = "";
 
-   const typeLine = () => {
-  if (lineIndex >= lines.length) {
-    callback?.();
-    return;
-  }
-
-  const line = lines[lineIndex];
-  let charIndex = 0;
-  let currentLine = "";
-
-  const typeChar = () => {
-    currentLine += line.charAt(charIndex);
-    target.innerHTML = lines.slice(0, lineIndex).join("<br>") + "<br>" + currentLine + `<span class="blink">|</span>`;
-    charIndex++;
-
-    if (charIndex < line.length) {
-      setTimeout(typeChar, delay);
-    } else {
-      lineIndex++;
-      setTimeout(typeLine, 0); // 🔥 no pause between lines
+  const typeLine = () => {
+    if (lineIndex >= lines.length) {
+      callback?.();
+      return;
     }
+
+    const line = lines[lineIndex];
+    let charIndex = 0;
+    let currentLine = "";
+
+    const typeChar = () => {
+      currentLine += line.charAt(charIndex);
+      target.innerHTML =
+        lines.slice(0, lineIndex).join("<br>") +
+        "<br>" +
+        currentLine +
+        `<span class="blink">|</span>`;
+      charIndex++;
+
+      if (charIndex < line.length) {
+        setTimeout(typeChar, delay);
+      } else {
+        lineIndex++;
+        setTimeout(typeLine, 0); // no pause between lines
+      }
+    };
+
+    typeChar();
   };
 
-  typeChar();
+  typeLine();
 };
 
+// 🎯 Independent animation loops for each section
+const loopLoading1 = () => {
+  if (!loading1) return;
 
-    typeLine();
-  };
+  typeLines(loading1, lines1, 60, () => {
+    setTimeout(loopLoading1, 1000); // controls how fast it restarts
+  });
+};
 
-  const loopAnimations = () => {
-    if (!loading1 || !loading2) return;
+const loopLoading2 = () => {
+  if (!loading2) return;
 
-    typeLines(loading1, lines1, 40, () => {
-      setTimeout(() => {
-        typeLines(loading2, lines2, 40, () => {
-          setTimeout(loopAnimations, 3000);
-        });
-      }, 1000);
-    });
-  };
+  typeLines(loading2, lines2, 60, () => {
+    setTimeout(loopLoading2, 1000); // controls how fast it restarts
+  });
+};
 
-  loopAnimations();
-});
+// 🚀 Kick them off separately
+loopLoading1();
+loopLoading2();
 
 // === RED MATRIX RAIN CANVAS ===
 const canvas = document.getElementById("matrix");
