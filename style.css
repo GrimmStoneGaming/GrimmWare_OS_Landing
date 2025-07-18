@@ -247,3 +247,12 @@ body {
   80% { transform: translateX(-0.5px); }
   100% { filter: none; transform: translateX(0); }
 }
+/* === RUN IT BUTTON HOVER EFFECT === */
+#run-button:hover::after {
+  content: "INITIATING EXECUTION...";
+  display: block;
+  font-size: 0.85rem;
+  color: #ffaaaa;
+  margin-top: 6px;
+  animation: glitchFlicker 1s infinite;
+}
