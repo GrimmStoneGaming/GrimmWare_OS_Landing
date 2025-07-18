@@ -23,6 +23,17 @@ body {
 .logo-banner .red {
   color: red;
 }
+.logo-image {
+  width: auto;
+  max-height: 120px;
+  margin-bottom: 15px;
+}
+
+.tagline-image {
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
+}
 
 /* === BOX CONTAINER === */
 .decrypt-boxes {
