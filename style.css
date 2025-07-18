@@ -212,16 +212,31 @@ h1, h2, h3, p {
 /* ========== BUTTONS ========== */
 .button-group {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
   margin: 30px auto;
   max-width: 800px;
+  position: relative;
+}
+
+.left-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.left-buttons a {
+  display: block;
+  width: 100%;
+  text-align: center;
 }
 
 .btn-red,
 .btn-cyan {
-  display: inline-block;
   padding: 12px 20px;
   text-decoration: none;
   font-weight: bold;
