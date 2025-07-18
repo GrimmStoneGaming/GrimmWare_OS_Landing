@@ -28,6 +28,9 @@
       </div>
     </div>
 
+    <!-- DEV BUTTON: Quick solve (for testing only) -->
+    <button id="dev-solve-btn" class="dev-button">[ solve ]</button>
+
     <div class="decrypt-instruction">
       Tap <span class="green-glow">green</span> to decrypt.
     </div>
@@ -36,11 +39,11 @@
   <!-- ACCESS MESSAGE -->
   <div id="access-message" class="hidden">
     <span class="granted"></span>
-    <span class="warning"></span>
+    <span class="warning" id="warning-line"></span>
   </div>
 
   <!-- RUN IT BUTTON -->
-  <div class="run-button-wrapper">
+  <div class="run-button-wrapper" id="run-wrapper">
     <button id="run-button">>>> RUN IT</button>
   </div>
 
