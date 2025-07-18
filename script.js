@@ -63,9 +63,6 @@ boxes.forEach((box, i) => {
       }
     }
   });
-
-  // Accessibility note:
-  // box.setAttribute('aria-label', `Decryption character ${i + 1}`);
 });
 
 // === Glitch Typing Effect ===
@@ -129,31 +126,45 @@ function showAccessGranted() {
 
 // === RUN BUTTON WIPES SCREEN ===
 document.getElementById('run-button').addEventListener('click', () => {
-  if (transitionInProgress) return; // Prevent rapid double fire
+  if (transitionInProgress) return;
   transitionInProgress = true;
 
   const overlay = document.getElementById('gateway-overlay');
+  const gatewayUI = document.getElementById('gateway-ui');
+  const landingPage = document.getElementById('landing-page');
+
   overlay.innerHTML = '';
   overlay.style.display = 'flex';
 
   const numStrips = 30;
+  const delayBetween = 80;
+  const totalDuration = numStrips * delayBetween + 1000;
 
+  // Add strips
   for (let i = 0; i < numStrips; i++) {
     const strip = document.createElement('div');
     strip.classList.add('strip');
-    strip.style.left = `${(i * 100) / numStrips}%`;
-    strip.style.width = `${100 / numStrips}%`;
-    strip.style.animationDelay = `${i * 80}ms`;
+    strip.style.animationDelay = `${i * delayBetween}ms`;
     strip.style.zIndex = 1100;
     overlay.appendChild(strip);
   }
 
-  // Allow full wipe to complete before switching screens
+  // Fade out gateway during wipe
+  gatewayUI.style.transition = `opacity ${totalDuration - 1000}ms ease`;
+  gatewayUI.style.opacity = 0;
+
+  // Fade in landing page after delay
   setTimeout(() => {
-    document.getElementById('gateway-ui').style.display = 'none';
+    gatewayUI.style.display = 'none';
+    landingPage.style.display = 'flex';
+    landingPage.style.opacity = 0;
+    landingPage.style.transition = 'opacity 1s ease';
+    requestAnimationFrame(() => {
+      landingPage.style.opacity = 1;
+    });
+
     overlay.style.display = 'none';
-    document.getElementById('landing-page').style.display = 'flex';
-  }, numStrips * 80 + 1000);
+  }, totalDuration);
 });
 
 // === INIT ===
