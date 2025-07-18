@@ -235,9 +235,12 @@ h1, h2, h3, p {
 }
 
 .right-button {
-  margin-top: 10px;
-  transform: scale(0.75); /* 25% smaller */
+  margin-top: -8px;
+  transform: scale(0.75);
   transform-origin: center;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 /* BUTTON STYLES */
@@ -270,8 +273,6 @@ h1, h2, h3, p {
   background-color: #00ffff;
   color: #000;
 }
-
-
 
 /* ========== HIGHLIGHT COLORS ========== */
 .green      { color: #00ff00; }
