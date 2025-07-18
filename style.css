@@ -265,18 +265,19 @@ h1, h2, h3, p {
 }
 
 .btn-cyan {
-  color: rgba(0, 255, 255, 0.25); /* faint cyan */
-  border-color: rgba(0, 255, 255, 0.15);
+  color: rgba(111, 43, 122, 0.25); /* muted ghost purple */
+  border-color: rgba(111, 43, 122, 0.15);
   background-color: transparent;
-  filter: drop-shadow(0 0 4px rgba(0, 255, 255, 0.05));
+  filter: drop-shadow(0 0 4px rgba(111, 43, 122, 0.05));
 }
 
 .btn-cyan:hover {
-  background-color: rgba(0, 255, 255, 0.1);
-  color: rgba(0, 255, 255, 0.6);
-  border-color: rgba(0, 255, 255, 0.35);
-  filter: drop-shadow(0 0 6px rgba(0, 255, 255, 0.2));
+  background-color: rgba(111, 43, 122, 0.1);
+  color: rgba(111, 43, 122, 0.6);
+  border-color: rgba(111, 43, 122, 0.35);
+  filter: drop-shadow(0 0 6px rgba(111, 43, 122, 0.2));
 }
+
 
 /* ========== HIGHLIGHT COLORS ========== */
 .green      { color: #00ff00; }
