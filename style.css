@@ -280,7 +280,7 @@ h1, h2, h3, p {
   text-shadow: 0 0 10px rgba(111, 43, 122, 0.7);
   filter: drop-shadow(0 0 12px rgba(111, 43, 122, 0.8));
 }
-@media screen and (max-width: 900px) {
+@media only screen and (max-width: 1024px) and (pointer: coarse) {
   .btn-red,
   .btn-cyan,
   .btn-muted {
