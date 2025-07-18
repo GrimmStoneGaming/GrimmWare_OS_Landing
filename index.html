@@ -3,39 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GRIMMWARE OS</title>
+  <title>GrimmWare OS Gateway</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="gateway">
-    <img src="logo.png" alt="GRIMMWARE OS Logo" class="logo" />
-
-    <div class="slogan">
-      <img src="slogan.png" alt="Emotion is Executable" />
-    </div>
-
-    <div id="cipher-container">
-      <!-- Cipher letter boxes -->
-      <div id="cipher-boxes"></div>
-      <p class="cipher-instructions">
-        <em>Tap <span class="green-text">green</span> to decrypt.</em>
-      </p>
-    </div>
-
-    <div id="access-granted-message" class="hidden">
-      <p class="access-text">Access granted. Running this may corrupt your soul...</p>
-      <button id="run-it-btn" class="glitch-btn hidden">RUN IT</button>
-    </div>
+  <div class="logo-container">
+    <img class="logo-main" src="assets/logo.png" alt="GRIMMWARE OS Logo"/>
+    <img class="tagline" src="assets/tagline.png" alt="Emotion is Executable"/>
   </div>
 
-  <!-- Strip Reveal Container (Initially hidden and JS-generated) -->
-  <div id="strips" class="hidden"></div>
+  <div class="decrypt-boxes">
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+  </div>
 
-  <!-- LANDING PAGE: Hidden until RUN IT is completed -->
+  <div class="decrypt-instruction">Tap the <span class="green-glow">GREEN</span> letter to lock it in...</div>
+
+  <div id="access-message" class="hidden"></div>
+
+  <button id="run-button">RUN IT</button>
+
+  <div id="gateway-overlay"></div>
+
   <div id="landing-page" class="hidden">
-    <p class="boot-text">GRIMMWARE OS Booted. Welcome.</p>
-    <img src="emotion-executable-banner.png" alt="Emotion is Executable Banner" class="lp-banner" />
-    <!-- Add more LP content here -->
+    <div class="lp-content">
+      <h1>Welcome to GrimmWare OS</h1>
+      <p>This is your system now.</p>
+    </div>
   </div>
 
   <script src="script.js"></script>
