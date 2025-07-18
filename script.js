@@ -1,9 +1,9 @@
-const boxes = document.querySelectorAll('.box');
+// === SETUP ===
+const boxes = document.querySelectorAll('.cipher-box');
 const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
 let currentGreenIndex = null;
-let solved = Array(boxes.length).fill(false);
-let greenCycleInterval = null;
-let redCycleInterval = null;
+let solved = Array(correctCode.length).fill(false);
+let charCycleInterval, greenCycleInterval;
 
 // === RANDOM CHAR ===
 function getRandomChar() {
@@ -11,9 +11,9 @@ function getRandomChar() {
   return chars.charAt(Math.floor(Math.random() * chars.length));
 }
 
-// === RED BOXES CYCLE ===
+// === RED BOX CHAR CYCLER ===
 function cycleCharacters() {
-  redCycleInterval = setInterval(() => {
+  charCycleInterval = setInterval(() => {
     boxes.forEach((box, i) => {
       if (!solved[i] && i !== currentGreenIndex) {
         box.textContent = getRandomChar();
@@ -22,133 +22,74 @@ function cycleCharacters() {
   }, 100);
 }
 
-// === GREEN BOX PULSE ===
-function startCycling() {
+// === GREEN BOX CYCLER ===
+function cycleGreenBox() {
   greenCycleInterval = setInterval(() => {
-    let next;
+    let nextIndex;
     do {
-      next = Math.floor(Math.random() * boxes.length);
-    } while (solved[next]);
+      nextIndex = Math.floor(Math.random() * boxes.length);
+    } while (solved[nextIndex]);
 
     boxes.forEach((box, i) => {
       if (!solved[i]) {
-        box.classList.remove('green');
-        box.style.backgroundColor = 'red';
-        box.style.boxShadow = '0 0 8px #ff0000';
+        box.classList.remove('correct');
       }
     });
 
-    currentGreenIndex = next;
-    const box = boxes[currentGreenIndex];
-    box.classList.add('green');
-    box.textContent = correctCode[currentGreenIndex];
-    box.style.backgroundColor = '#00ff00';
-    box.style.boxShadow = '0 0 8px #00ff00';
+    currentGreenIndex = nextIndex;
+    boxes[currentGreenIndex].classList.add('correct');
+    boxes[currentGreenIndex].textContent = correctCode[currentGreenIndex];
   }, 1500);
 }
 
-// === BOX CLICK ===
+// === CLICK TO SOLVE ===
 boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
     if (i === currentGreenIndex && !solved[i]) {
       solved[i] = true;
       box.textContent = correctCode[i];
-      box.style.backgroundColor = '#00ff00';
-      box.style.boxShadow = '0 0 12px #00ff00';
-      box.classList.add('green');
+      box.classList.add('correct');
 
       if (solved.every(Boolean)) {
+        clearInterval(charCycleInterval);
         clearInterval(greenCycleInterval);
-        clearInterval(redCycleInterval);
-        setTimeout(showAccessGranted, 800);
+        showAccessMessage();
       }
     }
   });
 });
 
-// === ACCESS GRANTED ===
-function showAccessGranted() {
-  const accessMessage = document.getElementById('access-message');
-  const runButton = document.getElementById('run-button');
-
-  const line1 = 'ACCESS GRANTED. SYSTEM UNLOCKED.';
-  const line2 = '>>> RUNNING THIS MAY CHANGE YOU.';
-
-  let index = 0;
-  accessMessage.classList.remove('hidden', 'glitch', 'blink');
-  accessMessage.textContent = '';
-
-  const typeInterval = setInterval(() => {
-    accessMessage.textContent += line1.charAt(index);
-    index++;
-    if (index === line1.length) {
-      clearInterval(typeInterval);
-      setTimeout(() => {
-        typeLine2();
-      }, 800);
-    }
-  }, 40);
-
-  function typeLine2() {
-    const wrapper = document.createElement('div');
-    wrapper.classList.add('line-two');
-    accessMessage.appendChild(wrapper);
-
-    let i = 0;
-    const interval = setInterval(() => {
-      if (i < line2.length) {
-        const charSpan = document.createElement('span');
-        charSpan.textContent = line2.charAt(i);
-        charSpan.classList.add('line2-char');
-        wrapper.appendChild(charSpan);
-        i++;
-      } else {
-        clearInterval(interval);
-        setTimeout(() => {
-          glitchRandomChars();
-          runButton.style.display = 'block';
-        }, 600);
-      }
-    }, 80);
-  }
-
-  function glitchRandomChars() {
-    const chars = document.querySelectorAll('.line2-char');
-    const totalGlitches = 8;
-    for (let i = 0; i < totalGlitches; i++) {
-      const rand = Math.floor(Math.random() * chars.length);
-      chars[rand].classList.add('glitch-char');
-    }
-  }
+// === ACCESS MESSAGE + RUN BUTTON ===
+function showAccessMessage() {
+  const message = document.getElementById('access-granted-message');
+  const runButton = document.getElementById('run-it');
+  message.classList.remove('hidden');
+  runButton.classList.remove('hidden');
 }
 
-// === RAIN TRIGGER ===
-document.getElementById('run-button').addEventListener('click', () => {
-  const overlay = document.getElementById('gateway-overlay');
-  overlay.innerHTML = '';
-  overlay.style.display = 'flex';
+// === RAIN EFFECT + PAGE TRANSITION ===
+document.getElementById('run-it').addEventListener('click', () => {
+  const stripsContainer = document.getElementById('strips');
+  stripsContainer.innerHTML = '';
 
-  for (let i = 0; i < 40; i++) {
+  for (let i = 0; i < 30; i++) {
     const strip = document.createElement('div');
     strip.classList.add('strip');
-    overlay.appendChild(strip);
-
-    setTimeout(() => {
-      strip.classList.add('rain-away');
-    }, i * 60);
+    strip.style.setProperty('--delay', `${i * 80}ms`);
+    stripsContainer.appendChild(strip);
   }
 
-  document.querySelector('.decrypt-boxes').style.display = 'none';
-  document.querySelector('.decrypt-instruction').style.display = 'none';
-  document.getElementById('access-message').style.display = 'none';
-  document.getElementById('run-button').style.display = 'none';
+  // Hide gateway UI
+  document.getElementById('gateway').style.display = 'none';
 
+  // Wait for rain to finish
   setTimeout(() => {
-    document.getElementById('gateway-screen').style.display = 'none';
-    document.getElementById('landing-page').style.display = 'flex';
-  }, 40 * 60 + 1400);
+    document.getElementById('landing-page').classList.remove('hidden');
+  }, 3000);
 });
 
 // === INIT ===
-cycleCharacters();
-startCycling();
+window.addEventListener('DOMContentLoaded', () => {
+  cycleCharacters();
+  cycleGreenBox();
+});
