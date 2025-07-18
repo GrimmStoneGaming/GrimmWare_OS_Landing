@@ -11,6 +11,62 @@ body {
   height: 100vh;
   overflow: hidden;
 }
+/* === SPACING FIXES === */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+
+.logo-container {
+  margin-bottom: 20px;
+}
+
+.logo-container img.logo-main {
+  margin-bottom: 20px;
+}
+
+.logo-container img.tagline {
+  margin-top: 0px;
+}
+
+#run-button {
+  margin-top: 20px;
+}
+
+/* === RAIN STRIP OVERLAY === */
+#gateway-overlay {
+  z-index: 3;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: row;
+  pointer-events: none;
+}
+
+.strip {
+  flex: 1;
+  background: black;
+  opacity: 1;
+}
+
+/* === RAIN DROP ANIMATION === */
+.rain-away {
+  animation: fallStrip 1.4s forwards;
+}
+
+@keyframes fallStrip {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100vh);
+  }
+}
 
 /* === LOGO HEADER === */
 .logo-container {
