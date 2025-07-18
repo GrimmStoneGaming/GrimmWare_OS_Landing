@@ -3,7 +3,7 @@ const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
 let currentGreenIndex = null;
 let intervalId = null;
 let solved = Array(boxes.length).fill(false);
-let transitionInProgress = false; // <- Anti-spam lock
+let transitionInProgress = false; // Anti-spam lock
 
 // === Random Char Generator ===
 function getRandomChar() {
@@ -64,7 +64,7 @@ boxes.forEach((box, i) => {
     }
   });
 
-  // Optional accessibility improvement
+  // Accessibility note:
   // box.setAttribute('aria-label', `Decryption character ${i + 1}`);
 });
 
@@ -129,7 +129,7 @@ function showAccessGranted() {
 
 // === RUN BUTTON WIPES SCREEN ===
 document.getElementById('run-button').addEventListener('click', () => {
-  if (transitionInProgress) return; // Anti-spam protection
+  if (transitionInProgress) return; // Prevent rapid double fire
   transitionInProgress = true;
 
   const overlay = document.getElementById('gateway-overlay');
@@ -141,12 +141,14 @@ document.getElementById('run-button').addEventListener('click', () => {
   for (let i = 0; i < numStrips; i++) {
     const strip = document.createElement('div');
     strip.classList.add('strip');
+    strip.style.left = `${(i * 100) / numStrips}%`;
+    strip.style.width = `${100 / numStrips}%`;
     strip.style.animationDelay = `${i * 80}ms`;
-    strip.style.zIndex = 1100; // Uniform z-index works fine
+    strip.style.zIndex = 1100;
     overlay.appendChild(strip);
   }
 
-  // 80ms * 30 strips = 2400ms, plus 1000ms buffer = 3400ms
+  // Allow full wipe to complete before switching screens
   setTimeout(() => {
     document.getElementById('gateway-ui').style.display = 'none';
     overlay.style.display = 'none';
