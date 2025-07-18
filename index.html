@@ -6,6 +6,12 @@
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="images/gwos-favicon.png">
   <style>
+    body {
+      margin: 0;
+      background: black;
+      overflow: hidden;
+    }
+
     #gateway-screen,
     #landing-page {
       position: absolute;
@@ -13,32 +19,54 @@
       left: 0;
       width: 100vw;
       height: 100vh;
+    }
+
+    #landing-page {
+      z-index: 1;
+      opacity: 1;
+      pointer-events: none;
+      color: #00ff66;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #gateway-overlay {
+      z-index: 2;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+    }
+
+    .strip {
+      flex: 1;
+      background: black;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: none;
+    }
+
+    .strip-content {
+      width: 100%;
+      height: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
     }
 
-    #landing-page {
-      z-index: 1;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 1.5s ease-in-out;
-      color: #00ff66;
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 2rem;
-      background-color: black;
-    }
-
-    #gateway-screen {
-      z-index: 2;
-    }
-
     .rain-away {
-      animation: rainAway 1.5s forwards;
+      animation: fallStrip 1.4s forwards;
     }
 
-    @keyframes rainAway {
+    @keyframes fallStrip {
       0% {
         opacity: 1;
         transform: translateY(0);
@@ -52,51 +80,71 @@
 </head>
 <body>
 
-  <!-- LANDING PAGE (Boot Display Placeholder) -->
   <div id="landing-page">
-    <div>GRIMMWARE OS BOOT COMPLETE.</div>
+    GRIMMWARE OS BOOT COMPLETE.
   </div>
 
-  <!-- GATEWAY SCREEN WRAPPER -->
-  <div id="gateway-screen">
-    <div class="logo-container">
-      <img src="images/grimmware-logo.png" alt="GRIMMWARE OS Logo" class="logo-main">
-      <img src="images/emotion-is-executable.png" alt="Emotion Is Executable" class="tagline">
-    </div>
+  <div id="gateway-overlay"></div>
 
-    <div class="decrypt-boxes">
-      <div class="box" id="box0">G</div>
-      <div class="box" id="box1">W</div>
-      <div class="box" id="box2">O</div>
-      <div class="box" id="box3">S</div>
-      <div class="separator">_</div>
-      <div class="box" id="box4">E</div>
-      <div class="box" id="box5">X</div>
-      <div class="box" id="box6">E</div>
-    </div>
-
-    <div class="decrypt-instruction">
-      Tap <span class="green-glow">green</span> to decrypt.
-    </div>
-
-    <div id="access-message" class="access-message hidden"></div>
-    <button id="run-button" class="run-it-button hidden">>>> RUN IT</button>
-  </div>
-
-  <script src="script.js" defer></script>
   <script>
-    const runBtn = document.getElementById('run-button');
-    const gatewayScreen = document.getElementById('gateway-screen');
-    const landingPage = document.getElementById('landing-page');
+    const overlay = document.getElementById('gateway-overlay');
+    const runBtn = document.createElement('button');
+    runBtn.textContent = '>>> RUN IT';
+    runBtn.id = 'run-button';
+    runBtn.style.padding = '14px 34px';
+    runBtn.style.fontSize = '1.2rem';
+    runBtn.style.fontWeight = '900';
+    runBtn.style.fontFamily = 'Courier New, monospace';
+    runBtn.style.color = 'black';
+    runBtn.style.backgroundColor = '#ff1a1a';
+    runBtn.style.border = 'none';
+    runBtn.style.borderRadius = '6px';
+    runBtn.style.cursor = 'pointer';
+    runBtn.style.zIndex = '3';
+    runBtn.style.position = 'absolute';
+    runBtn.style.bottom = '40px';
+    runBtn.style.left = '50%';
+    runBtn.style.transform = 'translateX(-50%)';
+
+    document.body.appendChild(runBtn);
+
+    // Create 30 strips across the screen
+    const stripCount = 30;
+    for (let i = 0; i < stripCount; i++) {
+      const strip = document.createElement('div');
+      strip.classList.add('strip');
+      const content = document.createElement('div');
+      content.classList.add('strip-content');
+      content.innerHTML = `
+        <div class="logo-container">
+          <img src="images/grimmware-logo.png" alt="GRIMMWARE OS Logo" class="logo-main">
+          <img src="images/emotion-is-executable.png" alt="Emotion Is Executable" class="tagline">
+        </div>
+        <div class="decrypt-boxes">
+          <div class="box">G</div>
+          <div class="box">W</div>
+          <div class="box">O</div>
+          <div class="box">S</div>
+          <div class="separator">_</div>
+          <div class="box">E</div>
+          <div class="box">X</div>
+          <div class="box">E</div>
+        </div>
+        <div class="decrypt-instruction">
+          Tap <span class="green-glow">green</span> to decrypt.
+        </div>
+      `;
+      strip.appendChild(content);
+      overlay.appendChild(strip);
+    }
 
     runBtn.addEventListener('click', () => {
-      [...gatewayScreen.children].forEach(el => el.classList.add('rain-away'));
-
-      setTimeout(() => {
-        gatewayScreen.style.display = 'none';
-        landingPage.style.opacity = '1';
-        landingPage.style.pointerEvents = 'auto';
-      }, 1600);
+      const strips = document.querySelectorAll('.strip');
+      strips.forEach((strip, i) => {
+        setTimeout(() => {
+          strip.classList.add('rain-away');
+        }, Math.random() * 1200);
+      });
     });
   </script>
 </body>
