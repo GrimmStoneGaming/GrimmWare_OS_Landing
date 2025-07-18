@@ -157,14 +157,18 @@ document.getElementById('run-button').addEventListener('click', () => {
 
   const totalCoverTime = (numStrips * delayBetween) + fallDuration;
 
-  // === PHASE 3 & 4: LANDING PAGE REVEAL + STRIPS FALL AWAY ===
+ // === PHASE 3 & 4: LANDING PAGE REVEAL + STRIPS FALL AWAY ===
 setTimeout(() => {
   // Turn on LP underneath (still hidden)
   landingPage.style.display = 'flex';
   landingPage.style.opacity = 0;
   landingPage.style.transition = 'opacity 1s ease';
 
-  // STRIPS FALL AWAY
+  // Hide gateway UI BEFORE fade begins
+  gatewayUI.style.opacity = 0;
+  gatewayUI.style.display = 'none';
+
+  // Start STRIPS FALL AWAY animation
   const coverStrips = document.querySelectorAll('.strip.cover');
   coverStrips.forEach((strip, idx) => {
     strip.style.animation = 'fall 0.6s forwards';
@@ -173,10 +177,9 @@ setTimeout(() => {
 
   // Fade in LP beneath as strips fall
   setTimeout(() => {
-    gatewayUI.style.display = 'none';
-    overlay.style.display = 'none';
     landingPage.style.opacity = 1;
-  }, numStrips * delayBetween + 600); // wait for strips to fall off
+    overlay.style.display = 'none';
+  }, numStrips * delayBetween + 800); // wait for strips to fall off
 
 }, totalCoverTime + 600); // Slight pause after blackout to feel weighty
 });
