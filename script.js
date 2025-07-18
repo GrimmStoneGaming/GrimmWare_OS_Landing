@@ -65,20 +65,36 @@ boxes.forEach((box, i) => {
 });
 
 // === Glitch Typing Effect ===
-function glitchTypeText(target, finalText, delay = 100, glitchChars = "!@#$%^&*()_+[]{}<>?|/\\") {
-  let index = 0;
-
-  const interval = setInterval(() => {
-    let displayText = '';
-    for (let i = 0; i < finalText.length; i++) {
-      if (i < index) {
-        displayText += finalText[i];
-      } else if (i === index) {
-        displayText += glitchChars[Math.floor(Math.random() * glitchChars.length)];
-      } else {
-        displayText += ' ';
-      }
+function typeText(target, text, delay = 60, callback = null) {
+  let i = 0;
+  let interval = setInterval(() => {
+    target.textContent = text.substring(0, i);
+    i++;
+    if (i > text.length) {
+      clearInterval(interval);
+      if (callback) callback(); // Glitch starts AFTER
     }
+  }, delay);
+}
+function startIdleGlitch(target, originalText, frequency = 150) {
+  const glitchChars = "!@#$%^&*()_+=~{}|<>?/\\";
+  let glitchInterval = setInterval(() => {
+    let glitchedText = originalText.split('').map((char, i) => {
+      if (Math.random() < 0.05 && char !== ' ') {
+        return glitchChars[Math.floor(Math.random() * glitchChars.length)];
+      } else {
+        return char;
+      }
+    }).join('');
+    target.textContent = glitchedText;
+  }, frequency);
+
+  // Stop glitch on mouseover, if needed:
+  target.addEventListener('mouseenter', () => {
+    clearInterval(glitchInterval);
+    target.textContent = originalText;
+  });
+}
 
     target.textContent = displayText;
 
@@ -96,7 +112,7 @@ function showAccessGranted() {
   const accessMessage = document.getElementById('access-message');
   const grantedLine = accessMessage.querySelector('.granted');
   const warningLine = accessMessage.querySelector('.warning');
-  const runWrapper = document.querySelector('.run-button-wrapper');
+  const runWrapper = document.getElementById('run-wrapper');
 
   grantedLine.textContent = '';
   warningLine.textContent = '';
@@ -105,6 +121,22 @@ function showAccessGranted() {
 
   const grantedText = 'ACCESS GRANTED. SYSTEM UNLOCKED.';
   const warningText = '>>> WARNING: THIS MAY CHANGE YOU.';
+
+  // Type out granted first
+  typeText(grantedLine, grantedText, 40, () => {
+    // Then type the warning
+    typeText(warningLine, warningText, 75, () => {
+      // Then start glitch loop
+      startIdleGlitch(warningLine, warningText);
+
+      // Then glitch RUN IT in
+      setTimeout(() => {
+        runWrapper.classList.add('glitch-in');
+        runWrapper.style.display = 'block';
+      }, 600);
+    });
+  });
+}
 
   let index = 0;
 
