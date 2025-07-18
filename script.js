@@ -3,6 +3,7 @@ const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
 let currentGreenIndex = null;
 let intervalId = null;
 let solved = Array(boxes.length).fill(false);
+let stripTriggered = false; // ← added safety
 
 // === Random Char Generator ===
 function getRandomChar() {
@@ -72,7 +73,7 @@ function typeText(target, text, delay = 60, callback = null) {
     i++;
     if (i > text.length) {
       clearInterval(interval);
-      if (callback) callback(); // Glitch starts AFTER
+      if (callback) callback();
     }
   }, delay);
 }
@@ -111,14 +112,9 @@ function showAccessGranted() {
   const grantedText = 'ACCESS GRANTED. SYSTEM UNLOCKED.';
   const warningText = '>>> WARNING: THIS MAY CHANGE YOU.';
 
-  // Type out granted first
   typeText(grantedLine, grantedText, 40, () => {
-    // Then type the warning
     typeText(warningLine, warningText, 75, () => {
-      // Start idle glitch after warning typed
       startIdleGlitch(warningLine, warningText);
-
-      // Glitch in the RUN IT button
       setTimeout(() => {
         runWrapper.classList.add('glitch-in');
         runWrapper.style.display = 'block';
@@ -129,6 +125,9 @@ function showAccessGranted() {
 
 // === RUN BUTTON WIPES SCREEN ===
 document.getElementById('run-button').addEventListener('click', () => {
+  if (stripTriggered) return; // block double click
+  stripTriggered = true;
+
   const overlay = document.getElementById('gateway-overlay');
   overlay.innerHTML = '';
 
@@ -140,15 +139,16 @@ document.getElementById('run-button').addEventListener('click', () => {
     overlay.appendChild(strip);
   }
 
-  document.querySelector('.decrypt-wrapper').style.display = 'none';
-  document.querySelector('.decrypt-instruction').style.display = 'none';
-  document.getElementById('access-message').style.display = 'none';
-  document.querySelector('.run-button-wrapper').style.display = 'none';
-
+  // Show wipe animation
   overlay.style.display = 'flex';
 
+  // Hide cipher UI
+  document.getElementById('gateway-ui').style.display = 'none';
+
+  // Wait for strip finish
   setTimeout(() => {
-    document.getElementById('landing-page').style.display = 'flex';
+    overlay.style.display = 'none';
+    // Landing page is already visible beneath
   }, numStrips * 80 + 1000);
 });
 
