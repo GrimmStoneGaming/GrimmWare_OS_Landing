@@ -10,7 +10,7 @@ function getRandomChar() {
   return chars[Math.floor(Math.random() * chars.length)];
 }
 
-// === Cycle Random Characters ===
+// === Character Cycling ===
 function cycleCharacters() {
   setInterval(() => {
     boxes.forEach((box, i) => {
@@ -21,7 +21,7 @@ function cycleCharacters() {
   }, 100);
 }
 
-// === Green Pulse Box Targeting ===
+// === Highlight One Green at a Time ===
 function startCycling() {
   intervalId = setInterval(() => {
     let nextIndex;
@@ -46,7 +46,7 @@ function startCycling() {
   }, 1500);
 }
 
-// === Box Click Logic ===
+// === Box Click Handler ===
 boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
     if (i === currentGreenIndex && !solved[i]) {
@@ -64,7 +64,27 @@ boxes.forEach((box, i) => {
   });
 });
 
-// === ACCESS GRANTED SEQUENCE ===
+// === Glitch Typing Effect ===
+function glitchTypeText(target, finalText, delay = 100, glitchChars = "!@#$%^&*()_+[]{}<>?") {
+  let index = 0;
+  const interval = setInterval(() => {
+    let displayText = '';
+    for (let i = 0; i < index; i++) {
+      displayText += finalText[i];
+    }
+    if (index < finalText.length) {
+      displayText += glitchChars[Math.floor(Math.random() * glitchChars.length)];
+    }
+    target.textContent = displayText;
+    index++;
+    if (index > finalText.length) {
+      clearInterval(interval);
+      target.textContent = finalText;
+    }
+  }, delay);
+}
+
+// === ACCESS GRANTED + WARNING ===
 function showAccessGranted() {
   const accessMessage = document.getElementById('access-message');
   const grantedLine = accessMessage.querySelector('.granted');
@@ -86,16 +106,15 @@ function showAccessGranted() {
     index++;
     if (index === grantedText.length) {
       clearInterval(typeInterval);
-
       setTimeout(() => {
-        warningLine.textContent = warningText;
+        glitchTypeText(warningLine, warningText, 120);
         runWrapper.style.display = 'block';
       }, 1000);
     }
   }, 50);
 }
 
-// === STRIP WIPE + LP REVEAL ===
+// === RUN BUTTON WIPES SCREEN ===
 document.getElementById('run-button').addEventListener('click', () => {
   const overlay = document.getElementById('gateway-overlay');
   overlay.innerHTML = '';
