@@ -69,3 +69,7 @@ Stay tuned. The system is still compiling.
 
 **Welcome to the OS.**  
 **RUN IT.**
+
+## Quick Access
+- [GWOS Gateway](https://grimmstonegaming.github.io/GrimmWare_OS_Landing/gateway/)
+
