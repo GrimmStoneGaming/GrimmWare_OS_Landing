@@ -265,13 +265,17 @@ h1, h2, h3, p {
 }
 
 .btn-cyan {
-  color: #00ffff;
-  border-color: #00ffff;
+  color: rgba(0, 255, 255, 0.25); /* faint cyan */
+  border-color: rgba(0, 255, 255, 0.15);
+  background-color: transparent;
+  filter: drop-shadow(0 0 4px rgba(0, 255, 255, 0.05));
 }
 
 .btn-cyan:hover {
-  background-color: #00ffff;
-  color: #000;
+  background-color: rgba(0, 255, 255, 0.1);
+  color: rgba(0, 255, 255, 0.6);
+  border-color: rgba(0, 255, 255, 0.35);
+  filter: drop-shadow(0 0 6px rgba(0, 255, 255, 0.2));
 }
 
 /* ========== HIGHLIGHT COLORS ========== */
