@@ -138,37 +138,37 @@ document.getElementById('run-button').addEventListener('click', () => {
 
   const numStrips = 30;
   const delayBetween = 80;
-  const totalDuration = numStrips * delayBetween + 1000;
+  const stripFallDuration = 600; // Matches @keyframes fall
+  const totalFallTime = numStrips * delayBetween + stripFallDuration;
 
-  // STEP 1: Add strips
+  // Add strips
   for (let i = 0; i < numStrips; i++) {
     const strip = document.createElement('div');
     strip.classList.add('strip');
-    strip.style.animationDelay = `${i * delayBetween}ms`;
-    strip.style.zIndex = 1100;
+    strip.style.left = `${(100 / numStrips) * i}%`;
+    strip.style.width = `${100 / numStrips}%`;
+    strip.style.animationDelay = `${i * delayBetween}ms`; // <-- Fixed: added 'ms'
     overlay.appendChild(strip);
   }
 
-  // STEP 2: Trigger animation on next frame
-  requestAnimationFrame(() => {
-    overlay.classList.add('active');
-  });
-
-  // STEP 3: Transition between gateway and landing page
-  gatewayUI.style.transition = `opacity ${totalDuration - 1000}ms ease`;
-  gatewayUI.style.opacity = 0;
-
+  // Start fade AFTER the last strip finishes falling
   setTimeout(() => {
-    gatewayUI.style.display = 'none';
-    landingPage.style.display = 'flex';
-    landingPage.style.opacity = 0;
-    landingPage.style.transition = 'opacity 1s ease';
-    requestAnimationFrame(() => {
-      landingPage.style.opacity = 1;
-    });
+    gatewayUI.style.transition = 'opacity 1s ease'; // <-- Uniform format
+    gatewayUI.style.opacity = 0;
 
-    overlay.style.display = 'none';
-  }, totalDuration);
+    setTimeout(() => {
+      gatewayUI.style.display = 'none';
+      overlay.style.display = 'none';
+
+      landingPage.style.display = 'flex';
+      landingPage.style.opacity = 0;
+      landingPage.style.transition = 'opacity 1s ease';
+      requestAnimationFrame(() => {
+        landingPage.style.opacity = 1;
+      });
+    }, 1000); // delay fade-in until gateway fully hidden
+
+  }, totalFallTime);
 });
 
 // === INIT ===
