@@ -7,29 +7,38 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
+  <!-- LOGO + TAGLINE -->
   <div class="logo-container">
     <img class="logo-main" src="assets/logo.png" alt="GRIMMWARE OS Logo"/>
     <img class="tagline" src="assets/tagline.png" alt="Emotion is Executable"/>
   </div>
 
+  <!-- CIPHER BOXES -->
   <div class="decrypt-boxes">
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
+    <div class="box" id="box0">G</div>
+    <div class="box" id="box1">W</div>
+    <div class="box" id="box2">O</div>
+    <div class="box" id="box3">S</div>
+    <div class="separator">_</div>
+    <div class="box" id="box4">E</div>
+    <div class="box" id="box5">X</div>
+    <div class="box" id="box6">E</div>
   </div>
 
-  <div class="decrypt-instruction">Tap the <span class="green-glow">GREEN</span> letter to lock it in...</div>
+  <!-- INSTRUCTION -->
+  <div class="decrypt-instruction">Tap <span class="green-glow">green</span> to decrypt.</div>
 
+  <!-- ACCESS MESSAGE -->
   <div id="access-message" class="hidden"></div>
 
-  <button id="run-button">RUN IT</button>
+  <!-- RUN BUTTON -->
+  <button id="run-button" class="hidden">>>> RUN IT</button>
 
+  <!-- GATEWAY STRIP OVERLAY -->
   <div id="gateway-overlay"></div>
 
+  <!-- PRELOADED LANDING PAGE -->
   <div id="landing-page" class="hidden">
     <div class="lp-content">
       <h1>Welcome to GrimmWare OS</h1>
@@ -37,6 +46,8 @@
     </div>
   </div>
 
+  <!-- SCRIPT -->
   <script src="script.js"></script>
+
 </body>
 </html>
