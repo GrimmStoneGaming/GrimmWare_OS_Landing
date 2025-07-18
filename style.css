@@ -411,7 +411,7 @@ iframe {
 }
 
 .lyrics-box {
-  height: 260px !important;
+  height: 260px;
   overflow-y: auto;
   background-color: rgba(255, 255, 255, 0.05);
   padding: 20px;
@@ -422,6 +422,13 @@ iframe {
   line-height: 1.6;
   font-size: 1rem;
   font-family: 'Courier New', Courier, monospace;
+}
+
+.lyrics-box p {
+  font-size: 1rem !important;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  word-break: break-word;
 }
 
 /* Subtle interactive terminal-style element */
