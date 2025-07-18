@@ -308,7 +308,6 @@ h1, h2, h3, p {
 }
 
 /* ========== KEYFRAMES ========== */
-/* ========== KEYFRAMES ========== */
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -333,22 +332,22 @@ h1, h2, h3, p {
 
 @keyframes hackerFlicker {
   0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-    opacity: 0.25;
+    opacity: 0.35;
     text-shadow: none;
-    filter: drop-shadow(0 0 0px rgba(111, 43, 122, 0));
+    filter: drop-shadow(0 0 2px rgba(139, 68, 164, 0.15));
   }
   20%, 24%, 55% {
-    opacity: 0.85;
-    text-shadow: 0 0 6px rgba(111, 43, 122, 0.5);
-    filter: drop-shadow(0 0 10px rgba(111, 43, 122, 0.6));
+    opacity: 0.95;
+    text-shadow: 0 0 8px rgba(139, 68, 164, 0.6);
+    filter: drop-shadow(0 0 12px rgba(139, 68, 164, 0.7));
   }
   22%, 26% {
-    opacity: 0.5;
-    text-shadow: 0 0 3px rgba(111, 43, 122, 0.3);
-    filter: drop-shadow(0 0 6px rgba(111, 43, 122, 0.4));
+    opacity: 0.6;
+    text-shadow: 0 0 4px rgba(139, 68, 164, 0.4);
+    filter: drop-shadow(0 0 8px rgba(139, 68, 164, 0.5));
   }
   40% {
-    opacity: 0.15;
+    opacity: 0.2;
     text-shadow: none;
     filter: none;
   }
