@@ -124,7 +124,7 @@ function showAccessGranted() {
   });
 }
 
-// === RUN BUTTON 2-PHASE CURTAIN REVEAL ===
+// === RUN BUTTON WIPES SCREEN ===
 document.getElementById('run-button').addEventListener('click', () => {
   if (transitionInProgress) return;
   transitionInProgress = true;
@@ -142,48 +142,49 @@ document.getElementById('run-button').addEventListener('click', () => {
   const holdBeforeReveal = 1200;
   const revealDuration = 500;
 
-  // === PHASE 1: COVER
+  // === PHASE 1: COVER ===
+  let indexes = Array.from({ length: numStrips }, (_, i) => i);
+  indexes.sort(() => Math.random() - 0.5); // shuffle order
+
   for (let i = 0; i < numStrips; i++) {
     const strip = document.createElement('div');
     strip.classList.add('strip', 'cover');
-    strip.style.left = `${(100 / numStrips) * i}%`;
+    strip.style.left = `${(100 / numStrips) * indexes[i]}%`;
     strip.style.width = `${100 / numStrips}%`;
-    strip.style.animationDelay = `${i * delayBetween}ms`;
+    strip.style.animationDelay = `${indexes[i] * delayBetween}ms`;
     overlay.appendChild(strip);
   }
 
   const totalCoverTime = (numStrips * delayBetween) + fallDuration;
 
-  // === PHASE 2: UI HIDE + STRIP REVEAL
+  // === PHASE 2: UI HIDE + STRIP REVEAL ===
   setTimeout(() => {
-    // Fade out the gateway elements underneath
     gatewayUI.style.transition = 'opacity 0.6s ease';
     gatewayUI.style.opacity = 0;
-  }, totalCoverTime + 300); // a brief hold after full cover
+  }, totalCoverTime + 300); // small pause after blackout
 
-  // === PHASE 3: Unveil landing page
+  // === PHASE 3: Switch strips to reveal ===
   setTimeout(() => {
-    // Switch overlay strip animation to reveal
-    const strips = overlay.querySelectorAll('.strip');
+    const strips = document.querySelectorAll('.strip');
     strips.forEach((strip, i) => {
       strip.classList.remove('cover');
       strip.classList.add('reveal');
-      strip.style.animationDelay = `${i * delayBetween}ms`;
+      strip.style.animationDelay = `${i * delayBetween}ms`; // same stagger for reveal
     });
-
-    // Landing page reveal underneath
-    setTimeout(() => {
-      gatewayUI.style.display = 'none';
-      overlay.style.display = 'none';
-
-      landingPage.style.display = 'flex';
-      landingPage.style.opacity = 0;
-      landingPage.style.transition = 'opacity 1s ease';
-      requestAnimationFrame(() => {
-        landingPage.style.opacity = 1;
-      });
-    }, (numStrips * delayBetween) + revealDuration);
   }, totalCoverTime + holdBeforeReveal);
+
+  // === PHASE 4: Show landing page ===
+  setTimeout(() => {
+    overlay.style.display = 'none';
+    gatewayUI.style.display = 'none';
+
+    landingPage.style.display = 'flex';
+    landingPage.style.opacity = 0;
+    landingPage.style.transition = 'opacity 1s ease';
+    requestAnimationFrame(() => {
+      landingPage.style.opacity = 1;
+    });
+  }, totalCoverTime + holdBeforeReveal + (numStrips * delayBetween) + revealDuration);
 });
 
 // === INIT ===
