@@ -217,7 +217,6 @@ h1, h2, h3, p {
   gap: 2rem;
   margin: 30px auto;
   max-width: 800px;
-  position: relative; /* Needed for pinning the right-button */
 }
 
 .left-buttons {
@@ -236,11 +235,12 @@ h1, h2, h3, p {
 }
 
 .right-button {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
+  margin-top: 10px;
+  transform: scale(0.75); /* 25% smaller */
+  transform-origin: center;
 }
 
+/* BUTTON STYLES */
 .btn-red,
 .btn-cyan {
   padding: 12px 20px;
@@ -270,6 +270,7 @@ h1, h2, h3, p {
   background-color: #00ffff;
   color: #000;
 }
+
 
 
 /* ========== HIGHLIGHT COLORS ========== */
