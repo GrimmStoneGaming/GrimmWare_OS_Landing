@@ -4,13 +4,13 @@ let currentGreenIndex = null;
 let intervalId = null;
 let solved = Array(boxes.length).fill(false);
 
-// Generate random alphanumeric character
+// Random char generator
 function getRandomChar() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return chars.charAt(Math.floor(Math.random() * chars.length));
 }
 
-// Cycle characters in unsolved red boxes
+// Cycle characters in red unsolved boxes
 function cycleCharacters() {
   setInterval(() => {
     boxes.forEach((box, i) => {
@@ -21,7 +21,7 @@ function cycleCharacters() {
   }, 100);
 }
 
-// Pulse one random box green every 1.5s
+// Pulse one green box with correct char
 function startCycling() {
   intervalId = setInterval(() => {
     let nextIndex;
@@ -29,7 +29,6 @@ function startCycling() {
       nextIndex = Math.floor(Math.random() * boxes.length);
     } while (solved[nextIndex]);
 
-    // Reset unsolved boxes to red
     boxes.forEach((box, i) => {
       if (!solved[i]) {
         box.classList.remove('green');
@@ -38,7 +37,6 @@ function startCycling() {
       }
     });
 
-    // Highlight one box green with correct letter
     currentGreenIndex = nextIndex;
     const box = boxes[currentGreenIndex];
     box.classList.add('green');
@@ -48,7 +46,7 @@ function startCycling() {
   }, 1500);
 }
 
-// Handle box click to solve correct box
+// Box click check
 boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
     if (i === currentGreenIndex && !solved[i]) {
@@ -58,7 +56,6 @@ boxes.forEach((box, i) => {
       box.style.boxShadow = '0 0 12px #00ff00';
       box.classList.add('green');
 
-      // Check if all are solved
       if (solved.every(Boolean)) {
         clearInterval(intervalId);
         setTimeout(showAccessGranted, 1000);
@@ -67,7 +64,7 @@ boxes.forEach((box, i) => {
   });
 });
 
-// Reveal typewriter message + show run button
+// Typewriter + glitch message
 function showAccessGranted() {
   const accessMessage = document.getElementById('access-message');
   const runButton = document.getElementById('run-button');
@@ -76,25 +73,20 @@ function showAccessGranted() {
   const line2 = '>>> RUNNING THIS MAY CHANGE YOU.';
 
   let index = 0;
-
   accessMessage.classList.remove('hidden', 'glitch', 'blink');
   accessMessage.textContent = '';
 
-  // Line 1 typing
   const typeInterval = setInterval(() => {
     accessMessage.textContent += line1.charAt(index);
     index++;
     if (index === line1.length) {
       clearInterval(typeInterval);
-
-      // Pause before line 2
       setTimeout(() => {
         typeLine2();
       }, 1000);
     }
   }, 50);
 
-  // Line 2 slow type effect with red styling + span wrapping
   function typeLine2() {
     const wrapper = document.createElement('div');
     wrapper.classList.add('line-two');
@@ -111,17 +103,14 @@ function showAccessGranted() {
       } else {
         clearInterval(interval);
         setTimeout(() => {
-          glitchRandomChars(); // Begin glitching effect
-       // Add glitchy pulse to the RUN IT button
-runButton.style.display = 'block';
-runButton.classList.add('glitch'); // Optional if you want a toggle class
-
+          glitchRandomChars();
+          runButton.style.display = 'block';
+          runButton.classList.add('glitch');
         }, 800);
       }
-    }, 100); // Slower typing speed
+    }, 100);
   }
 
-  // Random flicker glitch
   function glitchRandomChars() {
     const chars = document.querySelectorAll('.line2-char');
     const totalGlitches = 8;
@@ -132,13 +121,39 @@ runButton.classList.add('glitch'); // Optional if you want a toggle class
   }
 }
 
-
-// RUN IT button action placeholder
+// Run button action: trigger rain-away
 document.getElementById('run-button').addEventListener('click', () => {
-  console.log("RUN IT button clicked — trigger LP or next sequence here.");
-  // Future integration point: trigger fade-out or LP reveal
+  createRainOverlay();
+  triggerRainAway();
 });
 
-// Init cycles
+// === RAIN AWAY EFFECT ===
+function createRainOverlay() {
+  const overlay = document.getElementById('gateway-overlay');
+  overlay.innerHTML = '';
+
+  const numStrips = 40;
+  for (let i = 0; i < numStrips; i++) {
+    const strip = document.createElement('div');
+    strip.classList.add('strip');
+    overlay.appendChild(strip);
+  }
+}
+
+function triggerRainAway() {
+  const strips = document.querySelectorAll('.strip');
+  strips.forEach((strip, index) => {
+    setTimeout(() => {
+      strip.classList.add('rain-away');
+    }, index * 50);
+  });
+
+  setTimeout(() => {
+    document.getElementById('gateway-screen').style.display = 'none';
+    document.getElementById('landing-page').style.display = 'flex';
+  }, strips.length * 50 + 1500);
+}
+
+// Start cycling on load
 cycleCharacters();
 startCycling();
