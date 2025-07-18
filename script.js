@@ -3,7 +3,6 @@ const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
 let currentGreenIndex = null;
 let intervalId = null;
 let solved = Array(boxes.length).fill(false);
-let stripTriggered = false; // ← added safety
 
 // === Random Char Generator ===
 function getRandomChar() {
@@ -115,6 +114,7 @@ function showAccessGranted() {
   typeText(grantedLine, grantedText, 40, () => {
     typeText(warningLine, warningText, 75, () => {
       startIdleGlitch(warningLine, warningText);
+
       setTimeout(() => {
         runWrapper.classList.add('glitch-in');
         runWrapper.style.display = 'block';
@@ -125,30 +125,25 @@ function showAccessGranted() {
 
 // === RUN BUTTON WIPES SCREEN ===
 document.getElementById('run-button').addEventListener('click', () => {
-  if (stripTriggered) return; // block double click
-  stripTriggered = true;
-
   const overlay = document.getElementById('gateway-overlay');
   overlay.innerHTML = '';
+  overlay.style.display = 'flex';
 
   const numStrips = 30;
+
   for (let i = 0; i < numStrips; i++) {
     const strip = document.createElement('div');
     strip.classList.add('strip');
     strip.style.animationDelay = `${i * 80}ms`;
+    strip.style.zIndex = 1100 + i;
     overlay.appendChild(strip);
   }
 
-  // Show wipe animation
-  overlay.style.display = 'flex';
-
-  // Hide cipher UI
-  document.getElementById('gateway-ui').style.display = 'none';
-
-  // Wait for strip finish
+  // Hide all gateway content *after* strips fall
   setTimeout(() => {
+    document.getElementById('gateway-ui').style.display = 'none';
     overlay.style.display = 'none';
-    // Landing page is already visible beneath
+    document.getElementById('landing-page').style.display = 'flex';
   }, numStrips * 80 + 1000);
 });
 
