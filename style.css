@@ -22,15 +22,15 @@ body {
 }
 
 .logo-main {
-  max-height: 280px; /* doubled from 140px */
+  max-height: 280px; /* Doubled logo */
   margin-bottom: 15px;
   filter: drop-shadow(0 0 12px red);
 }
 
 .tagline {
-  max-height: 160px; /* doubled from 80px (prev), adjusted for visual balance */
+  max-height: 80px; /* Back to original */
   margin-top: 0;
-  filter: drop-shadow(0 0 10px #00ffcc);
+  filter: drop-shadow(0 0 6px #00ffcc);
 }
 
 /* === DECRYPT WRAPPER PANEL (NEW) === */
