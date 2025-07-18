@@ -34,7 +34,7 @@
     }
 
     #gateway-overlay {
-      z-index: 2;
+      z-index: 3;
       position: absolute;
       top: 0;
       left: 0;
@@ -46,20 +46,7 @@
     .strip {
       flex: 1;
       background: black;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
       animation: none;
-    }
-
-    .strip-content {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
     }
 
     .rain-away {
@@ -76,65 +63,59 @@
         transform: translateY(100vh);
       }
     }
+
+    #run-button {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 4;
+      padding: 14px 34px;
+      font-size: 1.2rem;
+      font-weight: 900;
+      font-family: 'Courier New', monospace;
+      color: black;
+      background-color: #ff1a1a;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      animation: glitchBtn 1s infinite alternate;
+    }
+
+    @keyframes glitchBtn {
+      0% {
+        box-shadow: 0 0 6px #ff1a1a;
+        transform: translateX(-50%) scale(1);
+      }
+      100% {
+        box-shadow: 0 0 20px #ff4444, 0 0 8px red;
+        transform: translateX(-50%) scale(1.05);
+      }
+    }
   </style>
 </head>
 <body>
 
+  <!-- LANDING PAGE CONTENT (hidden behind the gateway) -->
   <div id="landing-page">
     GRIMMWARE OS BOOT COMPLETE.
   </div>
 
+  <!-- STRIP OVERLAY -->
   <div id="gateway-overlay"></div>
+
+  <!-- RUN IT BUTTON -->
+  <button id="run-button">>>> RUN IT</button>
 
   <script>
     const overlay = document.getElementById('gateway-overlay');
-    const runBtn = document.createElement('button');
-    runBtn.textContent = '>>> RUN IT';
-    runBtn.id = 'run-button';
-    runBtn.style.padding = '14px 34px';
-    runBtn.style.fontSize = '1.2rem';
-    runBtn.style.fontWeight = '900';
-    runBtn.style.fontFamily = 'Courier New, monospace';
-    runBtn.style.color = 'black';
-    runBtn.style.backgroundColor = '#ff1a1a';
-    runBtn.style.border = 'none';
-    runBtn.style.borderRadius = '6px';
-    runBtn.style.cursor = 'pointer';
-    runBtn.style.zIndex = '3';
-    runBtn.style.position = 'absolute';
-    runBtn.style.bottom = '40px';
-    runBtn.style.left = '50%';
-    runBtn.style.transform = 'translateX(-50%)';
+    const runBtn = document.getElementById('run-button');
 
-    document.body.appendChild(runBtn);
-
-    // Create 30 strips across the screen
-    const stripCount = 30;
+    // Create strips
+    const stripCount = 40;
     for (let i = 0; i < stripCount; i++) {
       const strip = document.createElement('div');
       strip.classList.add('strip');
-      const content = document.createElement('div');
-      content.classList.add('strip-content');
-      content.innerHTML = `
-        <div class="logo-container">
-          <img src="images/grimmware-logo.png" alt="GRIMMWARE OS Logo" class="logo-main">
-          <img src="images/emotion-is-executable.png" alt="Emotion Is Executable" class="tagline">
-        </div>
-        <div class="decrypt-boxes">
-          <div class="box">G</div>
-          <div class="box">W</div>
-          <div class="box">O</div>
-          <div class="box">S</div>
-          <div class="separator">_</div>
-          <div class="box">E</div>
-          <div class="box">X</div>
-          <div class="box">E</div>
-        </div>
-        <div class="decrypt-instruction">
-          Tap <span class="green-glow">green</span> to decrypt.
-        </div>
-      `;
-      strip.appendChild(content);
       overlay.appendChild(strip);
     }
 
@@ -143,7 +124,7 @@
       strips.forEach((strip, i) => {
         setTimeout(() => {
           strip.classList.add('rain-away');
-        }, Math.random() * 1200);
+        }, Math.random() * 1000);
       });
     });
   </script>
