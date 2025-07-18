@@ -212,7 +212,7 @@ body {
   100% { box-shadow: 0 0 12px #ff0000; }
 }
 
-/* === STRIP WIPE === */
+/* === STRIP WIPE (2-PHASE) === */
 #gateway-overlay {
   position: absolute;
   top: 0; left: 0;
@@ -220,7 +220,7 @@ body {
   height: 100%;
   display: none;
   flex-direction: row;
-  z-index: 2000; /* ⬅️ Raised to sit on top of everything */
+  z-index: 2000;
   pointer-events: none;
 }
 
@@ -229,22 +229,31 @@ body {
   top: 0;
   height: 100%;
   background: black;
-  transform: translateY(-100%);
-  animation: fall 0.6s forwards;
-  animation-fill-mode: forwards;
   opacity: 0.95;
   pointer-events: none;
-  z-index: 2100; /* ⬅️ Ensure strips are on top */
+  z-index: 2100;
+  transform: translateY(-100%);
 }
 
-@keyframes fall {
-  from {
-    transform: translateY(-100%);
-    opacity: 0.95;
-  }
+/* Phase 1: fall and STOP at bottom */
+.strip.cover {
+  animation: fallCover 0.5s forwards ease-in;
+}
+
+/* Phase 2: continue off screen to REVEAL */
+.strip.reveal {
+  animation: fallReveal 0.5s forwards ease-out;
+}
+
+@keyframes fallCover {
   to {
-    transform: translateY(100%);
-    opacity: 1;
+    transform: translateY(0); /* covers screen */
+  }
+}
+
+@keyframes fallReveal {
+  to {
+    transform: translateY(100vh); /* falls off screen */
   }
 }
 
