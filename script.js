@@ -124,7 +124,7 @@ function showAccessGranted() {
   });
 }
 
-// === RUN BUTTON WIPES SCREEN ===
+// === RUN BUTTON 2-PHASE CURTAIN REVEAL ===
 document.getElementById('run-button').addEventListener('click', () => {
   if (transitionInProgress) return;
   transitionInProgress = true;
@@ -136,26 +136,42 @@ document.getElementById('run-button').addEventListener('click', () => {
   overlay.innerHTML = '';
   overlay.style.display = 'flex';
 
-  const numStrips = 30;
-  const delayBetween = 80;
-  const stripFallDuration = 600; // Matches @keyframes fall
-  const totalFallTime = numStrips * delayBetween + stripFallDuration;
+  const numStrips = 60;
+  const delayBetween = 30;
+  const fallDuration = 500;
+  const holdBeforeReveal = 1200;
+  const revealDuration = 500;
 
-  // Add strips
+  // === PHASE 1: COVER
   for (let i = 0; i < numStrips; i++) {
     const strip = document.createElement('div');
-    strip.classList.add('strip');
+    strip.classList.add('strip', 'cover');
     strip.style.left = `${(100 / numStrips) * i}%`;
     strip.style.width = `${100 / numStrips}%`;
-    strip.style.animationDelay = `${i * delayBetween}ms`; // <-- Fixed: added 'ms'
+    strip.style.animationDelay = `${i * delayBetween}ms`;
     overlay.appendChild(strip);
   }
 
-  // Start fade AFTER the last strip finishes falling
-  setTimeout(() => {
-    gatewayUI.style.transition = 'opacity 1s ease'; // <-- Uniform format
-    gatewayUI.style.opacity = 0;
+  const totalCoverTime = (numStrips * delayBetween) + fallDuration;
 
+  // === PHASE 2: UI HIDE + STRIP REVEAL
+  setTimeout(() => {
+    // Fade out the gateway elements underneath
+    gatewayUI.style.transition = 'opacity 0.6s ease';
+    gatewayUI.style.opacity = 0;
+  }, totalCoverTime + 300); // a brief hold after full cover
+
+  // === PHASE 3: Unveil landing page
+  setTimeout(() => {
+    // Switch overlay strip animation to reveal
+    const strips = overlay.querySelectorAll('.strip');
+    strips.forEach((strip, i) => {
+      strip.classList.remove('cover');
+      strip.classList.add('reveal');
+      strip.style.animationDelay = `${i * delayBetween}ms`;
+    });
+
+    // Landing page reveal underneath
     setTimeout(() => {
       gatewayUI.style.display = 'none';
       overlay.style.display = 'none';
@@ -166,9 +182,8 @@ document.getElementById('run-button').addEventListener('click', () => {
       requestAnimationFrame(() => {
         landingPage.style.opacity = 1;
       });
-    }, 1000); // delay fade-in until gateway fully hidden
-
-  }, totalFallTime);
+    }, (numStrips * delayBetween) + revealDuration);
+  }, totalCoverTime + holdBeforeReveal);
 });
 
 // === INIT ===
