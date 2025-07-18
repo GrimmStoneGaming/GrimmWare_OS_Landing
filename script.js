@@ -65,17 +65,23 @@ boxes.forEach((box, i) => {
 });
 
 // === Glitch Typing Effect ===
-function glitchTypeText(target, finalText, delay = 100, glitchChars = "!@#$%^&*()_+[]{}<>?") {
+function glitchTypeText(target, finalText, delay = 100, glitchChars = "!@#$%^&*()_+[]{}<>?|/\\") {
   let index = 0;
+
   const interval = setInterval(() => {
     let displayText = '';
-    for (let i = 0; i < index; i++) {
-      displayText += finalText[i];
+    for (let i = 0; i < finalText.length; i++) {
+      if (i < index) {
+        displayText += finalText[i];
+      } else if (i === index) {
+        displayText += glitchChars[Math.floor(Math.random() * glitchChars.length)];
+      } else {
+        displayText += ' ';
+      }
     }
-    if (index < finalText.length) {
-      displayText += glitchChars[Math.floor(Math.random() * glitchChars.length)];
-    }
+
     target.textContent = displayText;
+
     index++;
     if (index > finalText.length) {
       clearInterval(interval);
@@ -83,6 +89,7 @@ function glitchTypeText(target, finalText, delay = 100, glitchChars = "!@#$%^&*(
     }
   }, delay);
 }
+
 
 // === ACCESS GRANTED + WARNING ===
 function showAccessGranted() {
@@ -106,10 +113,10 @@ function showAccessGranted() {
     index++;
     if (index === grantedText.length) {
       clearInterval(typeInterval);
-      setTimeout(() => {
-        glitchTypeText(warningLine, warningText, 120);
-        runWrapper.style.display = 'block';
-      }, 1000);
+     setTimeout(() => {
+  glitchTypeText(warningLine, warningText, 90);
+  runWrapper.style.display = 'block';
+}, 1000);
     }
   }, 50);
 }
