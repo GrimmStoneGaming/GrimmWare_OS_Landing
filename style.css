@@ -280,6 +280,14 @@ h1, h2, h3, p {
   text-shadow: 0 0 10px rgba(111, 43, 122, 0.7);
   filter: drop-shadow(0 0 12px rgba(111, 43, 122, 0.8));
 }
+@media screen and (max-width: 768px) {
+  .btn-red,
+  .btn-cyan,
+  .btn-muted {
+    padding: 18px 30px; /* bigger thumb area */
+    font-size: 1.2rem;  /* larger, more readable text */
+  }
+}
 
 /* ========== HIGHLIGHT COLORS ========== */
 .green      { color: #00ff00; }
