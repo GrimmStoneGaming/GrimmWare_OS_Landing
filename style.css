@@ -499,8 +499,13 @@ iframe {
 @media (max-width: 768px) {
   .lyrics-box {
     height: 320px;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
   }
+
+  .lyrics-box p {
+    font-size: 1.1rem !important;
+  }
+}
 
   #message-trigger {
     font-size: 1.2rem;
