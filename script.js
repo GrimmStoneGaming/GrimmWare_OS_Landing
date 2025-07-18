@@ -1,16 +1,14 @@
 const boxes = document.querySelectorAll('.box');
 const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
 let currentGreenIndex = null;
-let intervalId = null;
 let solved = Array(boxes.length).fill(false);
 
-// Random char generator
+// Cycle red characters
 function getRandomChar() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return chars.charAt(Math.floor(Math.random() * chars.length));
 }
 
-// Cycle characters in red unsolved boxes
 function cycleCharacters() {
   setInterval(() => {
     boxes.forEach((box, i) => {
@@ -21,13 +19,12 @@ function cycleCharacters() {
   }, 100);
 }
 
-// Pulse one green box with correct char
 function startCycling() {
-  intervalId = setInterval(() => {
-    let nextIndex;
+  setInterval(() => {
+    let next;
     do {
-      nextIndex = Math.floor(Math.random() * boxes.length);
-    } while (solved[nextIndex]);
+      next = Math.floor(Math.random() * boxes.length);
+    } while (solved[next]);
 
     boxes.forEach((box, i) => {
       if (!solved[i]) {
@@ -37,7 +34,7 @@ function startCycling() {
       }
     });
 
-    currentGreenIndex = nextIndex;
+    currentGreenIndex = next;
     const box = boxes[currentGreenIndex];
     box.classList.add('green');
     box.textContent = correctCode[currentGreenIndex];
@@ -46,7 +43,7 @@ function startCycling() {
   }, 1500);
 }
 
-// Box click check
+// Click interaction
 boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
     if (i === currentGreenIndex && !solved[i]) {
@@ -57,14 +54,14 @@ boxes.forEach((box, i) => {
       box.classList.add('green');
 
       if (solved.every(Boolean)) {
-        clearInterval(intervalId);
+        clearInterval(currentGreenIndex);
         setTimeout(showAccessGranted, 1000);
       }
     }
   });
 });
 
-// Typewriter + glitch message
+// Show access granted
 function showAccessGranted() {
   const accessMessage = document.getElementById('access-message');
   const runButton = document.getElementById('run-button');
@@ -105,7 +102,6 @@ function showAccessGranted() {
         setTimeout(() => {
           glitchRandomChars();
           runButton.style.display = 'block';
-          runButton.classList.add('glitch');
         }, 800);
       }
     }, 100);
@@ -121,60 +117,33 @@ function showAccessGranted() {
   }
 }
 
-// Run button action: trigger rain-away
+// Rain transition
 document.getElementById('run-button').addEventListener('click', () => {
   const overlay = document.getElementById('gateway-overlay');
-  const strips = overlay.querySelectorAll('.strip');
-
-  // Show the rain overlay
+  overlay.innerHTML = '';
   overlay.style.display = 'flex';
 
-  // Animate rain strips
-  strips.forEach((strip, i) => {
+  for (let i = 0; i < 40; i++) {
+    const strip = document.createElement('div');
+    strip.classList.add('strip');
+    overlay.appendChild(strip);
+
     setTimeout(() => {
       strip.classList.add('rain-away');
-    }, i * 60); // Stagger each strip
-  });
+    }, i * 60);
+  }
 
-  // Hide existing UI
   document.querySelector('.decrypt-boxes').style.display = 'none';
   document.querySelector('.decrypt-instruction').style.display = 'none';
   document.getElementById('access-message').style.display = 'none';
   document.getElementById('run-button').style.display = 'none';
 
-  // Show LP after rain clears
-  setTimeout(() => {
-    document.getElementById('landing-page').style.display = 'block';
-  }, strips.length * 60 + 1400); // Rain completion buffer
-});
-
-// === RAIN AWAY EFFECT ===
-function createRainOverlay() {
-  const overlay = document.getElementById('gateway-overlay');
-  overlay.innerHTML = '';
-
-  const numStrips = 40;
-  for (let i = 0; i < numStrips; i++) {
-    const strip = document.createElement('div');
-    strip.classList.add('strip');
-    overlay.appendChild(strip);
-  }
-}
-
-function triggerRainAway() {
-  const strips = document.querySelectorAll('.strip');
-  strips.forEach((strip, index) => {
-    setTimeout(() => {
-      strip.classList.add('rain-away');
-    }, index * 50);
-  });
-
   setTimeout(() => {
     document.getElementById('gateway-screen').style.display = 'none';
     document.getElementById('landing-page').style.display = 'flex';
-  }, strips.length * 50 + 1500);
-}
+  }, 40 * 60 + 1400);
+});
 
-// Start cycling on load
+// Initialize
 cycleCharacters();
 startCycling();
