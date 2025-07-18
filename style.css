@@ -400,14 +400,12 @@ iframe {
 }
 
 /* ========== LYRICS STYLING ========== */
+/* Lyrics Box Styles */
 .lyrics-container {
   width: 80%;
   max-width: 800px;
-  margin: 0 auto;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  margin: 0 auto;
 }
 
 .lyrics-box {
@@ -421,14 +419,9 @@ iframe {
   color: white;
   line-height: 1.6;
   font-size: 1rem;
-  font-family: 'Courier New', Courier, monospace;
-}
-
-.lyrics-box p {
-  font-size: 1rem !important;
-  line-height: 1.6;
-  margin-bottom: 1rem;
-  word-break: break-word;
+  font-family: 'Courier New', monospace;
+  word-wrap: break-word;
+  white-space: normal;
 }
 
 /* Subtle interactive terminal-style element */
@@ -441,24 +434,24 @@ iframe {
   font-size: 1.2rem;
   cursor: pointer;
   transition: color 0.3s ease;
-  animation: ambientFlicker 4s infinite ease-in-out;
+  animation: flickerText 3s infinite;
 }
 
 #message-trigger:hover {
   color: #ff0080; /* hot magenta */
 }
 
-@keyframes ambientFlicker {
-  0%, 100% { opacity: 0.95; }
-  5% { opacity: 0.7; }
-  10% { opacity: 0.8; }
-  15% { opacity: 0.6; }
-  25% { opacity: 0.85; }
-  35% { opacity: 0.5; }
-  45% { opacity: 0.8; }
-  55% { opacity: 0.9; }
-  70% { opacity: 0.6; }
-  85% { opacity: 0.75; }
+@keyframes flickerText {
+  0%   { opacity: 1; }
+  2%   { opacity: 0.4; }
+  4%   { opacity: 0.9; }
+  8%   { opacity: 0.2; }
+  10%  { opacity: 1; }
+  12%  { opacity: 0.3; }
+  17%  { opacity: 0.8; }
+  22%  { opacity: 0.5; }
+  30%  { opacity: 1; }
+  100% { opacity: 1; }
 }
 
 /* Hidden message revealed on click */
@@ -499,13 +492,10 @@ iframe {
 @media (max-width: 768px) {
   .lyrics-box {
     height: 320px;
-    font-size: 1.05rem;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    word-break: break-word;
   }
-
-  .lyrics-box p {
-    font-size: 1.1rem !important;
-  }
-}
 
   #message-trigger {
     font-size: 1.2rem;
