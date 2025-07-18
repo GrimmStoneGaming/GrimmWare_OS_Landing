@@ -4,11 +4,13 @@ let currentGreenIndex = null;
 let intervalId = null;
 let solved = Array(boxes.length).fill(false);
 
+// === Random Char Gen ===
 function getRandomChar() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return chars[Math.floor(Math.random() * chars.length)];
 }
 
+// === Cycle Random Characters ===
 function cycleCharacters() {
   setInterval(() => {
     boxes.forEach((box, i) => {
@@ -19,6 +21,7 @@ function cycleCharacters() {
   }, 100);
 }
 
+// === Highlight One Box in Green Every 1.5s ===
 function startCycling() {
   intervalId = setInterval(() => {
     let nextIndex;
@@ -26,6 +29,7 @@ function startCycling() {
       nextIndex = Math.floor(Math.random() * boxes.length);
     } while (solved[nextIndex]);
 
+    // Reset all unsolved boxes
     boxes.forEach((box, i) => {
       if (!solved[i]) {
         box.classList.remove('green');
@@ -34,6 +38,7 @@ function startCycling() {
       }
     });
 
+    // Set the new green box
     currentGreenIndex = nextIndex;
     const box = boxes[currentGreenIndex];
     box.classList.add('green');
@@ -43,6 +48,7 @@ function startCycling() {
   }, 1500);
 }
 
+// === Box Click Handler ===
 boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
     if (i === currentGreenIndex && !solved[i]) {
@@ -60,28 +66,31 @@ boxes.forEach((box, i) => {
   });
 });
 
+// === ACCESS GRANTED Sequence ===
 function showAccessGranted() {
   const accessMessage = document.getElementById('access-message');
   const runButton = document.getElementById('run-button');
-  const line1 = 'ACCESS GRANTED. SYSTEM UNLOCKED.';
+  const line = 'ACCESS GRANTED. SYSTEM UNLOCKED.';
   let index = 0;
 
   accessMessage.classList.remove('hidden');
   accessMessage.textContent = '';
+  accessMessage.style.opacity = 1;
 
   const typeInterval = setInterval(() => {
-    accessMessage.textContent += line1.charAt(index);
+    accessMessage.textContent += line.charAt(index);
     index++;
-    if (index === line1.length) {
+    if (index === line.length) {
       clearInterval(typeInterval);
       setTimeout(() => {
+        runButton.classList.remove('hidden');
         runButton.style.display = 'block';
-        runButton.classList.add('pulse');
       }, 800);
     }
   }, 50);
 }
 
+// === RUN IT: Vertical Strip Wipe Reveal ===
 document.getElementById('run-button').addEventListener('click', () => {
   const overlay = document.getElementById('gateway-overlay');
   overlay.innerHTML = '';
@@ -103,9 +112,9 @@ document.getElementById('run-button').addEventListener('click', () => {
 
   setTimeout(() => {
     document.getElementById('landing-page').style.display = 'flex';
-  }, numStrips * 80 + 1200);
+  }, numStrips * 80 + 1000);
 });
 
-// Start
+// === INIT ===
 cycleCharacters();
 startCycling();
