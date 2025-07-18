@@ -140,17 +140,21 @@ body {
 }
 
 #run-button {
-  padding: 12px 24px;
-  font-size: 1rem;
+  padding: 14px 28px;
+  font-size: 1.1rem;
   background: #ff4444;
   color: black;
   border: none;
   border-radius: 4px;
   font-weight: bold;
-  box-shadow: 0 0 12px #ff0000;
   cursor: pointer;
-  animation: glitchPulse 1.2s infinite;
-  transition: opacity 0.6s ease-in-out;
+  position: relative;
+  z-index: 2;
+  animation: glitchPulse 1.4s infinite, runItVoidReach 2.5s infinite alternate;
+  box-shadow:
+    0 0 10px #ff0000,
+    0 0 20px #ff0000,
+    0 0 30px #ff0033;
 }
 
 @keyframes glitchPulse {
@@ -159,8 +163,31 @@ body {
     box-shadow: 0 0 6px #ff0000;
   }
   50% {
-    transform: scale(1.05);
-    box-shadow: 0 0 24px #ff0000;
+    transform: scale(1.06);
+    box-shadow: 0 0 24px #ff0000, 0 0 8px #550000 inset;
+  }
+}
+
+@keyframes runItVoidReach {
+  0% {
+    transform: translateX(0) translateY(0);
+    filter: none;
+  }
+  25% {
+    transform: translateX(-1px) translateY(1px);
+    filter: hue-rotate(5deg) brightness(1.1);
+  }
+  50% {
+    transform: translateX(1px) translateY(-1px);
+    filter: hue-rotate(-5deg) brightness(1.1);
+  }
+  75% {
+    transform: translateX(-2px) translateY(2px);
+    filter: hue-rotate(3deg) brightness(1.2);
+  }
+  100% {
+    transform: translateX(1px) translateY(0);
+    filter: none;
   }
 }
 
