@@ -191,4 +191,28 @@ document.addEventListener("DOMContentLoaded", () => {
     setInterval(draw, 33);               // ~30fps
     setInterval(drawHorizontalGlitch, 3000);
   }
+
+  // === 💬 HIDDEN MESSAGE TOGGLE ===
+  const trigger = document.getElementById("message-trigger");
+  const message = document.getElementById("hidden-message");
+
+  if (trigger && message) {
+    trigger.addEventListener("click", () => {
+      if (message.classList.contains("visible")) {
+        message.classList.remove("visible");
+        message.classList.add("fade-out");
+
+        setTimeout(() => {
+          message.style.display = "none";
+          message.classList.remove("fade-out");
+        }, 600);
+      } else {
+        message.style.display = "block";
+        setTimeout(() => {
+          message.classList.add("visible");
+        }, 10);
+      }
+    });
+  }
+
 });
