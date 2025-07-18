@@ -467,6 +467,15 @@ iframe {
     text-align: center;
   }
 }
+/* ✨ Animated pulsing glow for corner lights */
+@keyframes pulseGlow {
+  0%, 100% { opacity: 1; box-shadow: 0 0 6px #00ffff; }
+  50% { opacity: 0.4; box-shadow: 0 0 12px #00ffff; }
+}
+
+.holo-corners .corner {
+  animation: pulseGlow 1.5s infinite;
+}
 
 /* ========== LYRICS STYLING ========== */
 /* Lyrics Box Styles */
