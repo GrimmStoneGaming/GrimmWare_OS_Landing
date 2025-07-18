@@ -1,7 +1,6 @@
 // === GRIMMWARE OS CORE JS ===
 
 document.addEventListener("DOMContentLoaded", () => {
-
   // 🎯 FLOATING EGGS — Randomized position + animation
   const floatingEggs = document.querySelectorAll(".drifting-egg");
   floatingEggs.forEach((egg) => {
@@ -15,17 +14,20 @@ document.addEventListener("DOMContentLoaded", () => {
     egg.style.left = `${left}px`;
     egg.style.zIndex = "1000";
 
-    egg.animate([
-      { transform: 'translate(0, 0)' },
-      { transform: 'translate(5px, -10px)' },
-      { transform: 'translate(-5px, 5px)' },
-      { transform: 'translate(0, 0)' }
-    ], {
-      duration: 15000 + Math.random() * 10000,
-      iterations: Infinity,
-      direction: 'alternate',
-      easing: 'ease-in-out'
-    });
+    egg.animate(
+      [
+        { transform: "translate(0, 0)" },
+        { transform: "translate(5px, -10px)" },
+        { transform: "translate(-5px, 5px)" },
+        { transform: "translate(0, 0)" },
+      ],
+      {
+        duration: 15000 + Math.random() * 10000,
+        iterations: Infinity,
+        direction: "alternate",
+        easing: "ease-in-out",
+      }
+    );
   });
 
   // 👁 REVEAL ON SCROLL
@@ -48,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const lines1 = [
     "&gt;&gt;&gt; <span class='white'>Authenticating system integrity...</span>",
     "&gt;&gt;&gt; <span class='cyan'>Initializing GWOS...</span>",
-    "&gt;&gt;&gt; <span class='red'>System breach imminent...</span>"
+    "&gt;&gt;&gt; <span class='red'>System breach imminent...</span>",
   ];
 
   const lines2 = [
@@ -60,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "&gt;&gt;&gt; <span class='red'>SIGNAL DISTORTION DETECTED...</span>",
     "&gt;&gt;&gt; ...recalibrating...",
     "&gt;&gt;&gt; <span class='limegreen'>AUTHORIZED OVERRIDE — PLAYBACK UNLOCKED</span>",
-    "&gt;&gt;&gt; Deploying featured track: <span class='blue'><i>I See It All</i></span>"
+    "&gt;&gt;&gt; Deploying featured track: <span class='blue'><i>I See It All</i></span>",
   ];
 
   const typeLines = (target, lines, delay = 60, callback) => {
@@ -136,17 +138,37 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const letters = [
-      ..."01", ..."GWOS", ..."I SEE IT ALL", ..."RUN IT.", ..."GRMOSSYS", ..."GIZGZMO",
-      ..."U R NT ALNE", ..."EMO IS EXE", "#", "@", ">", "~", "|", "▓", "░", "█", ..."ABCDEF"
+      ..."01",
+      ..."GWOS",
+      ..."I SEE IT ALL",
+      ..."RUN IT.",
+      ..."GRMOSSYS",
+      ..."GIZGZMO",
+      ..."U R NT ALNE",
+      ..."EMO IS EXE",
+      "#",
+      "@",
+      ">",
+      "~",
+      "|",
+      "▓",
+      "░",
+      "█",
+      ..."ABCDEF",
     ];
 
     const glitchPhrases = [
-      "I SEE IT ALL", "U R NT ALNE", "EMO IS EXE", "RUN IT", "GRIMMWARE_OS", "GIZ // SIGNAL FOUND"
+      "I SEE IT ALL",
+      "U R NT ALNE",
+      "EMO IS EXE",
+      "RUN IT",
+      "GRIMMWARE_OS",
+      "GIZ // SIGNAL FOUND",
     ];
 
     const activeGlitchLines = [];
     const fontSize = 14;
-    const columnCount = 400; // 🎯 Control density here
+    const columnCount = 400;
     const spacing = canvas.width / columnCount;
     const drops = Array.from({ length: columnCount }, () => 1);
 
@@ -176,40 +198,49 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const drawHorizontalGlitch = () => {
-      const phrase = glitchPhrases[Math.floor(Math.random() * glitchPhrases.length)];
+      const phrase =
+        glitchPhrases[Math.floor(Math.random() * glitchPhrases.length)];
       const x = Math.floor(Math.random() * (canvas.width - 300));
       const y = Math.floor(Math.random() * canvas.height);
-      const colors = ["#ff003c", "#00ffff", "#ff69b4", "#00ff66", "#ffffff"];
+      const colors = [
+        "#ff003c",
+        "#00ffff",
+        "#ff69b4",
+        "#00ff66",
+        "#ffffff",
+      ];
       const color = colors[Math.floor(Math.random() * colors.length)];
       activeGlitchLines.push({
-        phrase, x, y, color,
+        phrase,
+        x,
+        y,
+        color,
         alpha: 1.0,
-        fadeRate: Math.random() * 0.015 + 0.01
+        fadeRate: Math.random() * 0.015 + 0.01,
       });
     };
 
-    setInterval(draw, 33);               // ~30fps
+    setInterval(draw, 33);
     setInterval(drawHorizontalGlitch, 3000);
   }
 
-  // === MESSAGE REVEAL TOGGLE WITH FADE ===
+  // === 📟 EMOTIONAL TRIGGER ===
   const trigger = document.getElementById("message-trigger");
-  const hiddenMsg = document.getElementById("hidden-message");
+  const message = document.getElementById("hidden-message");
 
-  if (trigger && hiddenMsg) {
+  if (trigger && message) {
     trigger.addEventListener("click", () => {
-      if (hiddenMsg.classList.contains("visible")) {
-        hiddenMsg.classList.remove("visible");
-        hiddenMsg.classList.add("fade-out");
+      if (message.classList.contains("visible")) {
+        message.classList.remove("visible");
+        message.classList.add("fade-out");
 
-        // ⏳ Wait for fade to finish, then fully hide
         setTimeout(() => {
-          hiddenMsg.classList.remove("fade-out");
-          hiddenMsg.style.display = "none";
-        }, 600); // matches CSS transition
+          message.classList.remove("fade-out");
+          message.style.display = "none";
+        }, 600);
       } else {
-        hiddenMsg.style.display = "block";
-        hiddenMsg.classList.add("visible");
+        message.style.display = "block";
+        message.classList.add("visible");
       }
     });
   }
