@@ -58,6 +58,7 @@ boxes.forEach((box, i) => {
       box.style.boxShadow = '0 0 12px #00ff00';
       box.classList.add('green');
 
+      // Check if all are solved
       if (solved.every(Boolean)) {
         clearInterval(intervalId);
         setTimeout(showAccessGranted, 1000);
@@ -89,12 +90,12 @@ function showAccessGranted() {
   }, 60);
 }
 
-// === RUN IT button placeholder action ===
+// RUN IT button action placeholder
 document.getElementById('run-button').addEventListener('click', () => {
   console.log("RUN IT button clicked — trigger LP or next sequence here.");
-  // Future: Trigger LP unlock / redirect / animation
+  // Future integration point: trigger fade-out or LP reveal
 });
 
-// Init
+// Init cycles
 cycleCharacters();
 startCycling();
