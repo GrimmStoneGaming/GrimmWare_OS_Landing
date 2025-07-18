@@ -31,7 +31,179 @@ body {
 
 .decrypt-boxes {
   display: flex;
+  gap: 10px;/* === GLOBAL === */
+body {
+  margin: 0;
+  padding: 0;
+  background: black;
+  color: #00ffcc;
+  font-family: 'Courier New', monospace;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+/* === LOGO SECTION === */
+.logo-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo-main {
+  max-height: 140px;
+  filter: drop-shadow(0 0 8px red);
+}
+
+.tagline {
+  max-height: 80px;
+  filter: drop-shadow(0 0 6px #00ffcc);
+  margin-top: 10px;
+}
+
+/* === DECRYPT BOXES === */
+.decrypt-boxes {
+  display: flex;
+  align-items: center;
   gap: 10px;
+  margin-top: 30px;
+}
+
+.box {
+  width: 50px;
+  height: 60px;
+  background: red;
+  color: black;
+  font-size: 2rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #222;
+  box-shadow: 0 0 8px #ff0000;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.3s ease;
+}
+
+.separator {
+  font-size: 2rem;
+  color: #ffffff;
+  padding: 0 5px;
+}
+
+/* === ACTIVE GREEN BOX === */
+.box.green {
+  background: #00ff00;
+  color: black;
+  box-shadow: 0 0 12px #00ff00;
+}
+
+/* === INSTRUCTION TEXT === */
+.decrypt-instruction {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  font-style: italic;
+  animation: pulseGlow 2s infinite;
+  text-align: center;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { text-shadow: 0 0 4px #00ffcc; }
+  50% { text-shadow: 0 0 12px #00ffee; }
+}
+
+.green-glow {
+  color: #00ff66;
+  font-weight: bold;
+  text-shadow: 0 0 6px #00ff66, 0 0 12px #00ff66;
+}
+
+/* === ACCESS MESSAGE === */
+#access-message {
+  margin-top: 30px;
+  font-size: 1.3rem;
+  white-space: nowrap;
+  border-right: 2px solid #00ffcc;
+  overflow: hidden;
+  opacity: 0;
+  animation: none;
+  transition: opacity 0.5s ease;
+}
+
+/* === RUN BUTTON === */
+#run-button {
+  display: none;
+  margin-top: 25px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  background: #00ff66;
+  color: black;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0 0 8px #00ff66;
+  cursor: pointer;
+  animation: pulseBtn 2s infinite;
+  transition: opacity 0.6s ease-in-out;
+}
+
+@keyframes pulseBtn {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 8px #00ff66; }
+  50% { transform: scale(1.1); box-shadow: 0 0 16px #00ff66; }
+}
+
+/* === STRIP WIPE === */
+#gateway-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: row;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.strip {
+  flex: 1;
+  background: black;
+  transform: translateY(-100%);
+  animation: fall 0.6s forwards;
+}
+
+@keyframes fall {
+  to { transform: translateY(100%); }
+}
+
+/* === LANDING PAGE FADE IN === */
+#landing-page {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: black;
+  color: #00ffcc;
+  z-index: 1000;
+  text-align: center;
+}
+
+.lp-content h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.lp-content p {
+  font-size: 1.1rem;
+}
+
+/* === UTILITY === */
+.hidden {
+  display: none;
+}
+
   margin-top: 30px;
 }
 
