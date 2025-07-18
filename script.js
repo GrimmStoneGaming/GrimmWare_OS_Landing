@@ -152,23 +152,6 @@ document.getElementById('run-button').addEventListener('click', () => {
   }, numStrips * 80 + 1000);
 });
 
-// === DEV BUTTON: Instant Solve for Testing ===
-document.getElementById("dev-solve-btn").addEventListener("click", () => {
-  const solution = "GWOS_EXE";
-  const letterBoxes = document.querySelectorAll(".box");
-
-  for (let i = 0; i < letterBoxes.length; i++) {
-    if (solution[i] !== "_") {
-      letterBoxes[i].textContent = solution[i];
-      letterBoxes[i].classList.add("green");
-      solved[i] = true;
-    }
-  }
-
-  clearInterval(intervalId);
-  setTimeout(showAccessGranted, 500);
-});
-
 // === INIT ===
 cycleCharacters();
 startCycling();
