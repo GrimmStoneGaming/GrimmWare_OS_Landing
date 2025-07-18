@@ -177,6 +177,20 @@ document.getElementById('run-button').addEventListener('click', () => {
     document.getElementById('landing-page').style.display = 'flex';
   }, numStrips * 80 + 1000);
 });
+// === DEV BUTTON: Instant Solve for Testing ===
+document.getElementById("dev-solve-btn").addEventListener("click", () => {
+  const solution = "GWOS_EXE";
+  const letterBoxes = document.querySelectorAll(".box");
+
+  for (let i = 0; i < letterBoxes.length; i++) {
+    if (solution[i] !== "_") {
+      letterBoxes[i].textContent = solution[i];
+      letterBoxes[i].classList.add("correct"); // highlight in green
+    }
+  }
+
+  showAccessGranted();
+});
 
 // === INIT ===
 cycleCharacters();
