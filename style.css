@@ -406,15 +406,21 @@ iframe {
 }
 
 #hidden-message {
-  display: none;
+  display: block;
   position: absolute;
-  top: 20px;
-  left: 1150px; /* stays hidden off screen until hunted */
-  z-index: 2;
-  color: white;
+  top: 0;
+  left: -200px; /* adjust as needed */
+  z-index: 9999;
+  background-color: rgba(255, 0, 255, 0.8); /* bright magenta background */
+  color: black;
+  padding: 10px 15px;
   font-weight: bold;
-  pointer-events: none;
-  user-select: none;
+  font-size: 1rem;
+  border: 2px solid white;
+  border-radius: 4px;
+  box-shadow: 0 0 10px magenta;
+  pointer-events: auto;
+  user-select: text;
 }
 
 .lyrics-box {
