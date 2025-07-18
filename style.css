@@ -197,29 +197,6 @@ body {
   66% { box-shadow: 0 0 10px #ff2222, 0 0 20px #ff1111; }
   100% { box-shadow: 0 0 12px #ff0000; }
 }
-/* === DEV SOLVE BUTTON (Testing Only) === */
-#dev-solve-btn {
-  position: absolute;
-  top: 12px;
-  right: 16px;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 0.9rem;
-  padding: 4px 10px;
-  color: #00ff88;
-  background-color: transparent;
-  border: 1px solid #00ff88;
-  border-radius: 4px;
-  cursor: pointer;
-  text-shadow: 0 0 4px #00ff88;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  z-index: 999;
-}
-
-#dev-solve-btn:hover {
-  background-color: rgba(0, 255, 136, 0.15);
-  color: #00ffaa;
-  border-color: #00ffaa;
-}
 
 /* === STRIP WIPE === */
 #gateway-overlay {
