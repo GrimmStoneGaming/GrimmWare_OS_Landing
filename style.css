@@ -144,8 +144,47 @@ body {
   animation: glitchyText 0.25s steps(2, end) 3;
   white-space: pre-wrap;
 }
+/* === LINE TWO: RED TYPING + GLITCH CHAR === */
+.line-two {
+  color: #ff3333;
+  font-weight: bold;
+  text-align: center;
+  white-space: pre-wrap;
+}
+
+.line2-char {
+  display: inline-block;
+  transition: transform 0.1s ease-in-out;
+}
+
+.glitch-char {
+  animation: glitchFlicker 1.2s infinite;
+  will-change: transform, opacity;
+}
 
 /* === KEYFRAMES === */
+@keyframes glitchFlicker {
+  0%, 100% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+  20% {
+    transform: translate(1px, -1px);
+    opacity: 0.8;
+  }
+  40% {
+    transform: translate(-1px, 1px);
+    opacity: 1;
+  }
+  60% {
+    transform: translate(0.5px, -0.5px);
+    opacity: 0.7;
+  }
+  80% {
+    transform: translate(-0.5px, 0.5px);
+    opacity: 1;
+  }
+}
 @keyframes typing {
   to {
     width: 100%;
