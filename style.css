@@ -399,32 +399,19 @@ iframe {
   border: none;
 }
 
+/* ========== LYRICS STYLING ========== */
 .lyrics-container {
   width: 80%;
   max-width: 800px;
+  margin: 0 auto;
   position: relative;
-}
-
-#hidden-message {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: -200px; /* adjust as needed */
-  z-index: 9999;
-  background-color: rgba(255, 0, 255, 0.8); /* bright magenta background */
-  color: black;
-  padding: 10px 15px;
-  font-weight: bold;
-  font-size: 1rem;
-  border: 2px solid white;
-  border-radius: 4px;
-  box-shadow: 0 0 10px magenta;
-  pointer-events: auto;
-  user-select: text;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .lyrics-box {
-  height: 260px !important;
+  height: 260px;
   overflow-y: auto;
   background-color: rgba(255, 255, 255, 0.05);
   padding: 20px;
@@ -433,36 +420,60 @@ iframe {
   text-align: left;
   color: white;
   line-height: 1.6;
+  font-size: 1rem;
+  font-family: 'Courier New', monospace;
 }
+
+/* Subtle interactive terminal-style element */
 #message-trigger {
   display: block;
   text-align: right;
-  margin-top: 8px;
   font-family: 'Courier New', monospace;
-  color: rgba(255, 255, 255, 0.1);
-  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.08);
+  font-size: 1rem;
   cursor: pointer;
   transition: color 0.3s ease;
+  user-select: none;
 }
 
 #message-trigger:hover {
-  color: #ff0080; /* hot magenta */
+  color: #ff0080;
 }
 
+/* Hidden message revealed on click */
 #hidden-message {
   display: none;
-  margin-top: 10px;
-  padding: 12px;
+  padding: 12px 16px;
   font-size: 1rem;
-  border-left: 2px solid #ff0080;
+  border-left: 3px solid #ff0080;
   color: #ff0080;
   font-weight: bold;
+  font-family: 'Courier New', monospace;
+  background-color: rgba(0, 0, 0, 0.6);
   animation: fadeInMsg 0.3s ease-in;
+  white-space: pre-line;
 }
 
+/* Reveal animation */
 @keyframes fadeInMsg {
   from { opacity: 0; transform: translateY(5px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Optional mobile enhancement */
+@media (max-width: 768px) {
+  .lyrics-box {
+    height: 320px;
+    font-size: 1.1rem;
+  }
+
+  #message-trigger {
+    font-size: 1.2rem;
+  }
+
+  #hidden-message {
+    font-size: 1.1rem;
+  }
 }
 
 /* ========== CALL TO ACTION SECTION ========== */
