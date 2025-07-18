@@ -69,7 +69,7 @@ floatingEggs.forEach((egg) => {
     "&gt;&gt;&gt; Deploying featured track: <span class='blue'><i>I See It All</i></span>"
   ];
 
-const typeLines = (target, lines, delay = 60, callback) => {
+const typeLines1 = (target, lines, delay = 60, callback) => {
   let lineIndex = 0;
   target.innerHTML = "";
 
@@ -96,7 +96,7 @@ const typeLines = (target, lines, delay = 60, callback) => {
         setTimeout(typeChar, delay);
       } else {
         lineIndex++;
-        setTimeout(typeLine, 0); // no pause between lines
+        setTimeout(typeLine, 0);
       }
     };
 
@@ -105,6 +105,44 @@ const typeLines = (target, lines, delay = 60, callback) => {
 
   typeLine();
 };
+
+const typeLines2 = (target, lines, delay = 60, callback) => {
+  let lineIndex = 0;
+  target.innerHTML = "";
+
+  const typeLine = () => {
+    if (lineIndex >= lines.length) {
+      callback?.();
+      return;
+    }
+
+    const line = lines[lineIndex];
+    let charIndex = 0;
+    let currentLine = "";
+
+    const typeChar = () => {
+      currentLine += line.charAt(charIndex);
+      target.innerHTML =
+        lines.slice(0, lineIndex).join("<br>") +
+        "<br>" +
+        currentLine +
+        `<span class="blink">|</span>`;
+      charIndex++;
+
+      if (charIndex < line.length) {
+        setTimeout(typeChar, delay);
+      } else {
+        lineIndex++;
+        setTimeout(typeLine, 0);
+      }
+    };
+
+    typeChar();
+  };
+
+  typeLine();
+};
+
 
 // 🎯 Independent animation loops for each section
 const loopLoading1 = () => {
