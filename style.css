@@ -9,44 +9,52 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   height: 100vh;
 }
 
+/* === TOP ANCHOR CONTAINER === */
+.top-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding-top: 40px;
+  padding-bottom: 30px;
+}
+
+/* === LOGO + TAGLINE === */
 .logo-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 40px;
   margin-bottom: 30px;
 }
 
 .logo-main {
-  max-height: 280px; /* Doubled logo */
+  max-height: 280px;
   margin-bottom: 15px;
   filter: drop-shadow(0 0 12px red);
 }
 
 .tagline {
-  max-height: 80px; /* Back to original */
+  max-height: 80px;
   margin-top: 0;
   filter: drop-shadow(0 0 6px #00ffcc);
 }
 
-/* === DECRYPT WRAPPER PANEL (NEW) === */
+/* === CIPHER BOX CONTAINER === */
 .decrypt-wrapper {
   background: #001100;
   padding: 24px 30px;
   border-radius: 12px;
   box-shadow: 0 0 20px #00ff44;
-  margin-top: 30px;
 }
 
-/* === DECRYPT BOXES === */
 .decrypt-boxes {
   display: flex;
-  gap: 10px;
   align-items: center;
+  gap: 10px;
   justify-content: center;
 }
 
@@ -78,7 +86,7 @@ body {
   padding: 0 5px;
 }
 
-/* === INSTRUCTION TEXT === */
+/* === INSTRUCTION === */
 .decrypt-instruction {
   margin-top: 20px;
   font-size: 1.2rem;
@@ -98,11 +106,10 @@ body {
   text-shadow: 0 0 6px #00ff66, 0 0 12px #00ff66;
 }
 
-/* === ACCESS GRANTED MESSAGE (UPDATED) === */
+/* === ACCESS MESSAGE === */
 #access-message {
   margin-top: 30px;
   font-size: 1.2rem;
-  white-space: nowrap;
   text-align: center;
   opacity: 0;
   transition: opacity 0.5s ease;
@@ -121,33 +128,47 @@ body {
   display: block;
 }
 
-/* === RUN BUTTON + CONTAINER (UPDATED) === */
+/* === RUN BUTTON === */
 .run-button-wrapper {
   margin-top: 30px;
-  background: #001100;
+  background: #110000;
   padding: 16px 32px;
   border-radius: 12px;
-  box-shadow: 0 0 16px #00ff66;
+  box-shadow: 0 0 16px #ff4444;
   display: none;
+  animation: glitchBox 2.5s infinite alternate;
 }
 
 #run-button {
   padding: 12px 24px;
   font-size: 1rem;
-  background: #00ff66;
+  background: #ff4444;
   color: black;
   border: none;
   border-radius: 4px;
   font-weight: bold;
-  box-shadow: 0 0 8px #00ff66;
+  box-shadow: 0 0 12px #ff0000;
   cursor: pointer;
-  animation: pulseBtn 2s infinite;
+  animation: glitchPulse 1.2s infinite;
   transition: opacity 0.6s ease-in-out;
 }
 
-@keyframes pulseBtn {
-  0%, 100% { transform: scale(1); box-shadow: 0 0 8px #00ff66; }
-  50% { transform: scale(1.1); box-shadow: 0 0 16px #00ff66; }
+@keyframes glitchPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 6px #ff0000;
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 24px #ff0000;
+  }
+}
+
+@keyframes glitchBox {
+  0% { box-shadow: 0 0 6px #ff0000; }
+  33% { box-shadow: 0 0 16px #ff0000, 0 0 5px #ff4444 inset; }
+  66% { box-shadow: 0 0 10px #ff2222, 0 0 20px #ff1111; }
+  100% { box-shadow: 0 0 12px #ff0000; }
 }
 
 /* === STRIP WIPE === */
