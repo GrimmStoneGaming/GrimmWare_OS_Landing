@@ -1,109 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>GWOS Gateway</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" type="image/png" href="images/gwos-favicon.png">
-  <style>
-    body {
-      margin: 0;
-      background: black;
-      overflow: hidden;
-    }
-
-    #gateway-screen,
-    #landing-page {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 2;
-    }
-
-    #landing-page {
-      z-index: 1;
-      opacity: 1;
-      pointer-events: none;
-      color: #00ff66;
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #gateway-overlay {
-      z-index: 3;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-    }
-
-    .strip {
-      flex: 1;
-      background: black;
-      animation: none;
-    }
-
-    .rain-away {
-      animation: fallStrip 1.4s forwards;
-    }
-
-    @keyframes fallStrip {
-      0% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(100vh);
-      }
-    }
-
-    #run-button {
-      position: absolute;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 4;
-      padding: 14px 34px;
-      font-size: 1.2rem;
-      font-weight: 900;
-      font-family: 'Courier New', monospace;
-      color: black;
-      background-color: #ff1a1a;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      animation: glitchBtn 1s infinite alternate;
-    }
-
-    @keyframes glitchBtn {
-      0% {
-        box-shadow: 0 0 6px #ff1a1a;
-        transform: translateX(-50%) scale(1);
-      }
-      100% {
-        box-shadow: 0 0 20px #ff4444, 0 0 8px red;
-        transform: translateX(-50%) scale(1.05);
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="images/gwos-favicon.png" />
 </head>
 <body>
-
-  <!-- GATEWAY SCREEN WRAPPER -->
+  <!-- GATEWAY WRAPPER -->
   <div id="gateway-screen">
-
     <!-- LOGO + TAGLINE -->
     <div class="logo-container">
-      <img src="images/grimmware-logo.png" alt="GRIMMWARE OS Logo" class="logo-main">
-      <img src="images/emotion-is-executable.png" alt="Emotion Is Executable" class="tagline">
+      <img src="images/grimmware-logo.png" alt="GRIMMWARE OS Logo" class="logo-main" />
+      <img src="images/emotion-is-executable.png" alt="Emotion Is Executable" class="tagline" />
     </div>
 
     <!-- DECRYPT BOXES -->
@@ -129,16 +38,16 @@
     <button id="run-button" class="run-it-button hidden">>>> RUN IT</button>
   </div>
 
-  <!-- RAIN STRIPS CONTAINER (generated dynamically) -->
+  <!-- RAIN STRIPS OVERLAY (empty initially, filled by JS) -->
   <div id="gateway-overlay"></div>
 
-  <!-- MATRIX RAIN BACKGROUND / LP PAGE -->
-  <div id="landing-page" style="display: none;">
-    <div style="color: #00ff66; text-align: center; font-size: 2rem; padding-top: 20vh;">
-      GRIMMWARE OS Booted. Welcome.
-    </div>
+  <!-- LANDING PAGE -->
+  <div id="landing-page">
+    <div class="landing-message">GRIMMWARE OS Booted. Welcome.</div>
+    <img src="images/emotion-is-executable.png" alt="Emotion is Executable" class="landing-tagline" />
   </div>
 
+  <!-- SCRIPT -->
   <script src="script.js" defer></script>
 </body>
 </html>
