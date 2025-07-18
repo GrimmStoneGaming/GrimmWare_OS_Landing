@@ -1,16 +1,13 @@
 // === GRIMMWARE OS CORE JS ===
 
-// INIT ON DOM READY
-document.addEventListener("DOMContentLoaded", () => {
-
-  // 🎯 FLOATING EGGS — Randomized position across full page height + drifting animation
+// 🎯 FLOATING EGGS — Randomized position across full page height + drifting animation
 const floatingEggs = document.querySelectorAll(".drifting-egg");
 
 floatingEggs.forEach((egg) => {
   const pageHeight = document.body.scrollHeight;
   const pageWidth = document.body.scrollWidth;
 
-  const top = Math.random() * (pageHeight - 100);  // adjust 100 based on egg size
+  const top = Math.random() * (pageHeight - 100);  // adjust based on egg size
   const left = Math.random() * (pageWidth - 100);
 
   egg.style.position = "absolute";
@@ -34,42 +31,42 @@ floatingEggs.forEach((egg) => {
   );
 });
 
-  // 👁 REVEAL ON SCROLL
-  const revealOnScroll = () => {
-    const reveals = document.querySelectorAll(".reveal");
-    const winH = window.innerHeight;
-    reveals.forEach((el) => {
-      if (el.getBoundingClientRect().top < winH) {
-        el.classList.add("reveal-active");
-      }
-    });
-  };
-  window.addEventListener("scroll", revealOnScroll);
-  revealOnScroll();
+// 👁 REVEAL ON SCROLL
+const revealOnScroll = () => {
+  const reveals = document.querySelectorAll(".reveal");
+  const winH = window.innerHeight;
+  reveals.forEach((el) => {
+    if (el.getBoundingClientRect().top < winH) {
+      el.classList.add("reveal-active");
+    }
+  });
+};
+window.addEventListener("scroll", revealOnScroll);
+revealOnScroll();
 
-  // 🧠 TYPING ANIMATION
-  const loading1 = document.getElementById("loading-1");
-  const loading2 = document.getElementById("loading-2");
+// 🧠 TYPING ANIMATION (SPLIT LOOP)
+const loading1 = document.getElementById("loading-1");
+const loading2 = document.getElementById("loading-2");
 
-  const lines1 = [
+const lines1 = [
   "&gt;&gt;&gt; <span class='white'>Authenticating system integrity...</span>",
   "&gt;&gt;&gt; <span class='cyan'>Initializing GWOS...</span>",
   "&gt;&gt;&gt; <span class='red'>System breach imminent...</span>"
 ];
 
-  const lines2 = [
-    "&gt;&gt;&gt; Compiling pain... <span class='green'>Complete</span>",
-    "&gt;&gt;&gt; Parsing guilt... <span class='green'>Complete</span>",
-    "&gt;&gt;&gt; Injecting honesty... <span class='green'>Complete</span>",
-    "&gt;&gt;&gt; <span class='red'>WARNING: Emotional stability compromised...</span>",
-    "&gt;&gt;&gt; <span class='pink'>Manifesting audio signature...</span>",
-    "&gt;&gt;&gt; <span class='red'>SIGNAL DISTORTION DETECTED...</span>",
-    "&gt;&gt;&gt; ...recalibrating...",
-    "&gt;&gt;&gt; <span class='limegreen'>AUTHORIZED OVERRIDE — PLAYBACK UNLOCKED</span>",
-    "&gt;&gt;&gt; Deploying featured track: <span class='blue'><i>I See It All</i></span>"
-  ];
+const lines2 = [
+  "&gt;&gt;&gt; Compiling pain... <span class='green'>Complete</span>",
+  "&gt;&gt;&gt; Parsing guilt... <span class='green'>Complete</span>",
+  "&gt;&gt;&gt; Injecting honesty... <span class='green'>Complete</span>",
+  "&gt;&gt;&gt; <span class='red'>WARNING: Emotional stability compromised...</span>",
+  "&gt;&gt;&gt; <span class='pink'>Manifesting audio signature...</span>",
+  "&gt;&gt;&gt; <span class='red'>SIGNAL DISTORTION DETECTED...</span>",
+  "&gt;&gt;&gt; ...recalibrating...",
+  "&gt;&gt;&gt; <span class='limegreen'>AUTHORIZED OVERRIDE — PLAYBACK UNLOCKED</span>",
+  "&gt;&gt;&gt; Deploying featured track: <span class='blue'><i>I See It All</i></span>"
+];
 
-const typeLines1 = (target, lines, delay = 60, callback) => {
+const typeLines = (target, lines, delay = 60, callback) => {
   let lineIndex = 0;
   target.innerHTML = "";
 
@@ -106,63 +103,22 @@ const typeLines1 = (target, lines, delay = 60, callback) => {
   typeLine();
 };
 
-const typeLines2 = (target, lines, delay = 60, callback) => {
-  let lineIndex = 0;
-  target.innerHTML = "";
-
-  const typeLine = () => {
-    if (lineIndex >= lines.length) {
-      callback?.();
-      return;
-    }
-
-    const line = lines[lineIndex];
-    let charIndex = 0;
-    let currentLine = "";
-
-    const typeChar = () => {
-      currentLine += line.charAt(charIndex);
-      target.innerHTML =
-        lines.slice(0, lineIndex).join("<br>") +
-        "<br>" +
-        currentLine +
-        `<span class="blink">|</span>`;
-      charIndex++;
-
-      if (charIndex < line.length) {
-        setTimeout(typeChar, delay);
-      } else {
-        lineIndex++;
-        setTimeout(typeLine, 0);
-      }
-    };
-
-    typeChar();
-  };
-
-  typeLine();
-};
-
-
-// 🎯 Independent animation loops for each section
 const loopLoading1 = () => {
   if (!loading1) return;
 
-  typeLines1(loading1, lines1, 60, () => {
-    setTimeout(loopLoading1, 2000); // restart delay for section 1
+  typeLines(loading1, lines1, 60, () => {
+    setTimeout(loopLoading1, 1000);
   });
 };
 
 const loopLoading2 = () => {
   if (!loading2) return;
 
-  typeLines2(loading2, lines2, 60, () => {
-    setTimeout(loopLoading2, 2000); // restart delay for section 2
+  typeLines(loading2, lines2, 60, () => {
+    setTimeout(loopLoading2, 1000);
   });
 };
 
-
-// 🚀 Kick them off separately
 loopLoading1();
 loopLoading2();
 
@@ -174,7 +130,7 @@ if (canvas) {
   canvas.height = window.innerHeight;
   canvas.width = window.innerWidth;
 
-  // 🔧 RGBA utility for glitch text
+  // 🔧 RGBA utility
   function hexToRGBA(hex, alpha) {
     const shorthand = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
     hex = hex.replace(shorthand, (m, r, g, b) =>
@@ -200,13 +156,12 @@ if (canvas) {
   ];
 
   const activeGlitchLines = [];
-  const fontSize = 14;
-  const columnCount = 400; // 🎯 increase this for denser rain
-  const spacing = canvas.width / columnCount;
-  const drops = Array.from({ length: columnCount }, () => 1);
+  const fontSize = 16;
+  const columns = Math.floor(canvas.width / fontSize);
+  const drops = Array.from({ length: columns }, () => 1);
 
   const draw = () => {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.08)"; // controls trail fade — tweak if needed
+    ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     ctx.fillStyle = "#ff0000";
@@ -214,7 +169,7 @@ if (canvas) {
 
     drops.forEach((y, i) => {
       const text = letters[Math.floor(Math.random() * letters.length)];
-      const x = i * spacing;
+      const x = i * fontSize;
       ctx.fillText(text, x, y * fontSize);
 
       if (y * fontSize > canvas.height && Math.random() > 0.975) {
@@ -224,7 +179,6 @@ if (canvas) {
       drops[i]++;
     });
 
-    // 🧠 Glitch text fade overlay
     for (let i = activeGlitchLines.length - 1; i >= 0; i--) {
       const line = activeGlitchLines[i];
       ctx.font = "bold 14px monospace";
@@ -252,12 +206,10 @@ if (canvas) {
       y,
       color,
       alpha: 1.0,
-      fadeRate: Math.random() * 0.015 + 0.01
+      fadeRate: 0.02
     });
   };
 
-  setInterval(draw, 33);              // ~30fps
-  setInterval(drawHorizontalGlitch, 3000); // glitch every 3s
+  setInterval(draw, 33);
+  setInterval(drawHorizontalGlitch, 3000);
 }
-
-
