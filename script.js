@@ -192,25 +192,25 @@ document.addEventListener("DOMContentLoaded", () => {
     setInterval(drawHorizontalGlitch, 3000);
   }
 
- // === MESSAGE REVEAL TOGGLE WITH FADE ===
-const trigger = document.getElementById("message-trigger");
-const hiddenMsg = document.getElementById("hidden-message");
+  // === MESSAGE REVEAL TOGGLE WITH FADE ===
+  const trigger = document.getElementById("message-trigger");
+  const hiddenMsg = document.getElementById("hidden-message");
 
-if (trigger && hiddenMsg) {
-  trigger.addEventListener("click", () => {
-    if (hiddenMsg.classList.contains("visible")) {
-      hiddenMsg.classList.remove("visible");
-      hiddenMsg.classList.add("fade-out");
+  if (trigger && hiddenMsg) {
+    trigger.addEventListener("click", () => {
+      if (hiddenMsg.classList.contains("visible")) {
+        hiddenMsg.classList.remove("visible");
+        hiddenMsg.classList.add("fade-out");
 
-      // ⏳ Wait for fade to finish, then fully hide
-      setTimeout(() => {
-        hiddenMsg.classList.remove("fade-out");
-        hiddenMsg.style.display = "none";
-      }, 600); // matches CSS transition
-    } else {
-      hiddenMsg.style.display = "block";
-      hiddenMsg.classList.add("visible");
-    }
-  });
-}
-
+        // ⏳ Wait for fade to finish, then fully hide
+        setTimeout(() => {
+          hiddenMsg.classList.remove("fade-out");
+          hiddenMsg.style.display = "none";
+        }, 600); // matches CSS transition
+      } else {
+        hiddenMsg.style.display = "block";
+        hiddenMsg.classList.add("visible");
+      }
+    });
+  }
+});
