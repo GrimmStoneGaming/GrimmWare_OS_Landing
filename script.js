@@ -152,48 +152,46 @@ document.getElementById('run-button').addEventListener('click', () => {
   runWrapper.style.display = 'none';
   accessMessage.style.display = 'none';
 
-  // Block all visuals with blackout screen
   overlay.innerHTML = '';
   overlay.style.display = 'flex';
   overlay.style.background = 'black';
-  overlay.style.zIndex = '99';
 
-  // Delay to fully apply blackout before anything renders
+  // Build overlay strips (bars)
+  const indexes = Array.from({ length: numStrips }, (_, i) => i).sort(() => Math.random() - 0.5);
+  for (let i = 0; i < numStrips; i++) {
+    const strip = document.createElement('div');
+    strip.classList.add('strip', 'cover');
+    strip.style.left = `${(100 / numStrips) * indexes[i]}%`;
+    strip.style.width = `${100 / numStrips}%`;
+    strip.style.animationDelay = `${i * delayBetween}ms`;
+    overlay.appendChild(strip);
+  }
+
+  // Delay to simulate full blackout
   setTimeout(() => {
-    // Show LP behind black bars, still invisible
     landingPage.style.display = 'flex';
     landingPage.style.opacity = 0;
-    landingPage.style.zIndex = '0'; // Bring it forward behind overlay
     landingPage.style.transition = 'opacity 1s ease';
 
-    // Generate randomized bar order
-    const indexes = Array.from({ length: numStrips }, (_, i) => i).sort(() => Math.random() - 0.5);
-    for (let i = 0; i < numStrips; i++) {
-      const strip = document.createElement('div');
-      strip.classList.add('strip', 'cover');
-      strip.style.left = `${(100 / numStrips) * indexes[i]}%`;
-      strip.style.width = `${100 / numStrips}%`;
-      strip.style.animationDelay = `${i * delayBetween}ms`;
-      overlay.appendChild(strip);
-    }
+    // Trigger fall animation on each strip
+    const coverStrips = document.querySelectorAll('.strip.cover');
+    coverStrips.forEach((strip, idx) => {
+      strip.classList.add('reveal');
+      strip.classList.remove('cover');
+      strip.style.animation = 'fallReveal 0.6s forwards';
+      strip.style.animationDelay = `${idx * delayBetween}ms`;
+    });
 
-    // Wait for dramatic pause before drop
+    // Fade in LP behind falling strips
     setTimeout(() => {
-      const coverStrips = document.querySelectorAll('.strip.cover');
-      coverStrips.forEach((strip, idx) => {
-        strip.classList.add('reveal');
-        strip.classList.remove('cover');
-        strip.style.animation = 'fallReveal 0.6s forwards';
-        strip.style.animationDelay = `${idx * delayBetween}ms`;
-      });
+      landingPage.style.opacity = 1;
+    }, 400 + numStrips * delayBetween);
 
-      // Fade in LP right after final strips fall
-      setTimeout(() => {
-        landingPage.style.opacity = 1;
-        overlay.style.display = 'none';
-      }, 300 + numStrips * delayBetween);
-    }, 2000); // OH SHIT tension moment
-  }, 400); // blackout buffer before bar prep
+    // Hide overlay after full fall
+    setTimeout(() => {
+      overlay.style.display = 'none';
+    }, 1000 + numStrips * delayBetween);
+  }, 400); // Delay before bar fall begins
 });
 // === BOOT ===
 cycleCharacters();
