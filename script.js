@@ -115,8 +115,8 @@ function showAccessGranted() {
   const grantedText = 'ACCESS GRANTED. SYSTEM UNLOCKED.';
   const warningText = '>>> WARNING: THIS MAY CHANGE YOU.';
 
-  typeText(grantedLine, grantedText, 60, () => {
-    typeText(warningLine, warningText, 100, () => {
+  typeText(grantedLine, grantedText, 80, () => {
+    typeText(warningLine, warningText, 150, () => {
       startIdleGlitch(warningLine, warningText);
 
       setTimeout(() => {
