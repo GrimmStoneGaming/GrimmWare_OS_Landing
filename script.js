@@ -116,7 +116,7 @@ function showAccessGranted() {
   const warningText = '>>> WARNING: THIS MAY CHANGE YOU.';
 
   typeText(grantedLine, grantedText, 80, () => {
-    typeText(warningLine, warningText, 150, () => {
+    typeText(warningLine, warningText, 120, () => {
       startIdleGlitch(warningLine, warningText);
 
       setTimeout(() => {
