@@ -115,8 +115,8 @@ function showAccessGranted() {
   const grantedText = 'ACCESS GRANTED. SYSTEM UNLOCKED.';
   const warningText = '>>> WARNING: THIS MAY CHANGE YOU.';
 
-  typeText(grantedLine, grantedText, 80, () => {
-    typeText(warningLine, warningText, 120, () => {
+  typeText(grantedLine, grantedText, 40, () => {
+    typeText(warningLine, warningText, 75, () => {
       startIdleGlitch(warningLine, warningText);
 
       setTimeout(() => {
@@ -193,29 +193,6 @@ document.getElementById('run-button').addEventListener('click', () => {
       overlay.style.display = 'none';
     }, totalDelay + 500);
   }, fallInDuration + delayBeforeReveal);
-});
-// === Load Sequence ===
-window.addEventListener('DOMContentLoaded', () => {
-  const logo = document.querySelector('.logo-main');
-  const tagline = document.querySelector('.tagline');
-  const cipher = document.querySelector('.decrypt-wrapper');
-  const instruction = document.querySelector('.decrypt-instruction');
-
-  setTimeout(() => {
-    logo.style.animation = 'fadeIn 0.8s forwards';
-  }, 0);
-
-  setTimeout(() => {
-    tagline.style.animation = 'fadeIn 0.8s forwards';
-  }, 800);
-
-  setTimeout(() => {
-    cipher.style.animation = 'glitchIn 0.6s forwards';
-  }, 1600);
-
-  setTimeout(() => {
-    instruction.style.animation = 'fadeInSoft 0.6s forwards';
-  }, 1800);
 });
 
 // Boot
