@@ -5,13 +5,13 @@ let intervalId = null;
 let solved = Array(boxes.length).fill(false);
 let transitionInProgress = false;
 
-// Random Char Generator
+// === Random Char Generator ===
 function getRandomChar() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return chars[Math.floor(Math.random() * chars.length)];
 }
 
-// Cycle Characters
+// === Cycle Characters in Boxes ===
 function cycleCharacters() {
   setInterval(() => {
     boxes.forEach((box, i) => {
@@ -22,7 +22,7 @@ function cycleCharacters() {
   }, 100);
 }
 
-// Pick new green box
+// === Start Green Box Selector ===
 function startCycling() {
   intervalId = setInterval(() => {
     let nextIndex;
@@ -47,7 +47,7 @@ function startCycling() {
   }, 1500);
 }
 
-// Click to lock
+// === Click to Lock Logic ===
 boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
     if (i === currentGreenIndex && !solved[i]) {
@@ -66,7 +66,7 @@ boxes.forEach((box, i) => {
   });
 });
 
-// Typewriter effect
+// === Typewriter Utility ===
 function typeText(target, text, delay = 60, callback = null) {
   let i = 0;
   const interval = setInterval(() => {
@@ -79,7 +79,7 @@ function typeText(target, text, delay = 60, callback = null) {
   }, delay);
 }
 
-// Subtle idle glitch
+// === Subtle Idle Glitch ===
 function startIdleGlitch(target, originalText, frequency = 150) {
   const glitchChars = "!@#$%^&*()_+=~{}|<>?/\\";
   let glitchInterval = setInterval(() => {
@@ -97,7 +97,7 @@ function startIdleGlitch(target, originalText, frequency = 150) {
   });
 }
 
-// Cipher Solved Logic
+// === Cipher Solved ===
 function showAccessGranted() {
   const grantedLine = document.querySelector('.granted');
   const warningLine = document.querySelector('.warning');
@@ -128,7 +128,7 @@ function showAccessGranted() {
   });
 }
 
-// RUN IT Button Handler
+// === RUN IT Button Handler ===
 document.getElementById('run-button').addEventListener('click', () => {
   if (transitionInProgress) return;
   transitionInProgress = true;
@@ -143,12 +143,15 @@ document.getElementById('run-button').addEventListener('click', () => {
   const fallOutDuration = 600;
   const delayBeforeReveal = 1500;
 
+  // 1. Blackout
   runWrapper.style.display = 'none';
   accessMessage.style.display = 'none';
 
+  // 2. Prepare LP
   landingPage.style.display = 'flex';
   landingPage.style.opacity = 0;
 
+  // 3. Generate Bars
   overlay.innerHTML = '';
   overlay.style.display = 'flex';
   overlay.style.background = 'transparent';
@@ -162,6 +165,7 @@ document.getElementById('run-button').addEventListener('click', () => {
     overlay.appendChild(strip);
   }
 
+  // 4. Reveal LP and Remove Bars
   setTimeout(() => {
     landingPage.style.opacity = 1;
 
@@ -183,6 +187,6 @@ document.getElementById('run-button').addEventListener('click', () => {
   }, fallInDuration + delayBeforeReveal);
 });
 
-// INIT
+// === BOOT ===
 cycleCharacters();
 startCycling();
