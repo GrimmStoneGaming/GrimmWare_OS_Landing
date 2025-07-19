@@ -208,12 +208,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Logo fade
   setTimeout(() => {
-    logo.style.animation = 'fadeIn 0.8s forwards';
+    logo.style.animation = 'fadeIn 1.2s forwards';
   }, 0);
 
   // Banner fade
   setTimeout(() => {
-    tagline.style.animation = 'fadeIn 0.8s forwards';
+    tagline.style.animation = 'fadeIn 1.2.s forwards';
   }, 800);
 
   // Cipher glitch
