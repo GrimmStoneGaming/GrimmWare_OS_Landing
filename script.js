@@ -148,7 +148,7 @@ document.getElementById('run-button').addEventListener('click', () => {
   const delayBetween = 30;
   const fallDuration = 500;
 
-  // Instantly remove visible UI
+  // Hide visible UI
   runWrapper.style.display = 'none';
   accessMessage.style.display = 'none';
 
@@ -156,13 +156,15 @@ document.getElementById('run-button').addEventListener('click', () => {
   overlay.style.display = 'flex';
   overlay.style.background = 'black';
 
-  // Wait for a full blackout effect
+  // Step 1: Blackout screen (instant)
   setTimeout(() => {
-    // Show landing page behind black bars
+    // Step 2: Show LP in background (still covered)
+    landingPage.classList.remove('hidden');
     landingPage.style.display = 'flex';
     landingPage.style.opacity = 0;
     landingPage.style.transition = 'opacity 1s ease';
 
+    // Step 3: Drop the bars
     const indexes = Array.from({ length: numStrips }, (_, i) => i).sort(() => Math.random() - 0.5);
     for (let i = 0; i < numStrips; i++) {
       const strip = document.createElement('div');
@@ -173,7 +175,7 @@ document.getElementById('run-button').addEventListener('click', () => {
       overlay.appendChild(strip);
     }
 
-    // Let the tension build before drop
+    // Step 4: Delay to create suspense
     setTimeout(() => {
       const coverStrips = document.querySelectorAll('.strip.cover');
       coverStrips.forEach((strip, idx) => {
@@ -183,12 +185,13 @@ document.getElementById('run-button').addEventListener('click', () => {
         strip.style.animationDelay = `${idx * delayBetween}ms`;
       });
 
+      // Step 5: Fade LP in behind the strips
       setTimeout(() => {
         landingPage.style.opacity = 1;
         overlay.style.display = 'none';
       }, 300 + numStrips * delayBetween);
-    }, 2000); // OH SHIT tension moment
-  }, 400); // blackout buffer before bar prep
+    }, 2000); // Delay before strip fall
+  }, 400); // Slight delay after blackout
 });
 
 // === BOOT ===
