@@ -28,6 +28,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  transition: opacity 0.8s ease;
 }
 
 /* === TOP ANCHOR CONTAINER === */
@@ -120,10 +121,11 @@ body {
   }
 }
 
-.green-glow {
-  color: #00ff66;
-  font-weight: bold;
-  text-shadow: 0 0 6px #00ff66, 0 0 12px #00ff66;
+/* === UI FADE OUT === */
+.ui-fade-out {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
 }
 
 /* === ACCESS MESSAGE === */
@@ -222,22 +224,7 @@ body {
   }
 }
 
-@keyframes glitchBox {
-  0% {
-    box-shadow: 0 0 6px #ff0000;
-  }
-  33% {
-    box-shadow: 0 0 16px #ff0000, 0 0 5px #ff4444 inset;
-  }
-  66% {
-    box-shadow: 0 0 10px #ff2222, 0 0 20px #ff1111;
-  }
-  100% {
-    box-shadow: 0 0 12px #ff0000;
-  }
-}
-
-/* === STRIP WIPE (2-PHASE) === */
+/* === STRIP FALL === */
 #gateway-overlay {
   position: absolute;
   top: 0;
@@ -271,13 +258,6 @@ body {
   animation: fallReveal 0.5s forwards ease-out;
 }
 
-/* fallback for .strip (if animation fallback used elsewhere) */
-@keyframes fall {
-  to {
-    transform: translateY(0);
-  }
-}
-
 @keyframes fallCover {
   to {
     transform: translateY(0);
@@ -290,22 +270,6 @@ body {
   }
 }
 
-/* === FADE UI OUT === */
-.gateway-fade {
-  animation: fadeOutUp 0.8s ease forwards;
-}
-
-@keyframes fadeOutUp {
-  0% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-}
-
 /* === LANDING PAGE === */
 #landing-page {
   position: absolute;
@@ -315,47 +279,19 @@ body {
   height: 100%;
   background: black;
   z-index: 1;
-  display: flex;
+  display: none;
+  opacity: 0;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  transition: opacity 1s ease;
   color: #00ffcc;
   text-align: center;
 }
 
-.lp-content h1 {
-  font-size: 2rem;
-  margin-bottom: 10px;
-}
-
-.lp-content p {
-  font-size: 1.1rem;
-}
-
-/* === GATEWAY UI FADE OUT === */
-#gateway-ui.fade-out {
-  opacity: 0;
-  transition: opacity 0.8s ease;
-  pointer-events: none;
-}
-
-/* === RUN WRAPPER GLITCH-IN ANIMATION === */
-@keyframes glitchFadeIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.95) skewX(-2deg);
-    filter: brightness(0.8) hue-rotate(15deg);
-  }
-  50% {
-    opacity: 0.6;
-    transform: scale(1.02) skewX(1deg);
-    filter: brightness(1.2) hue-rotate(-10deg);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) skewX(0);
-    filter: none;
-  }
+#landing-page.visible {
+  display: flex;
+  opacity: 1;
 }
 
 /* === UTILITY === */
