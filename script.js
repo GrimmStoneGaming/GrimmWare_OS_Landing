@@ -198,3 +198,45 @@ document.getElementById('run-button').addEventListener('click', () => {
 // Boot
 cycleCharacters();
 startCycling();
+
+
+window.addEventListener('DOMContentLoaded', () => {
+  const logo = document.querySelector('.logo-main');
+  const tagline = document.querySelector('.tagline');
+  const cipher = document.querySelector('.decrypt-wrapper');
+  const instruction = document.querySelector('.decrypt-instruction');
+
+  // Logo fade
+  setTimeout(() => {
+    logo.style.animation = 'fadeIn 0.8s forwards';
+  }, 0);
+
+  // Banner fade
+  setTimeout(() => {
+    tagline.style.animation = 'fadeIn 0.8s forwards';
+  }, 800);
+
+  // Cipher glitch
+  setTimeout(() => {
+    cipher.style.animation = 'glitchIn 0.6s forwards';
+  }, 1600);
+
+  // Glitched instruction injection
+  setTimeout(() => {
+    instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
+    instruction.style.animation = 'corruptText 6s infinite';
+    instruction.style.opacity = '1';
+
+    const raw = 'T4p _gr33n_ 2 d3crypt...';
+    const glitchChars = '!@#$%▉?~*';
+    setInterval(() => {
+      const corrupted = raw.split('').map(char =>
+        Math.random() < 0.07 && char !== ' '
+          ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
+          : char
+      ).join('');
+      instruction.textContent = corrupted;
+    }, 200);
+  }, 1800);
+});
+
