@@ -140,7 +140,6 @@ function showAccessGranted() {
     });
   });
 }
-}
 
 // RUN IT Button Handler
 document.getElementById('run-button').addEventListener('click', () => {
