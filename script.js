@@ -120,13 +120,14 @@ function showAccessGranted() {
       startIdleGlitch(warningLine, warningText);
 
       setTimeout(() => {
-        cipherTop.style.opacity = 0;
-        cipherTop.style.pointerEvents = 'none';
+       // GLITCH OUT THE CIPHER SECTION
+cipherTop.classList.add('glitch-out');
 
-        runWrapper.classList.add('glitch-in');
-        runWrapper.style.display = 'block';
-        setTimeout(() => {
-          runWrapper.style.opacity = 1;
+// AFTER GLITCH, BRING IN RUN IT BUTTON
+setTimeout(() => {
+  cipherTop.style.display = 'none'; // fully kill after glitch
+  runWrapper.classList.add('glitch-in');
+}, 1300); // matches glitch animation duration
         }, 50);
       }, 1500);
     });
