@@ -133,9 +133,13 @@ function showAccessGranted() {
         });
 
         setTimeout(() => {
-          cipherTop.style.display = 'none';
-          runPayload.classList.add('glitch-in');
-        }, 1300);
+  cipherTop.style.display = 'none';
+
+  // Force display block to allow animation to show
+  runPayload.style.display = 'block';
+  runPayload.classList.add('glitch-in');
+}, 1300);
+
       }, 1500);
     });
   });
