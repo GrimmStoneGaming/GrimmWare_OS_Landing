@@ -11,7 +11,7 @@ function getRandomChar() {
   return chars[Math.floor(Math.random() * chars.length)];
 }
 
-// Cycle Box Characters (except green)
+// Cycle Characters
 function cycleCharacters() {
   setInterval(() => {
     boxes.forEach((box, i) => {
@@ -22,7 +22,7 @@ function cycleCharacters() {
   }, 100);
 }
 
-// Highlight a new box green every 1.5s
+// Pick new green box
 function startCycling() {
   intervalId = setInterval(() => {
     let nextIndex;
@@ -47,7 +47,7 @@ function startCycling() {
   }, 1500);
 }
 
-// Box click logic
+// Click to lock
 boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
     if (i === currentGreenIndex && !solved[i]) {
@@ -55,7 +55,7 @@ boxes.forEach((box, i) => {
       box.classList.add('green');
       box.style.backgroundColor = '#00ff00';
       box.style.boxShadow = '0 0 12px #00ff00';
-      box.textContent = correctCode[i]; // <- forcefully assign correct char
+      box.textContent = correctCode[i];
       currentGreenIndex = null;
 
       if (solved.every(Boolean)) {
@@ -66,8 +66,7 @@ boxes.forEach((box, i) => {
   });
 });
 
-
-// Typewriter utility
+// Typewriter effect
 function typeText(target, text, delay = 60, callback = null) {
   let i = 0;
   const interval = setInterval(() => {
@@ -80,10 +79,9 @@ function typeText(target, text, delay = 60, callback = null) {
   }, delay);
 }
 
-// Glitch idle loop
+// Subtle idle glitch
 function startIdleGlitch(target, originalText, frequency = 150) {
   const glitchChars = "!@#$%^&*()_+=~{}|<>?/\\";
-
   let glitchInterval = setInterval(() => {
     const glitched = originalText.split('').map(char =>
       Math.random() < 0.05 && char !== ' '
@@ -99,18 +97,16 @@ function startIdleGlitch(target, originalText, frequency = 150) {
   });
 }
 
-// Access Granted + Button Transition
+// Cipher Solved Logic
 function showAccessGranted() {
   const grantedLine = document.querySelector('.granted');
   const warningLine = document.querySelector('.warning');
-  const runWrapper = document.getElementById('run-wrapper');
-  const cipherTop = document.querySelector('.top-container');
+  const cipherTop = document.getElementById('cipherTop');
   const accessMessage = document.getElementById('access-message');
+  const runWrapper = document.getElementById('run-wrapper');
 
-  grantedLine.textContent = '';
-  warningLine.textContent = '';
   accessMessage.classList.remove('hidden');
-  accessMessage.style.opacity = 1;
+  runWrapper.style.display = 'block';
 
   const grantedText = 'ACCESS GRANTED. SYSTEM UNLOCKED.';
   const warningText = '>>> WARNING: THIS MAY CHANGE YOU.';
@@ -119,17 +115,15 @@ function showAccessGranted() {
     typeText(warningLine, warningText, 75, () => {
       startIdleGlitch(warningLine, warningText);
 
+      // Cipher Glitch-Out
       setTimeout(() => {
-       // GLITCH OUT THE CIPHER SECTION
-cipherTop.classList.add('glitch-out');
-
-// AFTER GLITCH, BRING IN RUN IT BUTTON
-setTimeout(() => {
-  cipherTop.style.display = 'none'; // fully kill after glitch
-  runWrapper.classList.add('glitch-in');
-}, 1300); // matches glitch animation duration
-        }, 50);
+        cipherTop.classList.add('glitch-out');
       }, 1500);
+
+      // Run Button Appear
+      setTimeout(() => {
+        runWrapper.classList.add('glitch-in');
+      }, 2100);
     });
   });
 }
@@ -149,15 +143,12 @@ document.getElementById('run-button').addEventListener('click', () => {
   const fallOutDuration = 600;
   const delayBeforeReveal = 1500;
 
-  // STEP 1: Instant blackout
   runWrapper.style.display = 'none';
   accessMessage.style.display = 'none';
 
-  // STEP 2: Prep landing page (stay invisible behind bars)
   landingPage.style.display = 'flex';
   landingPage.style.opacity = 0;
 
-  // STEP 3: Generate and fall in 60 cover strips
   overlay.innerHTML = '';
   overlay.style.display = 'flex';
   overlay.style.background = 'transparent';
@@ -171,12 +162,9 @@ document.getElementById('run-button').addEventListener('click', () => {
     overlay.appendChild(strip);
   }
 
-  // STEP 4: Once bars are down, wait, then reveal LP
   setTimeout(() => {
-    // Fully render LP now
     landingPage.style.opacity = 1;
 
-    // STEP 5: Randomize order of strip fall-off
     const strips = Array.from(overlay.querySelectorAll('.strip'));
     const shuffled = strips.sort(() => Math.random() - 0.5);
 
@@ -185,10 +173,9 @@ document.getElementById('run-button').addEventListener('click', () => {
         strip.classList.remove('cover');
         strip.classList.add('reveal');
         strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
-      }, index * 30); // 30ms stagger per bar
+      }, index * 30);
     });
 
-    // STEP 6: Clean up overlay after full sequence
     const totalDelay = shuffled.length * 30 + fallOutDuration;
     setTimeout(() => {
       overlay.style.display = 'none';
@@ -196,6 +183,6 @@ document.getElementById('run-button').addEventListener('click', () => {
   }, fallInDuration + delayBeforeReveal);
 });
 
-// Boot
+// INIT
 cycleCharacters();
 startCycling();
