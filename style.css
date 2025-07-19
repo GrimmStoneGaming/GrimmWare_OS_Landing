@@ -1,10 +1,16 @@
 /* === GLOBAL === */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0;
   background: black;
   color: #00ffcc;
-  font-family: 'Courier New', monospace;
+  font-family: 'Courier New', Courier, monospace;
   overflow: hidden;
   height: 100vh;
   position: relative;
@@ -13,7 +19,8 @@ body {
 /* === GATEWAY UI WRAPPER === */
 #gateway-ui {
   position: absolute;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   z-index: 1000;
@@ -105,8 +112,12 @@ body {
 }
 
 @keyframes pulseGlow {
-  0%, 100% { text-shadow: 0 0 4px #00ffcc; }
-  50% { text-shadow: 0 0 12px #00ffee; }
+  0%, 100% {
+    text-shadow: 0 0 4px #00ffcc;
+  }
+  50% {
+    text-shadow: 0 0 12px #00ffee;
+  }
 }
 
 .green-glow {
@@ -212,16 +223,25 @@ body {
 }
 
 @keyframes glitchBox {
-  0% { box-shadow: 0 0 6px #ff0000; }
-  33% { box-shadow: 0 0 16px #ff0000, 0 0 5px #ff4444 inset; }
-  66% { box-shadow: 0 0 10px #ff2222, 0 0 20px #ff1111; }
-  100% { box-shadow: 0 0 12px #ff0000; }
+  0% {
+    box-shadow: 0 0 6px #ff0000;
+  }
+  33% {
+    box-shadow: 0 0 16px #ff0000, 0 0 5px #ff4444 inset;
+  }
+  66% {
+    box-shadow: 0 0 10px #ff2222, 0 0 20px #ff1111;
+  }
+  100% {
+    box-shadow: 0 0 12px #ff0000;
+  }
 }
 
 /* === STRIP WIPE (2-PHASE) === */
 #gateway-overlay {
   position: absolute;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   display: none;
@@ -236,21 +256,26 @@ body {
   height: 100%;
   background: black;
   transform: translateY(-100%);
-  animation: fall 0.6s forwards;
-  animation-fill-mode: forwards;
   opacity: 1;
   pointer-events: none;
   z-index: 2100;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
-/* Phase 1: fall and STOP at bottom */
 .strip.cover {
   animation: fallCover 0.5s forwards ease-in;
 }
 
-/* Phase 2: continue off screen to REVEAL */
 .strip.reveal {
   animation: fallReveal 0.5s forwards ease-out;
+}
+
+/* fallback for .strip (if animation fallback used elsewhere) */
+@keyframes fall {
+  to {
+    transform: translateY(0);
+  }
 }
 
 @keyframes fallCover {
@@ -271,14 +296,21 @@ body {
 }
 
 @keyframes fadeOutUp {
-  0% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(-20px); }
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
 }
 
 /* === LANDING PAGE === */
 #landing-page {
   position: absolute;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   background: black;
