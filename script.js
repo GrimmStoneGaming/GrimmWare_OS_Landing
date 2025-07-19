@@ -120,6 +120,7 @@ function showAccessGranted() {
       startIdleGlitch(warningLine, warningText);
 
       setTimeout(() => {
+        initiateCipherPurge();
         cipherTop.style.opacity = 0;
         cipherTop.style.pointerEvents = 'none';
 
@@ -239,4 +240,59 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 200);
   }, 1800);
 });
+// === INITIATE PURGE SEQUENCE ===
+function initiateCipherPurge() {
+  const cipherTop = document.querySelector('.top-container');
+  const overlay = document.getElementById('gateway-overlay');
+
+  // 1. Trigger purge animation
+  cipherTop.classList.add('purged');
+
+  // 2. Start fragment storm
+  startFragmentStorm(overlay);
+
+  // 3. (Optional) Trigger sound, screen shake, or dark fade after fragments
+  // setTimeout(() => {
+  //   yourNextFunctionHere();
+  // }, 2500);
+}
+
+// === CODE FRAGMENTS PAYLOAD ===
+const fragmentMessages = [
+  'SYSERR[195] :: Override in progress...',
+  'MEM BREAK :: Fracture at 0x0003ff',
+  'COMM-LINK :: Signal intercept detected',
+  'WHO IS TRYING TO HELP YOU?',
+  'ACCESS CONTAMINATED :: CONTINUE?',
+  'SYS-ECHO >> YOU MUST KEEP GOING',
+  '???.EXE // SIGNAL BLEED',
+  'RUN_ABANDONED_CORE? [Y/N]',
+  'I’M STILL HERE',
+  'GATE::RECOMPILING(%)',
+];
+
+function startFragmentStorm(container) {
+  const numFragments = 25;
+
+  for (let i = 0; i < numFragments; i++) {
+    setTimeout(() => {
+      const frag = document.createElement('div');
+      frag.classList.add('code-fragment');
+      frag.textContent = fragmentMessages[Math.floor(Math.random() * fragmentMessages.length)];
+
+      frag.style.left = `${Math.random() * 90 + 5}%`; // 5%–95% horizontal spread
+      frag.style.top = `${Math.random() * 20 + 10}%`; // 10%–30% vertical start
+
+      frag.style.animationDuration = `${3 + Math.random() * 2}s`; // 3–5s random drift
+      frag.style.fontSize = `${0.85 + Math.random() * 0.5}rem`; // size variation
+
+      container.appendChild(frag);
+
+      // Auto cleanup after animation
+      setTimeout(() => {
+        frag.remove();
+      }, 6000);
+    }, i * 100); // Stagger fragment entry
+  }
+}
 
