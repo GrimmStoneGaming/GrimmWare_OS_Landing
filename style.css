@@ -360,6 +360,14 @@ body {
     filter: none;
   }
 }
+@keyframes fadeInSoft {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.decrypt-instruction {
+  opacity: 0; /* Hide it initially */
+}
 
 .logo-main,
 .tagline,
