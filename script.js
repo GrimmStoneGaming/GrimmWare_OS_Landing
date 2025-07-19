@@ -142,18 +142,20 @@ document.getElementById('run-button').addEventListener('click', () => {
   const runWrapper = document.getElementById('run-wrapper');
   const accessMessage = document.getElementById('access-message');
 
-  const numStrips = 60;
-  const delayBetween = 30;
+  const numStrips = 60;           // ✅ Only declared once
+  const delayBetween = 30;        // Time between bar drops (ms)
+  const fallDuration = 600;       // Optional: matches your CSS animation duration
 
   // Instantly remove visible UI
   runWrapper.style.display = 'none';
   accessMessage.style.display = 'none';
 
+  // Set up blackout overlay
   overlay.innerHTML = '';
   overlay.style.display = 'flex';
   overlay.style.background = 'black';
 
-  // === BAR FALL (debug mode: limegreen visible strips) ===
+  // Create vertical strip bars
   for (let i = 0; i < numStrips; i++) {
     const strip = document.createElement('div');
     strip.classList.add('strip', 'cover');
@@ -162,34 +164,32 @@ document.getElementById('run-button').addEventListener('click', () => {
     strip.style.height = '100vh';
     strip.style.position = 'absolute';
     strip.style.top = '0';
-    strip.style.background = 'limegreen'; // DEBUG: make strips visible
+    strip.style.background = 'limegreen'; // ← You can style this later
+    strip.style.animation = `fallReveal ${fallDuration}ms forwards`;
     strip.style.animationDelay = `${i * delayBetween}ms`;
-    strip.style.animation = 'fallReveal 0.6s forwards';
     overlay.appendChild(strip);
   }
 
-  // Begin bar fall + LP fade
+  // After short pause, reveal LP behind falling bars
   setTimeout(() => {
     landingPage.style.display = 'flex';
     landingPage.style.opacity = 0;
     landingPage.style.transition = 'opacity 1s ease';
 
-    const coverStrips = document.querySelectorAll('.strip.cover');
-    coverStrips.forEach((strip, idx) => {
-      strip.classList.add('reveal');
-      strip.classList.remove('cover');
-      strip.style.animation = 'fallReveal 0.6s forwards';
-      strip.style.animationDelay = `${idx * delayBetween}ms`;
+    const strips = document.querySelectorAll('.strip.cover');
+    strips.forEach((strip, i) => {
+      strip.style.animationDelay = `${i * delayBetween}ms`;
+      strip.style.animation = `fallReveal ${fallDuration}ms forwards`;
     });
 
     setTimeout(() => {
       landingPage.style.opacity = 1;
-    }, 400 + numStrips * delayBetween);
+    }, fallDuration + numStrips * delayBetween);
 
     setTimeout(() => {
       overlay.style.display = 'none';
-    }, 1000 + numStrips * delayBetween);
-  }, 400);
+    }, fallDuration + numStrips * delayBetween + 500);
+  }, 400); // Delay before fall starts
 });
 
 // === BOOT ===
