@@ -39,6 +39,42 @@ body {
   padding-top: 40px;
   padding-bottom: 30px;
 }
+.top-container.purged {
+  animation: cipherPurge 1.6s ease-in-out forwards;
+  pointer-events: none;
+  opacity: 0;
+  filter: contrast(0) grayscale(1) brightness(3);
+  transform: scale(1.2) rotate(3deg);
+}
+@keyframes cipherPurge {
+  0% {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+  20% {
+    filter: grayscale(0.5) brightness(1.3) contrast(1.5);
+    transform: scale(1.05) rotate(-1deg);
+  }
+  40% {
+    filter: invert(1) hue-rotate(90deg);
+    transform: scale(1.1) rotate(2deg);
+  }
+  60% {
+    filter: contrast(2) brightness(2);
+    transform: scale(1.15) rotate(-2deg);
+  }
+  80% {
+    opacity: 0.6;
+    filter: grayscale(1);
+    transform: scale(1.25) rotate(3deg);
+  }
+  100% {
+    opacity: 0;
+    filter: brightness(3) contrast(0);
+    transform: scale(1.3) rotate(5deg);
+  }
+}
 
 /* === LOGO + TAGLINE === */
 .logo-container {
@@ -377,4 +413,37 @@ body {
   80%  { transform: skewX(6deg); }
   90%  { transform: none; opacity: 0.8; }
   100% { transform: none; }
+}
+/* === CODE FRAGMENTS (GLITCH MESSAGES) === */
+.code-fragment {
+  position: absolute;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  color: #ff4444;
+  pointer-events: none;
+  opacity: 0;
+  white-space: nowrap;
+  z-index: 5000;
+  animation: glitchFragment 4s infinite, fragmentDrift 8s linear forwards;
+  filter: brightness(1.5) contrast(1.2);
+  text-shadow:
+    0 0 2px red,
+    0 0 4px #ff0000,
+    0 0 6px #ff2222;
+}
+@keyframes glitchFragment {
+  0% { opacity: 0.3; transform: translate(0, 0) scale(1); }
+  10% { opacity: 1; transform: translate(-1px, 1px) rotate(-0.5deg); }
+  25% { transform: translate(1px, -1px) scale(1.05); }
+  40% { opacity: 0.6; transform: translate(-2px, 2px); }
+  60% { opacity: 1; transform: translate(1px, 1px) rotate(0.5deg); }
+  75% { transform: scale(1.02); }
+  100% { opacity: 0; transform: translate(0, 0) scale(1); }
+}
+
+@keyframes fragmentDrift {
+  to {
+    transform: translateY(100vh) rotate(3deg);
+    opacity: 0;
+  }
 }
