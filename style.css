@@ -144,10 +144,7 @@ body {
 
 #access-message .warning {
   color: #ff4444;
-  text-shadow:
-    0 0 6px #ff0000,
-    0 0 12px #ff2222,
-    0 0 18px #ff4444;
+  text-shadow: 0 0 6px #ff0000, 0 0 12px #ff2222, 0 0 18px #ff4444;
   font-style: italic;
   font-weight: bold;
   margin-top: 6px;
@@ -183,10 +180,7 @@ body {
   position: relative;
   z-index: 2;
   animation: glitchPulse 1.4s infinite, runItVoidReach 2.5s infinite alternate;
-  box-shadow:
-    0 0 10px #ff0000,
-    0 0 20px #ff0000,
-    0 0 30px #ff0033;
+  box-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0033;
 }
 
 @keyframes glitchPulse {
@@ -223,21 +217,6 @@ body {
   }
 }
 
-@keyframes glitchBox {
-  0% {
-    box-shadow: 0 0 6px #ff0000;
-  }
-  33% {
-    box-shadow: 0 0 16px #ff0000, 0 0 5px #ff4444 inset;
-  }
-  66% {
-    box-shadow: 0 0 10px #ff2222, 0 0 20px #ff1111;
-  }
-  100% {
-    box-shadow: 0 0 12px #ff0000;
-  }
-}
-
 /* === MATRIX FALL BAR OVERRIDE === */
 #gateway-overlay {
   position: absolute;
@@ -251,11 +230,11 @@ body {
 }
 
 .strip {
-  width: calc(100% / 60); /* 60 strips evenly spaced */
+  width: calc(100% / 60);
   height: 100%;
   position: absolute;
   top: 0;
-  background: limegreen; /* DEBUG COLOR – STYLE LATER */
+  background: limegreen; /* Still placeholder, update when finalized */
   transform: translateY(-100%);
   opacity: 1;
   will-change: transform;
@@ -274,22 +253,6 @@ body {
   }
   100% {
     transform: translateY(100vh);
-  }
-}
-
-/* === FADE UI OUT === */
-.gateway-fade {
-  animation: fadeOutUp 0.8s ease forwards;
-}
-
-@keyframes fadeOutUp {
-  0% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-20px);
   }
 }
 
@@ -322,6 +285,22 @@ body {
   opacity: 0;
   transition: opacity 0.8s ease;
   pointer-events: none;
+}
+
+/* === FADE UI OUT === */
+.gateway-fade {
+  animation: fadeOutUp 0.8s ease forwards;
+}
+
+@keyframes fadeOutUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
 }
 
 /* === RUN WRAPPER GLITCH-IN ANIMATION === */
