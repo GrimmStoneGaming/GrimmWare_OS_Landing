@@ -148,23 +148,25 @@ document.getElementById('run-button').addEventListener('click', () => {
   const delayBetween = 30;
   const fallDuration = 500;
 
-  // Hide visible UI
+  // Instantly remove visible UI
   runWrapper.style.display = 'none';
   accessMessage.style.display = 'none';
 
+  // Block all visuals with blackout screen
   overlay.innerHTML = '';
   overlay.style.display = 'flex';
   overlay.style.background = 'black';
+  overlay.style.zIndex = '99';
 
-  // Step 1: Blackout screen (instant)
+  // Delay to fully apply blackout before anything renders
   setTimeout(() => {
-    // Step 2: Show LP in background (still covered)
-    landingPage.classList.remove('hidden');
+    // Show LP behind black bars, still invisible
     landingPage.style.display = 'flex';
     landingPage.style.opacity = 0;
+    landingPage.style.zIndex = '0'; // Bring it forward behind overlay
     landingPage.style.transition = 'opacity 1s ease';
 
-    // Step 3: Drop the bars
+    // Generate randomized bar order
     const indexes = Array.from({ length: numStrips }, (_, i) => i).sort(() => Math.random() - 0.5);
     for (let i = 0; i < numStrips; i++) {
       const strip = document.createElement('div');
@@ -175,7 +177,7 @@ document.getElementById('run-button').addEventListener('click', () => {
       overlay.appendChild(strip);
     }
 
-    // Step 4: Delay to create suspense
+    // Wait for dramatic pause before drop
     setTimeout(() => {
       const coverStrips = document.querySelectorAll('.strip.cover');
       coverStrips.forEach((strip, idx) => {
@@ -185,15 +187,14 @@ document.getElementById('run-button').addEventListener('click', () => {
         strip.style.animationDelay = `${idx * delayBetween}ms`;
       });
 
-      // Step 5: Fade LP in behind the strips
+      // Fade in LP right after final strips fall
       setTimeout(() => {
         landingPage.style.opacity = 1;
         overlay.style.display = 'none';
       }, 300 + numStrips * delayBetween);
-    }, 2000); // Delay before strip fall
-  }, 400); // Slight delay after blackout
+    }, 2000); // OH SHIT tension moment
+  }, 400); // blackout buffer before bar prep
 });
-
 // === BOOT ===
 cycleCharacters();
 startCycling();
