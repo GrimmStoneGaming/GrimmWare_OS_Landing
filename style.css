@@ -248,7 +248,6 @@ body {
   background: black;
   z-index: 2000;
   pointer-events: none;
-  border: 6px solid white !important; /* DEBUG OUTLINE – REMOVE WHEN DONE */
 }
 
 .strip {
