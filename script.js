@@ -1,181 +1,190 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const boxes = document.querySelectorAll('.box');
-  const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
-  let currentGreenIndex = null;
-  let intervalId = null;
-  let solved = Array(boxes.length).fill(false);
-  let transitionInProgress = false;
+const boxes = document.querySelectorAll('.box');
+const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
+let currentGreenIndex = null;
+let intervalId = null;
+let solved = Array(boxes.length).fill(false);
+let transitionInProgress = false;
 
-  if (boxes.length !== correctCode.length) {
-    console.error('Box count does not match code length.');
-  }
+// === Safeguard: Prevent mismatch between box count and code ===
+if (boxes.length !== correctCode.length) {
+  console.error('Box count does not match code length.');
+}
 
-  function getRandomChar() {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    return chars[Math.floor(Math.random() * chars.length)];
-  }
+// === Random Char Generator ===
+function getRandomChar() {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  return chars[Math.floor(Math.random() * chars.length)];
+}
 
-  function cycleCharacters() {
-    setInterval(() => {
-      boxes.forEach((box, i) => {
-        if (!solved[i] && i !== currentGreenIndex) {
-          box.textContent = getRandomChar();
-        }
-      });
-    }, 100);
-  }
+// === Randomize Box Letters (except green) ===
+function cycleCharacters() {
+  setInterval(() => {
+    boxes.forEach((box, i) => {
+      if (!solved[i] && i !== currentGreenIndex) {
+        box.textContent = getRandomChar();
+      }
+    });
+  }, 100);
+}
 
-  function startCycling() {
-    intervalId = setInterval(() => {
-      let nextIndex;
-      do {
-        nextIndex = Math.floor(Math.random() * boxes.length);
-      } while (solved[nextIndex]);
+// === Highlight Random Box Green ===
+function startCycling() {
+  intervalId = setInterval(() => {
+    let nextIndex;
+    do {
+      nextIndex = Math.floor(Math.random() * boxes.length);
+    } while (solved[nextIndex]);
 
-      boxes.forEach((box, i) => {
-        if (!solved[i]) {
-          box.classList.remove('green');
-          box.style.backgroundColor = 'red';
-          box.style.boxShadow = '0 0 8px #ff0000';
-        }
-      });
+    boxes.forEach((box, i) => {
+      if (!solved[i]) {
+        box.classList.remove('green');
+        box.style.backgroundColor = 'red';
+        box.style.boxShadow = '0 0 8px #ff0000';
+      }
+    });
 
-      currentGreenIndex = nextIndex;
-      const box = boxes[currentGreenIndex];
-      box.classList.add('green');
-      box.textContent = correctCode[currentGreenIndex];
+    currentGreenIndex = nextIndex;
+    const box = boxes[currentGreenIndex];
+    box.classList.add('green');
+    box.textContent = correctCode[currentGreenIndex];
+    box.style.backgroundColor = '#00ff00';
+    box.style.boxShadow = '0 0 8px #00ff00';
+  }, 1500);
+}
+
+// === Box Click Logic ===
+boxes.forEach((box, i) => {
+  box.addEventListener('click', () => {
+    if (i === currentGreenIndex && !solved[i]) {
+      solved[i] = true;
+      box.textContent = correctCode[i];
       box.style.backgroundColor = '#00ff00';
-      box.style.boxShadow = '0 0 8px #00ff00';
-    }, 1500);
-  }
+      box.style.boxShadow = '0 0 12px #00ff00';
+      box.classList.add('green');
 
-  boxes.forEach((box, i) => {
-    box.addEventListener('click', () => {
-      if (i === currentGreenIndex && !solved[i]) {
-        solved[i] = true;
-        box.textContent = correctCode[i];
-        box.style.backgroundColor = '#00ff00';
-        box.style.boxShadow = '0 0 12px #00ff00';
-        box.classList.add('green');
-
-        if (solved.every(Boolean)) {
-          clearInterval(intervalId);
-          setTimeout(showAccessGranted, 800);
-        }
+      if (solved.every(Boolean)) {
+        clearInterval(intervalId);
+        setTimeout(showAccessGranted, 800);
       }
+    }
+  });
+});
+
+// === Typing Text Utility ===
+function typeText(target, text, delay = 60, callback = null) {
+  let i = 0;
+  const interval = setInterval(() => {
+    target.textContent = text.substring(0, i + 1);
+    i++;
+    if (i >= text.length) {
+      clearInterval(interval);
+      if (callback) callback();
+    }
+  }, delay);
+}
+
+// === Idle Glitch Loop ===
+function startIdleGlitch(target, originalText, frequency = 150) {
+  const glitchChars = "!@#$%^&*()_+=~{}|<>?/\\";
+  let glitchInterval = setInterval(() => {
+    const glitched = originalText.split('').map(char =>
+      Math.random() < 0.05 && char !== ' '
+        ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
+        : char
+    ).join('');
+    target.textContent = glitched;
+  }, frequency);
+
+  target.addEventListener('mouseenter', () => {
+    clearInterval(glitchInterval);
+    target.textContent = originalText;
+  });
+}
+
+// === Grant Access & Show Warning ===
+function showAccessGranted() {
+  const accessMessage = document.getElementById('access-message');
+  const grantedLine = accessMessage.querySelector('.granted');
+  const warningLine = accessMessage.querySelector('.warning');
+  const runWrapper = document.getElementById('run-wrapper');
+  const cipherTop = document.querySelector('.top-container');
+
+  grantedLine.textContent = '';
+  warningLine.textContent = '';
+  accessMessage.classList.remove('hidden');
+  accessMessage.style.opacity = 1;
+
+  const grantedText = 'ACCESS GRANTED. SYSTEM UNLOCKED.';
+  const warningText = '>>> WARNING: THIS MAY CHANGE YOU.';
+
+  typeText(grantedLine, grantedText, 40, () => {
+    typeText(warningLine, warningText, 75, () => {
+      startIdleGlitch(warningLine, warningText);
+
+      setTimeout(() => {
+        cipherTop.style.transition = 'opacity 0.6s ease';
+        cipherTop.style.opacity = 0;
+
+        runWrapper.classList.add('glitch-in');
+        runWrapper.style.display = 'block';
+      }, 1500);
     });
   });
+}
 
-  function typeText(target, text, delay = 60, callback = null) {
-    let i = 0;
-    const interval = setInterval(() => {
-      target.textContent = text.substring(0, i + 1);
-      i++;
-      if (i >= text.length) {
-        clearInterval(interval);
-        if (callback) callback();
-      }
-    }, delay);
-  }
+// === RUN IT Button: Screen Wipe and LP Reveal ===
+document.getElementById('run-button').addEventListener('click', () => {
+  if (transitionInProgress) return;
+  transitionInProgress = true;
 
-  function startIdleGlitch(target, originalText, frequency = 150) {
-    const glitchChars = "!@#$%^&*()_+=~{}|<>?/\\";
-    let glitchInterval = setInterval(() => {
-      const glitched = originalText.split('').map(char =>
-        Math.random() < 0.05 && char !== ' '
-          ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
-          : char
-      ).join('');
-      target.textContent = glitched;
-    }, frequency);
+  const overlay = document.getElementById('gateway-overlay');
+  const landingPage = document.getElementById('landing-page');
+  const runWrapper = document.getElementById('run-wrapper');
+  const accessMessage = document.getElementById('access-message');
 
-    target.addEventListener('mouseenter', () => {
-      clearInterval(glitchInterval);
-      target.textContent = originalText;
-    });
-  }
+  const numStrips = 60;
+  const delayBetween = 30;
+  const fallDuration = 600;
 
-  function showAccessGranted() {
-    const accessMessage = document.getElementById('access-message');
-    const grantedLine = accessMessage.querySelector('.granted');
-    const warningLine = accessMessage.querySelector('.warning');
-    const runWrapper = document.getElementById('run-wrapper');
-    const cipherTop = document.querySelector('.top-container');
+  runWrapper.style.display = 'none';
+  accessMessage.style.display = 'none';
 
-    grantedLine.textContent = '';
-    warningLine.textContent = '';
-    accessMessage.classList.remove('hidden');
-    accessMessage.style.opacity = 1;
+  landingPage.style.display = 'flex';
+  landingPage.style.opacity = 0;
 
-    const grantedText = 'ACCESS GRANTED. SYSTEM UNLOCKED.';
-    const warningText = '>>> WARNING: THIS MAY CHANGE YOU.';
-
-    typeText(grantedLine, grantedText, 40, () => {
-      typeText(warningLine, warningText, 75, () => {
-        startIdleGlitch(warningLine, warningText);
-
-        setTimeout(() => {
-          cipherTop.style.transition = 'opacity 0.6s ease';
-          cipherTop.style.opacity = 0;
-
-          runWrapper.classList.add('glitch-in');
-          runWrapper.style.display = 'block';
-        }, 1500);
-      });
-    });
-  }
-
-  document.getElementById('run-button').addEventListener('click', () => {
-    if (transitionInProgress) return;
-    transitionInProgress = true;
-
-    const overlay = document.getElementById('gateway-overlay');
-    const landingPage = document.getElementById('landing-page');
-    const runWrapper = document.getElementById('run-wrapper');
-    const accessMessage = document.getElementById('access-message');
-
-    const numStrips = 60;
-    const delayBetween = 30;
-    const fallDuration = 600;
-
-    runWrapper.style.display = 'none';
-    accessMessage.style.display = 'none';
-
-    landingPage.style.display = 'flex';
-    landingPage.style.opacity = 0;
-    landingPage.style.transition = 'opacity 1s ease';
-
+  requestAnimationFrame(() => {
     requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        overlay.innerHTML = '';
-        overlay.style.display = 'flex';
-        overlay.style.background = 'transparent';
+      overlay.innerHTML = '';
+      overlay.style.display = 'flex';
+      overlay.style.background = 'transparent';
 
-        for (let i = 0; i < numStrips; i++) {
-          const strip = document.createElement('div');
-          strip.classList.add('strip', 'cover');
-          strip.style.position = 'absolute';
-          strip.style.top = '0';
-          strip.style.left = `${(100 / numStrips) * i}%`;
-          strip.style.width = `${100 / numStrips}%`;
-          strip.style.height = '100vh';
-          strip.style.background = 'rgba(0, 255, 0, 0.15)';
-          strip.style.animation = `fallReveal ${fallDuration}ms forwards`;
-          strip.style.animationDelay = `${i * delayBetween}ms`;
-          overlay.appendChild(strip);
-        }
+      for (let i = 0; i < numStrips; i++) {
+        const strip = document.createElement('div');
+        strip.classList.add('strip', 'cover');
+        strip.style.position = 'absolute';
+        strip.style.top = '0';
+        strip.style.left = `${(100 / numStrips) * i}%`;
+        strip.style.width = `${100 / numStrips}%`;
+        strip.style.height = '100vh';
+        strip.style.background = 'rgba(0, 255, 0, 0.15)';
+        strip.style.animation = `fallReveal ${fallDuration}ms forwards`;
+        strip.style.animationDelay = `${i * delayBetween}ms`;
+        overlay.appendChild(strip);
+      }
 
-        setTimeout(() => {
-          landingPage.style.opacity = 1;
-        }, fallDuration + numStrips * delayBetween);
+      setTimeout(() => {
+        landingPage.style.opacity = 1;
+      }, fallDuration + numStrips * delayBetween);
 
-        setTimeout(() => {
-          overlay.style.display = 'none';
-        }, fallDuration + numStrips * delayBetween + 500);
-      });
+      setTimeout(() => {
+        overlay.style.display = 'none';
+      }, fallDuration + numStrips * delayBetween + 500);
     });
   });
+});
 
+// === Start cipher logic on DOM ready ===
+document.addEventListener('DOMContentLoaded', () => {
   cycleCharacters();
   startCycling();
 });
