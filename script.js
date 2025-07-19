@@ -1,3 +1,5 @@
+// === GRIMMWare OS Gateway Script ===
+
 const boxes = document.querySelectorAll('.box');
 const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
 const terminalOverlay = document.getElementById('terminal-overlay');
