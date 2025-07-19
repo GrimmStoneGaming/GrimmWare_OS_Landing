@@ -293,46 +293,6 @@ body {
   display: flex;
   opacity: 1;
 }
-/* === TOP CONTAINER GLITCH OUT === */
-.glitch-out {
-  animation: glitchDestroy 1.8s steps(2, end) forwards;
-  pointer-events: none;
-}
-
-@keyframes glitchDestroy {
-  0% {
-    opacity: 1;
-    transform: none;
-    filter: none;
-  }
-  10% {
-    filter: hue-rotate(20deg) brightness(1.5);
-    transform: translate(1px, -1px);
-  }
-  25% {
-    filter: contrast(1.2) hue-rotate(-20deg);
-    transform: translate(-2px, 2px) scale(1.02);
-  }
-  45% {
-    filter: brightness(2.5) invert(1);
-    opacity: 0.7;
-    transform: skew(-5deg, 3deg);
-  }
-  60% {
-    transform: rotate(2deg) scale(0.98);
-    opacity: 0.3;
-    filter: blur(2px);
-  }
-  75% {
-    transform: translateY(10px) scale(1.1) skew(2deg, -4deg);
-    opacity: 0.1;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-100vh) scale(1.2);
-    filter: blur(8px);
-  }
-}
 
 /* === UTILITY === */
 .hidden {
