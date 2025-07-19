@@ -199,6 +199,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const logo = document.querySelector('.logo-main');
   const tagline = document.querySelector('.tagline');
   const cipher = document.querySelector('.decrypt-wrapper');
+  const instruction = document.querySelector('.decrypt-instruction');
 
   setTimeout(() => {
     logo.style.animation = 'fadeIn 0.8s forwards';
@@ -211,6 +212,10 @@ window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     cipher.style.animation = 'glitchIn 0.6s forwards';
   }, 1600);
+
+  setTimeout(() => {
+    instruction.style.animation = 'fadeInSoft 0.6s forwards';
+  }, 1800);
 });
 
 // Boot
