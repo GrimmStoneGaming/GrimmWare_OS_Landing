@@ -250,6 +250,17 @@ body {
   z-index: 2000;
   pointer-events: none;
 }
+/* === DEBUG: WHITE OUTLINE FOR GATEWAY OVERLAY === */
+/* 🔥 REMOVE THIS AFTER DEBUGGING BAR REVEAL FX 🔥 */
+#gateway-overlay {
+  border: 6px solid white !important; /* Makes the whole matrix container visually obvious */
+}
+
+/* Optional: make the strips high contrast so you can SEE THEM clearly during test */
+.strip.cover {
+  background: limegreen !important;
+  opacity: 1 !important;
+}
 
 .strip {
   position: absolute;
