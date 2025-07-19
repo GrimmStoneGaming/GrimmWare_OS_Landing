@@ -194,6 +194,24 @@ document.getElementById('run-button').addEventListener('click', () => {
     }, totalDelay + 500);
   }, fallInDuration + delayBeforeReveal);
 });
+// === Load Sequence ===
+window.addEventListener('DOMContentLoaded', () => {
+  const logo = document.querySelector('.logo-main');
+  const tagline = document.querySelector('.tagline');
+  const cipher = document.querySelector('.decrypt-wrapper');
+
+  setTimeout(() => {
+    logo.style.animation = 'fadeIn 0.8s forwards';
+  }, 0);
+
+  setTimeout(() => {
+    tagline.style.animation = 'fadeIn 0.8s forwards';
+  }, 800);
+
+  setTimeout(() => {
+    cipher.style.animation = 'glitchIn 0.6s forwards';
+  }, 1600);
+});
 
 // Boot
 cycleCharacters();
