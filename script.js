@@ -152,8 +152,9 @@ function launchTerminalOverlay(callback) {
     '[SYS] :: Process complete.'
   ];
 
+ terminal.classList.remove('hidden');
   terminal.classList.add('show');
-  linesContainer.innerHTML = '';
+   linesContainer.innerHTML = '';
 
   lines.forEach((line, index) => {
     setTimeout(() => {
