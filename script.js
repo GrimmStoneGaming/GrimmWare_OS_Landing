@@ -144,46 +144,55 @@ document.getElementById('run-button').addEventListener('click', () => {
   const accessMessage = document.getElementById('access-message');
 
   const numStrips = 60;
-  const delayBetween = 30;
-  const fallDuration = 600;
+  const fallInDuration = 500;
+  const fallOutDuration = 600;
+  const delayBeforeReveal = 1500;
 
-  // Hide button and message instantly
+  // STEP 1: Instant blackout
   runWrapper.style.display = 'none';
   accessMessage.style.display = 'none';
 
-  // Prep LP (hidden still)
+  // STEP 2: Prep landing page (stay invisible behind bars)
   landingPage.style.display = 'flex';
   landingPage.style.opacity = 0;
-  landingPage.style.transition = 'opacity 1s ease';
 
-  // Double RAF to guarantee render
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      overlay.innerHTML = '';
-      overlay.style.display = 'flex';
-      overlay.style.background = 'transparent';
+  // STEP 3: Generate and fall in 60 cover strips
+  overlay.innerHTML = '';
+  overlay.style.display = 'flex';
+  overlay.style.background = 'transparent';
 
-      for (let i = 0; i < numStrips; i++) {
-        const strip = document.createElement('div');
-        strip.classList.add('strip');
-        strip.style.left = `${(100 / numStrips) * i}%`;
-        strip.style.width = `${100 / numStrips}%`;
-        strip.style.animation = `fallReveal ${fallDuration}ms forwards`;
-        strip.style.animationDelay = `${i * delayBetween}ms`;
-        overlay.appendChild(strip);
-      }
+  for (let i = 0; i < numStrips; i++) {
+    const strip = document.createElement('div');
+    strip.classList.add('strip', 'cover');
+    strip.style.left = `${(100 / numStrips) * i}%`;
+    strip.style.width = `${100 / numStrips}%`;
+    strip.style.animation = `fallCover ${fallInDuration}ms forwards`;
+    overlay.appendChild(strip);
+  }
 
-      // Start LP fade in after bar drop
+  // STEP 4: Once bars are down, wait, then reveal LP
+  setTimeout(() => {
+    // Fully render LP now
+    landingPage.style.opacity = 1;
+
+    // STEP 5: Randomize order of strip fall-off
+    const strips = Array.from(overlay.querySelectorAll('.strip'));
+    const shuffled = strips.sort(() => Math.random() - 0.5);
+
+    shuffled.forEach((strip, index) => {
       setTimeout(() => {
-        landingPage.style.opacity = 1;
-      }, fallDuration + numStrips * delayBetween);
-
-      // Clean up bars
-      setTimeout(() => {
-        overlay.style.display = 'none';
-      }, fallDuration + numStrips * delayBetween + 500);
+        strip.classList.remove('cover');
+        strip.classList.add('reveal');
+        strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
+      }, index * 30); // 30ms stagger per bar
     });
-  });
+
+    // STEP 6: Clean up overlay after full sequence
+    const totalDelay = shuffled.length * 30 + fallOutDuration;
+    setTimeout(() => {
+      overlay.style.display = 'none';
+    }, totalDelay + 500);
+  }, fallInDuration + delayBeforeReveal);
 });
 
 // Boot
