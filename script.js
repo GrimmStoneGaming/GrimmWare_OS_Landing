@@ -104,43 +104,52 @@ function showAccessGranted() {
   const grantedLine = document.querySelector('.granted');
   const warningLine = document.querySelector('.warning');
   const cipherTop = document.getElementById('cipherTop');
-  const runPayload = document.getElementById('run-payload'); // ← now targets full payload
+  const runPayload = document.getElementById('run-payload'); // Full wrapper for access + button
+  const runWrapper = document.getElementById('run-wrapper'); // Just the button animation target
 
+  // Step 1: Reset text content
   grantedLine.textContent = '';
   warningLine.textContent = '';
+
+  // Step 2: Make run-payload visible (remove .hidden class, force display/render state)
   runPayload.classList.remove('hidden');
+  runPayload.style.display = 'block';
   runPayload.style.opacity = 1;
 
+  // Step 3: Type out "ACCESS GRANTED"
   const grantedText = 'ACCESS GRANTED. SYSTEM UNLOCKED.';
   const warningText = '>>> WARNING: THIS MAY CHANGE YOU.';
 
   typeText(grantedLine, grantedText, 40, () => {
+    // Step 4: Then type warning
     typeText(warningLine, warningText, 75, () => {
+      // Step 5: Start idle glitching loop
       startIdleGlitch(warningLine, warningText);
 
-      // More aggressive glitch-out
+      // Step 6: Wait, then start cipher destruction
       setTimeout(() => {
         cipherTop.classList.add('glitch-out');
 
-        // Simulate violent deconstruction
+        // Animate each cipher box out violently
         const boxes = cipherTop.querySelectorAll('.box');
         boxes.forEach((box, index) => {
           setTimeout(() => {
             box.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
             box.style.transform = `translate(${(Math.random() - 0.5) * 300}px, ${(Math.random() - 0.5) * 300}px) rotate(${(Math.random() - 0.5) * 720}deg) scale(0.1)`;
             box.style.opacity = 0;
-          }, index * 60);
+          }, index * 60); // staggered chaos
         });
 
+        // Step 7: Hide cipher and trigger button animation
         setTimeout(() => {
-  cipherTop.style.display = 'none';
+          cipherTop.style.display = 'none';
 
-  // Force display block to allow animation to show
-  runPayload.style.display = 'block';
-  document.getElementById('run-wrapper').classList.add('glitch-in');
-}, 1300);
-
-      }, 1500);
+          // Delay slightly to ensure layout renders before animating button
+          setTimeout(() => {
+            runWrapper.classList.add('glitch-in');
+          }, 50);
+        }, 1300);
+      }, 1500); // initial wait before the cipher glitches out
     });
   });
 }
