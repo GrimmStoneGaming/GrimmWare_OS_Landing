@@ -103,14 +103,13 @@ function startIdleGlitch(target, originalText, frequency = 150) {
 function showAccessGranted() {
   const grantedLine = document.querySelector('.granted');
   const warningLine = document.querySelector('.warning');
-  const runWrapper = document.getElementById('run-wrapper');
   const cipherTop = document.getElementById('cipherTop');
-  const accessMessage = document.getElementById('access-message');
+  const runPayload = document.getElementById('run-payload'); // ← now targets full payload
 
   grantedLine.textContent = '';
   warningLine.textContent = '';
-  accessMessage.classList.remove('hidden');
-  accessMessage.style.opacity = 1;
+  runPayload.classList.remove('hidden');
+  runPayload.style.opacity = 1;
 
   const grantedText = 'ACCESS GRANTED. SYSTEM UNLOCKED.';
   const warningText = '>>> WARNING: THIS MAY CHANGE YOU.';
@@ -119,17 +118,28 @@ function showAccessGranted() {
     typeText(warningLine, warningText, 75, () => {
       startIdleGlitch(warningLine, warningText);
 
-      // Cipher glitch + run button entrance
+      // More aggressive glitch-out
       setTimeout(() => {
         cipherTop.classList.add('glitch-out');
 
+        // Simulate violent deconstruction
+        const boxes = cipherTop.querySelectorAll('.box');
+        boxes.forEach((box, index) => {
+          setTimeout(() => {
+            box.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+            box.style.transform = `translate(${(Math.random() - 0.5) * 300}px, ${(Math.random() - 0.5) * 300}px) rotate(${(Math.random() - 0.5) * 720}deg) scale(0.1)`;
+            box.style.opacity = 0;
+          }, index * 60);
+        });
+
         setTimeout(() => {
           cipherTop.style.display = 'none';
-          runWrapper.classList.add('glitch-in');
-        }, 1300); // Match glitch duration
-      }, 1500); // Delay after idle glitch starts
+          runPayload.classList.add('glitch-in');
+        }, 1300);
+      }, 1500);
     });
   });
+}
 }
 
 // RUN IT Button Handler
