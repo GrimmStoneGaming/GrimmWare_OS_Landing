@@ -2,38 +2,38 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GrimmWare OS Gateway</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
   <!-- LANDING PAGE (Already Loaded Behind Gateway) -->
-  <div id="landing-page" class="preloaded">
+  <div id="landing-page" class="preloaded" aria-hidden="true">
     <div class="lp-content">
       <h1>Welcome to GrimmWare OS</h1>
       <p>This is your system now.</p>
     </div>
   </div>
 
-  <!-- LOCKED TOP SECTION (Gateway UI) -->
+  <!-- GATEWAY UI -->
   <div id="gateway-ui">
     <div class="top-container">
       <div class="logo-container">
-        <img class="logo-main" src="images/grimmware-logo.png" alt="GRIMMWARE OS Logo"/>
-        <img class="tagline" src="images/emotion-is-executable.png" alt="Emotion is Executable"/>
+        <img class="logo-main" src="images/grimmware-logo.png" alt="GRIMMWARE OS Logo" loading="lazy" />
+        <img class="tagline" src="images/emotion-is-executable.png" alt="Emotion is Executable" loading="lazy" />
       </div>
 
-      <div class="decrypt-wrapper">
+      <div class="decrypt-wrapper" role="region" aria-label="Decryption Puzzle">
         <div class="decrypt-boxes">
-          <div class="box" id="box0">G</div>
-          <div class="box" id="box1">W</div>
-          <div class="box" id="box2">O</div>
-          <div class="box" id="box3">S</div>
-          <div class="separator">_</div>
-          <div class="box" id="box4">E</div>
-          <div class="box" id="box5">X</div>
-          <div class="box" id="box6">E</div>
+          <div class="box" id="box0" role="button" tabindex="0" aria-label="Box 1">G</div>
+          <div class="box" id="box1" role="button" tabindex="0" aria-label="Box 2">W</div>
+          <div class="box" id="box2" role="button" tabindex="0" aria-label="Box 3">O</div>
+          <div class="box" id="box3" role="button" tabindex="0" aria-label="Box 4">S</div>
+          <div class="separator" aria-hidden="true">_</div>
+          <div class="box" id="box4" role="button" tabindex="0" aria-label="Box 5">E</div>
+          <div class="box" id="box5" role="button" tabindex="0" aria-label="Box 6">X</div>
+          <div class="box" id="box6" role="button" tabindex="0" aria-label="Box 7">E</div>
         </div>
       </div>
 
@@ -43,19 +43,19 @@
     </div>
 
     <!-- ACCESS MESSAGE -->
-    <div id="access-message" class="hidden">
+    <div id="access-message" class="hidden" aria-live="polite">
       <span class="granted"></span>
       <span class="warning" id="warning-line"></span>
     </div>
 
     <!-- RUN IT BUTTON -->
     <div class="run-button-wrapper" id="run-wrapper">
-      <button id="run-button">>>> RUN IT</button>
+      <button id="run-button" aria-label="Execute Gateway Unlock">>>> RUN IT</button>
     </div>
   </div>
 
   <!-- STRIP WIPE OVERLAY -->
-  <div id="gateway-overlay"></div>
+  <div id="gateway-overlay" aria-hidden="true"></div>
 
   <script src="script.js"></script>
 </body>
