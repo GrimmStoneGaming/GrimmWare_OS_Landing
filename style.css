@@ -37,7 +37,6 @@ body {
   align-items: center;
   padding-top: 40px;
   padding-bottom: 30px;
-  transition: opacity 0.6s ease;
 }
 
 /* === LOGO + TAGLINE === */
@@ -144,7 +143,10 @@ body {
 
 #access-message .warning {
   color: #ff4444;
-  text-shadow: 0 0 6px #ff0000, 0 0 12px #ff2222, 0 0 18px #ff4444;
+  text-shadow:
+    0 0 6px #ff0000,
+    0 0 12px #ff2222,
+    0 0 18px #ff4444;
   font-style: italic;
   font-weight: bold;
   margin-top: 6px;
@@ -180,7 +182,10 @@ body {
   position: relative;
   z-index: 2;
   animation: glitchPulse 1.4s infinite, runItVoidReach 2.5s infinite alternate;
-  box-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0033;
+  box-shadow:
+    0 0 10px #ff0000,
+    0 0 20px #ff0000,
+    0 0 30px #ff0033;
 }
 
 @keyframes glitchPulse {
@@ -217,74 +222,72 @@ body {
   }
 }
 
-/* === MATRIX FALL BAR OVERRIDE === */
+@keyframes glitchBox {
+  0% {
+    box-shadow: 0 0 6px #ff0000;
+  }
+  33% {
+    box-shadow: 0 0 16px #ff0000, 0 0 5px #ff4444 inset;
+  }
+  66% {
+    box-shadow: 0 0 10px #ff2222, 0 0 20px #ff1111;
+  }
+  100% {
+    box-shadow: 0 0 12px #ff0000;
+  }
+}
+
+/* === STRIP WIPE (2-PHASE) === */
 #gateway-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: black;
+  display: none;
+  flex-direction: row;
   z-index: 2000;
   pointer-events: none;
 }
 
 .strip {
-  width: calc(100% / 60);
-  height: 100%;
   position: absolute;
   top: 0;
-  background: limegreen; /* Still placeholder, update when finalized */
+  height: 100%;
+  background: black;
   transform: translateY(-100%);
   opacity: 1;
+  pointer-events: none;
+  z-index: 2100;
   will-change: transform;
   backface-visibility: hidden;
-  z-index: 2100;
-  pointer-events: none;
+}
+
+.strip.cover {
+  animation: fallCover 0.5s forwards ease-in;
 }
 
 .strip.reveal {
-  animation: fallReveal 0.6s forwards ease-out;
+  animation: fallReveal 0.5s forwards ease-out;
+}
+
+/* fallback for .strip (if animation fallback used elsewhere) */
+@keyframes fall {
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fallCover {
+  to {
+    transform: translateY(0);
+  }
 }
 
 @keyframes fallReveal {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
+  to {
     transform: translateY(100vh);
   }
-}
-
-/* === LANDING PAGE === */
-#landing-page {
-  display: none;
-  opacity: 0;
-  pointer-events: none;
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: black;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  transition: opacity 1s ease;
-}
-
-.lp-content h1 {
-  font-size: 2rem;
-  margin-bottom: 10px;
-}
-
-.lp-content p {
-  font-size: 1.1rem;
-}
-
-/* === GATEWAY UI FADE OUT === */
-#gateway-ui.fade-out {
-  opacity: 0;
-  transition: opacity 0.8s ease;
-  pointer-events: none;
 }
 
 /* === FADE UI OUT === */
@@ -301,6 +304,39 @@ body {
     opacity: 0;
     transform: translateY(-20px);
   }
+}
+
+/* === LANDING PAGE === */
+#landing-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #00ffcc;
+  text-align: center;
+}
+
+.lp-content h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.lp-content p {
+  font-size: 1.1rem;
+}
+
+/* === GATEWAY UI FADE OUT === */
+#gateway-ui.fade-out {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
 }
 
 /* === RUN WRAPPER GLITCH-IN ANIMATION === */
