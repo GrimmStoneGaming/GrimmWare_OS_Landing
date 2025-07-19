@@ -2,61 +2,57 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GrimmWare OS Gateway</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GRIMMWARE OS</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- LANDING PAGE (Already Loaded Behind Gateway) -->
-  <div id="landing-page" class="preloaded">
-    <div class="lp-content">
-      <h1>Welcome to GrimmWare OS</h1>
-      <p>This is your system now.</p>
-    </div>
-  </div>
-
-  <!-- LOCKED TOP SECTION (Gateway UI) -->
+  <!-- === GATEWAY UI === -->
   <div id="gateway-ui">
     <div class="top-container">
       <div class="logo-container">
-        <img class="logo-main" src="images/grimmware-logo.png" alt="GRIMMWARE OS Logo"/>
-        <img class="tagline" src="images/emotion-is-executable.png" alt="Emotion is Executable"/>
+        <img src="assets/logo.png" alt="GrimmWare Logo" class="logo-main" />
+        <img src="assets/tagline.png" alt="Emotion is Executable" class="tagline" />
       </div>
 
       <div class="decrypt-wrapper">
         <div class="decrypt-boxes">
-          <div class="box" id="box0">G</div>
-          <div class="box" id="box1">W</div>
-          <div class="box" id="box2">O</div>
-          <div class="box" id="box3">S</div>
+          <div class="box" id="box0"></div>
+          <div class="box" id="box1"></div>
+          <div class="box" id="box2"></div>
+          <div class="box" id="box3"></div>
           <div class="separator">_</div>
-          <div class="box" id="box4">E</div>
-          <div class="box" id="box5">X</div>
-          <div class="box" id="box6">E</div>
+          <div class="box" id="box4"></div>
+          <div class="box" id="box5"></div>
+          <div class="box" id="box6"></div>
         </div>
+        <div class="decrypt-instruction">Tap the correct green letter to decrypt</div>
       </div>
 
-      <div class="decrypt-instruction">
-        Tap <span class="green-glow">green</span> to decrypt.
+      <div id="access-message" class="hidden">
+        <span class="granted"></span>
+        <span class="warning"></span>
       </div>
-    </div>
 
-    <!-- ACCESS MESSAGE -->
-    <div id="access-message" class="hidden">
-      <span class="granted"></span>
-      <span class="warning" id="warning-line"></span>
-    </div>
-
-    <!-- RUN IT BUTTON -->
-    <div class="run-button-wrapper" id="run-wrapper">
-      <button id="run-button">>>> RUN IT</button>
+      <div id="run-wrapper" class="run-button-wrapper">
+        <button id="run-button">>>> RUN IT</button>
+      </div>
     </div>
   </div>
 
-  <!-- STRIP WIPE OVERLAY -->
+  <!-- === GATEWAY OVERLAY === -->
   <div id="gateway-overlay"></div>
 
+  <!-- === LANDING PAGE === -->
+  <div id="landing-page" style="display: none;">
+    <div class="lp-content">
+      <h1>Welcome to GrimmWare OS</h1>
+      <p>The system has been decrypted. You may proceed.</p>
+    </div>
+  </div>
+
+  <!-- === SCRIPT === -->
   <script src="script.js"></script>
 </body>
 </html>
