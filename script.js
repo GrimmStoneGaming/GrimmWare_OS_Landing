@@ -1,3 +1,4 @@
+
 const boxes = document.querySelectorAll('.box');
 const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
 let currentGreenIndex = null;
@@ -79,7 +80,7 @@ function typeText(target, text, delay = 60, callback = null) {
 }
 
 function startIdleGlitch(target, originalText, frequency = 150) {
-  const glitchChars = "!@#$%^&*()_+=~{}|<>?/\\";
+  const glitchChars = "!@#$%^&*()_+=~{}|<>?/\";
   let glitchInterval = setInterval(() => {
     let glitchedText = originalText.split('').map((char) => {
       if (Math.random() < 0.05 && char !== ' ') {
@@ -102,8 +103,8 @@ function showAccessGranted() {
   const accessMessage = document.getElementById('access-message');
   const grantedLine = accessMessage.querySelector('.granted');
   const warningLine = accessMessage.querySelector('.warning');
-  const runWrapper = document.getElementById('run-wrapper');
   const cipherUI = document.getElementById('gateway-ui');
+  const runWrapper = document.getElementById('run-wrapper');
 
   grantedLine.textContent = '';
   warningLine.textContent = '';
@@ -117,21 +118,22 @@ function showAccessGranted() {
     typeText(warningLine, warningText, 75, () => {
       startIdleGlitch(warningLine, warningText);
 
-      // === Cipher UI fades out ===
-      cipherUI.style.transition = 'opacity 0.8s ease';
-      cipherUI.style.opacity = 0;
-
-      // === RUN WRAPPER glitch fades in ===
+      // Just fade out cipher section and WAIT.
       setTimeout(() => {
-        cipherUI.style.display = 'none';
-        runWrapper.classList.add('glitch-in');
-        runWrapper.style.display = 'block';
+        cipherUI.style.transition = 'opacity 0.8s ease';
+        cipherUI.style.opacity = 0;
+
+        setTimeout(() => {
+          cipherUI.style.display = 'none';
+          runWrapper.classList.add('glitch-in');
+          runWrapper.style.display = 'block';
+        }, 900); // when cipher is fully faded
       }, 1000);
     });
   });
 }
 
-// === RUN BUTTON WIPES SCREEN ===
+// === RUN BUTTON WIPES TO BLACK, LOADS LP, THEN DROPS BARS ===
 document.getElementById('run-button').addEventListener('click', () => {
   if (transitionInProgress) return;
   transitionInProgress = true;
@@ -144,41 +146,35 @@ document.getElementById('run-button').addEventListener('click', () => {
   const delayBetween = 30;
   const fallDuration = 500;
 
-  // === POP OUT RUN WRAPPER ===
+  // Fade out RUN button
   runWrapper.style.transition = 'opacity 0.2s ease';
   runWrapper.style.opacity = 0;
 
   setTimeout(() => {
     runWrapper.style.display = 'none';
 
+    // Show black overlay as temporary "oh shit" screen
     overlay.innerHTML = '';
     overlay.style.display = 'flex';
 
     const indexes = Array.from({ length: numStrips }, (_, i) => i).sort(() => Math.random() - 0.5);
-
     for (let i = 0; i < numStrips; i++) {
       const strip = document.createElement('div');
-      strip.classList.add('strip', 'cover');
+      strip.classList.add('strip');
       strip.style.left = `${(100 / numStrips) * indexes[i]}%`;
       strip.style.width = `${100 / numStrips}%`;
-      strip.style.animationDelay = `${i * delayBetween}ms`;
       overlay.appendChild(strip);
     }
 
-    const totalCoverTime = (numStrips * delayBetween) + fallDuration;
-
-    // === AFTER STRIPS DROP, REVEAL LANDING ===
+    // Dramatic delay
     setTimeout(() => {
       landingPage.style.display = 'flex';
       landingPage.style.opacity = 0;
       landingPage.style.transition = 'opacity 1s ease';
 
-      // === BEGIN REVEAL FALL ===
-      const coverStrips = document.querySelectorAll('.strip.cover');
-      coverStrips.forEach((strip, idx) => {
+      // Animate bars falling off screen
+      document.querySelectorAll('.strip').forEach((strip, idx) => {
         strip.classList.add('reveal');
-        strip.classList.remove('cover');
-        strip.style.animation = 'fallReveal 0.6s forwards';
         strip.style.animationDelay = `${idx * delayBetween}ms`;
       });
 
@@ -186,10 +182,8 @@ document.getElementById('run-button').addEventListener('click', () => {
         landingPage.style.opacity = 1;
         overlay.style.display = 'none';
       }, 300 + numStrips * delayBetween);
-
-    }, totalCoverTime + 200);
-
-  }, 400);
+    }, 2000); // Dramatic wait before bars drop
+  }, 400); // Slight delay before total black hits
 });
 
 // === INIT ===
