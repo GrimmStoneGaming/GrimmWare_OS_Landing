@@ -150,7 +150,13 @@ body {
   border-radius: 12px;
   box-shadow: 0 0 16px #ff4444;
   display: none;
-  animation: glitchBox 2.5s infinite alternate;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.run-button-wrapper.glitch-in {
+  display: block;
+  animation: glitchFadeIn 1s ease forwards;
 }
 
 #run-button {
@@ -232,7 +238,7 @@ body {
   transform: translateY(-100%);
   animation: fall 0.6s forwards;
   animation-fill-mode: forwards;
-  opacity: 1; /* Solid black now */
+  opacity: 1;
   pointer-events: none;
   z-index: 2100;
 }
@@ -249,13 +255,13 @@ body {
 
 @keyframes fallCover {
   to {
-    transform: translateY(0); /* covers screen */
+    transform: translateY(0);
   }
 }
 
 @keyframes fallReveal {
   to {
-    transform: translateY(100vh); /* falls off screen */
+    transform: translateY(100vh);
   }
 }
 
@@ -293,6 +299,7 @@ body {
 .lp-content p {
   font-size: 1.1rem;
 }
+
 /* === GATEWAY UI FADE OUT === */
 #gateway-ui.fade-out {
   opacity: 0;
@@ -301,10 +308,6 @@ body {
 }
 
 /* === RUN WRAPPER GLITCH-IN ANIMATION === */
-#run-wrapper.glitch-in {
-  animation: glitchFadeIn 1s ease forwards;
-}
-
 @keyframes glitchFadeIn {
   0% {
     opacity: 0;
@@ -322,6 +325,7 @@ body {
     filter: none;
   }
 }
+
 /* === UTILITY === */
 .hidden {
   display: none;
