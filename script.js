@@ -5,13 +5,18 @@ let intervalId = null;
 let solved = Array(boxes.length).fill(false);
 let transitionInProgress = false;
 
+// === Safeguard: Prevent mismatch between box count and code ===
+if (boxes.length !== correctCode.length) {
+  console.error('Box count does not match code length.');
+}
+
 // === Random Char Generator ===
 function getRandomChar() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return chars[Math.floor(Math.random() * chars.length)];
 }
 
-// === Character Cycling ===
+// === Randomize Box Letters (except green) ===
 function cycleCharacters() {
   setInterval(() => {
     boxes.forEach((box, i) => {
@@ -22,7 +27,7 @@ function cycleCharacters() {
   }, 100);
 }
 
-// === Highlight One Green at a Time ===
+// === Highlight Random Box Green ===
 function startCycling() {
   intervalId = setInterval(() => {
     let nextIndex;
@@ -47,7 +52,7 @@ function startCycling() {
   }, 1500);
 }
 
-// === Box Click Handler ===
+// === Box Click Logic ===
 boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
     if (i === currentGreenIndex && !solved[i]) {
@@ -65,30 +70,29 @@ boxes.forEach((box, i) => {
   });
 });
 
-// === Glitch Typing Effect ===
+// === Typing Text Utility ===
 function typeText(target, text, delay = 60, callback = null) {
   let i = 0;
-  let interval = setInterval(() => {
-    target.textContent = text.substring(0, i);
+  const interval = setInterval(() => {
+    target.textContent = text.substring(0, i + 1);
     i++;
-    if (i > text.length) {
+    if (i >= text.length) {
       clearInterval(interval);
       if (callback) callback();
     }
   }, delay);
 }
 
+// === Idle Glitch Loop ===
 function startIdleGlitch(target, originalText, frequency = 150) {
   const glitchChars = "!@#$%^&*()_+=~{}|<>?/\\";
   let glitchInterval = setInterval(() => {
-    let glitchedText = originalText.split('').map((char) => {
-      if (Math.random() < 0.05 && char !== ' ') {
-        return glitchChars[Math.floor(Math.random() * glitchChars.length)];
-      } else {
-        return char;
-      }
-    }).join('');
-    target.textContent = glitchedText;
+    const glitched = originalText.split('').map(char =>
+      Math.random() < 0.05 && char !== ' '
+        ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
+        : char
+    ).join('');
+    target.textContent = glitched;
   }, frequency);
 
   target.addEventListener('mouseenter', () => {
@@ -97,7 +101,7 @@ function startIdleGlitch(target, originalText, frequency = 150) {
   });
 }
 
-// === ACCESS GRANTED + WARNING ===
+// === Grant Access & Show Warning ===
 function showAccessGranted() {
   const accessMessage = document.getElementById('access-message');
   const grantedLine = accessMessage.querySelector('.granted');
@@ -117,11 +121,11 @@ function showAccessGranted() {
     typeText(warningLine, warningText, 75, () => {
       startIdleGlitch(warningLine, warningText);
 
-      // === Cipher UI fades out ===
+      // Cipher UI fades out
       cipherUI.style.transition = 'opacity 0.8s ease';
       cipherUI.style.opacity = 0;
 
-      // === RUN WRAPPER glitch fades in ===
+      // Glitch-fade in RUN IT button
       setTimeout(() => {
         cipherUI.style.display = 'none';
         runWrapper.classList.add('glitch-in');
@@ -131,7 +135,7 @@ function showAccessGranted() {
   });
 }
 
-// === RUN BUTTON WIPES SCREEN ===
+// === RUN IT Button: Screen Wipe and LP Reveal ===
 document.getElementById('run-button').addEventListener('click', () => {
   if (transitionInProgress) return;
   transitionInProgress = true;
@@ -144,13 +148,12 @@ document.getElementById('run-button').addEventListener('click', () => {
   const delayBetween = 30;
   const fallDuration = 500;
 
-  // === POP OUT RUN WRAPPER ===
+  // Fade out run button
   runWrapper.style.transition = 'opacity 0.2s ease';
   runWrapper.style.opacity = 0;
 
   setTimeout(() => {
     runWrapper.style.display = 'none';
-
     overlay.innerHTML = '';
     overlay.style.display = 'flex';
 
@@ -165,15 +168,14 @@ document.getElementById('run-button').addEventListener('click', () => {
       overlay.appendChild(strip);
     }
 
-    const totalCoverTime = (numStrips * delayBetween) + fallDuration;
+    const totalCoverTime = numStrips * delayBetween + fallDuration;
 
-    // === AFTER STRIPS DROP, REVEAL LANDING ===
+    // Reveal landing page after cover completes
     setTimeout(() => {
       landingPage.style.display = 'flex';
       landingPage.style.opacity = 0;
       landingPage.style.transition = 'opacity 1s ease';
 
-      // === BEGIN REVEAL FALL ===
       const coverStrips = document.querySelectorAll('.strip.cover');
       coverStrips.forEach((strip, idx) => {
         strip.classList.add('reveal');
@@ -188,10 +190,9 @@ document.getElementById('run-button').addEventListener('click', () => {
       }, 300 + numStrips * delayBetween);
 
     }, totalCoverTime + 200);
-
   }, 400);
 });
 
-// === INIT ===
+// === BOOT ===
 cycleCharacters();
 startCycling();
