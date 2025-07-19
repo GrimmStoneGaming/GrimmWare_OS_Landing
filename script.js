@@ -106,26 +106,28 @@ function showAccessGranted() {
   const runWrapper = document.getElementById('run-wrapper');
 
   accessMessage.classList.remove('hidden');
-  runWrapper.style.display = 'block';
+  accessMessage.style.display = 'block'; // <-- This is the critical fix
 
   const grantedText = 'ACCESS GRANTED. SYSTEM UNLOCKED.';
   const warningText = '>>> WARNING: THIS MAY CHANGE YOU.';
 
-  typeText(grantedLine, grantedText, 40, () => {
-    typeText(warningLine, warningText, 75, () => {
-      startIdleGlitch(warningLine, warningText);
+  if (grantedLine && warningLine) {
+    typeText(grantedLine, grantedText, 40, () => {
+      typeText(warningLine, warningText, 75, () => {
+        startIdleGlitch(warningLine, warningText);
 
-      // Cipher Glitch-Out
-      setTimeout(() => {
-        cipherTop.classList.add('glitch-out');
-      }, 1500);
+        // Cipher Glitch-Out
+        setTimeout(() => {
+          cipherTop.classList.add('glitch-out');
+        }, 1500);
 
-      // Run Button Appear
-      setTimeout(() => {
-        runWrapper.classList.add('glitch-in');
-      }, 2100);
+        // Run Button Appear
+        setTimeout(() => {
+          runWrapper.classList.add('glitch-in');
+        }, 2100);
+      });
     });
-  });
+  }
 }
 
 // === RUN IT Button Handler ===
@@ -143,15 +145,12 @@ document.getElementById('run-button').addEventListener('click', () => {
   const fallOutDuration = 600;
   const delayBeforeReveal = 1500;
 
-  // 1. Blackout
   runWrapper.style.display = 'none';
   accessMessage.style.display = 'none';
 
-  // 2. Prepare LP
   landingPage.style.display = 'flex';
   landingPage.style.opacity = 0;
 
-  // 3. Generate Bars
   overlay.innerHTML = '';
   overlay.style.display = 'flex';
   overlay.style.background = 'transparent';
@@ -165,7 +164,6 @@ document.getElementById('run-button').addEventListener('click', () => {
     overlay.appendChild(strip);
   }
 
-  // 4. Reveal LP and Remove Bars
   setTimeout(() => {
     landingPage.style.opacity = 1;
 
