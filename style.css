@@ -293,7 +293,35 @@ body {
 .lp-content p {
   font-size: 1.1rem;
 }
+/* === GATEWAY UI FADE OUT === */
+#gateway-ui.fade-out {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+}
 
+/* === RUN WRAPPER GLITCH-IN ANIMATION === */
+#run-wrapper.glitch-in {
+  animation: glitchFadeIn 1s ease forwards;
+}
+
+@keyframes glitchFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95) skewX(-2deg);
+    filter: brightness(0.8) hue-rotate(15deg);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.02) skewX(1deg);
+    filter: brightness(1.2) hue-rotate(-10deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) skewX(0);
+    filter: none;
+  }
+}
 /* === UTILITY === */
 .hidden {
   display: none;
