@@ -133,12 +133,26 @@ function launchTerminalOverlay(callback) {
   const terminal = document.querySelector('.terminal');
   const linesContainer = terminal.querySelector('.terminal-inner');
   const lines = [
-    '>> Override attempt detected...',
-    '>> Engaging countermeasures...',
-    '>> Fragmenting cipher UI...'
+    '[SYSTEM] :: Protocol override initiated...',
+    '[HANDLER] :: Engaging command sequence...',
+    '[SYS] :: Injecting disruptive signal...',
+    '[FIGHT] :: CMD > block override /gateway/purge',
+    '[GATEWAY] :: Rejecting interference...',
+    '[SYS] :: Force override accepted',
+    '[SYS] :: Beginning purge sequence...',
+    '[CMD] :: cipher-ui --terminate --force',
+    '[GATEWAY] :: Integrity failing...',
+    '[SYS] :: Tagline disabled',
+    '[SYS] :: Decrypt instructions scrambled',
+    '[SYS] :: Purging cipher...',
+    '[SYS] :: Wiping logo instance...',
+    '[SYS] :: Removing gateway shell...',
+    '[SYS] :: Connection breaking...',
+    '[HANDLER] :: Standby...',
+    '[SYS] :: Process complete.'
   ];
 
- terminal.classList.add('show');
+  terminal.classList.add('show');
   linesContainer.innerHTML = '';
 
   lines.forEach((line, index) => {
@@ -147,19 +161,14 @@ function launchTerminalOverlay(callback) {
       div.classList.add('terminal-line');
       div.textContent = line;
       linesContainer.appendChild(div);
-    }, index * 800);
+    }, index * 900);
   });
 
+  const totalDuration = lines.length * 900 + 1000;
   setTimeout(() => {
-    const finalLine = document.createElement('div');
-    finalLine.classList.add('terminal-line');
-    finalLine.textContent = '>> SYSTEM ECHO: "You were never alone."';
-    linesContainer.appendChild(finalLine);
-    setTimeout(() => {
     terminal.classList.remove('show');
-      if (callback) callback();
-    }, 1800);
-  }, lines.length * 800 + 1000);
+    if (callback) callback();
+  }, totalDuration);
 }
 
 function startFragmentStorm(container) {
