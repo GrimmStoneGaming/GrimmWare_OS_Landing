@@ -5,13 +5,13 @@ let intervalId = null;
 let solved = Array(boxes.length).fill(false);
 let transitionInProgress = false;
 
-// === Random Char Generator ===
+// Random Char Generator
 function getRandomChar() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return chars[Math.floor(Math.random() * chars.length)];
 }
 
-// === Cycle Characters in Boxes ===
+// Cycle Box Characters (except green)
 function cycleCharacters() {
   setInterval(() => {
     boxes.forEach((box, i) => {
@@ -22,7 +22,7 @@ function cycleCharacters() {
   }, 100);
 }
 
-// === Start Green Box Selector ===
+// Highlight a new box green every 1.5s
 function startCycling() {
   intervalId = setInterval(() => {
     let nextIndex;
@@ -47,7 +47,7 @@ function startCycling() {
   }, 1500);
 }
 
-// === Click to Lock Logic ===
+// Box click logic
 boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
     if (i === currentGreenIndex && !solved[i]) {
@@ -55,7 +55,7 @@ boxes.forEach((box, i) => {
       box.classList.add('green');
       box.style.backgroundColor = '#00ff00';
       box.style.boxShadow = '0 0 12px #00ff00';
-      box.textContent = correctCode[i];
+      box.textContent = correctCode[i]; // <- forcefully assign correct char
       currentGreenIndex = null;
 
       if (solved.every(Boolean)) {
@@ -66,7 +66,8 @@ boxes.forEach((box, i) => {
   });
 });
 
-// === Typewriter Utility ===
+
+// Typewriter utility
 function typeText(target, text, delay = 60, callback = null) {
   let i = 0;
   const interval = setInterval(() => {
@@ -79,9 +80,10 @@ function typeText(target, text, delay = 60, callback = null) {
   }, delay);
 }
 
-// === Subtle Idle Glitch ===
+// Glitch idle loop
 function startIdleGlitch(target, originalText, frequency = 150) {
   const glitchChars = "!@#$%^&*()_+=~{}|<>?/\\";
+
   let glitchInterval = setInterval(() => {
     const glitched = originalText.split('').map(char =>
       Math.random() < 0.05 && char !== ' '
@@ -97,40 +99,41 @@ function startIdleGlitch(target, originalText, frequency = 150) {
   });
 }
 
-// === Cipher Solved ===
+// Access Granted + Button Transition
 function showAccessGranted() {
   const grantedLine = document.querySelector('.granted');
   const warningLine = document.querySelector('.warning');
-  const cipherTop = document.getElementById('cipherTop');
-  const accessMessage = document.getElementById('access-message');
   const runWrapper = document.getElementById('run-wrapper');
+  const cipherTop = document.querySelector('.top-container');
+  const accessMessage = document.getElementById('access-message');
 
+  grantedLine.textContent = '';
+  warningLine.textContent = '';
   accessMessage.classList.remove('hidden');
-  accessMessage.style.display = 'block'; // <-- This is the critical fix
+  accessMessage.style.opacity = 1;
 
   const grantedText = 'ACCESS GRANTED. SYSTEM UNLOCKED.';
   const warningText = '>>> WARNING: THIS MAY CHANGE YOU.';
 
-  if (grantedLine && warningLine) {
-    typeText(grantedLine, grantedText, 40, () => {
-      typeText(warningLine, warningText, 75, () => {
-        startIdleGlitch(warningLine, warningText);
+  typeText(grantedLine, grantedText, 40, () => {
+    typeText(warningLine, warningText, 75, () => {
+      startIdleGlitch(warningLine, warningText);
 
-        // Cipher Glitch-Out
-        setTimeout(() => {
-          cipherTop.classList.add('glitch-out');
-        }, 1500);
+      setTimeout(() => {
+        cipherTop.style.opacity = 0;
+        cipherTop.style.pointerEvents = 'none';
 
-        // Run Button Appear
+        runWrapper.classList.add('glitch-in');
+        runWrapper.style.display = 'block';
         setTimeout(() => {
-          runWrapper.classList.add('glitch-in');
-        }, 2100);
-      });
+          runWrapper.style.opacity = 1;
+        }, 50);
+      }, 1500);
     });
-  }
+  });
 }
 
-// === RUN IT Button Handler ===
+// RUN IT Button Handler
 document.getElementById('run-button').addEventListener('click', () => {
   if (transitionInProgress) return;
   transitionInProgress = true;
@@ -145,12 +148,15 @@ document.getElementById('run-button').addEventListener('click', () => {
   const fallOutDuration = 600;
   const delayBeforeReveal = 1500;
 
+  // STEP 1: Instant blackout
   runWrapper.style.display = 'none';
   accessMessage.style.display = 'none';
 
+  // STEP 2: Prep landing page (stay invisible behind bars)
   landingPage.style.display = 'flex';
   landingPage.style.opacity = 0;
 
+  // STEP 3: Generate and fall in 60 cover strips
   overlay.innerHTML = '';
   overlay.style.display = 'flex';
   overlay.style.background = 'transparent';
@@ -164,9 +170,12 @@ document.getElementById('run-button').addEventListener('click', () => {
     overlay.appendChild(strip);
   }
 
+  // STEP 4: Once bars are down, wait, then reveal LP
   setTimeout(() => {
+    // Fully render LP now
     landingPage.style.opacity = 1;
 
+    // STEP 5: Randomize order of strip fall-off
     const strips = Array.from(overlay.querySelectorAll('.strip'));
     const shuffled = strips.sort(() => Math.random() - 0.5);
 
@@ -175,9 +184,10 @@ document.getElementById('run-button').addEventListener('click', () => {
         strip.classList.remove('cover');
         strip.classList.add('reveal');
         strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
-      }, index * 30);
+      }, index * 30); // 30ms stagger per bar
     });
 
+    // STEP 6: Clean up overlay after full sequence
     const totalDelay = shuffled.length * 30 + fallOutDuration;
     setTimeout(() => {
       overlay.style.display = 'none';
@@ -185,6 +195,6 @@ document.getElementById('run-button').addEventListener('click', () => {
   }, fallInDuration + delayBeforeReveal);
 });
 
-// === BOOT ===
+// Boot
 cycleCharacters();
 startCycling();
