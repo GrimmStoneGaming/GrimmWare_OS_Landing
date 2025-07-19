@@ -120,14 +120,13 @@ function showAccessGranted() {
       startIdleGlitch(warningLine, warningText);
 
       setTimeout(() => {
-       // GLITCH OUT THE CIPHER SECTION
-cipherTop.classList.add('glitch-out');
+        cipherTop.style.opacity = 0;
+        cipherTop.style.pointerEvents = 'none';
 
-// AFTER GLITCH, BRING IN RUN IT BUTTON
-setTimeout(() => {
-  cipherTop.style.display = 'none'; // fully kill after glitch
-  runWrapper.classList.add('glitch-in');
-}, 1300); // matches glitch animation duration
+        runWrapper.classList.add('glitch-in');
+        runWrapper.style.display = 'block';
+        setTimeout(() => {
+          runWrapper.style.opacity = 1;
         }, 50);
       }, 1500);
     });
@@ -199,63 +198,3 @@ document.getElementById('run-button').addEventListener('click', () => {
 // Boot
 cycleCharacters();
 startCycling();
-
-
-document.addEventListener("DOMContentLoaded", () => {
-  cycleCharacters();
-  startCycling();
-
-  // === RUN IT Button Handler ===
-  document.getElementById('run-button').addEventListener('click', () => {
-    if (transitionInProgress) return;
-    transitionInProgress = true;
-
-    const overlay = document.getElementById('gateway-overlay');
-    const landingPage = document.getElementById('landing-page');
-    const runWrapper = document.getElementById('run-wrapper');
-    const accessMessage = document.getElementById('access-message');
-
-    const numStrips = 60;
-    const fallInDuration = 500;
-    const fallOutDuration = 600;
-    const delayBeforeReveal = 1500;
-
-    runWrapper.style.display = 'none';
-    accessMessage.style.display = 'none';
-    landingPage.style.display = 'flex';
-    landingPage.style.opacity = 0;
-
-    overlay.innerHTML = '';
-    overlay.style.display = 'flex';
-    overlay.style.background = 'transparent';
-
-    for (let i = 0; i < numStrips; i++) {
-      const strip = document.createElement('div');
-      strip.classList.add('strip', 'cover');
-      strip.style.left = `${(100 / numStrips) * i}%`;
-      strip.style.width = `${100 / numStrips}%`;
-      strip.style.animation = `fallCover ${fallInDuration}ms forwards`;
-      overlay.appendChild(strip);
-    }
-
-    setTimeout(() => {
-      landingPage.style.opacity = 1;
-
-      const strips = Array.from(overlay.querySelectorAll('.strip'));
-      const shuffled = strips.sort(() => Math.random() - 0.5);
-
-      shuffled.forEach((strip, index) => {
-        setTimeout(() => {
-          strip.classList.remove('cover');
-          strip.classList.add('reveal');
-          strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
-        }, index * 30);
-      });
-
-      const totalDelay = shuffled.length * 30 + fallOutDuration;
-      setTimeout(() => {
-        overlay.style.display = 'none';
-      }, totalDelay + 500);
-    }, fallInDuration + delayBeforeReveal);
-  });
-});
