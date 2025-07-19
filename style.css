@@ -224,11 +224,6 @@ body {
   transition: opacity 0.5s ease;
 }
 
-.run-button-wrapper.glitch-in {
-  display: block;
-  animation: glitchFadeIn 1s ease forwards;
-}
-
 #run-button {
   padding: 14px 28px;
   font-size: 1.1rem;
