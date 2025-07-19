@@ -1,3 +1,4 @@
+
 const boxes = document.querySelectorAll('.box');
 const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
 let currentGreenIndex = null;
@@ -5,18 +6,13 @@ let intervalId = null;
 let solved = Array(boxes.length).fill(false);
 let transitionInProgress = false;
 
-// === Safeguard: Prevent mismatch between box count and code ===
-if (boxes.length !== correctCode.length) {
-  console.error('Box count does not match code length.');
-}
-
 // === Random Char Generator ===
 function getRandomChar() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return chars[Math.floor(Math.random() * chars.length)];
 }
 
-// === Randomize Box Letters (except green) ===
+// === Character Cycling ===
 function cycleCharacters() {
   setInterval(() => {
     boxes.forEach((box, i) => {
@@ -27,7 +23,7 @@ function cycleCharacters() {
   }, 100);
 }
 
-// === Highlight Random Box Green ===
+// === Highlight One Green at a Time ===
 function startCycling() {
   intervalId = setInterval(() => {
     let nextIndex;
@@ -52,7 +48,7 @@ function startCycling() {
   }, 1500);
 }
 
-// === Box Click Logic ===
+// === Box Click Handler ===
 boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
     if (i === currentGreenIndex && !solved[i]) {
@@ -70,29 +66,30 @@ boxes.forEach((box, i) => {
   });
 });
 
-// === Typing Text Utility ===
+// === Glitch Typing Effect ===
 function typeText(target, text, delay = 60, callback = null) {
   let i = 0;
-  const interval = setInterval(() => {
-    target.textContent = text.substring(0, i + 1);
+  let interval = setInterval(() => {
+    target.textContent = text.substring(0, i);
     i++;
-    if (i >= text.length) {
+    if (i > text.length) {
       clearInterval(interval);
       if (callback) callback();
     }
   }, delay);
 }
 
-// === Idle Glitch Loop ===
 function startIdleGlitch(target, originalText, frequency = 150) {
-  const glitchChars = "!@#$%^&*()_+=~{}|<>?/\\";
+  const glitchChars = "!@#$%^&*()_+=~{}|<>?/\\\\";
   let glitchInterval = setInterval(() => {
-    const glitched = originalText.split('').map(char =>
-      Math.random() < 0.05 && char !== ' '
-        ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
-        : char
-    ).join('');
-    target.textContent = glitched;
+    let glitchedText = originalText.split('').map((char) => {
+      if (Math.random() < 0.05 && char !== ' ') {
+        return glitchChars[Math.floor(Math.random() * glitchChars.length)];
+      } else {
+        return char;
+      }
+    }).join('');
+    target.textContent = glitchedText;
   }, frequency);
 
   target.addEventListener('mouseenter', () => {
@@ -101,13 +98,13 @@ function startIdleGlitch(target, originalText, frequency = 150) {
   });
 }
 
-// === Grant Access & Show Warning ===
+// === ACCESS GRANTED + WARNING ===
 function showAccessGranted() {
   const accessMessage = document.getElementById('access-message');
   const grantedLine = accessMessage.querySelector('.granted');
   const warningLine = accessMessage.querySelector('.warning');
+  const cipherUI = document.getElementById('gateway-ui');
   const runWrapper = document.getElementById('run-wrapper');
-  const cipherTop = document.querySelector('.top-container');
 
   grantedLine.textContent = '';
   warningLine.textContent = '';
@@ -121,18 +118,22 @@ function showAccessGranted() {
     typeText(warningLine, warningText, 75, () => {
       startIdleGlitch(warningLine, warningText);
 
+      // Just fade out cipher section and WAIT.
       setTimeout(() => {
-        cipherTop.style.transition = 'opacity 0.6s ease';
-        cipherTop.style.opacity = 0;
+        cipherUI.style.transition = 'opacity 0.8s ease';
+        cipherUI.style.opacity = 0;
 
-        runWrapper.classList.add('glitch-in');
-        runWrapper.style.display = 'block';
-      }, 1500);
+        setTimeout(() => {
+          cipherUI.style.display = 'none';
+          runWrapper.classList.add('glitch-in');
+          runWrapper.style.display = 'block';
+        }, 900); // when cipher is fully faded
+      }, 1000);
     });
   });
 }
 
-// === RUN IT Button: Screen Wipe and LP Reveal ===
+// === RUN BUTTON WIPES TO BLACK, LOADS LP, THEN DROPS BARS ===
 document.getElementById('run-button').addEventListener('click', () => {
   if (transitionInProgress) return;
   transitionInProgress = true;
@@ -140,51 +141,51 @@ document.getElementById('run-button').addEventListener('click', () => {
   const overlay = document.getElementById('gateway-overlay');
   const landingPage = document.getElementById('landing-page');
   const runWrapper = document.getElementById('run-wrapper');
-  const accessMessage = document.getElementById('access-message');
 
   const numStrips = 60;
   const delayBetween = 30;
-  const fallDuration = 600;
+  const fallDuration = 500;
 
-  runWrapper.style.display = 'none';
-  accessMessage.style.display = 'none';
+  // Fade out RUN button
+  runWrapper.style.transition = 'opacity 0.2s ease';
+  runWrapper.style.opacity = 0;
 
-  landingPage.style.display = 'flex';
-  landingPage.style.opacity = 0;
+  setTimeout(() => {
+    runWrapper.style.display = 'none';
 
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      overlay.innerHTML = '';
-      overlay.style.display = 'flex';
-      overlay.style.background = 'transparent';
+    // Show black overlay as temporary "oh shit" screen
+    overlay.innerHTML = '';
+    overlay.style.display = 'flex';
 
-      for (let i = 0; i < numStrips; i++) {
-        const strip = document.createElement('div');
-        strip.classList.add('strip', 'cover');
-        strip.style.position = 'absolute';
-        strip.style.top = '0';
-        strip.style.left = `${(100 / numStrips) * i}%`;
-        strip.style.width = `${100 / numStrips}%`;
-        strip.style.height = '100vh';
-        strip.style.background = 'rgba(0, 255, 0, 0.15)';
-        strip.style.animation = `fallReveal ${fallDuration}ms forwards`;
-        strip.style.animationDelay = `${i * delayBetween}ms`;
-        overlay.appendChild(strip);
-      }
+    const indexes = Array.from({ length: numStrips }, (_, i) => i).sort(() => Math.random() - 0.5);
+    for (let i = 0; i < numStrips; i++) {
+      const strip = document.createElement('div');
+      strip.classList.add('strip');
+      strip.style.left = `${(100 / numStrips) * indexes[i]}%`;
+      strip.style.width = `${100 / numStrips}%`;
+      overlay.appendChild(strip);
+    }
+
+    // Dramatic delay
+    setTimeout(() => {
+      landingPage.style.display = 'flex';
+      landingPage.style.opacity = 0;
+      landingPage.style.transition = 'opacity 1s ease';
+
+      // Animate bars falling off screen
+      document.querySelectorAll('.strip').forEach((strip, idx) => {
+        strip.classList.add('reveal');
+        strip.style.animationDelay = `${idx * delayBetween}ms`;
+      });
 
       setTimeout(() => {
         landingPage.style.opacity = 1;
-      }, fallDuration + numStrips * delayBetween);
-
-      setTimeout(() => {
         overlay.style.display = 'none';
-      }, fallDuration + numStrips * delayBetween + 500);
-    });
-  });
+      }, 300 + numStrips * delayBetween);
+    }, 2000); // Dramatic wait before bars drop
+  }, 400); // Slight delay before total black hits
 });
 
-// === Start cipher logic on DOM ready ===
-document.addEventListener('DOMContentLoaded', () => {
-  cycleCharacters();
-  startCycling();
-});
+// === INIT ===
+cycleCharacters();
+startCycling();
