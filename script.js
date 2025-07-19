@@ -214,7 +214,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Banner fade
   setTimeout(() => {
-    tagline.style.animation = 'fadeIn 1.2.s forwards';
+    tagline.style.animation = 'fadeIn 1.2s forwards';
   }, 800);
 
   // Cipher glitch
