@@ -421,15 +421,15 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 900px;
+  width: 1000px;
   max-width: 95vw;
-  height: 400px;
+  height: 500px;
   max-height: 95vh;
   background: rgba(0, 15, 0, 0.85);
   color: #00fff8;
   font-family: 'Courier New', Courier, monospace;
-  font-size: 0.9rem;
-  line-height: 1.4;
+  font-size: 1.05rem;
+  line-height: 1.5;
   z-index: 9999;
   pointer-events: none;
   padding: 2rem;
@@ -454,15 +454,8 @@ body {
   white-space: pre-wrap;
 }
 
-.terminal {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease-in-out;
-}
-
-.terminal.show {
-  opacity: 1;
-  pointer-events: auto;
+.terminal.hidden {
+  display: none;
 }
 
 .terminal-line {
