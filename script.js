@@ -1,22 +1,17 @@
 const boxes = document.querySelectorAll('.box');
-const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
+const correctCode = ['G', 'W', 'O', 'S', '_', 'E', 'X', 'E'];
 let currentGreenIndex = null;
 let intervalId = null;
 let solved = Array(boxes.length).fill(false);
 let transitionInProgress = false;
 
-// === Safeguard: Prevent mismatch between box count and code ===
-if (boxes.length !== correctCode.length) {
-  console.error('Box count does not match code length.');
-}
-
-// === Random Char Generator ===
+// Random Char Generator
 function getRandomChar() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return chars[Math.floor(Math.random() * chars.length)];
 }
 
-// === Randomize Box Letters (except green) ===
+// Cycle Box Characters (except green)
 function cycleCharacters() {
   setInterval(() => {
     boxes.forEach((box, i) => {
@@ -27,7 +22,7 @@ function cycleCharacters() {
   }, 100);
 }
 
-// === Highlight Random Box Green ===
+// Highlight a new box green every 1.5s
 function startCycling() {
   intervalId = setInterval(() => {
     let nextIndex;
@@ -52,7 +47,7 @@ function startCycling() {
   }, 1500);
 }
 
-// === Box Click Logic ===
+// Box click logic
 boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
     if (i === currentGreenIndex && !solved[i]) {
@@ -70,7 +65,7 @@ boxes.forEach((box, i) => {
   });
 });
 
-// === Typing Text Utility ===
+// Typewriter utility
 function typeText(target, text, delay = 60, callback = null) {
   let i = 0;
   const interval = setInterval(() => {
@@ -83,9 +78,10 @@ function typeText(target, text, delay = 60, callback = null) {
   }, delay);
 }
 
-// === Idle Glitch Loop ===
+// Glitch idle loop
 function startIdleGlitch(target, originalText, frequency = 150) {
   const glitchChars = "!@#$%^&*()_+=~{}|<>?/\\";
+
   let glitchInterval = setInterval(() => {
     const glitched = originalText.split('').map(char =>
       Math.random() < 0.05 && char !== ' '
@@ -101,13 +97,13 @@ function startIdleGlitch(target, originalText, frequency = 150) {
   });
 }
 
-// === Grant Access & Show Warning ===
+// Access Granted + Button Transition
 function showAccessGranted() {
-  const accessMessage = document.getElementById('access-message');
-  const grantedLine = accessMessage.querySelector('.granted');
-  const warningLine = accessMessage.querySelector('.warning');
+  const grantedLine = document.querySelector('.granted');
+  const warningLine = document.querySelector('.warning');
   const runWrapper = document.getElementById('run-wrapper');
-  const cipherUI = document.getElementById('gateway-ui');
+  const cipherTop = document.querySelector('.top-container');
+  const accessMessage = document.getElementById('access-message');
 
   grantedLine.textContent = '';
   warningLine.textContent = '';
@@ -121,21 +117,21 @@ function showAccessGranted() {
     typeText(warningLine, warningText, 75, () => {
       startIdleGlitch(warningLine, warningText);
 
-      // Cipher UI fades out
-      cipherUI.style.transition = 'opacity 0.8s ease';
-      cipherUI.style.opacity = 0;
-
-      // Glitch-fade in RUN IT button
       setTimeout(() => {
-        cipherUI.style.display = 'none';
+        cipherTop.style.opacity = 0;
+        cipherTop.style.pointerEvents = 'none';
+
         runWrapper.classList.add('glitch-in');
         runWrapper.style.display = 'block';
-      }, 1000);
+        setTimeout(() => {
+          runWrapper.style.opacity = 1;
+        }, 50);
+      }, 1500);
     });
   });
 }
 
-// === RUN IT Button: Screen Wipe and LP Reveal ===
+// RUN IT Button Handler
 document.getElementById('run-button').addEventListener('click', () => {
   if (transitionInProgress) return;
   transitionInProgress = true;
@@ -143,56 +139,51 @@ document.getElementById('run-button').addEventListener('click', () => {
   const overlay = document.getElementById('gateway-overlay');
   const landingPage = document.getElementById('landing-page');
   const runWrapper = document.getElementById('run-wrapper');
+  const accessMessage = document.getElementById('access-message');
 
   const numStrips = 60;
   const delayBetween = 30;
-  const fallDuration = 500;
+  const fallDuration = 600;
 
-  // Fade out run button
-  runWrapper.style.transition = 'opacity 0.2s ease';
-  runWrapper.style.opacity = 0;
+  // Hide button and message instantly
+  runWrapper.style.display = 'none';
+  accessMessage.style.display = 'none';
 
-  setTimeout(() => {
-    runWrapper.style.display = 'none';
-    overlay.innerHTML = '';
-    overlay.style.display = 'flex';
+  // Prep LP (hidden still)
+  landingPage.style.display = 'flex';
+  landingPage.style.opacity = 0;
+  landingPage.style.transition = 'opacity 1s ease';
 
-    const indexes = Array.from({ length: numStrips }, (_, i) => i).sort(() => Math.random() - 0.5);
+  // Double RAF to guarantee render
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      overlay.innerHTML = '';
+      overlay.style.display = 'flex';
+      overlay.style.background = 'transparent';
 
-    for (let i = 0; i < numStrips; i++) {
-      const strip = document.createElement('div');
-      strip.classList.add('strip', 'cover');
-      strip.style.left = `${(100 / numStrips) * indexes[i]}%`;
-      strip.style.width = `${100 / numStrips}%`;
-      strip.style.animationDelay = `${i * delayBetween}ms`;
-      overlay.appendChild(strip);
-    }
+      for (let i = 0; i < numStrips; i++) {
+        const strip = document.createElement('div');
+        strip.classList.add('strip');
+        strip.style.left = `${(100 / numStrips) * i}%`;
+        strip.style.width = `${100 / numStrips}%`;
+        strip.style.animation = `fallReveal ${fallDuration}ms forwards`;
+        strip.style.animationDelay = `${i * delayBetween}ms`;
+        overlay.appendChild(strip);
+      }
 
-    const totalCoverTime = numStrips * delayBetween + fallDuration;
-
-    // Reveal landing page after cover completes
-    setTimeout(() => {
-      landingPage.style.display = 'flex';
-      landingPage.style.opacity = 0;
-      landingPage.style.transition = 'opacity 1s ease';
-
-      const coverStrips = document.querySelectorAll('.strip.cover');
-      coverStrips.forEach((strip, idx) => {
-        strip.classList.add('reveal');
-        strip.classList.remove('cover');
-        strip.style.animation = 'fallReveal 0.6s forwards';
-        strip.style.animationDelay = `${idx * delayBetween}ms`;
-      });
-
+      // Start LP fade in after bar drop
       setTimeout(() => {
         landingPage.style.opacity = 1;
-        overlay.style.display = 'none';
-      }, 300 + numStrips * delayBetween);
+      }, fallDuration + numStrips * delayBetween);
 
-    }, totalCoverTime + 200);
-  }, 400);
+      // Clean up bars
+      setTimeout(() => {
+        overlay.style.display = 'none';
+      }, fallDuration + numStrips * delayBetween + 500);
+    });
+  });
 });
 
-// === BOOT ===
+// Boot
 cycleCharacters();
 startCycling();
