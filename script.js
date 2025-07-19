@@ -52,10 +52,11 @@ boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
     if (i === currentGreenIndex && !solved[i]) {
       solved[i] = true;
-      box.textContent = correctCode[i];
+      box.classList.add('green');
       box.style.backgroundColor = '#00ff00';
       box.style.boxShadow = '0 0 12px #00ff00';
-      box.classList.add('green');
+      box.textContent = correctCode[i]; // <- forcefully assign correct char
+      currentGreenIndex = null;
 
       if (solved.every(Boolean)) {
         clearInterval(intervalId);
@@ -64,6 +65,7 @@ boxes.forEach((box, i) => {
     }
   });
 });
+
 
 // Typewriter utility
 function typeText(target, text, delay = 60, callback = null) {
