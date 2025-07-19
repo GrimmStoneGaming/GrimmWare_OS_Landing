@@ -13,7 +13,8 @@ function getRandomChar() {
 
 // Cycle Box Characters (except green)
 function cycleCharacters() {
-  setInterval(() => {
+  if (intervalId) clearInterval(intervalId); // prevent memory stack overflow
+  intervalId = setInterval(() => {
     boxes.forEach((box, i) => {
       if (!solved[i] && i !== currentGreenIndex) {
         box.textContent = getRandomChar();
@@ -25,6 +26,11 @@ function cycleCharacters() {
 // Highlight a new box green every 1.5s
 function startCycling() {
   intervalId = setInterval(() => {
+    if (solved.every(Boolean)) {
+      clearInterval(intervalId);
+      return;
+    }
+
     let nextIndex;
     do {
       nextIndex = Math.floor(Math.random() * boxes.length);
@@ -55,7 +61,7 @@ boxes.forEach((box, i) => {
       box.classList.add('green');
       box.style.backgroundColor = '#00ff00';
       box.style.boxShadow = '0 0 12px #00ff00';
-      box.textContent = correctCode[i]; // <- forcefully assign correct char
+      box.textContent = correctCode[i];
       currentGreenIndex = null;
 
       if (solved.every(Boolean)) {
@@ -65,7 +71,6 @@ boxes.forEach((box, i) => {
     }
   });
 });
-
 
 // Typewriter utility
 function typeText(target, text, delay = 60, callback = null) {
@@ -83,7 +88,6 @@ function typeText(target, text, delay = 60, callback = null) {
 // Glitch idle loop
 function startIdleGlitch(target, originalText, frequency = 150) {
   const glitchChars = "!@#$%^&*()_+=~{}|<>?/\\";
-
   let glitchInterval = setInterval(() => {
     const glitched = originalText.split('').map(char =>
       Math.random() < 0.05 && char !== ' '
@@ -104,52 +108,40 @@ function showAccessGranted() {
   const grantedLine = document.querySelector('.granted');
   const warningLine = document.querySelector('.warning');
   const cipherTop = document.getElementById('cipherTop');
-  const runPayload = document.getElementById('run-payload'); // Full wrapper for access + button
-  const runWrapper = document.getElementById('run-wrapper'); // Just the button animation target
+  const runPayload = document.getElementById('run-payload');
 
-  // Step 1: Reset text content
   grantedLine.textContent = '';
   warningLine.textContent = '';
-
-  // Step 2: Make run-payload visible (remove .hidden class, force display/render state)
   runPayload.classList.remove('hidden');
-  runPayload.style.display = 'block';
   runPayload.style.opacity = 1;
+  runPayload.style.display = 'block';
 
-  // Step 3: Type out "ACCESS GRANTED"
   const grantedText = 'ACCESS GRANTED. SYSTEM UNLOCKED.';
   const warningText = '>>> WARNING: THIS MAY CHANGE YOU.';
 
   typeText(grantedLine, grantedText, 40, () => {
-    // Step 4: Then type warning
     typeText(warningLine, warningText, 75, () => {
-      // Step 5: Start idle glitching loop
       startIdleGlitch(warningLine, warningText);
 
-      // Step 6: Wait, then start cipher destruction
+      // More aggressive glitch-out
       setTimeout(() => {
         cipherTop.classList.add('glitch-out');
 
-        // Animate each cipher box out violently
-        const boxes = cipherTop.querySelectorAll('.box');
-        boxes.forEach((box, index) => {
+        // Simulate violent deconstruction
+        const glitchBoxes = cipherTop.querySelectorAll('.box');
+        glitchBoxes.forEach((box, index) => {
           setTimeout(() => {
             box.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
             box.style.transform = `translate(${(Math.random() - 0.5) * 300}px, ${(Math.random() - 0.5) * 300}px) rotate(${(Math.random() - 0.5) * 720}deg) scale(0.1)`;
             box.style.opacity = 0;
-          }, index * 60); // staggered chaos
+          }, index * 60);
         });
 
-        // Step 7: Hide cipher and trigger button animation
         setTimeout(() => {
           cipherTop.style.display = 'none';
-
-          // Delay slightly to ensure layout renders before animating button
-          setTimeout(() => {
-            runWrapper.classList.add('glitch-in');
-          }, 50);
+          document.getElementById('run-wrapper').classList.add('glitch-in');
         }, 1300);
-      }, 1500); // initial wait before the cipher glitches out
+      }, 1500);
     });
   });
 }
@@ -193,10 +185,8 @@ document.getElementById('run-button').addEventListener('click', () => {
 
   // STEP 4: Once bars are down, wait, then reveal LP
   setTimeout(() => {
-    // Fully render LP now
     landingPage.style.opacity = 1;
 
-    // STEP 5: Randomize order of strip fall-off
     const strips = Array.from(overlay.querySelectorAll('.strip'));
     const shuffled = strips.sort(() => Math.random() - 0.5);
 
@@ -205,10 +195,9 @@ document.getElementById('run-button').addEventListener('click', () => {
         strip.classList.remove('cover');
         strip.classList.add('reveal');
         strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
-      }, index * 30); // 30ms stagger per bar
+      }, index * 30);
     });
 
-    // STEP 6: Clean up overlay after full sequence
     const totalDelay = shuffled.length * 30 + fallOutDuration;
     setTimeout(() => {
       overlay.style.display = 'none';
@@ -216,6 +205,12 @@ document.getElementById('run-button').addEventListener('click', () => {
   }, fallInDuration + delayBeforeReveal);
 });
 
-// Boot
-cycleCharacters();
-startCycling();
+// Initialize on DOM ready
+window.addEventListener('DOMContentLoaded', () => {
+  solved = Array(boxes.length).fill(false);
+  currentGreenIndex = null;
+  transitionInProgress = false;
+
+  cycleCharacters();
+  startCycling();
+});
