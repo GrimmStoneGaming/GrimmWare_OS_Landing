@@ -144,52 +144,51 @@ document.getElementById('run-button').addEventListener('click', () => {
 
   const numStrips = 60;           // ✅ Only declared once
   const delayBetween = 30;        // Time between bar drops (ms)
-  const fallDuration = 600;       // Optional: matches your CSS animation duration
+  const fallDuration = 600;       // Matches CSS fall animation duration
 
   // Instantly remove visible UI
   runWrapper.style.display = 'none';
   accessMessage.style.display = 'none';
 
-  // Set up blackout overlay
-  overlay.innerHTML = '';
-  overlay.style.display = 'flex';
-  overlay.style.background = 'black';
+  // Display and prep the landing page (but keep hidden)
+  landingPage.style.display = 'flex';
+  landingPage.style.opacity = 0;
+  landingPage.style.transition = 'opacity 1s ease';
 
-  // Create vertical strip bars
-  for (let i = 0; i < numStrips; i++) {
-    const strip = document.createElement('div');
-    strip.classList.add('strip', 'cover');
-    strip.style.left = `${(100 / numStrips) * i}%`;
-    strip.style.width = `${100 / numStrips}%`;
-    strip.style.height = '100vh';
-    strip.style.position = 'absolute';
-    strip.style.top = '0';
-    strip.style.background = 'limegreen'; // ← You can style this later
-    strip.style.animation = `fallReveal ${fallDuration}ms forwards`;
-    strip.style.animationDelay = `${i * delayBetween}ms`;
-    overlay.appendChild(strip);
-  }
+  // Double animation frame to ensure LP is visually rendered
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      // Prepare overlay
+      overlay.innerHTML = '';
+      overlay.style.display = 'flex';
+      overlay.style.background = 'transparent';
 
-  // After short pause, reveal LP behind falling bars
-  setTimeout(() => {
-    landingPage.style.display = 'flex';
-    landingPage.style.opacity = 0;
-    landingPage.style.transition = 'opacity 1s ease';
+      // Create and append strips
+      for (let i = 0; i < numStrips; i++) {
+        const strip = document.createElement('div');
+        strip.classList.add('strip', 'cover');
+        strip.style.position = 'absolute';
+        strip.style.top = '0';
+        strip.style.left = `${(100 / numStrips) * i}%`;
+        strip.style.width = `${100 / numStrips}%`;
+        strip.style.height = '100vh';
+        strip.style.background = 'rgba(0, 255, 0, 0.15)'; // Subtle matrix green
+        strip.style.animation = `fallReveal ${fallDuration}ms forwards`;
+        strip.style.animationDelay = `${i * delayBetween}ms`;
+        overlay.appendChild(strip);
+      }
 
-    const strips = document.querySelectorAll('.strip.cover');
-    strips.forEach((strip, i) => {
-      strip.style.animationDelay = `${i * delayBetween}ms`;
-      strip.style.animation = `fallReveal ${fallDuration}ms forwards`;
+      // Start LP fade-in behind the falling bars
+      setTimeout(() => {
+        landingPage.style.opacity = 1;
+      }, fallDuration + numStrips * delayBetween);
+
+      // Clean up overlay after bars finish
+      setTimeout(() => {
+        overlay.style.display = 'none';
+      }, fallDuration + numStrips * delayBetween + 500);
     });
-
-    setTimeout(() => {
-      landingPage.style.opacity = 1;
-    }, fallDuration + numStrips * delayBetween);
-
-    setTimeout(() => {
-      overlay.style.display = 'none';
-    }, fallDuration + numStrips * delayBetween + 500);
-  }, 400); // Delay before fall starts
+  });
 });
 
 // === BOOT ===
