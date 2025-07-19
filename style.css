@@ -332,22 +332,28 @@ body {
 @keyframes glitchIn {
   0% {
     opacity: 0;
-    transform: translateY(-10px) scale(1.1);
-    filter: contrast(0.5) brightness(1.5);
+    transform: scale(1.3) translateY(-30px) rotate(-3deg);
+    filter: brightness(2) contrast(0.2) grayscale(1);
   }
-  30% {
+  20% {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: scale(1) translateY(0) rotate(0deg);
     filter: none;
   }
+  30% {
+    transform: translateX(-3px) skewX(8deg);
+  }
   40% {
-    transform: translateX(-2px) skewX(5deg);
+    transform: translateX(3px) skewX(-8deg);
   }
   50% {
-    transform: translateX(2px) skewX(-5deg);
+    transform: translateX(0) skewX(0deg);
   }
-  60% {
-    transform: translateX(0) skewX(0);
+  65% {
+    transform: scale(1.02) rotate(1deg);
+  }
+  80% {
+    transform: scale(1) rotate(0);
   }
   100% {
     opacity: 1;
