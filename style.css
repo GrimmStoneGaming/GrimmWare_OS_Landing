@@ -37,6 +37,7 @@ body {
   align-items: center;
   padding-top: 40px;
   padding-bottom: 30px;
+  transition: opacity 0.6s ease;
 }
 
 /* === LOGO + TAGLINE === */
@@ -269,13 +270,6 @@ body {
 
 .strip.reveal {
   animation: fallReveal 0.5s forwards ease-out;
-}
-
-/* fallback for .strip (if animation fallback used elsewhere) */
-@keyframes fall {
-  to {
-    transform: translateY(0);
-  }
 }
 
 @keyframes fallCover {
