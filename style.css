@@ -428,8 +428,8 @@ body {
   background: rgba(0, 15, 0, 0.85);
   color: #00fff8;
   font-family: 'Courier New', Courier, monospace;
-  font-size: 1.05rem;
-  line-height: 1.5;
+  font-size: 1.25rem;
+  line-height: 1.75;
   z-index: 9999;
   pointer-events: none;
   padding: 2rem;
