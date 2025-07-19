@@ -138,7 +138,7 @@ function launchTerminalOverlay(callback) {
     '>> Fragmenting cipher UI...'
   ];
 
-  terminal.classList.remove('hidden');
+ terminal.classList.add('show');
   linesContainer.innerHTML = '';
 
   lines.forEach((line, index) => {
@@ -156,7 +156,7 @@ function launchTerminalOverlay(callback) {
     finalLine.textContent = '>> SYSTEM ECHO: "You were never alone."';
     linesContainer.appendChild(finalLine);
     setTimeout(() => {
-      terminal.classList.add('hidden');
+    terminal.classList.remove('show');
       if (callback) callback();
     }, 1800);
   }, lines.length * 800 + 1000);
