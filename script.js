@@ -117,12 +117,10 @@ function showAccessGranted() {
   const grantedText = 'ACCESS GRANTED. SYSTEM UNLOCKED.';
   const warningText = '>>> WARNING: THIS MAY CHANGE YOU.';
 
-  // Type both lines
   typeText(grantedLine, grantedText, 40, () => {
     typeText(warningLine, warningText, 75, () => {
       startIdleGlitch(warningLine, warningText);
 
-      // Dramatic delay before top UI fades and RUN IT appears
       setTimeout(() => {
         cipherTop.style.transition = 'opacity 0.6s ease';
         cipherTop.style.opacity = 0;
@@ -146,7 +144,6 @@ document.getElementById('run-button').addEventListener('click', () => {
 
   const numStrips = 60;
   const delayBetween = 30;
-  const fallDuration = 500;
 
   // Instantly remove visible UI
   runWrapper.style.display = 'none';
@@ -156,28 +153,27 @@ document.getElementById('run-button').addEventListener('click', () => {
   overlay.style.display = 'flex';
   overlay.style.background = 'black';
 
-  // Build overlay strips (bars)
-  const numStrips = 60;
-for (let i = 0; i < numStrips; i++) {
-  const strip = document.createElement('div');
-  strip.classList.add('strip', 'cover');
-  strip.style.left = `${(100 / numStrips) * i}%`;
-  strip.style.width = `${100 / numStrips}%`;
-  strip.style.height = '100vh'; // Make sure it's visible height
-  strip.style.position = 'absolute';
-  strip.style.top = '0';
-  strip.style.background = 'limegreen'; // debug visibility
-  strip.style.animationDelay = `${i * 30}ms`;
-  strip.style.animation = 'fallReveal 0.6s forwards';
-  overlay.appendChild(strip);
-}
-  // Delay to simulate full blackout
+  // === BAR FALL (debug mode: limegreen visible strips) ===
+  for (let i = 0; i < numStrips; i++) {
+    const strip = document.createElement('div');
+    strip.classList.add('strip', 'cover');
+    strip.style.left = `${(100 / numStrips) * i}%`;
+    strip.style.width = `${100 / numStrips}%`;
+    strip.style.height = '100vh';
+    strip.style.position = 'absolute';
+    strip.style.top = '0';
+    strip.style.background = 'limegreen'; // DEBUG: make strips visible
+    strip.style.animationDelay = `${i * delayBetween}ms`;
+    strip.style.animation = 'fallReveal 0.6s forwards';
+    overlay.appendChild(strip);
+  }
+
+  // Begin bar fall + LP fade
   setTimeout(() => {
     landingPage.style.display = 'flex';
     landingPage.style.opacity = 0;
     landingPage.style.transition = 'opacity 1s ease';
 
-    // Trigger fall animation on each strip
     const coverStrips = document.querySelectorAll('.strip.cover');
     coverStrips.forEach((strip, idx) => {
       strip.classList.add('reveal');
@@ -186,17 +182,16 @@ for (let i = 0; i < numStrips; i++) {
       strip.style.animationDelay = `${idx * delayBetween}ms`;
     });
 
-    // Fade in LP behind falling strips
     setTimeout(() => {
       landingPage.style.opacity = 1;
     }, 400 + numStrips * delayBetween);
 
-    // Hide overlay after full fall
     setTimeout(() => {
       overlay.style.display = 'none';
     }, 1000 + numStrips * delayBetween);
-  }, 400); // Delay before bar fall begins
+  }, 400);
 });
+
 // === BOOT ===
 cycleCharacters();
 startCycling();
