@@ -137,7 +137,7 @@ function showAccessGranted() {
 
   // Force display block to allow animation to show
   runPayload.style.display = 'block';
-  runPayload.classList.add('glitch-in');
+  document.getElementById('run-wrapper').classList.add('glitch-in');
 }, 1300);
 
       }, 1500);
