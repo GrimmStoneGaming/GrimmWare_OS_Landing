@@ -103,19 +103,6 @@ body {
   padding: 0 5px;
 }
 
-/* === INSTRUCTION === */
-.decrypt-instruction {
-  margin-top: 20px;
-  font-size: 1.2rem;
-  font-style: italic;
-  animation: pulseGlow 2s infinite;
-  text-align: center;
-}
-
-@keyframes pulseGlow {
-  0%, 100% {
-    text-shadow: 0 0 4px #00ffcc;
-  }
   50% {
     text-shadow: 0 0 12px #00ffee;
   }
@@ -360,17 +347,42 @@ body {
     filter: none;
   }
 }
-@keyframes fadeInSoft {
-  from { opacity: 0; }
   to { opacity: 1; }
 }
 
-.decrypt-instruction {
-  opacity: 0; /* Hide it initially */
-}
+
 
 .logo-main,
 .tagline,
 .decrypt-wrapper {
   opacity: 0;
+}
+
+
+/* === INSTRUCTION OVERRIDE: GLITCHED SIGNAL === */
+.decrypt-instruction {
+  font-family: 'Courier New', monospace;
+  font-size: 1.1rem;
+  color: #00ff00;
+  opacity: 0;
+  text-align: center;
+  text-shadow:
+    0 0 4px #00ff00,
+    0 0 8px #00ff66,
+    0 0 12px #00ffaa;
+  animation: corruptText 5s infinite;
+}
+
+@keyframes corruptText {
+  0%   { transform: none; opacity: 0.8; }
+  10%  { transform: skewX(5deg); opacity: 1; }
+  20%  { transform: skewX(-4deg); }
+  30%  { transform: translateX(1px); }
+  40%  { transform: translateX(-1px); opacity: 0.6; }
+  50%  { transform: scale(1.02); opacity: 1; }
+  60%  { transform: rotate(-0.5deg); }
+  70%  { opacity: 0.4; }
+  80%  { transform: skewX(6deg); }
+  90%  { transform: none; opacity: 0.8; }
+  100% { transform: none; }
 }
