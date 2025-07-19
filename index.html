@@ -18,7 +18,7 @@
 
   <!-- GATEWAY UI -->
   <div id="gateway-ui">
-    <div class="top-container" id="cipherTop"> <!-- ID added here -->
+    <div class="top-container" id="cipherTop">
       <div class="logo-container">
         <img class="logo-main" src="images/grimmware-logo.png" alt="GRIMMWARE OS Logo" loading="lazy" />
         <img class="tagline" src="images/emotion-is-executable.png" alt="Emotion is Executable" loading="lazy" />
@@ -42,16 +42,19 @@
       </div>
     </div>
 
-    <!-- ACCESS MESSAGE -->
-    <div id="access-message" class="hidden" aria-live="polite">
-      <span class="granted"></span>
-      <span class="warning" id="warning-line"></span>
+    <!-- Unified Payload: ACCESS + RUN IT -->
+    <div id="run-payload" class="hidden" aria-hidden="true">
+      <div id="access-message" aria-live="polite">
+        <span class="granted">ACCESS GRANTED.</span>
+        <span class="warning" id="warning-line">>>> WARNING: THIS MAY CHANGE YOU.</span>
+      </div>
+      <div id="run-wrapper">
+        <div class="run-button-wrapper">
+          <button id="run-button" aria-label="Execute Gateway Unlock">>>> RUN IT</button>
+        </div>
+      </div>
     </div>
 
-    <!-- RUN IT BUTTON -->
-    <div class="run-button-wrapper" id="run-wrapper">
-      <button id="run-button" aria-label="Execute Gateway Unlock">>>> RUN IT</button>
-    </div>
   </div>
 
   <!-- STRIP WIPE OVERLAY -->
