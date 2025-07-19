@@ -157,16 +157,20 @@ document.getElementById('run-button').addEventListener('click', () => {
   overlay.style.background = 'black';
 
   // Build overlay strips (bars)
-  const indexes = Array.from({ length: numStrips }, (_, i) => i).sort(() => Math.random() - 0.5);
-  for (let i = 0; i < numStrips; i++) {
-    const strip = document.createElement('div');
-    strip.classList.add('strip', 'cover');
-    strip.style.left = `${(100 / numStrips) * indexes[i]}%`;
-    strip.style.width = `${100 / numStrips}%`;
-    strip.style.animationDelay = `${i * delayBetween}ms`;
-    overlay.appendChild(strip);
-  }
-
+  const numStrips = 60;
+for (let i = 0; i < numStrips; i++) {
+  const strip = document.createElement('div');
+  strip.classList.add('strip', 'cover');
+  strip.style.left = `${(100 / numStrips) * i}%`;
+  strip.style.width = `${100 / numStrips}%`;
+  strip.style.height = '100vh'; // Make sure it's visible height
+  strip.style.position = 'absolute';
+  strip.style.top = '0';
+  strip.style.background = 'limegreen'; // debug visibility
+  strip.style.animationDelay = `${i * 30}ms`;
+  strip.style.animation = 'fallReveal 0.6s forwards';
+  overlay.appendChild(strip);
+}
   // Delay to simulate full blackout
   setTimeout(() => {
     landingPage.style.display = 'flex';
