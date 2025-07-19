@@ -1,5 +1,8 @@
 const boxes = document.querySelectorAll('.box');
 const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
+const terminalOverlay = document.getElementById('terminal-overlay');
+const terminalLines = document.getElementById('terminal-lines');
+
 let currentGreenIndex = null;
 let intervalId = null;
 let solved = Array(boxes.length).fill(false);
