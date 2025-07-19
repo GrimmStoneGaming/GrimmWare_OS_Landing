@@ -107,7 +107,7 @@ function showAccessGranted() {
   const grantedLine = accessMessage.querySelector('.granted');
   const warningLine = accessMessage.querySelector('.warning');
   const runWrapper = document.getElementById('run-wrapper');
-  const cipherUI = document.getElementById('gateway-ui');
+  const cipherTop = document.querySelector('.top-container');
 
   grantedLine.textContent = '';
   warningLine.textContent = '';
@@ -117,20 +117,19 @@ function showAccessGranted() {
   const grantedText = 'ACCESS GRANTED. SYSTEM UNLOCKED.';
   const warningText = '>>> WARNING: THIS MAY CHANGE YOU.';
 
+  // Type both lines
   typeText(grantedLine, grantedText, 40, () => {
     typeText(warningLine, warningText, 75, () => {
       startIdleGlitch(warningLine, warningText);
 
-      // Cipher UI fades out
-      cipherUI.style.transition = 'opacity 0.8s ease';
-      cipherUI.style.opacity = 0;
-
-      // Glitch-fade in RUN IT button
+      // Dramatic delay before top UI fades and RUN IT appears
       setTimeout(() => {
-        cipherUI.style.display = 'none';
+        cipherTop.style.transition = 'opacity 0.6s ease';
+        cipherTop.style.opacity = 0;
+
         runWrapper.classList.add('glitch-in');
         runWrapper.style.display = 'block';
-      }, 1000);
+      }, 1500);
     });
   });
 }
@@ -143,22 +142,28 @@ document.getElementById('run-button').addEventListener('click', () => {
   const overlay = document.getElementById('gateway-overlay');
   const landingPage = document.getElementById('landing-page');
   const runWrapper = document.getElementById('run-wrapper');
+  const accessMessage = document.getElementById('access-message');
 
   const numStrips = 60;
   const delayBetween = 30;
   const fallDuration = 500;
 
-  // Fade out run button
-  runWrapper.style.transition = 'opacity 0.2s ease';
-  runWrapper.style.opacity = 0;
+  // Instantly remove visible UI
+  runWrapper.style.display = 'none';
+  accessMessage.style.display = 'none';
 
+  overlay.innerHTML = '';
+  overlay.style.display = 'flex';
+  overlay.style.background = 'black';
+
+  // Wait for a full blackout effect
   setTimeout(() => {
-    runWrapper.style.display = 'none';
-    overlay.innerHTML = '';
-    overlay.style.display = 'flex';
+    // Show landing page behind black bars
+    landingPage.style.display = 'flex';
+    landingPage.style.opacity = 0;
+    landingPage.style.transition = 'opacity 1s ease';
 
     const indexes = Array.from({ length: numStrips }, (_, i) => i).sort(() => Math.random() - 0.5);
-
     for (let i = 0; i < numStrips; i++) {
       const strip = document.createElement('div');
       strip.classList.add('strip', 'cover');
@@ -168,14 +173,8 @@ document.getElementById('run-button').addEventListener('click', () => {
       overlay.appendChild(strip);
     }
 
-    const totalCoverTime = numStrips * delayBetween + fallDuration;
-
-    // Reveal landing page after cover completes
+    // Let the tension build before drop
     setTimeout(() => {
-      landingPage.style.display = 'flex';
-      landingPage.style.opacity = 0;
-      landingPage.style.transition = 'opacity 1s ease';
-
       const coverStrips = document.querySelectorAll('.strip.cover');
       coverStrips.forEach((strip, idx) => {
         strip.classList.add('reveal');
@@ -188,9 +187,8 @@ document.getElementById('run-button').addEventListener('click', () => {
         landingPage.style.opacity = 1;
         overlay.style.display = 'none';
       }, 300 + numStrips * delayBetween);
-
-    }, totalCoverTime + 200);
-  }, 400);
+    }, 2000); // OH SHIT tension moment
+  }, 400); // blackout buffer before bar prep
 });
 
 // === BOOT ===
