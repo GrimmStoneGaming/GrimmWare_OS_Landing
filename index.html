@@ -23,13 +23,6 @@
         <img class="logo-main" src="images/grimmware-logo.png" alt="GRIMMWARE OS Logo" loading="lazy" />
         <img class="tagline" src="images/emotion-is-executable.png" alt="Emotion is Executable" loading="lazy" />
       </div>
-      
-        <div id="terminal-overlay" class="terminal hidden">
-  <div class="terminal-box">
-    <div class="terminal-inner" id="terminal-lines"></div>
-  </div>
-</div>
-
 
       <div class="decrypt-wrapper" role="region" aria-label="Decryption Puzzle">
         <div class="decrypt-boxes">
@@ -44,8 +37,7 @@
         </div>
       </div>
 
-     <div class="decrypt-instruction"></div>
-
+      <div class="decrypt-instruction"></div>
     </div>
 
     <!-- ACCESS MESSAGE -->
@@ -62,6 +54,13 @@
 
   <!-- STRIP WIPE OVERLAY -->
   <div id="gateway-overlay" aria-hidden="true"></div>
+
+  <!-- TERMINAL OVERLAY -->
+  <div id="terminal-overlay" class="terminal hidden">
+    <div class="terminal-inner" id="terminal-lines">
+      <!-- Terminal lines will be injected here by JS -->
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
