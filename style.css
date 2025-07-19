@@ -128,7 +128,6 @@ body {
   pointer-events: none;
 }
 
-
 /* === ACCESS MESSAGE === */
 #access-message {
   margin-top: 30px;
@@ -136,62 +135,6 @@ body {
   text-align: center;
   opacity: 0;
   transition: opacity 0.5s ease;
-}
-/* === GLITCH OUT ANIMATION === */
-@keyframes glitchFadeOut {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-    filter: none;
-  }
-  25% {
-    opacity: 0.9;
-    transform: scale(1.02);
-    filter: contrast(1.5) hue-rotate(5deg);
-  }
-  50% {
-    opacity: 0.6;
-    transform: scale(0.98);
-    filter: grayscale(1) blur(1px);
-  }
-  75% {
-    opacity: 0.3;
-    transform: scale(1.04);
-    filter: hue-rotate(-10deg) brightness(1.2);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.95);
-    filter: blur(2px);
-  }
-}
-
-.glitch-out {
-  animation: glitchFadeOut 1.2s ease forwards;
-  pointer-events: none;
-}
-
-/* === RUN BUTTON ENTRANCE ANIMATION === */
-@keyframes runButtonRise {
-  0% {
-    opacity: 0;
-    transform: translateY(60px) scale(0.95);
-    filter: brightness(0.2) blur(2px);
-  }
-  50% {
-    opacity: 0.5;
-    filter: brightness(0.7) blur(1px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: none;
-  }
-}
-
-#run-wrapper.glitch-in {
-  display: block;
-  animation: runButtonRise 1.4s ease-out forwards;
 }
 
 #access-message .granted {
@@ -222,6 +165,11 @@ body {
   display: none;
   opacity: 0;
   transition: opacity 0.5s ease;
+}
+
+.run-button-wrapper.glitch-in {
+  display: block;
+  animation: glitchFadeIn 1s ease forwards;
 }
 
 #run-button {
@@ -344,55 +292,6 @@ body {
 #landing-page.visible {
   display: flex;
   opacity: 1;
-}
-/* === GLITCH OUT ANIMATION — UPGRADED INTENSITY === */
-@keyframes glitchFadeOut {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-    filter: none;
-  }
-  15% {
-    opacity: 0.7;
-    transform: scale(1.05) rotate(0.5deg);
-    filter: hue-rotate(45deg) contrast(1.2);
-  }
-  30% {
-    opacity: 0.3;
-    transform: scale(0.95) rotate(-0.5deg);
-    filter: grayscale(1) blur(1px);
-  }
-  45% {
-    opacity: 0.8;
-    transform: scale(1.03);
-    filter: contrast(2) saturate(0.5);
-  }
-  60% {
-    opacity: 0.1;
-    transform: scale(1.1) rotate(1deg);
-    filter: blur(2px) brightness(1.5);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.9) rotate(-1deg);
-    filter: blur(3px) grayscale(1);
-  }
-}
-
-.glitch-out {
-  animation: glitchFadeOut 1.2s ease forwards;
-  pointer-events: none;
-}
-
-/* === FIXED POSITIONING FOR ACCESS MESSAGE + RUN BUTTON === */
-#access-message,
-#run-wrapper {
-  position: absolute;
-  bottom: 60px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1500;
-  text-align: center;
 }
 
 /* === UTILITY === */
