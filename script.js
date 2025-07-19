@@ -104,7 +104,7 @@ function showAccessGranted() {
   const grantedLine = document.querySelector('.granted');
   const warningLine = document.querySelector('.warning');
   const runWrapper = document.getElementById('run-wrapper');
-  const cipherTop = document.querySelector('.top-container');
+  const cipherTop = document.getElementById('cipherTop');
   const accessMessage = document.getElementById('access-message');
 
   grantedLine.textContent = '';
@@ -119,17 +119,15 @@ function showAccessGranted() {
     typeText(warningLine, warningText, 75, () => {
       startIdleGlitch(warningLine, warningText);
 
+      // Cipher glitch + run button entrance
       setTimeout(() => {
-       // GLITCH OUT THE CIPHER SECTION
-cipherTop.classList.add('glitch-out');
+        cipherTop.classList.add('glitch-out');
 
-// AFTER GLITCH, BRING IN RUN IT BUTTON
-setTimeout(() => {
-  cipherTop.style.display = 'none'; // fully kill after glitch
-  runWrapper.classList.add('glitch-in');
-}, 1300); // matches glitch animation duration
-        }, 50);
-      }, 1500);
+        setTimeout(() => {
+          cipherTop.style.display = 'none';
+          runWrapper.classList.add('glitch-in');
+        }, 1300); // Match glitch duration
+      }, 1500); // Delay after idle glitch starts
     });
   });
 }
