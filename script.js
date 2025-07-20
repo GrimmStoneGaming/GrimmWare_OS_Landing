@@ -330,7 +330,6 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 200);
   }, 1800);
 
-
 cycleCharacters();
 startCycling();
 });
