@@ -127,28 +127,7 @@ function showAccessGranted() {
       }, 1000);
     });
   });
-function launchTerminalOverlay(callback) {
-  const terminal = document.getElementById('terminal-overlay');
-  const linesContainer = document.getElementById('terminal-lines');
-  const lines = [
-    { tag: '[SYS] ::', text: 'Protocol breach detected...' },
-    { tag: '[HANDLER] ::', text: 'Initializing command injection...' },
-    { tag: '[SYS] ::', text: 'Firewall spike deployed.' },
-    { tag: '[HANDLER] ::', text: 'Injecting signal disruptor...' },
-    { tag: '[GATEWAY] ::', text: 'Rejecting foreign signal...' },
-    { tag: '[SYS] ::', text: 'Override vector accepted.' },
-    { tag: '[SYS] ::', text: 'Beginning internal purge...' },
-    { tag: '[HANDLER] ::', text: 'Forcing cipher shutdown...' },
-    { tag: '[GATEWAY] ::', text: 'Memory lattice destabilizing...' },
-    { tag: '[SYS] ::', text: 'Subsystem identity layers disabled.' },
-    { tag: '[SYS] ::', text: 'Visual anchor nodes disengaged.' },
-    { tag: '[SYS] ::', text: 'Command sequence complete.' },
-    { tag: '[SYS] ::', text: 'Connection integrity failing...' },
-    { tag: '[SYS] ::', text: 'Cipher structure collapse confirmed.' },
-    { tag: '[HANDLER] ::', text: 'Awaiting final response...' },
-    { tag: '[SYS] ::', text: 'Instruction stream fragmentation in progress...' },
-    { tag: '[HANDLER] ::', text: 'No more walls. Only wires.' },
-  ];
+}
 
   terminal.classList.remove('hidden');
   terminal.classList.add('show');
