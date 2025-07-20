@@ -111,7 +111,7 @@ function showAccessGranted() {
     { tag: 'HANDLER', text: 'Awaiting final response...', delay: 1000 },
     { tag: 'SYS', text: 'Instruction stream fragmentation in progress...', delay: 1000 },
     { tag: 'HANDLER', text: 'No more walls. Only wires.', delay: 2000 },
-    { tag: '', text: '', delay: 0, isFinal: true }
+    { tag: '', text:, delay: 0, isFinal: true }
   ];
 
   function typeLine({ tag, text, delay, isFinal }, index) {
