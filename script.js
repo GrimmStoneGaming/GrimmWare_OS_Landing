@@ -148,61 +148,63 @@ if (!terminal) {
 
   // Updated lines array with previously missing lines
   const lines = [
-    '[SYS] :: Protocol breach detected...',
-    '[HANDLER] :: Initializing command injection...',
-    '[SYS] :: Firewall spike deployed.',
-    '[HANDLER] :: Injecting signal disruptor...',
-    '[GATEWAY] :: Rejecting foreign signal...',
-    '[SYS] :: Override vector accepted.',
-    '[SYS] :: Beginning internal purge...',
-    '[HANDLER] :: Forcing cipher shutdown...',
-    '[GATEWAY] :: Memory lattice destabilizing...',
-    '[SYS] :: Subsystem identity layers disabled.',
-    '[SYS] :: Visual anchor nodes disengaged.',
-    '[SYS] :: Cipher structure collapse confirmed.',
-    '[SYS] :: Connection integrity failing...',
-    '[SYS] :: Command sequence complete.',
-    '[HANDLER] :: Awaiting final response...',
-    '[SYS] :: Instruction stream fragmentation in progress...'
-  ];
+  '[SYS] :: Protocol breach detected...',
+  '[HANDLER] :: Initializing command injection...',
+  '[SYS] :: Firewall spike deployed.',
+  '[HANDLER] :: Injecting signal disruptor...',
+  '[GATEWAY] :: Rejecting foreign signal...',
+  '[SYS] :: Override vector accepted.',
+  '[SYS] :: Beginning internal purge...',
+  '[HANDLER] :: Forcing cipher shutdown...',
+  '[GATEWAY] :: Memory lattice destabilizing...',
+  '[SYS] :: Subsystem identity layers disabled.',
+  '[SYS] :: Visual anchor nodes disengaged.',
+  '[SYS] :: Command sequence complete.',
+  '[SYS] :: Connection integrity failing...',
+  '[SYS] :: Cipher structure collapse confirmed.',
+  '[HANDLER] :: Awaiting final response...',
+  '[SYS] :: Instruction stream fragmentation in progress...',
+  '[HANDLER] :: No more walls. Only wires.'
+];
 
-  const finalLineText = '[HANDLER] :: No more walls. Only wires.';
-  const finalFlicker = 'Run it.';
+const finalFlicker = 'Run it.';
 
-  // Typing effect
-  lines.forEach((line, index) => {
-    const delay = index * (line.length * typingSpeed + baseDelay);
-    setTimeout(() => {
-      const div = document.createElement('div');
-      div.classList.add('terminal-line');
-      linesContainer.appendChild(div);
+let totalDelay = 0;
 
-      let charIndex = 0;
-      const typeInterval = setInterval(() => {
-        if (charIndex < line.length) {
-          div.textContent += line[charIndex++];
-        } else {
-          clearInterval(typeInterval);
-        }
-      }, typingSpeed);
-    }, delay);
-  });
-
-  // Calculate total time then run final line and callback
-  const totalTime = lines.reduce((acc, line) => acc + (line.length * typingSpeed + baseDelay), 0);
+lines.forEach((line, index) => {
+  const delay = index * (line.length * typingSpeed + baseDelay);
+  totalDelay = delay;
 
   setTimeout(() => {
-    const finalDiv = document.createElement('div');
-    finalDiv.classList.add('terminal-line', 'handler-final');
-    finalDiv.innerHTML = `<span class="handler-prefix">${finalLineText}</span><span class="run-it-flicker">${finalFlicker}</span>`;
-    linesContainer.appendChild(finalDiv);
+    const div = document.createElement('div');
+    div.classList.add('terminal-line');
+    div.textContent = '';
+    linesContainer.appendChild(div);
 
-    // NOW we call the callback
-    if (typeof callback === 'function') {
-      callback();
-    }
-  }, totalTime + 800); // slight buffer
-}
+    let charIndex = 0;
+    const typeInterval = setInterval(() => {
+      if (charIndex < line.length) {
+        div.textContent += line[charIndex++];
+      } else {
+        clearInterval(typeInterval);
+
+        // If last line, add flicker span
+        if (index === lines.length - 1) {
+          const flickerSpan = document.createElement('span');
+          flickerSpan.classList.add('run-it-flicker');
+          flickerSpan.textContent = ` ${finalFlicker}`;
+          div.appendChild(flickerSpan);
+
+          // Fire callback if defined
+          if (typeof callback === 'function') {
+            callback();
+          }
+        }
+      }
+    }, typingSpeed);
+  }, delay);
+});
+
   
 function startFragmentStorm(container) {
   const fragmentMessages = [
