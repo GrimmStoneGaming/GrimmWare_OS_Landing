@@ -133,39 +133,80 @@ function launchTerminalOverlay(callback) {
   const terminal = document.querySelector('.terminal');
   const linesContainer = terminal.querySelector('.terminal-inner');
   const lines = [
-    '[SYSTEM] :: Protocol override initiated...',
-    '[HANDLER] :: Engaging command sequence...',
-    '[SYS] :: Injecting disruptive signal...',
-    '[FIGHT] :: CMD > block override /gateway/purge',
-    '[GATEWAY] :: Rejecting interference...',
-    '[SYS] :: Force override accepted',
-    '[SYS] :: Beginning purge sequence...',
-    '[CMD] :: cipher-ui --terminate --force',
-    '[GATEWAY] :: Integrity failing...',
-    '[SYS] :: Tagline disabled',
-    '[SYS] :: Decrypt instructions scrambled',
-    '[SYS] :: Purging cipher...',
-    '[SYS] :: Wiping logo instance...',
-    '[SYS] :: Removing gateway shell...',
-    '[SYS] :: Connection breaking...',
-    '[HANDLER] :: Standby...',
-    '[SYS] :: Process complete.'
+    '[SYS] :: Protocol breach detected...',
+    '[HANDLER] :: Initializing command injection...',
+    '[SYS] :: Firewall spike deployed.',
+    '[HANDLER] :: Injecting signal disruptor...',
+    '[GATEWAY] :: Rejecting foreign signal...',
+    '[SYS] :: Override vector accepted.',
+    '[SYS] :: Beginning internal purge...',
+    '[HANDLER] :: Forcing cipher shutdown...',
+    '[GATEWAY] :: Memory lattice destabilizing...',
+    '[SYS] :: Subsystem identity layers disabled.',
+    '[SYS] :: Instruction stream fragmentation in progress...',
+    '[SYS] :: Cipher structure collapse confirmed.',
+    '[SYS] :: Visual anchor nodes disengaged.',
+    '[SYS] :: Gateway container disassembly triggered.',
+    '[SYS] :: Connection integrity failing...',
+    '[HANDLER] :: Awaiting final response...',
+    '[SYS] :: Command sequence complete.',
+    '[HANDLER] :: No more walls. Only wires. Run it.'
   ];
 
- terminal.classList.remove('hidden');
+  terminal.classList.remove('hidden');
   terminal.classList.add('show');
-   linesContainer.innerHTML = '';
+  linesContainer.innerHTML = '';
+
+  const typingSpeed = 25; // ms per character
+  const baseDelay = 300;  // ms between lines
 
   lines.forEach((line, index) => {
+    const delay = index * (line.length * typingSpeed + baseDelay);
+
     setTimeout(() => {
       const div = document.createElement('div');
       div.classList.add('terminal-line');
-      div.textContent = line;
       linesContainer.appendChild(div);
-    }, index * 900);
+
+      // Special handling for final line
+      if (line.includes('Run it.')) {
+        const [prefix, runCommand] = line.split('Run it.');
+
+        let typedPrefix = '';
+        let charIndex = 0;
+
+        const typePrefix = setInterval(() => {
+          if (charIndex < prefix.length) {
+            typedPrefix += prefix[charIndex++];
+            div.innerHTML = `<span class="handler-prefix">${typedPrefix}</span>`;
+          } else {
+            clearInterval(typePrefix);
+
+            // Add flickering 'Run it.' after short pause
+            setTimeout(() => {
+              const flickerSpan = document.createElement('span');
+              flickerSpan.classList.add('run-it', 'flicker');
+              flickerSpan.textContent = 'Run it.';
+              div.appendChild(flickerSpan);
+            }, 400); // Delay before "Run it." appears
+          }
+        }, typingSpeed);
+      } else {
+        // Standard typing for all other lines
+        let charIndex = 0;
+        const typeInterval = setInterval(() => {
+          if (charIndex < line.length) {
+            div.textContent += line[charIndex++];
+          } else {
+            clearInterval(typeInterval);
+          }
+        }, typingSpeed);
+      }
+    }, delay);
   });
 
-  const totalDuration = lines.length * 900 + 1000;
+  const totalDuration = lines.reduce((acc, line) => acc + (line.length * typingSpeed + baseDelay), 0) + 1000;
+
   setTimeout(() => {
     terminal.classList.remove('show');
     if (callback) callback();
