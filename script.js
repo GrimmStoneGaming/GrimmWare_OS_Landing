@@ -187,17 +187,19 @@ lines.forEach((line, index) => {
       } else {
         clearInterval(typeInterval);
 
-        // 🔻 Add flicker span on last line
+        // If this is the last line, append flicker span and fire callback
         if (index === lines.length - 1) {
           const flickerSpan = document.createElement('span');
           flickerSpan.classList.add('run-it-flicker');
           flickerSpan.textContent = ` ${finalFlicker}`;
           div.appendChild(flickerSpan);
 
-          // 🔻 Fire callback after flicker completes
-          if (typeof callback === 'function') {
-            callback();
-          }
+          // Wait briefly after flicker before launching terminal continuation
+          setTimeout(() => {
+            if (typeof callback === 'function') {
+              callback();
+            }
+          }, 800); // brief pause after final line
         }
       }
     }, typingSpeed);
