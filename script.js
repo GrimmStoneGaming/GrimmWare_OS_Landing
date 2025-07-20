@@ -105,10 +105,10 @@ function startIdleGlitch(target, originalText, frequency = 150) {
 
 // === Terminal Overlay Activation ===
 function launchTerminalOverlay(callback) {
+  const terminal = document.getElementById('terminal-overlay');
+  const linesContainer = terminal.querySelector('.terminal-inner');
   terminal.classList.remove('hidden');
   terminal.classList.add('show');
-
-  const linesContainer = terminal.querySelector('.terminal-inner');
   linesContainer.innerHTML = '';
 
   const lines = [
@@ -129,67 +129,87 @@ function launchTerminalOverlay(callback) {
     '[HANDLER] :: Awaiting final response...',
     '[SYS] :: Instruction stream fragmentation in progress...',
     '[HANDLER] :: No more walls. Only wires.',
-    '[HANDLER] :: <span class="run-it">Run it.</span>'
-];
-
+    '[HANDLER] ::' // ← Final trigger line, launches 'Run it.'
   ];
 
-  const finalFlicker = 'Run it.';
+  const typingSpeed = 50;      // Slowed typing speed for all CMD lines
+  const baseDelay = 350;       // More space between each line
+  const runItTypingSpeed = 225;
+  const runItText = 'Run it.';
+
   let totalDelay = 0;
 
   lines.forEach((line, index) => {
+    const div = document.createElement('div');
+    div.classList.add('terminal-line');
+
+    const prefix = document.createElement('span');
+    prefix.classList.add('handler-prefix');
+    const split = line.split('::');
+    prefix.textContent = split[0] + '::';
+
+    const body = document.createElement('span');
+    body.classList.add('line-body');
+    body.textContent = '';
+
+    div.appendChild(prefix);
+    div.appendChild(body);
+    linesContainer.appendChild(div);
+
     const delay = totalDelay;
 
     setTimeout(() => {
-      const div = document.createElement('div');
-      div.classList.add('terminal-line');
-      linesContainer.appendChild(div);
-
-      let charIndex = 0;
+      let i = 0;
       const typeInterval = setInterval(() => {
-        if (charIndex < line.length) {
-          div.textContent += line[charIndex++];
+        if (i < split[1]?.length) {
+          body.textContent += split[1][i++];
         } else {
           clearInterval(typeInterval);
 
-          // === Final Flicker Logic ===
+          // Handle final trigger line
           if (index === lines.length - 1) {
             setTimeout(() => {
-              const runLine = document.createElement('div');
-              runLine.classList.add('terminal-line', 'run-it-flicker');
-              runLine.textContent = finalFlicker;
-              linesContainer.appendChild(runLine);
+              const flicker = document.createElement('div');
+              flicker.classList.add('terminal-line');
+              flicker.innerHTML = `
+                <span class="handler-prefix">[HANDLER] ::</span>
+                <span class="run-it run-it-flicker"></span>`;
+              linesContainer.appendChild(flicker);
 
-              // Optional ghost line
-              setTimeout(() => {
-                const ghostLine = document.createElement('div');
-                ghostLine.classList.add('terminal-line');
-                ghostLine.textContent = '[HANDLER] :: ';
-                linesContainer.appendChild(ghostLine);
-              }, 1000);
+              const runItTarget = flicker.querySelector('.run-it-flicker');
+              let charIndex = 0;
+              const runItInterval = setInterval(() => {
+                if (charIndex < runItText.length) {
+                  runItTarget.textContent += runItText[charIndex++];
+                } else {
+                  clearInterval(runItInterval);
 
-              // Final callback
-              if (typeof callback === 'function') {
-                setTimeout(callback, 1400);
-              }
-            }, 600);
+                  // Hang for 3 seconds, then call callback (-> WARNING line + button)
+                  setTimeout(() => {
+                    if (typeof callback === 'function') {
+                      callback();
+                    }
+                  }, 3000);
+                }
+              }, runItTypingSpeed);
+            }, 600); // Buffer after final [HANDLER] tag before typing 'Run it.'
           }
         }
       }, typingSpeed);
     }, delay);
 
-    totalDelay += line.length * typingSpeed + baseDelay;
+    totalDelay += (split[1]?.length || 0) * typingSpeed + baseDelay;
   });
 }
+
 
 // === Access Unlock Sequence ===
 function showAccessGranted() {
   const grantedLine = document.querySelector('.granted');
   const warningLine = document.querySelector('.warning');
   const runWrapper = document.getElementById('run-wrapper');
-  const cipherTop = document.querySelector('.top-container');
+  const cipherTop = document.querySelector('#top-container');
   const accessMessage = document.getElementById('access-message');
-  const terminal = document.getElementById('terminal-overlay');
 
   grantedLine.textContent = '';
   warningLine.textContent = '';
@@ -202,18 +222,23 @@ function showAccessGranted() {
   typeText(grantedLine, grantedText, 40, () => {
     launchTerminalOverlay(() => {
       cipherTop.classList.add('purged');
-      setTimeout(() => {
-        typeText(warningLine, warningText, 75, () => {
-          startIdleGlitch(warningLine, warningText);
-          runWrapper.classList.add('glitch-in');
-          runWrapper.style.display = 'block';
-          setTimeout(() => {
-            setTimeout(() => {
-              terminal.classList.add('hidden');
-                terminal.style.opacity = 0; // Optional smooth fade
-                  }, 3000); // Wait 3s after final flicker/response
 
-            runWrapper.style.opacity = 1;
+      runWrapper.classList.add('glitch-in');
+      runWrapper.style.display = 'block';
+
+      // Terminal fade out
+      setTimeout(() => {
+        terminal.classList.add('hidden');
+        terminal.style.opacity = 0;
+
+        // NOW type the warning line after terminal is gone
+        typeText(warningLine, warningText, 75);
+      }, 3000); // Adjust this timing if needed
+    });
+  });
+
+  runWrapper.style.opacity = 1;
+}
           }, 50);
         });
       }, 1000);
