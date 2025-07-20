@@ -129,6 +129,9 @@ function launchTerminalOverlay(callback) {
     '[HANDLER] :: Awaiting final response...',
     '[SYS] :: Instruction stream fragmentation in progress...',
     '[HANDLER] :: No more walls. Only wires.',
+    '[HANDLER] :: <span class="run-it">Run it.</span>'
+];
+
   ];
 
   const finalFlicker = 'Run it.';
