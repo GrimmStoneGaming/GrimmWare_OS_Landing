@@ -133,7 +133,6 @@ function showAccessGranted() {
   terminal.classList.add('show');
   linesContainer.innerHTML = '';
 
-  const baseDelay = 200;
   let totalDelay = 0;
 
   lines.forEach((line, index) => {
