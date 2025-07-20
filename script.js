@@ -120,10 +120,10 @@ function showAccessGranted() {
 
     const prefix = document.createElement('span');
     prefix.classList.add(`${tag.toLowerCase()}-prefix`);
-  if (tag) {
-    prefix.textContent = `[${tag}] ::`;
-    line.appendChild(prefix);
-  }
+    if (tag) {
+      prefix.textContent = `[${tag}] ::`;
+      line.appendChild(prefix);
+    }
 
     const content = document.createElement('span');
     content.classList.add('terminal-content');
