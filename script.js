@@ -185,7 +185,7 @@ function showAccessGranted() {
   typeLine(sequence[0], 0);
 }
 
-// === Purge-to-Reveal Transition ===
+// === Final LP Reveal: Red Button Activation ===
 document.getElementById('run-button').addEventListener('click', () => {
   if (transitionInProgress) return;
   transitionInProgress = true;
