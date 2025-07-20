@@ -62,15 +62,18 @@
       <div class="decrypt-instruction" id="decrypt-instruction"></div>
     </div>
 
-    <div id="access-message" class="hidden" aria-live="polite">
-      <span class="granted"></span>
-      <span class="warning" id="warning-line"></span>
-    </div>
-
-    <div id="run-wrapper" class="run-button-wrapper hidden">
-      <button id="run-button" aria-label="Execute Gateway Unlock">&gt;&gt;&gt; RUN IT</button>
-    </div>
+    <!-- Anchored Access Message + Button -->
+<div id="access-container">
+  <div id="access-message" class="hidden" aria-live="polite">
+    <span class="granted"></span>
+    <span class="warning" id="warning-line"></span>
   </div>
+
+  <div id="run-wrapper" class="run-button-wrapper hidden">
+    <button id="run-button" aria-label="Execute Gateway Unlock">&gt;&gt;&gt; RUN IT</button>
+  </div>
+</div>
+
 
   <div id="gateway-overlay" aria-hidden="true"></div>
   <div id="terminal-overlay" class="terminal hidden">
