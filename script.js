@@ -190,19 +190,22 @@ setTimeout(() => {
 
   let charIndex = 0;
   const finalTyping = setInterval(() => {
-    if (charIndex < finalLineText.length) {
-      finalDiv.innerHTML += finalLineText[charIndex++];
-    } else {
-      clearInterval(finalTyping);
-      setTimeout(() => {
-        const span = document.createElement('span');
-        span.className = 'flicker-red';
-        span.textContent = finalFlicker;
-        finalDiv.appendChild(document.createTextNode(' '));
-        finalDiv.appendChild(span);
-      }, 600);
-    }
-  }, typingSpeed);
+  if (charIndex < finalLineText.length) {
+    finalDiv.innerHTML += finalLineText[charIndex++];
+  } else {
+    clearInterval(finalTyping);
+
+    // Pause, then flicker the red segment
+    setTimeout(() => {
+      const span = document.createElement('span');
+      span.className = 'flicker-red';
+      span.textContent = 'Run it.';
+      finalDiv.appendChild(document.createTextNode(' '));
+      finalDiv.appendChild(span);
+    }, 600);
+  }
+}, typingSpeed);
+
 }, finalLineDelay);
 
 // Total duration until terminal overlay closes
