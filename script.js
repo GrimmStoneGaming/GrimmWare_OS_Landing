@@ -3,21 +3,23 @@
 const boxes = document.querySelectorAll('.box');
 const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
 const terminalOverlay = document.getElementById('terminal-overlay');
+const terminal = terminalOverlay; // assuming same element
 const terminalLines = document.getElementById('terminal-lines');
-
 let currentGreenIndex = null;
 let intervalId = null;
 let solved = Array(boxes.length).fill(false);
 let transitionInProgress = false;
 
-// === TERMINAL TIMING CONSTANTS (Fix for ReferenceError) ===
-const typingSpeed = 35;  // Typing delay per character
-const baseDelay = 100;   // Delay between terminal lines
+// === TIMING CONSTANTS ===
+const typingSpeed = 35;
+const baseDelay = 100;
 
+// === Cipher Glitch Logic ===
 function getRandomChar() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return chars[Math.floor(Math.random() * chars.length)];
 }
+
 function cycleCharacters() {
   setInterval(() => {
     boxes.forEach((box, i) => {
@@ -27,6 +29,7 @@ function cycleCharacters() {
     });
   }, 100);
 }
+
 function startCycling() {
   intervalId = setInterval(() => {
     let nextIndex;
@@ -51,6 +54,7 @@ function startCycling() {
   }, 1500);
 }
 
+// === Box Click Detection ===
 boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
     if (i === currentGreenIndex && !solved[i]) {
@@ -69,6 +73,7 @@ boxes.forEach((box, i) => {
   });
 });
 
+// === Terminal Typing Helpers ===
 function typeText(target, text, delay = 60, callback = null) {
   let i = 0;
   const interval = setInterval(() => {
@@ -80,6 +85,7 @@ function typeText(target, text, delay = 60, callback = null) {
     }
   }, delay);
 }
+
 function startIdleGlitch(target, originalText, frequency = 150) {
   const glitchChars = "!@#$%^&*()_+=~{}|<>?/\\";
   let glitchInterval = setInterval(() => {
@@ -96,6 +102,85 @@ function startIdleGlitch(target, originalText, frequency = 150) {
     target.textContent = originalText;
   });
 }
+
+// === Terminal Overlay Activation ===
+function launchTerminalOverlay(callback) {
+  terminal.classList.remove('hidden');
+  terminal.classList.add('show');
+
+  const linesContainer = terminal.querySelector('.terminal-inner');
+  linesContainer.innerHTML = '';
+
+  const lines = [
+    '[SYS] :: Protocol breach detected...',
+    '[HANDLER] :: Initializing command injection...',
+    '[SYS] :: Firewall spike deployed.',
+    '[HANDLER] :: Injecting signal disruptor...',
+    '[GATEWAY] :: Rejecting foreign signal...',
+    '[SYS] :: Override vector accepted.',
+    '[SYS] :: Beginning internal purge...',
+    '[HANDLER] :: Forcing cipher shutdown...',
+    '[GATEWAY] :: Memory lattice destabilizing...',
+    '[SYS] :: Subsystem identity layers disabled.',
+    '[SYS] :: Visual anchor nodes disengaged.',
+    '[SYS] :: Command sequence complete.',
+    '[SYS] :: Connection integrity failing...',
+    '[SYS] :: Cipher structure collapse confirmed.',
+    '[HANDLER] :: Awaiting final response...',
+    '[SYS] :: Instruction stream fragmentation in progress...',
+    '[HANDLER] :: No more walls. Only wires.',
+    '[HANDLER] ::'
+  ];
+
+  const finalFlicker = 'Run it.';
+  let totalDelay = 0;
+
+  lines.forEach((line, index) => {
+    const delay = totalDelay;
+
+    setTimeout(() => {
+      const div = document.createElement('div');
+      div.classList.add('terminal-line');
+      linesContainer.appendChild(div);
+
+      let charIndex = 0;
+      const typeInterval = setInterval(() => {
+        if (charIndex < line.length) {
+          div.textContent += line[charIndex++];
+        } else {
+          clearInterval(typeInterval);
+
+          // === Final Flicker Logic ===
+          if (index === lines.length - 1) {
+            setTimeout(() => {
+              const runLine = document.createElement('div');
+              runLine.classList.add('terminal-line', 'run-it-flicker');
+              runLine.textContent = finalFlicker;
+              linesContainer.appendChild(runLine);
+
+              // Optional ghost line
+              setTimeout(() => {
+                const ghostLine = document.createElement('div');
+                ghostLine.classList.add('terminal-line');
+                ghostLine.textContent = '[HANDLER] :: ';
+                linesContainer.appendChild(ghostLine);
+              }, 1000);
+
+              // Final callback
+              if (typeof callback === 'function') {
+                setTimeout(callback, 1400);
+              }
+            }, 600);
+          }
+        }
+      }, typingSpeed);
+    }, delay);
+
+    totalDelay += line.length * typingSpeed + baseDelay;
+  });
+}
+
+// === Access Unlock Sequence ===
 function showAccessGranted() {
   const grantedLine = document.querySelector('.granted');
   const warningLine = document.querySelector('.warning');
@@ -115,7 +200,6 @@ function showAccessGranted() {
     launchTerminalOverlay(() => {
       cipherTop.classList.add('purged');
       setTimeout(() => {
-        accessMessage.style.opacity = 1;
         typeText(warningLine, warningText, 75, () => {
           startIdleGlitch(warningLine, warningText);
           runWrapper.classList.add('glitch-in');
@@ -129,133 +213,7 @@ function showAccessGranted() {
   });
 }
 
-  terminal.classList.remove('hidden');
-  terminal.classList.add('show');
-  linesContainer.innerHTML = '';
-
-  let totalDelay = 0;
-
-  lines.forEach((line, index) => {
-    const div = document.createElement('div');
-    div.classList.add('terminal-line');
-
-    const prefix = document.createElement('span');
-    prefix.classList.add('handler-prefix');
-    prefix.textContent = line.tag + ' ';
-
-    const body = document.createElement('span');
-    body.classList.add('line-body');
-    body.textContent = '';
-
-    div.appendChild(prefix);
-    div.appendChild(body);
-    linesContainer.appendChild(div);
-
-    const delay = totalDelay;
-
-    setTimeout(() => {
-      let i = 0;
-      const interval = setInterval(() => {
-        if (i < line.text.length) {
-          body.textContent += line.text[i++];
-        } else {
-          clearInterval(interval);
-        }
-      }, typingSpeed);
-    }, delay);
-
-    totalDelay += line.text.length * typingSpeed + baseDelay;
-  });
-
-  // Inject final flicker line 500ms after last line
-  setTimeout(() => {
-    const finalDiv = document.createElement('div');
-    finalDiv.classList.add('terminal-line');
-    finalDiv.innerHTML = `<span class="handler-prefix">[HANDLER] ::</span><span class="run-it run-it-flicker"> Run it.</span>`;
-    linesContainer.appendChild(finalDiv);
-
-    if (typeof callback === 'function') {
-      setTimeout(callback, 1200);
-    }
-
-  terminal.classList.remove('hidden'); // <== KEY LINE
-  terminal.classList.add('show');
-  const linesContainer = terminal.querySelector('.terminal-inner');
-
-  // Updated lines array with previously missing lines
-  const lines = [
-  '[SYS] :: Protocol breach detected...',
-  '[HANDLER] :: Initializing command injection...',
-  '[SYS] :: Firewall spike deployed.',
-  '[HANDLER] :: Injecting signal disruptor...',
-  '[GATEWAY] :: Rejecting foreign signal...',
-  '[SYS] :: Override vector accepted.',
-  '[SYS] :: Beginning internal purge...',
-  '[HANDLER] :: Forcing cipher shutdown...',
-  '[GATEWAY] :: Memory lattice destabilizing...',
-  '[SYS] :: Subsystem identity layers disabled.',
-  '[SYS] :: Visual anchor nodes disengaged.',
-  '[SYS] :: Command sequence complete.',
-  '[SYS] :: Connection integrity failing...',
-  '[SYS] :: Cipher structure collapse confirmed.',
-  '[HANDLER] :: Awaiting final response...',
-  '[SYS] :: Instruction stream fragmentation in progress...',
-  '[HANDLER] :: No more walls. Only wires.',
-  '[HANDLER] ::'
-];
-validateRunItFlicker();
-
-const finalFlicker = 'Run it.';
-let totalDelay = 0;
-
-lines.forEach((line, index) => {
-  const delay = index * (line.length * typingSpeed + baseDelay);
-  totalDelay = delay;
-
-  setTimeout(() => {
-    const div = document.createElement('div');
-    div.classList.add('terminal-line');
-    div.textContent = '';
-    linesContainer.appendChild(div);
-
-    let charIndex = 0;
-    const typeInterval = setInterval(() => {
-      if (charIndex < line.length) {
-        div.textContent += line[charIndex++];
-      } else {
-        clearInterval(typeInterval);
-
-        // === NEW FINAL LINE LOGIC ===
-        if (index === lines.length - 1) {
-          setTimeout(() => {
-            // Flicker 'Run it.' after the last line
-            const runLine = document.createElement('div');
-            runLine.classList.add('terminal-line', 'run-it-flicker');
-            runLine.textContent = finalFlicker;
-            linesContainer.appendChild(runLine);
-
-            // Optional glitch echo line (feels like the system dying)
-            setTimeout(() => {
-              const ghostLine = document.createElement('div');
-              ghostLine.classList.add('terminal-line');
-              ghostLine.textContent = '[HANDLER] :: ';
-              linesContainer.appendChild(ghostLine);
-            }, 1000);
-
-            // Fire continuation callback
-            if (typeof callback === 'function') {
-              setTimeout(callback, 1400); // enough time for both visuals
-            }
-          }, 600); // delay before flicker drop
-        }
-      }
-    }, typingSpeed);
-  }, delay);
-});
-
-}  
-}
-
+// === Purge-to-Reveal Transition ===
 document.getElementById('run-button').addEventListener('click', () => {
   if (transitionInProgress) return;
   transitionInProgress = true;
@@ -307,6 +265,7 @@ document.getElementById('run-button').addEventListener('click', () => {
   }, fallInDuration + delayBeforeReveal);
 });
 
+// === Page Load Fade Effects ===
 window.addEventListener('DOMContentLoaded', () => {
   const logo = document.querySelector('.logo-main');
   const tagline = document.querySelector('.tagline');
@@ -321,8 +280,10 @@ window.addEventListener('DOMContentLoaded', () => {
     instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
     instruction.style.animation = 'corruptText 6s infinite';
     instruction.style.opacity = '1';
+
     const raw = instruction.textContent;
     const glitchChars = '!@#$%?~*';
+
     setInterval(() => {
       const corrupted = raw.split('').map(char =>
         Math.random() < 0.07 && char !== ' '
@@ -333,6 +294,6 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 200);
   }, 1800);
 
-cycleCharacters();
-startCycling();
+  cycleCharacters();
+  startCycling();
 });
