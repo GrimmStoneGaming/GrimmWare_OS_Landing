@@ -187,13 +187,14 @@ lines.forEach((line, index) => {
       } else {
         clearInterval(typeInterval);
 
-        // Add flicker span only on the final line
+        // 🔻 Add flicker span on last line
         if (index === lines.length - 1) {
           const flickerSpan = document.createElement('span');
           flickerSpan.classList.add('run-it-flicker');
           flickerSpan.textContent = ` ${finalFlicker}`;
           div.appendChild(flickerSpan);
 
+          // 🔻 Fire callback after flicker completes
           if (typeof callback === 'function') {
             callback();
           }
