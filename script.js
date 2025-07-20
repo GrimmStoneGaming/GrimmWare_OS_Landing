@@ -132,6 +132,7 @@ function showAccessGranted() {
 function launchTerminalOverlay(callback) {
   const terminal = document.querySelector('.terminal');
   const linesContainer = terminal.querySelector('.terminal-inner');
+
   const lines = [
     '[SYS] :: Protocol breach detected...',
     '[HANDLER] :: Initializing command injection...',
@@ -143,70 +144,54 @@ function launchTerminalOverlay(callback) {
     '[HANDLER] :: Forcing cipher shutdown...',
     '[GATEWAY] :: Memory lattice destabilizing...',
     '[SYS] :: Subsystem identity layers disabled.',
-    '[SYS] :: Instruction stream fragmentation in progress...',
-    '[SYS] :: Cipher structure collapse confirmed.',
     '[SYS] :: Visual anchor nodes disengaged.',
-    '[SYS] :: Gateway container disassembly triggered.',
+    '[SYS] :: Cipher structure collapse confirmed.',
+    '[SYS] :: Instruction stream fragmentation in progress...',
     '[SYS] :: Connection integrity failing...',
     '[HANDLER] :: Awaiting final response...',
-    '[SYS] :: Command sequence complete.',
-    '[HANDLER] :: No more walls. Only wires. Run it.'
+    '[SYS] :: Command sequence complete.'
   ];
+
+  const finalLine = '[HANDLER] :: No more walls. Only wires. <span class="run-it-flicker">Run it.</span>';
 
   terminal.classList.remove('hidden');
   terminal.classList.add('show');
   linesContainer.innerHTML = '';
 
-  const typingSpeed = 25; // ms per character
-  const baseDelay = 300;  // ms between lines
+  const typingSpeed = 25;
+  const baseDelay = 300;
 
+  // Main lines
   lines.forEach((line, index) => {
     const delay = index * (line.length * typingSpeed + baseDelay);
-
     setTimeout(() => {
       const div = document.createElement('div');
       div.classList.add('terminal-line');
       linesContainer.appendChild(div);
 
-      // Special handling for final line
-      if (line.includes('Run it.')) {
-        const [prefix, runCommand] = line.split('Run it.');
-
-        let typedPrefix = '';
-        let charIndex = 0;
-
-        const typePrefix = setInterval(() => {
-          if (charIndex < prefix.length) {
-            typedPrefix += prefix[charIndex++];
-            div.innerHTML = `<span class="handler-prefix">${typedPrefix}</span>`;
-          } else {
-            clearInterval(typePrefix);
-
-            // Add flickering 'Run it.' after short pause
-            setTimeout(() => {
-              const flickerSpan = document.createElement('span');
-              flickerSpan.classList.add('run-it', 'flicker');
-              flickerSpan.textContent = 'Run it.';
-              div.appendChild(flickerSpan);
-            }, 400); // Delay before "Run it." appears
-          }
-        }, typingSpeed);
-      } else {
-        // Standard typing for all other lines
-        let charIndex = 0;
-        const typeInterval = setInterval(() => {
-          if (charIndex < line.length) {
-            div.textContent += line[charIndex++];
-          } else {
-            clearInterval(typeInterval);
-          }
-        }, typingSpeed);
-      }
+      let charIndex = 0;
+      const typeInterval = setInterval(() => {
+        if (charIndex < line.length) {
+          div.textContent += line[charIndex++];
+        } else {
+          clearInterval(typeInterval);
+        }
+      }, typingSpeed);
     }, delay);
   });
 
-  const totalDuration = lines.reduce((acc, line) => acc + (line.length * typingSpeed + baseDelay), 0) + 1000;
+  // Final flicker line
+  const finalLineDelay = lines.length * (typingSpeed * 32 + baseDelay) + 800;
 
+  setTimeout(() => {
+    const finalDiv = document.createElement('div');
+    finalDiv.classList.add('terminal-line', 'handler-final');
+    finalDiv.innerHTML = finalLine;
+    linesContainer.appendChild(finalDiv);
+  }, finalLineDelay);
+
+  // Extend timeout to allow final line to hang
+  const totalDuration = finalLineDelay + 3000;
   setTimeout(() => {
     terminal.classList.remove('show');
     if (callback) callback();
