@@ -223,6 +223,8 @@ setTimeout(() => {
   if (callback) callback();
 }, totalDuration);
 
+}  
+  
 function startFragmentStorm(container) {
   const fragmentMessages = [
     'SYSERR[195] :: Override in progress...',
