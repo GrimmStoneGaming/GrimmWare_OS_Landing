@@ -205,7 +205,7 @@ lines.forEach((line, index) => {
   }, delay);
 });
 
-  
+}  
 function startFragmentStorm(container) {
   const fragmentMessages = [
     'SYSERR[195] :: Override in progress...',
