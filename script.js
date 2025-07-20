@@ -3,7 +3,6 @@
 const boxes = document.querySelectorAll('.box');
 const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
 const terminalOverlay = document.getElementById('terminal-overlay');
-const terminal = terminalOverlay; // assuming same element
 const terminalLines = document.getElementById('terminal-lines');
 let currentGreenIndex = null;
 let intervalId = null;
@@ -54,7 +53,6 @@ function startCycling() {
   }, 1500);
 }
 
-// === Box Click Detection ===
 boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
     if (i === currentGreenIndex && !solved[i]) {
@@ -73,7 +71,6 @@ boxes.forEach((box, i) => {
   });
 });
 
-// === Terminal Typing Helpers ===
 function typeText(target, text, delay = 60, callback = null) {
   let i = 0;
   const interval = setInterval(() => {
@@ -103,12 +100,11 @@ function startIdleGlitch(target, originalText, frequency = 150) {
   });
 }
 
-// === Terminal Overlay Activation ===
 function launchTerminalOverlay(callback) {
+  const terminal = document.getElementById('terminal-overlay');
+  const linesContainer = terminal.querySelector('.terminal-inner');
   terminal.classList.remove('hidden');
   terminal.classList.add('show');
-
-  const linesContainer = terminal.querySelector('.terminal-inner');
   linesContainer.innerHTML = '';
 
   const lines = [
@@ -132,60 +128,75 @@ function launchTerminalOverlay(callback) {
     '[HANDLER] ::'
   ];
 
-  const finalFlicker = 'Run it.';
+  const typingSpeed = 50;
+  const baseDelay = 350;
+  const runItTypingSpeed = 225;
+  const runItText = 'Run it.';
   let totalDelay = 0;
 
   lines.forEach((line, index) => {
+    const div = document.createElement('div');
+    div.classList.add('terminal-line');
+
+    const prefix = document.createElement('span');
+    prefix.classList.add('handler-prefix');
+    const split = line.split('::');
+    prefix.textContent = split[0] + '::';
+
+    const body = document.createElement('span');
+    body.classList.add('line-body');
+    body.textContent = '';
+
+    div.appendChild(prefix);
+    div.appendChild(body);
+    linesContainer.appendChild(div);
+
     const delay = totalDelay;
 
     setTimeout(() => {
-      const div = document.createElement('div');
-      div.classList.add('terminal-line');
-      linesContainer.appendChild(div);
-
-      let charIndex = 0;
+      let i = 0;
       const typeInterval = setInterval(() => {
-        if (charIndex < line.length) {
-          div.textContent += line[charIndex++];
+        if (i < split[1]?.length) {
+          body.textContent += split[1][i++];
         } else {
           clearInterval(typeInterval);
 
-          // === Final Flicker Logic ===
           if (index === lines.length - 1) {
             setTimeout(() => {
-              const runLine = document.createElement('div');
-              runLine.classList.add('terminal-line', 'run-it-flicker');
-              runLine.textContent = finalFlicker;
-              linesContainer.appendChild(runLine);
+              const flicker = document.createElement('div');
+              flicker.classList.add('terminal-line');
+              flicker.innerHTML = `
+                <span class="handler-prefix">[HANDLER] ::</span>
+                <span class="run-it run-it-flicker"></span>`;
+              linesContainer.appendChild(flicker);
 
-              // Optional ghost line
-              setTimeout(() => {
-                const ghostLine = document.createElement('div');
-                ghostLine.classList.add('terminal-line');
-                ghostLine.textContent = '[HANDLER] :: ';
-                linesContainer.appendChild(ghostLine);
-              }, 1000);
-
-              // Final callback
-              if (typeof callback === 'function') {
-                setTimeout(callback, 1400);
-              }
+              const runItTarget = flicker.querySelector('.run-it-flicker');
+              let charIndex = 0;
+              const runItInterval = setInterval(() => {
+                if (charIndex < runItText.length) {
+                  runItTarget.textContent += runItText[charIndex++];
+                } else {
+                  clearInterval(runItInterval);
+                  setTimeout(() => {
+                    if (typeof callback === 'function') callback();
+                  }, 3000);
+                }
+              }, runItTypingSpeed);
             }, 600);
           }
         }
       }, typingSpeed);
     }, delay);
 
-    totalDelay += line.length * typingSpeed + baseDelay;
+    totalDelay += (split[1]?.length || 0) * typingSpeed + baseDelay;
   });
 }
 
-// === Access Unlock Sequence ===
 function showAccessGranted() {
   const grantedLine = document.querySelector('.granted');
   const warningLine = document.querySelector('.warning');
   const runWrapper = document.getElementById('run-wrapper');
-  const cipherTop = document.querySelector('.top-container');
+  const cipherTop = document.querySelector('#top-container');
   const accessMessage = document.getElementById('access-message');
 
   grantedLine.textContent = '';
@@ -199,15 +210,15 @@ function showAccessGranted() {
   typeText(grantedLine, grantedText, 40, () => {
     launchTerminalOverlay(() => {
       cipherTop.classList.add('purged');
+      runWrapper.classList.add('glitch-in');
+      runWrapper.style.display = 'block';
+
       setTimeout(() => {
-        typeText(warningLine, warningText, 75, () => {
-          startIdleGlitch(warningLine, warningText);
-          runWrapper.classList.add('glitch-in');
-          runWrapper.style.display = 'block';
-          setTimeout(() => {
-            runWrapper.style.opacity = 1;
-          }, 50);
-        });
+        terminalOverlay.classList.add('hidden');
+        terminalOverlay.style.opacity = 0;
+        setTimeout(() => {
+          typeText(warningLine, warningText, 75);
+        }, 3000);
       }, 1000);
     });
   });
@@ -282,14 +293,17 @@ window.addEventListener('DOMContentLoaded', () => {
     instruction.style.opacity = '1';
 
     const raw = instruction.textContent;
-    const glitchChars = '!@#$%?~*';
+    const glitchChars = '!@#$%^&*';
 
     setInterval(() => {
-      const corrupted = raw.split('').map(char =>
-        Math.random() < 0.07 && char !== ' '
-          ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
-          : char
-      ).join('');
+      const corrupted = raw
+        .split('')
+        .map(char =>
+          Math.random() < 0.07 && char !== ' '
+            ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
+            : char
+        )
+        .join('');
       instruction.textContent = corrupted;
     }, 200);
   }, 1800);
