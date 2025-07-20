@@ -3,7 +3,7 @@
 const boxes = document.querySelectorAll('.box');
 const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
 const terminalOverlay = document.getElementById('terminal-overlay');
-const terminal = terminalOverlay; // assuming same element
+const terminal = terminalOverlay;
 const terminalLines = document.getElementById('terminal-lines');
 let currentGreenIndex = null;
 let intervalId = null;
@@ -129,11 +129,11 @@ function launchTerminalOverlay(callback) {
     '[HANDLER] :: Awaiting final response...',
     '[SYS] :: Instruction stream fragmentation in progress...',
     '[HANDLER] :: No more walls. Only wires.',
-    '[HANDLER] ::' // ← Final trigger line, launches 'Run it.'
+    '[HANDLER] ::'
   ];
 
-  const typingSpeed = 50;      // Slowed typing speed for all CMD lines
-  const baseDelay = 350;       // More space between each line
+  const typingSpeed = 50;
+  const baseDelay = 350;
   const runItTypingSpeed = 225;
   const runItText = 'Run it.';
 
@@ -161,12 +161,11 @@ function launchTerminalOverlay(callback) {
     setTimeout(() => {
       let i = 0;
       const typeInterval = setInterval(() => {
-        if (i < split[1]?.length) {
+        if (i < (split[1]?.length || 0)) {
           body.textContent += split[1][i++];
         } else {
           clearInterval(typeInterval);
 
-          // Handle final trigger line
           if (index === lines.length - 1) {
             setTimeout(() => {
               const flicker = document.createElement('div');
@@ -183,8 +182,6 @@ function launchTerminalOverlay(callback) {
                   runItTarget.textContent += runItText[charIndex++];
                 } else {
                   clearInterval(runItInterval);
-
-                  // Hang for 3 seconds, then call callback (-> WARNING line + button)
                   setTimeout(() => {
                     if (typeof callback === 'function') {
                       callback();
@@ -192,7 +189,7 @@ function launchTerminalOverlay(callback) {
                   }, 3000);
                 }
               }, runItTypingSpeed);
-            }, 600); // Buffer after final [HANDLER] tag before typing 'Run it.'
+            }, 600);
           }
         }
       }, typingSpeed);
@@ -201,7 +198,6 @@ function launchTerminalOverlay(callback) {
     totalDelay += (split[1]?.length || 0) * typingSpeed + baseDelay;
   });
 }
-
 
 // === Access Unlock Sequence ===
 function showAccessGranted() {
@@ -226,20 +222,18 @@ function showAccessGranted() {
       runWrapper.classList.add('glitch-in');
       runWrapper.style.display = 'block';
 
-     // Terminal fade out
-setTimeout(() => {
-  terminal.classList.add('hidden');
-  terminal.style.opacity = 0;
+      setTimeout(() => {
+        terminal.classList.add('hidden');
+        terminal.style.opacity = 0;
 
-  // NOW type the warning line after the terminal shuts down
-  setTimeout(() => {
-    typeText(warningLine, warningText, 75);
- }, 3000); // 3s delay after terminal shutdown
+        setTimeout(() => {
+          typeText(warningLine, warningText, 75);
+        }, 3000);
+      }, 1000);
+    });
+  });
+}
 
-}, 1000); // Delay before hiding terminal
-
-});
-      
 // === Purge-to-Reveal Transition ===
 document.getElementById('run-button').addEventListener('click', () => {
   if (transitionInProgress) return;
@@ -303,27 +297,27 @@ window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => { tagline.style.animation = 'fadeIn 1.2s forwards'; }, 800);
   setTimeout(() => { cipher.style.animation = 'glitchIn 0.6s forwards'; }, 1600);
 
- setTimeout(() => {
-  instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
-  instruction.style.animation = 'corruptText 6s infinite';
-  instruction.style.opacity = '1';
+  setTimeout(() => {
+    instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
+    instruction.style.animation = 'corruptText 6s infinite';
+    instruction.style.opacity = '1';
 
-  const raw = instruction.textContent;
-  const glitchChars = '!@#$%^&*';
+    const raw = instruction.textContent;
+    const glitchChars = '!@#$%^&*';
 
-  setInterval(() => {
-    const corrupted = raw
-      .split('')
-      .map(char =>
-        Math.random() < 0.07 && char !== ' '
-          ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
-          : char
-      )
-      .join('');
-    instruction.textContent = corrupted;
-  }, 200);
-}, 1800);
+    setInterval(() => {
+      const corrupted = raw
+        .split('')
+        .map(char =>
+          Math.random() < 0.07 && char !== ' '
+            ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
+            : char
+        )
+        .join('');
+      instruction.textContent = corrupted;
+    }, 200);
+  }, 1800);
 
-cycleCharacters();
-startCycling();
+  cycleCharacters();
+  startCycling();
 });
