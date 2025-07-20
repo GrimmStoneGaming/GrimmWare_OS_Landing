@@ -447,6 +447,9 @@ body {
 
 .terminal.show {
   opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  display: flex;
 }
 
 .terminal-inner {
