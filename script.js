@@ -200,7 +200,7 @@ function launchTerminalOverlay(callback) {
     if (typeof callback === 'function') {
       setTimeout(callback, 1200);
     }
-  }, totalDelay + 500);
+  },
 }
 
   terminal.classList.remove('hidden'); // <== KEY LINE
