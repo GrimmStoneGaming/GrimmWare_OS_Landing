@@ -87,7 +87,7 @@ function typeText(target, text, delay = 60, callback = null) {
 }
 
 function startIdleGlitch(target, originalText, frequency = 150) {
-  const glitchChars = "!@#$%^&*()_+=~{}|<>?/\";
+  const glitchChars = "!@#$%^&*()_+=~{}|<>?/";
   let glitchInterval = setInterval(() => {
     const glitched = originalText.split('').map(char =>
       Math.random() < 0.05 && char !== ' '
