@@ -134,12 +134,79 @@ function showAccessGranted() {
 }
 
 function launchTerminalOverlay(callback) {
-  const terminal = document.querySelector('.terminal');
-  
-  console.log("Terminal element:", terminal);
-if (!terminal) {
-  console.warn("Terminal not found in DOM!");
-  return;
+  const terminal = document.getElementById('terminal-overlay');
+  const linesContainer = document.getElementById('terminal-lines');
+  const lines = [
+    { tag: '[SYS] ::', text: 'Protocol breach detected...' },
+    { tag: '[HANDLER] ::', text: 'Initializing command injection...' },
+    { tag: '[SYS] ::', text: 'Firewall spike deployed.' },
+    { tag: '[HANDLER] ::', text: 'Injecting signal disruptor...' },
+    { tag: '[GATEWAY] ::', text: 'Rejecting foreign signal...' },
+    { tag: '[SYS] ::', text: 'Override vector accepted.' },
+    { tag: '[SYS] ::', text: 'Beginning internal purge...' },
+    { tag: '[HANDLER] ::', text: 'Forcing cipher shutdown...' },
+    { tag: '[GATEWAY] ::', text: 'Memory lattice destabilizing...' },
+    { tag: '[SYS] ::', text: 'Subsystem identity layers disabled.' },
+    { tag: '[SYS] ::', text: 'Visual anchor nodes disengaged.' },
+    { tag: '[SYS] ::', text: 'Command sequence complete.' },
+    { tag: '[SYS] ::', text: 'Connection integrity failing...' },
+    { tag: '[SYS] ::', text: 'Cipher structure collapse confirmed.' },
+    { tag: '[HANDLER] ::', text: 'Awaiting final response...' },
+    { tag: '[SYS] ::', text: 'Instruction stream fragmentation in progress...' },
+    { tag: '[HANDLER] ::', text: 'No more walls. Only wires.' },
+  ];
+
+  terminal.classList.remove('hidden');
+  terminal.classList.add('show');
+  linesContainer.innerHTML = '';
+
+  const typingSpeed = 35;
+  const baseDelay = 200;
+  let totalDelay = 0;
+
+  lines.forEach((line, index) => {
+    const div = document.createElement('div');
+    div.classList.add('terminal-line');
+
+    const prefix = document.createElement('span');
+    prefix.classList.add('handler-prefix');
+    prefix.textContent = line.tag + ' ';
+
+    const body = document.createElement('span');
+    body.classList.add('line-body');
+    body.textContent = '';
+
+    div.appendChild(prefix);
+    div.appendChild(body);
+    linesContainer.appendChild(div);
+
+    const delay = totalDelay;
+
+    setTimeout(() => {
+      let i = 0;
+      const interval = setInterval(() => {
+        if (i < line.text.length) {
+          body.textContent += line.text[i++];
+        } else {
+          clearInterval(interval);
+        }
+      }, typingSpeed);
+    }, delay);
+
+    totalDelay += line.text.length * typingSpeed + baseDelay;
+  });
+
+  // Inject final flicker line 500ms after last line
+  setTimeout(() => {
+    const finalDiv = document.createElement('div');
+    finalDiv.classList.add('terminal-line');
+    finalDiv.innerHTML = `<span class="handler-prefix">[HANDLER] ::</span><span class="run-it run-it-flicker"> Run it.</span>`;
+    linesContainer.appendChild(finalDiv);
+
+    if (typeof callback === 'function') {
+      setTimeout(callback, 1200);
+    }
+  }, totalDelay + 500);
 }
 
   terminal.classList.remove('hidden'); // <== KEY LINE
