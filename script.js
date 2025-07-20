@@ -158,45 +158,66 @@ function launchTerminalOverlay(callback) {
   terminal.classList.add('show');
   linesContainer.innerHTML = '';
 
-  const typingSpeed = 25;
-  const baseDelay = 300;
+const typingSpeed = 25;
+const baseDelay = 300;
 
-  // Main lines
-  lines.forEach((line, index) => {
-    const delay = index * (line.length * typingSpeed + baseDelay);
-    setTimeout(() => {
-      const div = document.createElement('div');
-      div.classList.add('terminal-line');
-      linesContainer.appendChild(div);
-
-      let charIndex = 0;
-      const typeInterval = setInterval(() => {
-        if (charIndex < line.length) {
-          div.textContent += line[charIndex++];
-        } else {
-          clearInterval(typeInterval);
-        }
-      }, typingSpeed);
-    }, delay);
-  });
-
-  // Final flicker line
-  const finalLineDelay = lines.length * (typingSpeed * 32 + baseDelay) + 800;
-
+// Main lines
+lines.forEach((line, index) => {
+  const delay = index * (line.length * typingSpeed + baseDelay);
   setTimeout(() => {
-    const finalDiv = document.createElement('div');
-    finalDiv.classList.add('terminal-line', 'handler-final');
-    finalDiv.innerHTML = finalLine;
-    linesContainer.appendChild(finalDiv);
-  }, finalLineDelay);
+    const div = document.createElement('div');
+    div.classList.add('terminal-line');
+    linesContainer.appendChild(div);
 
-  // Extend timeout to allow final line to hang
-  const totalDuration = finalLineDelay + 3000;
-  setTimeout(() => {
-    terminal.classList.remove('show');
-    if (callback) callback();
-  }, totalDuration);
-}
+    let charIndex = 0;
+    const typeInterval = setInterval(() => {
+      if (charIndex < line.length) {
+        div.textContent += line[charIndex++];
+      } else {
+        clearInterval(typeInterval);
+      }
+    }, typingSpeed);
+  }, delay);
+});
+
+// Final flicker line
+const finalLine = '[HANDLER] :: No more walls. Only wires. ';
+const flickerSegment = '<span class="flicker-red">Run it.</span>';
+const finalLineDelay = lines.length * (typingSpeed * 32 + baseDelay) + 800;
+
+setTimeout(() => {
+  const finalDiv = document.createElement('div');
+  finalDiv.classList.add('terminal-line', 'handler-final');
+
+  let charIndex = 0;
+  finalDiv.innerHTML = ''; // Start empty
+  linesContainer.appendChild(finalDiv);
+
+  const finalTyping = setInterval(() => {
+    if (charIndex < finalLine.length) {
+      finalDiv.innerHTML += finalLine[charIndex++];
+    } else {
+      clearInterval(finalTyping);
+
+      // Pause, then flicker the red segment
+      setTimeout(() => {
+        const span = document.createElement('span');
+        span.className = 'flicker-red';
+        span.textContent = 'Run it.';
+        finalDiv.appendChild(document.createTextNode(' '));
+        finalDiv.appendChild(span);
+      }, 600);
+    }
+  }, typingSpeed);
+}, finalLineDelay);
+
+// Total duration accounts for flicker pause + buffer
+const totalDuration = finalLineDelay + finalLine.length * typingSpeed + 600 + 1500;
+
+setTimeout(() => {
+  terminal.classList.remove('show');
+  if (callback) callback();
+}, totalDuration);
 
 function startFragmentStorm(container) {
   const fragmentMessages = [
