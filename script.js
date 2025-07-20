@@ -138,90 +138,63 @@ function launchTerminalOverlay(callback) {
   terminal.classList.add('show');
   const linesContainer = terminal.querySelector('.terminal-inner');
 
- // Updated lines array with previously missing lines
-const lines = [
-  '[SYS] :: Protocol breach detected...',
-  '[HANDLER] :: Initializing command injection...',
-  '[SYS] :: Firewall spike deployed.',
-  '[HANDLER] :: Injecting signal disruptor...',
-  '[GATEWAY] :: Rejecting foreign signal...',
-  '[SYS] :: Override vector accepted.',
-  '[SYS] :: Beginning internal purge...',
-  '[HANDLER] :: Forcing cipher shutdown...',
-  '[GATEWAY] :: Memory lattice destabilizing...',
-  '[SYS] :: Subsystem identity layers disabled.',
-  '[SYS] :: Visual anchor nodes disengaged.',
-  '[SYS] :: Cipher structure collapse confirmed.',
-  '[SYS] :: Connection integrity failing...',
-  '[SYS] :: Command sequence complete.',
-  '[HANDLER] :: Awaiting final response...',
-  '[SYS] :: Instruction stream fragmentation in progress...'
-];
+  // Updated lines array with previously missing lines
+  const lines = [
+    '[SYS] :: Protocol breach detected...',
+    '[HANDLER] :: Initializing command injection...',
+    '[SYS] :: Firewall spike deployed.',
+    '[HANDLER] :: Injecting signal disruptor...',
+    '[GATEWAY] :: Rejecting foreign signal...',
+    '[SYS] :: Override vector accepted.',
+    '[SYS] :: Beginning internal purge...',
+    '[HANDLER] :: Forcing cipher shutdown...',
+    '[GATEWAY] :: Memory lattice destabilizing...',
+    '[SYS] :: Subsystem identity layers disabled.',
+    '[SYS] :: Visual anchor nodes disengaged.',
+    '[SYS] :: Cipher structure collapse confirmed.',
+    '[SYS] :: Connection integrity failing...',
+    '[SYS] :: Command sequence complete.',
+    '[HANDLER] :: Awaiting final response...',
+    '[SYS] :: Instruction stream fragmentation in progress...'
+  ];
 
-// Final line split
-const finalLineText = '[HANDLER] :: No more walls. Only wires.';
-const finalFlicker = 'Run it.';
+  const finalLineText = '[HANDLER] :: No more walls. Only wires.';
+  const finalFlicker = 'Run it.';
 
-// Typing effect
-lines.forEach((line, index) => {
-  const delay = index * (line.length * typingSpeed + baseDelay);
-  setTimeout(() => {
-    const div = document.createElement('div');
-    div.classList.add('terminal-line');
-    linesContainer.appendChild(div);
-
-    let charIndex = 0;
-    const typeInterval = setInterval(() => {
-      if (charIndex < line.length) {
-        div.textContent += line[charIndex++];
-      } else {
-        clearInterval(typeInterval);
-      }
-    }, typingSpeed);
-  }, delay);
-});
-
-// Delay before final flicker line
-const finalLineDelay = lines.reduce(
-  (acc, line) => acc + (line.length * typingSpeed + baseDelay),
-  0
-) + 800;
-
-// Render final flicker line
-setTimeout(() => {
-  const finalDiv = document.createElement('div');
-  finalDiv.classList.add('terminal-line', 'handler-final');
-  linesContainer.appendChild(finalDiv);
-
-  let charIndex = 0;
-  const finalTyping = setInterval(() => {
-  if (charIndex < finalLineText.length) {
-    finalDiv.innerHTML += finalLineText[charIndex++];
-  } else {
-    clearInterval(finalTyping);
-
-    // Pause, then flicker the red segment
+  // Typing effect
+  lines.forEach((line, index) => {
+    const delay = index * (line.length * typingSpeed + baseDelay);
     setTimeout(() => {
-      const span = document.createElement('span');
-      span.className = 'flicker-red';
-      span.textContent = 'Run it.';
-      finalDiv.appendChild(document.createTextNode(' '));
-      finalDiv.appendChild(span);
-    }, 600);
-  }
-}, typingSpeed);
+      const div = document.createElement('div');
+      div.classList.add('terminal-line');
+      linesContainer.appendChild(div);
 
-}, finalLineDelay);
+      let charIndex = 0;
+      const typeInterval = setInterval(() => {
+        if (charIndex < line.length) {
+          div.textContent += line[charIndex++];
+        } else {
+          clearInterval(typeInterval);
+        }
+      }, typingSpeed);
+    }, delay);
+  });
 
-// Total duration until terminal overlay closes
-const totalDuration = finalLineDelay + finalLineText.length * typingSpeed + 600 + 1500;
+  // Calculate total time then run final line and callback
+  const totalTime = lines.reduce((acc, line) => acc + (line.length * typingSpeed + baseDelay), 0);
 
-setTimeout(() => {
-  terminal.classList.remove('show');
-  if (callback) callback();
-}, totalDuration);
+  setTimeout(() => {
+    const finalDiv = document.createElement('div');
+    finalDiv.classList.add('terminal-line', 'handler-final');
+    finalDiv.innerHTML = `<span class="handler-prefix">${finalLineText}</span><span class="run-it-flicker">${finalFlicker}</span>`;
+    linesContainer.appendChild(finalDiv);
 
-}  
+    // NOW we call the callback
+    if (typeof callback === 'function') {
+      callback();
+    }
+  }, totalTime + 800); // slight buffer
+}
   
 function startFragmentStorm(container) {
   const fragmentMessages = [
