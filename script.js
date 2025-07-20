@@ -165,7 +165,7 @@ if (!terminal) {
   '[HANDLER] :: Awaiting final response...',
   '[SYS] :: Instruction stream fragmentation in progress...',
   '[HANDLER] :: No more walls. Only wires.',
-  '[HANDLER] ::
+  '[HANDLER] ::'
 ];
 validateRunItFlicker();
 
