@@ -131,6 +131,7 @@ function showAccessGranted() {
 
 function launchTerminalOverlay(callback) {
   const terminal = document.querySelector('.terminal');
+  terminal.classList.add('show');
   const linesContainer = terminal.querySelector('.terminal-inner');
 
  // Updated lines array with previously missing lines
