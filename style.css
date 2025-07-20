@@ -76,6 +76,15 @@ body {
   }
 }
 
+/*===Bottom Container===*/
+#access-container {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 /* === LOGO + TAGLINE === */
 .logo-container {
   display: flex;
