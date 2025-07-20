@@ -3,7 +3,6 @@
 const boxes = document.querySelectorAll('.box');
 const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
 const terminalOverlay = document.getElementById('terminal-overlay');
-const terminal = terminalOverlay;
 const terminalLines = document.getElementById('terminal-lines');
 let currentGreenIndex = null;
 let intervalId = null;
@@ -54,7 +53,6 @@ function startCycling() {
   }, 1500);
 }
 
-// === Box Click Detection ===
 boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
     if (i === currentGreenIndex && !solved[i]) {
@@ -73,7 +71,6 @@ boxes.forEach((box, i) => {
   });
 });
 
-// === Terminal Typing Helpers ===
 function typeText(target, text, delay = 60, callback = null) {
   let i = 0;
   const interval = setInterval(() => {
@@ -103,7 +100,6 @@ function startIdleGlitch(target, originalText, frequency = 150) {
   });
 }
 
-// === Terminal Overlay Activation ===
 function launchTerminalOverlay(callback) {
   const terminal = document.getElementById('terminal-overlay');
   const linesContainer = terminal.querySelector('.terminal-inner');
@@ -136,7 +132,6 @@ function launchTerminalOverlay(callback) {
   const baseDelay = 350;
   const runItTypingSpeed = 225;
   const runItText = 'Run it.';
-
   let totalDelay = 0;
 
   lines.forEach((line, index) => {
@@ -161,7 +156,7 @@ function launchTerminalOverlay(callback) {
     setTimeout(() => {
       let i = 0;
       const typeInterval = setInterval(() => {
-        if (i < (split[1]?.length || 0)) {
+        if (i < split[1]?.length) {
           body.textContent += split[1][i++];
         } else {
           clearInterval(typeInterval);
@@ -183,9 +178,7 @@ function launchTerminalOverlay(callback) {
                 } else {
                   clearInterval(runItInterval);
                   setTimeout(() => {
-                    if (typeof callback === 'function') {
-                      callback();
-                    }
+                    if (typeof callback === 'function') callback();
                   }, 3000);
                 }
               }, runItTypingSpeed);
@@ -199,7 +192,6 @@ function launchTerminalOverlay(callback) {
   });
 }
 
-// === Access Unlock Sequence ===
 function showAccessGranted() {
   const grantedLine = document.querySelector('.granted');
   const warningLine = document.querySelector('.warning');
@@ -218,14 +210,12 @@ function showAccessGranted() {
   typeText(grantedLine, grantedText, 40, () => {
     launchTerminalOverlay(() => {
       cipherTop.classList.add('purged');
-
       runWrapper.classList.add('glitch-in');
       runWrapper.style.display = 'block';
 
       setTimeout(() => {
-        terminal.classList.add('hidden');
-        terminal.style.opacity = 0;
-
+        terminalOverlay.classList.add('hidden');
+        terminalOverlay.style.opacity = 0;
         setTimeout(() => {
           typeText(warningLine, warningText, 75);
         }, 3000);
