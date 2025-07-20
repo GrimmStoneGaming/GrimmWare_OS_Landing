@@ -10,6 +10,10 @@ let intervalId = null;
 let solved = Array(boxes.length).fill(false);
 let transitionInProgress = false;
 
+// === TERMINAL TIMING CONSTANTS (Fix for ReferenceError) ===
+const typingSpeed = 35;  // Typing delay per character
+const baseDelay = 100;   // Delay between terminal lines
+
 function getRandomChar() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return chars[Math.floor(Math.random() * chars.length)];
