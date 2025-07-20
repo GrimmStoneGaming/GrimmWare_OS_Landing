@@ -168,7 +168,6 @@ if (!terminal) {
 ];
 
 const finalFlicker = 'Run it.';
-
 let totalDelay = 0;
 
 lines.forEach((line, index) => {
@@ -188,14 +187,13 @@ lines.forEach((line, index) => {
       } else {
         clearInterval(typeInterval);
 
-        // If last line, add flicker span
+        // Add flicker span only on the final line
         if (index === lines.length - 1) {
           const flickerSpan = document.createElement('span');
           flickerSpan.classList.add('run-it-flicker');
           flickerSpan.textContent = ` ${finalFlicker}`;
           div.appendChild(flickerSpan);
 
-          // Fire callback if defined
           if (typeof callback === 'function') {
             callback();
           }
