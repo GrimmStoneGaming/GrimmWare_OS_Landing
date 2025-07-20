@@ -1,107 +1,240 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>GrimmWare OS Gateway</title>
-<link href="style.css" rel="stylesheet"/>
-<style>
-    /* TEMP: Highlight the Run It flicker for debug */
-    .run-it-flicker.debug-highlight {
-      outline: 2px dashed lime;
-      background: rgba(0, 255, 0, 0.05);
-    }
+// === GRIMMWare OS Gateway Script ===
 
-    /* TEMP: Debug logger */
-    #debug-log {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      max-height: 160px;
-      overflow-y: auto;
-      font-size: 0.8rem;
-      font-family: monospace;
-      background: rgba(0, 0, 0, 0.95);
-      color: lime;
-      border-top: 1px solid lime;
-      z-index: 99999;
-      padding: 0.5rem;
-    }
-  </style>
-</head>
-<body>
-<!-- LANDING PAGE (Already Loaded Behind Gateway) -->
-<div aria-hidden="true" class="preloaded" id="landing-page">
-<div class="lp-content">
-<h1>Welcome to GrimmWare OS</h1>
-<p>This is your system now.</p>
-</div>
-</div>
-<!-- GATEWAY UI -->
-<div id="gateway-ui">
-<div class="top-container">
-<div class="logo-container">
-<img alt="GRIMMWARE OS Logo" class="logo-main" loading="lazy" src="images/grimmware-logo.png"/>
-<img alt="Emotion is Executable" class="tagline" loading="lazy" src="images/emotion-is-executable.png"/>
-</div>
-<div aria-label="Decryption Puzzle" class="decrypt-wrapper" role="region">
-<div class="decrypt-boxes">
-<div aria-label="Box 1" class="box" id="box0" role="button" tabindex="0">G</div>
-<div aria-label="Box 2" class="box" id="box1" role="button" tabindex="0">W</div>
-<div aria-label="Box 3" class="box" id="box2" role="button" tabindex="0">O</div>
-<div aria-label="Box 4" class="box" id="box3" role="button" tabindex="0">S</div>
-<div aria-hidden="true" class="separator">_</div>
-<div aria-label="Box 5" class="box" id="box4" role="button" tabindex="0">E</div>
-<div aria-label="Box 6" class="box" id="box5" role="button" tabindex="0">X</div>
-<div aria-label="Box 7" class="box" id="box6" role="button" tabindex="0">E</div>
-</div>
-</div>
-<div class="decrypt-instruction"></div>
-</div>
-<!-- ACCESS MESSAGE -->
-<div aria-live="polite" class="hidden" id="access-message">
-<span class="granted"></span>
-<span class="warning" id="warning-line"></span>
-</div>
-<!-- RUN IT BUTTON -->
-<div class="run-button-wrapper" id="run-wrapper">
-<button aria-label="Execute Gateway Unlock" id="run-button">&gt;&gt;&gt; RUN IT</button>
-</div>
-</div>
-<!-- STRIP WIPE OVERLAY -->
-<div aria-hidden="true" id="gateway-overlay"></div>
-<!-- TERMINAL OVERLAY -->
-<div class="terminal hidden" id="terminal-overlay"><div class="terminal-inner" id="terminal-lines"></div></div>
-<!-- DEBUG LOGGER -->
-<div id="debug-log"></div>
-<script>
-    function logDebug(message) {
-      const logBox = document.getElementById('debug-log');
-      const line = document.createElement('div');
-      line.textContent = '[LOG] ' + message;
-      logBox.appendChild(line);
-      logBox.scrollTop = logBox.scrollHeight;
-    }
+const boxes = document.querySelectorAll('.box');
+const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
+const terminalOverlay = document.getElementById('terminal-overlay');
+const terminal = terminalOverlay; // assuming same element
+const terminalLines = document.getElementById('terminal-lines');
+let currentGreenIndex = null;
+let intervalId = null;
+let solved = Array(boxes.length).fill(false);
+let transitionInProgress = false;
 
-    function validateRunItFlicker() {
-      setTimeout(() => {
-        const runIt = document.querySelector('.run-it-flicker');
-        if (!runIt) {
-          logDebug('.run-it-flicker NOT FOUND in DOM.');
-        } else {
-          const rect = runIt.getBoundingClientRect();
-          const styles = window.getComputedStyle(runIt);
-          runIt.classList.add('debug-highlight');
-          logDebug('.run-it-flicker FOUND.');
-          logDebug(`Bounds: ${Math.round(rect.width)}x${Math.round(rect.height)} | Opacity: ${styles.opacity} | Display: ${styles.display}`);
+// === TIMING CONSTANTS ===
+const typingSpeed = 35;
+const baseDelay = 100;
+
+// === Cipher Glitch Logic ===
+function getRandomChar() {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  return chars[Math.floor(Math.random() * chars.length)];
+}
+
+function cycleCharacters() {
+  setInterval(() => {
+    boxes.forEach((box, i) => {
+      if (!solved[i] && i !== currentGreenIndex) {
+        box.textContent = getRandomChar();
+      }
+    });
+  }, 100);
+}
+
+function startCycling() {
+  intervalId = setInterval(() => {
+    let nextIndex;
+    do {
+      nextIndex = Math.floor(Math.random() * boxes.length);
+    } while (solved[nextIndex]);
+
+    boxes.forEach((box, i) => {
+      if (!solved[i]) {
+        box.classList.remove('green');
+        box.style.backgroundColor = 'red';
+        box.style.boxShadow = '0 0 8px #ff0000';
+      }
+    });
+
+    currentGreenIndex = nextIndex;
+    const box = boxes[currentGreenIndex];
+    box.classList.add('green');
+    box.textContent = correctCode[currentGreenIndex];
+    box.style.backgroundColor = '#00ff00';
+    box.style.boxShadow = '0 0 8px #00ff00';
+  }, 1500);
+}
+
+// === Box Click Detection ===
+boxes.forEach((box, i) => {
+  box.addEventListener('click', () => {
+    if (i === currentGreenIndex && !solved[i]) {
+      solved[i] = true;
+      box.classList.add('green');
+      box.style.backgroundColor = '#00ff00';
+      box.style.boxShadow = '0 0 12px #00ff00';
+      box.textContent = correctCode[i];
+      currentGreenIndex = null;
+
+      if (solved.every(Boolean)) {
+        clearInterval(intervalId);
+        setTimeout(showAccessGranted, 800);
+      }
+    }
+  });
+});
+
+// === Terminal Typing Helpers ===
+function typeText(target, text, delay = 60, callback = null) {
+  let i = 0;
+  const interval = setInterval(() => {
+    target.textContent = text.substring(0, i + 1);
+    i++;
+    if (i >= text.length) {
+      clearInterval(interval);
+      if (callback) callback();
+    }
+  }, delay);
+}
+
+function startIdleGlitch(target, originalText, frequency = 150) {
+  const glitchChars = "!@#$%^&*()_+=~{}|<>?/";
+  let glitchInterval = setInterval(() => {
+    const glitched = originalText.split('').map(char =>
+      Math.random() < 0.05 && char !== ' '
+        ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
+        : char
+    ).join('');
+    target.textContent = glitched;
+  }, frequency);
+
+  target.addEventListener('mouseenter', () => {
+    clearInterval(glitchInterval);
+    target.textContent = originalText;
+  });
+}
+
+
+/* === TERMINAL + GATEWAY LOGIC CONTINUED === */
+
+
+// === Access Unlock Sequence ===
+function showAccessGranted() {
+  const grantedLine = document.querySelector('.granted');
+  const warningLine = document.querySelector('.warning');
+  const runWrapper = document.getElementById('run-wrapper');
+  const cipherTop = document.querySelector('#top-container');
+  const accessMessage = document.getElementById('access-message');
+  const terminalOverlay = document.getElementById('terminal-overlay');
+  const linesContainer = document.getElementById('terminal-lines');
+
+  const sequence = [
+    { tag: 'SYS', text: 'Protocol breach detected...', delay: 1000 },
+    { tag: 'HANDLER', text: 'Initializing command injection...', delay: 1000 },
+    { tag: 'SYS', text: 'Firewall spike deployed.', delay: 1000 },
+    { tag: 'HANDLER', text: 'Injecting signal disruptor...', delay: 1000 },
+    { tag: 'GATEWAY', text: 'Rejecting foreign signal...', delay: 1000 },
+    { tag: 'SYS', text: 'Override vector accepted.', delay: 1000 },
+    { tag: 'SYS', text: 'Beginning internal purge...', delay: 1000 },
+    { tag: 'HANDLER', text: 'Forcing cipher shutdown...', delay: 1000 },
+    { tag: 'GATEWAY', text: 'Memory lattice destabilizing...', delay: 1000 },
+    { tag: 'SYS', text: 'Subsystem identity layers disabled.', delay: 1000 },
+    { tag: 'SYS', text: 'Visual anchor nodes disengaged.', delay: 1000 },
+    { tag: 'SYS', text: 'Command sequence complete.', delay: 1000 },
+    { tag: 'SYS', text: 'Connection integrity failing...', delay: 1000 },
+    { tag: 'SYS', text: 'Cipher structure collapse confirmed.', delay: 1000 },
+    { tag: 'HANDLER', text: 'Awaiting final response...', delay: 1000 },
+    { tag: 'SYS', text: 'Instruction stream fragmentation in progress...', delay: 1000 },
+    { tag: 'HANDLER', text: 'No more walls. Only wires.', delay: 2000 },
+    {
+      tag: 'HANDLER',
+      text: '',
+      delay: 0,
+      isFinal: true,
+    }
+  ];
+
+  function typeLine({ tag, text, delay, isFinal }, index) {
+    const line = document.createElement('div');
+    line.classList.add('terminal-line');
+
+    const prefix = document.createElement('span');
+    prefix.classList.add(`${tag.toLowerCase()}-prefix`);
+    prefix.textContent = `[${tag}] ::`;
+    line.appendChild(prefix);
+
+    const content = document.createElement('span');
+    content.classList.add('terminal-content');
+    line.appendChild(content);
+
+    linesContainer.appendChild(line);
+
+    let charIndex = 0;
+    const interval = setInterval(() => {
+      if (charIndex < text.length) {
+        content.textContent += text.charAt(charIndex++);
+      } else {
+        clearInterval(interval);
+        if (isFinal) {
+          setTimeout(() => {
+            const finalLine = document.createElement('div');
+            finalLine.classList.add('terminal-line');
+
+            const finalPrefix = document.createElement('span');
+            finalPrefix.classList.add('handler-prefix');
+            finalPrefix.textContent = `[HANDLER] ::`;
+            finalLine.appendChild(finalPrefix);
+
+            const runItSpan = document.createElement('span');
+            runItSpan.classList.add('run-it', 'run-it-flicker');
+            runItSpan.textContent = 'Run it.';
+            finalLine.appendChild(runItSpan);
+            linesContainer.appendChild(finalLine);
+
+            setTimeout(() => {
+              terminalOverlay.classList.add('hidden');
+              terminalOverlay.style.opacity = 0;
+
+              accessMessage.classList.remove('hidden');
+              accessMessage.style.opacity = 1;
+
+              typeText(grantedLine, 'ACCESS GRANTED.  SYSTEM UNLOCKED.', 40, () => {
+                setTimeout(() => {
+                  typeText(warningLine, '>>> WARNING: THIS MAY CHANGE YOU.', 75, () => {
+                    runWrapper.classList.add('glitch-in');
+                    runWrapper.style.display = 'block';
+                  });
+                }, 1000);
+              });
+            }, 3000);
+          }, 500);
+        } else if (index + 1 < sequence.length) {
+          setTimeout(() => {
+            typeLine(sequence[index + 1], index + 1);
+          }, delay);
         }
-      }, 500);
-    }
+      }
+    }, 30);
+  }
 
-    // You can call validateRunItFlicker() right after your last terminal line injection
-    // Or fire it from wherever you spawn the "Run It" line
-  </script>
-<script src="script.js"></script>
-</body>
-</html>
+  terminalOverlay.classList.remove('hidden');
+  terminalOverlay.style.opacity = 1;
+  linesContainer.innerHTML = '';
+
+  typeLine(sequence[0], 0);
+}
+
+// === Text Typing Helper ===
+function typeText(target, text, speed, callback) {
+  let i = 0;
+  target.textContent = '';
+  const interval = setInterval(() => {
+    target.textContent += text.charAt(i++);
+    if (i >= text.length) {
+      clearInterval(interval);
+      if (callback) callback();
+    }
+  }, speed);
+}
+
+// === Startup Hook ===
+window.addEventListener('DOMContentLoaded', () => {
+  const logo = document.querySelector('.logo-main');
+  const tagline = document.querySelector('.tagline');
+  const decryptBoxes = document.querySelector('.decrypt-boxes');
+  const decryptInstruction = document.querySelector('.decrypt-instruction');
+  const runWrapper = document.getElementById('run-wrapper');
+
+  // Optional startup fade-in if needed
+  logo.style.opacity = 1;
+  tagline.style.opacity = 1;
+});
