@@ -226,25 +226,17 @@ function showAccessGranted() {
       runWrapper.classList.add('glitch-in');
       runWrapper.style.display = 'block';
 
-      // Terminal fade out
-      setTimeout(() => {
-        terminal.classList.add('hidden');
-        terminal.style.opacity = 0;
+     // Terminal fade out
+setTimeout(() => {
+  terminal.classList.add('hidden');
+  terminal.style.opacity = 0;
 
-        // NOW type the warning line after terminal is gone
-        typeText(warningLine, warningText, 75);
-      }, 3000); // Adjust this timing if needed
-    });
-  });
+  // NOW type the warning line after the terminal shuts down
+  setTimeout(() => {
+    typeText(warningLine, warningText, 75);
+ }, 3000); // 3s delay after terminal shutdown
 
-  runWrapper.style.opacity = 1;
-}
-          }, 50);
-        });
-      }, 1000);
-    });
-  });
-}
+}, 1000); // Delay before hiding terminal
 
 // === Purge-to-Reveal Transition ===
 document.getElementById('run-button').addEventListener('click', () => {
