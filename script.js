@@ -3,6 +3,7 @@
 const boxes = document.querySelectorAll('.box');
 const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
 const terminalOverlay = document.getElementById('terminal-overlay');
+const terminal = terminalOverlay; // assuming same element
 const terminalLines = document.getElementById('terminal-lines');
 let currentGreenIndex = null;
 let intervalId = null;
@@ -85,12 +86,29 @@ function typeText(target, text, delay = 60, callback = null) {
   }, delay);
 }
 
+function startIdleGlitch(target, originalText, frequency = 150) {
+  const glitchChars = "!@#$%^&*()_+=~{}|<>?/\\";
+  let glitchInterval = setInterval(() => {
+    const glitched = originalText.split('').map(char =>
+      Math.random() < 0.05 && char !== ' '
+        ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
+        : char
+    ).join('');
+    target.textContent = glitched;
+  }, frequency);
+
+  target.addEventListener('mouseenter', () => {
+    clearInterval(glitchInterval);
+    target.textContent = originalText;
+  });
+}
+
 // === Terminal Overlay Activation ===
 function launchTerminalOverlay(callback) {
-  const terminal = document.getElementById('terminal-overlay');
-  const linesContainer = terminal.querySelector('.terminal-inner');
   terminal.classList.remove('hidden');
   terminal.classList.add('show');
+
+  const linesContainer = terminal.querySelector('.terminal-inner');
   linesContainer.innerHTML = '';
 
   const lines = [
@@ -114,64 +132,51 @@ function launchTerminalOverlay(callback) {
     '[HANDLER] ::'
   ];
 
-  const runItText = 'Run it.';
-  const runItTypingSpeed = 225;
+  const finalFlicker = 'Run it.';
   let totalDelay = 0;
 
   lines.forEach((line, index) => {
-    const div = document.createElement('div');
-    div.classList.add('terminal-line');
-
-    const prefix = document.createElement('span');
-    prefix.classList.add('handler-prefix');
-    const split = line.split('::');
-    prefix.textContent = split[0] + '::';
-
-    const body = document.createElement('span');
-    body.classList.add('line-body');
-    body.textContent = '';
-
-    div.appendChild(prefix);
-    div.appendChild(body);
-    linesContainer.appendChild(div);
-
     const delay = totalDelay;
+
     setTimeout(() => {
-      let i = 0;
+      const div = document.createElement('div');
+      div.classList.add('terminal-line');
+      linesContainer.appendChild(div);
+
+      let charIndex = 0;
       const typeInterval = setInterval(() => {
-        if (i < split[1]?.length) {
-          body.textContent += split[1][i++];
+        if (charIndex < line.length) {
+          div.textContent += line[charIndex++];
         } else {
           clearInterval(typeInterval);
 
+          // === Final Flicker Logic ===
           if (index === lines.length - 1) {
             setTimeout(() => {
-              const flicker = document.createElement('div');
-              flicker.classList.add('terminal-line');
-              flicker.innerHTML = `
-                <span class="handler-prefix">[HANDLER] ::</span>
-                <span class="run-it run-it-flicker"></span>`;
-              linesContainer.appendChild(flicker);
+              const runLine = document.createElement('div');
+              runLine.classList.add('terminal-line', 'run-it-flicker');
+              runLine.textContent = finalFlicker;
+              linesContainer.appendChild(runLine);
 
-              const runItTarget = flicker.querySelector('.run-it-flicker');
-              let charIndex = 0;
-              const runItInterval = setInterval(() => {
-                if (charIndex < runItText.length) {
-                  runItTarget.textContent += runItText[charIndex++];
-                } else {
-                  clearInterval(runItInterval);
-                  setTimeout(() => {
-                    if (typeof callback === 'function') callback();
-                  }, 3000);
-                }
-              }, runItTypingSpeed);
+              // Optional ghost line
+              setTimeout(() => {
+                const ghostLine = document.createElement('div');
+                ghostLine.classList.add('terminal-line');
+                ghostLine.textContent = '[HANDLER] :: ';
+                linesContainer.appendChild(ghostLine);
+              }, 1000);
+
+              // Final callback
+              if (typeof callback === 'function') {
+                setTimeout(callback, 1400);
+              }
             }, 600);
           }
         }
-      }, 50);
+      }, typingSpeed);
     }, delay);
 
-    totalDelay += (split[1]?.length || 0) * 50 + 350;
+    totalDelay += line.length * typingSpeed + baseDelay;
   });
 }
 
@@ -180,16 +185,13 @@ function showAccessGranted() {
   const grantedLine = document.querySelector('.granted');
   const warningLine = document.querySelector('.warning');
   const runWrapper = document.getElementById('run-wrapper');
-  const cipherTop = document.querySelector('#top-container');
+  const cipherTop = document.querySelector('.top-container');
   const accessMessage = document.getElementById('access-message');
 
   grantedLine.textContent = '';
   warningLine.textContent = '';
-
-  if (accessMessage) {
-    accessMessage.classList.remove('hidden');
-    accessMessage.style.opacity = 1;
-  }
+  accessMessage.classList.remove('hidden');
+  accessMessage.style.opacity = 1;
 
   const grantedText = 'ACCESS GRANTED. SYSTEM UNLOCKED.';
   const warningText = '>>> WARNING: THIS MAY CHANGE YOU.';
@@ -197,22 +199,73 @@ function showAccessGranted() {
   typeText(grantedLine, grantedText, 40, () => {
     launchTerminalOverlay(() => {
       cipherTop.classList.add('purged');
-      runWrapper.classList.add('glitch-in');
-      runWrapper.style.display = 'block';
-
       setTimeout(() => {
-        terminalOverlay.classList.add('hidden');
-        terminalOverlay.style.opacity = 0;
-
-        setTimeout(() => {
-          typeText(warningLine, warningText, 75);
-        }, 3000);
+        typeText(warningLine, warningText, 75, () => {
+          startIdleGlitch(warningLine, warningText);
+          runWrapper.classList.add('glitch-in');
+          runWrapper.style.display = 'block';
+          setTimeout(() => {
+            runWrapper.style.opacity = 1;
+          }, 50);
+        });
       }, 1000);
     });
   });
 }
 
-// === Startup ===
+// === Purge-to-Reveal Transition ===
+document.getElementById('run-button').addEventListener('click', () => {
+  if (transitionInProgress) return;
+  transitionInProgress = true;
+
+  const overlay = document.getElementById('gateway-overlay');
+  const landingPage = document.getElementById('landing-page');
+  const runWrapper = document.getElementById('run-wrapper');
+  const accessMessage = document.getElementById('access-message');
+
+  const numStrips = 60;
+  const fallInDuration = 500;
+  const fallOutDuration = 600;
+  const delayBeforeReveal = 1500;
+
+  runWrapper.style.display = 'none';
+  accessMessage.style.display = 'none';
+  landingPage.style.display = 'flex';
+  landingPage.style.opacity = 0;
+  overlay.innerHTML = '';
+  overlay.style.display = 'flex';
+  overlay.style.background = 'transparent';
+
+  for (let i = 0; i < numStrips; i++) {
+    const strip = document.createElement('div');
+    strip.classList.add('strip', 'cover');
+    strip.style.left = `${(100 / numStrips) * i}%`;
+    strip.style.width = `${100 / numStrips}%`;
+    strip.style.animation = `fallCover ${fallInDuration}ms forwards`;
+    overlay.appendChild(strip);
+  }
+
+  setTimeout(() => {
+    landingPage.style.opacity = 1;
+    const strips = Array.from(overlay.querySelectorAll('.strip'));
+    const shuffled = strips.sort(() => Math.random() - 0.5);
+
+    shuffled.forEach((strip, index) => {
+      setTimeout(() => {
+        strip.classList.remove('cover');
+        strip.classList.add('reveal');
+        strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
+      }, index * 30);
+    });
+
+    const totalDelay = shuffled.length * 30 + fallOutDuration;
+    setTimeout(() => {
+      overlay.style.display = 'none';
+    }, totalDelay + 500);
+  }, fallInDuration + delayBeforeReveal);
+});
+
+// === Page Load Fade Effects ===
 window.addEventListener('DOMContentLoaded', () => {
   const logo = document.querySelector('.logo-main');
   const tagline = document.querySelector('.tagline');
@@ -222,19 +275,21 @@ window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => { logo.style.animation = 'fadeIn 1.2s forwards'; }, 0);
   setTimeout(() => { tagline.style.animation = 'fadeIn 1.2s forwards'; }, 800);
   setTimeout(() => { cipher.style.animation = 'glitchIn 0.6s forwards'; }, 1600);
+
   setTimeout(() => {
     instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
     instruction.style.animation = 'corruptText 6s infinite';
     instruction.style.opacity = '1';
 
     const raw = instruction.textContent;
-    const glitchChars = '!@#$%^&*';
+    const glitchChars = '!@#$%?~*';
 
     setInterval(() => {
       const corrupted = raw.split('').map(char =>
         Math.random() < 0.07 && char !== ' '
           ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
-          : char).join('');
+          : char
+      ).join('');
       instruction.textContent = corrupted;
     }, 200);
   }, 1800);
