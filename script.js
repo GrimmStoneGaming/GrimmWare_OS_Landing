@@ -158,13 +158,7 @@ function launchTerminalOverlay(callback) {
               runLine.textContent = finalFlicker;
               linesContainer.appendChild(runLine);
 
-              // Optional ghost line
-              setTimeout(() => {
-                const ghostLine = document.createElement('div');
-                ghostLine.classList.add('terminal-line');
-                ghostLine.textContent = '[HANDLER] :: ';
-                linesContainer.appendChild(ghostLine);
-              }, 1000);
+              
 
               // Final callback
               if (typeof callback === 'function') {
@@ -296,4 +290,5 @@ window.addEventListener('DOMContentLoaded', () => {
 
   cycleCharacters();
   startCycling();
-});
+
+  });
