@@ -53,6 +53,7 @@ function startCycling() {
   }, 1500);
 }
 
+// === Box Click Detection ===
 boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
     if (i === currentGreenIndex && !solved[i]) {
@@ -71,6 +72,7 @@ boxes.forEach((box, i) => {
   });
 });
 
+// === Terminal Typing Helpers ===
 function typeText(target, text, delay = 60, callback = null) {
   let i = 0;
   const interval = setInterval(() => {
@@ -83,23 +85,7 @@ function typeText(target, text, delay = 60, callback = null) {
   }, delay);
 }
 
-function startIdleGlitch(target, originalText, frequency = 150) {
-  const glitchChars = "!@#$%^&*()_+=~{}|<>?/\\";
-  let glitchInterval = setInterval(() => {
-    const glitched = originalText.split('').map(char =>
-      Math.random() < 0.05 && char !== ' '
-        ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
-        : char
-    ).join('');
-    target.textContent = glitched;
-  }, frequency);
-
-  target.addEventListener('mouseenter', () => {
-    clearInterval(glitchInterval);
-    target.textContent = originalText;
-  });
-}
-
+// === Terminal Overlay Activation ===
 function launchTerminalOverlay(callback) {
   const terminal = document.getElementById('terminal-overlay');
   const linesContainer = terminal.querySelector('.terminal-inner');
@@ -128,10 +114,8 @@ function launchTerminalOverlay(callback) {
     '[HANDLER] ::'
   ];
 
-  const typingSpeed = 50;
-  const baseDelay = 350;
-  const runItTypingSpeed = 225;
   const runItText = 'Run it.';
+  const runItTypingSpeed = 225;
   let totalDelay = 0;
 
   lines.forEach((line, index) => {
@@ -152,7 +136,6 @@ function launchTerminalOverlay(callback) {
     linesContainer.appendChild(div);
 
     const delay = totalDelay;
-
     setTimeout(() => {
       let i = 0;
       const typeInterval = setInterval(() => {
@@ -185,13 +168,14 @@ function launchTerminalOverlay(callback) {
             }, 600);
           }
         }
-      }, typingSpeed);
+      }, 50);
     }, delay);
 
-    totalDelay += (split[1]?.length || 0) * typingSpeed + baseDelay;
+    totalDelay += (split[1]?.length || 0) * 50 + 350;
   });
 }
 
+// === Access Unlock Sequence ===
 function showAccessGranted() {
   const grantedLine = document.querySelector('.granted');
   const warningLine = document.querySelector('.warning');
@@ -201,8 +185,11 @@ function showAccessGranted() {
 
   grantedLine.textContent = '';
   warningLine.textContent = '';
-  accessMessage.classList.remove('hidden');
-  accessMessage.style.opacity = 1;
+
+  if (accessMessage) {
+    accessMessage.classList.remove('hidden');
+    accessMessage.style.opacity = 1;
+  }
 
   const grantedText = 'ACCESS GRANTED. SYSTEM UNLOCKED.';
   const warningText = '>>> WARNING: THIS MAY CHANGE YOU.';
@@ -216,6 +203,7 @@ function showAccessGranted() {
       setTimeout(() => {
         terminalOverlay.classList.add('hidden');
         terminalOverlay.style.opacity = 0;
+
         setTimeout(() => {
           typeText(warningLine, warningText, 75);
         }, 3000);
@@ -224,59 +212,7 @@ function showAccessGranted() {
   });
 }
 
-// === Purge-to-Reveal Transition ===
-document.getElementById('run-button').addEventListener('click', () => {
-  if (transitionInProgress) return;
-  transitionInProgress = true;
-
-  const overlay = document.getElementById('gateway-overlay');
-  const landingPage = document.getElementById('landing-page');
-  const runWrapper = document.getElementById('run-wrapper');
-  const accessMessage = document.getElementById('access-message');
-
-  const numStrips = 60;
-  const fallInDuration = 500;
-  const fallOutDuration = 600;
-  const delayBeforeReveal = 1500;
-
-  runWrapper.style.display = 'none';
-  accessMessage.style.display = 'none';
-  landingPage.style.display = 'flex';
-  landingPage.style.opacity = 0;
-  overlay.innerHTML = '';
-  overlay.style.display = 'flex';
-  overlay.style.background = 'transparent';
-
-  for (let i = 0; i < numStrips; i++) {
-    const strip = document.createElement('div');
-    strip.classList.add('strip', 'cover');
-    strip.style.left = `${(100 / numStrips) * i}%`;
-    strip.style.width = `${100 / numStrips}%`;
-    strip.style.animation = `fallCover ${fallInDuration}ms forwards`;
-    overlay.appendChild(strip);
-  }
-
-  setTimeout(() => {
-    landingPage.style.opacity = 1;
-    const strips = Array.from(overlay.querySelectorAll('.strip'));
-    const shuffled = strips.sort(() => Math.random() - 0.5);
-
-    shuffled.forEach((strip, index) => {
-      setTimeout(() => {
-        strip.classList.remove('cover');
-        strip.classList.add('reveal');
-        strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
-      }, index * 30);
-    });
-
-    const totalDelay = shuffled.length * 30 + fallOutDuration;
-    setTimeout(() => {
-      overlay.style.display = 'none';
-    }, totalDelay + 500);
-  }, fallInDuration + delayBeforeReveal);
-});
-
-// === Page Load Fade Effects ===
+// === Startup ===
 window.addEventListener('DOMContentLoaded', () => {
   const logo = document.querySelector('.logo-main');
   const tagline = document.querySelector('.tagline');
@@ -286,7 +222,6 @@ window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => { logo.style.animation = 'fadeIn 1.2s forwards'; }, 0);
   setTimeout(() => { tagline.style.animation = 'fadeIn 1.2s forwards'; }, 800);
   setTimeout(() => { cipher.style.animation = 'glitchIn 0.6s forwards'; }, 1600);
-
   setTimeout(() => {
     instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
     instruction.style.animation = 'corruptText 6s infinite';
@@ -296,14 +231,10 @@ window.addEventListener('DOMContentLoaded', () => {
     const glitchChars = '!@#$%^&*';
 
     setInterval(() => {
-      const corrupted = raw
-        .split('')
-        .map(char =>
-          Math.random() < 0.07 && char !== ' '
-            ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
-            : char
-        )
-        .join('');
+      const corrupted = raw.split('').map(char =>
+        Math.random() < 0.07 && char !== ' '
+          ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
+          : char).join('');
       instruction.textContent = corrupted;
     }, 200);
   }, 1800);
