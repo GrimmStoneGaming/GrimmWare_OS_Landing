@@ -186,6 +186,7 @@ function showAccessGranted() {
   const runWrapper = document.getElementById('run-wrapper');
   const cipherTop = document.querySelector('.top-container');
   const accessMessage = document.getElementById('access-message');
+  const terminal = document.getElementById('terminal-overlay');
 
   grantedLine.textContent = '';
   warningLine.textContent = '';
@@ -204,6 +205,11 @@ function showAccessGranted() {
           runWrapper.classList.add('glitch-in');
           runWrapper.style.display = 'block';
           setTimeout(() => {
+            setTimeout(() => {
+              terminal.classList.add('hidden');
+                terminal.style.opacity = 0; // Optional smooth fade
+                  }, 3000); // Wait 3s after final flicker/response
+
             runWrapper.style.opacity = 1;
           }, 50);
         });
