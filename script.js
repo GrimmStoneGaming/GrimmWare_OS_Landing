@@ -1,6 +1,3 @@
-OG JS
-
-
 // === GRIMMWare OS Gateway Script ===
 
 const boxes = document.querySelectorAll('.box');
