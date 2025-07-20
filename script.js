@@ -164,8 +164,10 @@ if (!terminal) {
   '[SYS] :: Cipher structure collapse confirmed.',
   '[HANDLER] :: Awaiting final response...',
   '[SYS] :: Instruction stream fragmentation in progress...',
-  '[HANDLER] :: No more walls. Only wires.'
+  '[HANDLER] :: No more walls. Only wires.',
+  '[HANDLER] ::
 ];
+validateRunItFlicker();
 
 const finalFlicker = 'Run it.';
 let totalDelay = 0;
