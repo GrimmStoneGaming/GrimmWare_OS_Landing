@@ -471,6 +471,30 @@ body {
   }
 }
 
+/* === FINAL HANDLER LINE STYLING === */
+.handler-prefix {
+  color: #00ffcc;
+}
+
+.run-it {
+  color: #ff3333;
+  font-weight: bold;
+  margin-left: 0.2em;
+}
+
+.flicker {
+  animation: flickerAnim 1.2s infinite;
+}
+
+@keyframes flickerAnim {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    opacity: 1;
+  }
+  20%, 22%, 24%, 55% {
+    opacity: 0;
+  }
+}
+
 /* === CODE FRAGMENTS (GLITCH MESSAGES) === */
 .code-fragment {
   position: absolute;
@@ -488,6 +512,7 @@ body {
     0 0 4px #ff0000,
     0 0 6px #ff2222;
 }
+
 @keyframes glitchFragment {
   0% { opacity: 0.3; transform: translate(0, 0) scale(1); }
   10% { opacity: 1; transform: translate(-1px, 1px) rotate(-0.5deg); }
