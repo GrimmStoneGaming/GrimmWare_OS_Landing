@@ -301,24 +301,27 @@ window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => { tagline.style.animation = 'fadeIn 1.2s forwards'; }, 800);
   setTimeout(() => { cipher.style.animation = 'glitchIn 0.6s forwards'; }, 1600);
 
-  setTimeout(() => {
-    instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
-    instruction.style.animation = 'corruptText 6s infinite';
-    instruction.style.opacity = '1';
+ setTimeout(() => {
+  instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
+  instruction.style.animation = 'corruptText 6s infinite';
+  instruction.style.opacity = '1';
 
-    const raw = instruction.textContent;
-    const glitchChars = '!@#$%?~*';
+  const raw = instruction.textContent;
+  const glitchChars = '!@#$%^&*';
 
-    setInterval(() => {
-      const corrupted = raw.split('').map(char =>
+  setInterval(() => {
+    const corrupted = raw
+      .split('')
+      .map(char =>
         Math.random() < 0.07 && char !== ' '
           ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
           : char
-      ).join('');
-      instruction.textContent = corrupted;
-    }, 200);
-  }, 1800);
+      )
+      .join('');
+    instruction.textContent = corrupted;
+  }, 200);
+}, 1800);
 
-  cycleCharacters();
-  startCycling();
+cycleCharacters();
+startCycling();
 });
