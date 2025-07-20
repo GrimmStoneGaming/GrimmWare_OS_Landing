@@ -177,7 +177,6 @@ function showAccessGranted() {
     if (typeof callback === 'function') {
       setTimeout(callback, 1200);
     }
-  },
 
   terminal.classList.remove('hidden'); // <== KEY LINE
   terminal.classList.add('show');
