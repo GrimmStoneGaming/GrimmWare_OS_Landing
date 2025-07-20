@@ -17,6 +17,7 @@ const baseDelay = 100;   // Delay between terminal lines
 function getRandomChar() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return chars[Math.floor(Math.random() * chars.length)];
+}
 function cycleCharacters() {
   setInterval(() => {
     boxes.forEach((box, i) => {
@@ -25,6 +26,7 @@ function cycleCharacters() {
       }
     });
   }, 100);
+}
 function startCycling() {
   intervalId = setInterval(() => {
     let nextIndex;
@@ -77,6 +79,7 @@ function typeText(target, text, delay = 60, callback = null) {
       if (callback) callback();
     }
   }, delay);
+}
 function startIdleGlitch(target, originalText, frequency = 150) {
   const glitchChars = "!@#$%^&*()_+=~{}|<>?/\\";
   let glitchInterval = setInterval(() => {
@@ -92,6 +95,7 @@ function startIdleGlitch(target, originalText, frequency = 150) {
     clearInterval(glitchInterval);
     target.textContent = originalText;
   });
+}
 function showAccessGranted() {
   const grantedLine = document.querySelector('.granted');
   const warningLine = document.querySelector('.warning');
