@@ -17,8 +17,6 @@ const baseDelay = 100;   // Delay between terminal lines
 function getRandomChar() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return chars[Math.floor(Math.random() * chars.length)];
-}
-
 function cycleCharacters() {
   setInterval(() => {
     boxes.forEach((box, i) => {
@@ -27,8 +25,6 @@ function cycleCharacters() {
       }
     });
   }, 100);
-}
-
 function startCycling() {
   intervalId = setInterval(() => {
     let nextIndex;
@@ -81,8 +77,6 @@ function typeText(target, text, delay = 60, callback = null) {
       if (callback) callback();
     }
   }, delay);
-}
-
 function startIdleGlitch(target, originalText, frequency = 150) {
   const glitchChars = "!@#$%^&*()_+=~{}|<>?/\\";
   let glitchInterval = setInterval(() => {
@@ -98,8 +92,6 @@ function startIdleGlitch(target, originalText, frequency = 150) {
     clearInterval(glitchInterval);
     target.textContent = originalText;
   });
-}
-
 function showAccessGranted() {
   const grantedLine = document.querySelector('.granted');
   const warningLine = document.querySelector('.warning');
@@ -131,8 +123,6 @@ function showAccessGranted() {
       }, 1000);
     });
   });
-}
-
 function launchTerminalOverlay(callback) {
   const terminal = document.getElementById('terminal-overlay');
   const linesContainer = document.getElementById('terminal-lines');
@@ -285,34 +275,6 @@ lines.forEach((line, index) => {
 });
 
 }  
-function startFragmentStorm(container) {
-  const fragmentMessages = [
-    'SYSERR[195] :: Override in progress...',
-    'MEM BREAK :: Fracture at 0x0003ff',
-    'COMM-LINK :: Signal intercept detected',
-    'WHO IS TRYING TO HELP YOU?',
-    'ACCESS CONTAMINATED :: CONTINUE?',
-    'SYS-ECHO >> YOU MUST KEEP GOING',
-    '???.EXE // SIGNAL BLEED',
-    'RUN_ABANDONED_CORE? [Y/N]',
-    'I’M STILL HERE',
-    'GATE::RECOMPILING(%)'
-  ];
-  const numFragments = 25;
-
-  for (let i = 0; i < numFragments; i++) {
-    setTimeout(() => {
-      const frag = document.createElement('div');
-      frag.classList.add('code-fragment');
-      frag.textContent = fragmentMessages[Math.floor(Math.random() * fragmentMessages.length)];
-      frag.style.left = `${Math.random() * 90 + 5}%`;
-      frag.style.top = `${Math.random() * 20 + 10}%`;
-      frag.style.animationDuration = `${3 + Math.random() * 2}s`;
-      frag.style.fontSize = `${0.85 + Math.random() * 0.5}rem`;
-      container.appendChild(frag);
-      setTimeout(() => { frag.remove(); }, 6000);
-    }, i * 100);
-  }
 }
 
 document.getElementById('run-button').addEventListener('click', () => {
