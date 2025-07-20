@@ -135,6 +135,13 @@ function showAccessGranted() {
 
 function launchTerminalOverlay(callback) {
   const terminal = document.querySelector('.terminal');
+  
+  console.log("Terminal element:", terminal);
+if (!terminal) {
+  console.warn("Terminal not found in DOM!");
+  return;
+}
+
   terminal.classList.add('show');
   const linesContainer = terminal.querySelector('.terminal-inner');
 
