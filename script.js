@@ -162,8 +162,9 @@ function showAccessGranted() {
               typeText(grantedLine, 'ACCESS GRANTED.  SYSTEM UNLOCKED.', 40, () => {
                 setTimeout(() => {
                   typeText(warningLine, '>>> WARNING: THIS MAY CHANGE YOU.', 75, () => {
-                    runWrapper.classList.add('glitch-in');
-                    runWrapper.style.display = 'block';
+                  runWrapper.classList.remove('hidden');
+                  runWrapper.classList.add('glitch-in');
+                  runWrapper.style.display = 'block';
                   });
                 }, 1000);
               });
