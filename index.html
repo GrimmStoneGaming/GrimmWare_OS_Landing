@@ -5,6 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GrimmWare OS Gateway</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* TEMP: Highlight the Run It flicker for debug */
+    .run-it-flicker.debug-highlight {
+      outline: 2px dashed lime;
+      background: rgba(0, 255, 0, 0.05);
+    }
+
+    /* TEMP: Debug logger */
+    #debug-log {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      max-height: 160px;
+      overflow-y: auto;
+      font-size: 0.8rem;
+      font-family: monospace;
+      background: rgba(0, 0, 0, 0.95);
+      color: lime;
+      border-top: 1px solid lime;
+      z-index: 99999;
+      padding: 0.5rem;
+    }
+  </style>
 </head>
 <body>
 
@@ -61,6 +85,37 @@
       <!-- Terminal lines will be injected here by JS -->
     </div>
   </div>
+
+  <!-- DEBUG LOGGER -->
+  <div id="debug-log"></div>
+
+  <script>
+    function logDebug(message) {
+      const logBox = document.getElementById('debug-log');
+      const line = document.createElement('div');
+      line.textContent = '[LOG] ' + message;
+      logBox.appendChild(line);
+      logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    function validateRunItFlicker() {
+      setTimeout(() => {
+        const runIt = document.querySelector('.run-it-flicker');
+        if (!runIt) {
+          logDebug('.run-it-flicker NOT FOUND in DOM.');
+        } else {
+          const rect = runIt.getBoundingClientRect();
+          const styles = window.getComputedStyle(runIt);
+          runIt.classList.add('debug-highlight');
+          logDebug('.run-it-flicker FOUND.');
+          logDebug(`Bounds: ${Math.round(rect.width)}x${Math.round(rect.height)} | Opacity: ${styles.opacity} | Display: ${styles.display}`);
+        }
+      }, 500);
+    }
+
+    // You can call validateRunItFlicker() right after your last terminal line injection
+    // Or fire it from wherever you spawn the "Run It" line
+  </script>
 
   <script src="script.js"></script>
 </body>
