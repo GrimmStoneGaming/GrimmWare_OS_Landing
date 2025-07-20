@@ -329,7 +329,7 @@ window.addEventListener('DOMContentLoaded', () => {
       instruction.textContent = corrupted;
     }, 200);
   }, 1800);
-});
+
 
 cycleCharacters();
 startCycling();
