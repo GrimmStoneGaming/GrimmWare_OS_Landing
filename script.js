@@ -319,7 +319,7 @@ window.addEventListener('DOMContentLoaded', () => {
     instruction.style.animation = 'corruptText 6s infinite';
     instruction.style.opacity = '1';
     const raw = instruction.textContent;
-    const glitchChars = '!@#$%▉?~*';
+    const glitchChars = '!@#$%?~*';
     setInterval(() => {
       const corrupted = raw.split('').map(char =>
         Math.random() < 0.07 && char !== ' '
