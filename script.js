@@ -238,6 +238,8 @@ setTimeout(() => {
 
 }, 1000); // Delay before hiding terminal
 
+});
+      
 // === Purge-to-Reveal Transition ===
 document.getElementById('run-button').addEventListener('click', () => {
   if (transitionInProgress) return;
