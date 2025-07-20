@@ -1,330 +1,559 @@
-// === GRIMMWare OS Gateway Script ===
-
-const boxes = document.querySelectorAll('.box');
-const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
-const terminalOverlay = document.getElementById('terminal-overlay');
-const terminalLines = document.getElementById('terminal-lines');
-
-let currentGreenIndex = null;
-let intervalId = null;
-let solved = Array(boxes.length).fill(false);
-let transitionInProgress = false;
-
-// === TERMINAL TIMING CONSTANTS (Fix for ReferenceError) ===
-const typingSpeed = 35;  // Typing delay per character
-const baseDelay = 100;   // Delay between terminal lines
-
-function getRandomChar() {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  return chars[Math.floor(Math.random() * chars.length)];
+/* === GLOBAL === */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-function cycleCharacters() {
-  setInterval(() => {
-    boxes.forEach((box, i) => {
-      if (!solved[i] && i !== currentGreenIndex) {
-        box.textContent = getRandomChar();
-      }
-    });
-  }, 100);
+body {
+  margin: 0;
+  padding: 0;
+  background: black;
+  color: #00ffcc;
+  font-family: 'Courier New', Courier, monospace;
+  overflow: hidden;
+  height: 100vh;
+  position: relative;
 }
 
-function startCycling() {
-  intervalId = setInterval(() => {
-    let nextIndex;
-    do {
-      nextIndex = Math.floor(Math.random() * boxes.length);
-    } while (solved[nextIndex]);
-
-    boxes.forEach((box, i) => {
-      if (!solved[i]) {
-        box.classList.remove('green');
-        box.style.backgroundColor = 'red';
-        box.style.boxShadow = '0 0 8px #ff0000';
-      }
-    });
-
-    currentGreenIndex = nextIndex;
-    const box = boxes[currentGreenIndex];
-    box.classList.add('green');
-    box.textContent = correctCode[currentGreenIndex];
-    box.style.backgroundColor = '#00ff00';
-    box.style.boxShadow = '0 0 8px #00ff00';
-  }, 1500);
+/* === GATEWAY UI WRAPPER === */
+#gateway-ui {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  transition: opacity 0.8s ease;
 }
 
-boxes.forEach((box, i) => {
-  box.addEventListener('click', () => {
-    if (i === currentGreenIndex && !solved[i]) {
-      solved[i] = true;
-      box.classList.add('green');
-      box.style.backgroundColor = '#00ff00';
-      box.style.boxShadow = '0 0 12px #00ff00';
-      box.textContent = correctCode[i];
-      currentGreenIndex = null;
-
-      if (solved.every(Boolean)) {
-        clearInterval(intervalId);
-        setTimeout(showAccessGranted, 800);
-      }
-    }
-  });
-});
-
-function typeText(target, text, delay = 60, callback = null) {
-  let i = 0;
-  const interval = setInterval(() => {
-    target.textContent = text.substring(0, i + 1);
-    i++;
-    if (i >= text.length) {
-      clearInterval(interval);
-      if (callback) callback();
-    }
-  }, delay);
+/* === TOP ANCHOR CONTAINER === */
+.top-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 30px;
 }
-
-function startIdleGlitch(target, originalText, frequency = 150) {
-  const glitchChars = "!@#$%^&*()_+=~{}|<>?/\\";
-  let glitchInterval = setInterval(() => {
-    const glitched = originalText.split('').map(char =>
-      Math.random() < 0.05 && char !== ' '
-        ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
-        : char
-    ).join('');
-    target.textContent = glitched;
-  }, frequency);
-
-  target.addEventListener('mouseenter', () => {
-    clearInterval(glitchInterval);
-    target.textContent = originalText;
-  });
+.top-container.purged {
+  animation: cipherPurge 1.6s ease-in-out forwards;
+  pointer-events: none;
+  opacity: 0;
+  filter: contrast(0) grayscale(1) brightness(3);
+  transform: scale(1.2) rotate(3deg);
 }
-
-function showAccessGranted() {
-  const grantedLine = document.querySelector('.granted');
-  const warningLine = document.querySelector('.warning');
-  const runWrapper = document.getElementById('run-wrapper');
-  const cipherTop = document.querySelector('.top-container');
-  const accessMessage = document.getElementById('access-message');
-
-  grantedLine.textContent = '';
-  warningLine.textContent = '';
-  accessMessage.classList.remove('hidden');
-  accessMessage.style.opacity = 1;
-
-  const grantedText = 'ACCESS GRANTED. SYSTEM UNLOCKED.';
-  const warningText = '>>> WARNING: THIS MAY CHANGE YOU.';
-
-  typeText(grantedLine, grantedText, 40, () => {
-    launchTerminalOverlay(() => {
-      cipherTop.classList.add('purged');
-      setTimeout(() => {
-        accessMessage.style.opacity = 1;
-        typeText(warningLine, warningText, 75, () => {
-          startIdleGlitch(warningLine, warningText);
-          runWrapper.classList.add('glitch-in');
-          runWrapper.style.display = 'block';
-          setTimeout(() => {
-            runWrapper.style.opacity = 1;
-          }, 50);
-        });
-      }, 1000);
-    });
-  });
-}
-
-function launchTerminalOverlay(callback) {
-  const terminal = document.querySelector('.terminal');
-  
-  console.log("Terminal element:", terminal);
-if (!terminal) {
-  console.warn("Terminal not found in DOM!");
-  return;
-}
-
-  terminal.classList.remove('hidden'); // <== KEY LINE
-  terminal.classList.add('show');
-  const linesContainer = terminal.querySelector('.terminal-inner');
-
-  // Updated lines array with previously missing lines
-  const lines = [
-  '[SYS] :: Protocol breach detected...',
-  '[HANDLER] :: Initializing command injection...',
-  '[SYS] :: Firewall spike deployed.',
-  '[HANDLER] :: Injecting signal disruptor...',
-  '[GATEWAY] :: Rejecting foreign signal...',
-  '[SYS] :: Override vector accepted.',
-  '[SYS] :: Beginning internal purge...',
-  '[HANDLER] :: Forcing cipher shutdown...',
-  '[GATEWAY] :: Memory lattice destabilizing...',
-  '[SYS] :: Subsystem identity layers disabled.',
-  '[SYS] :: Visual anchor nodes disengaged.',
-  '[SYS] :: Command sequence complete.',
-  '[SYS] :: Connection integrity failing...',
-  '[SYS] :: Cipher structure collapse confirmed.',
-  '[HANDLER] :: Awaiting final response...',
-  '[SYS] :: Instruction stream fragmentation in progress...',
-  '[HANDLER] :: No more walls. Only wires.',
-  '[HANDLER] ::'
-];
-validateRunItFlicker();
-
-const finalFlicker = 'Run it.';
-let totalDelay = 0;
-
-lines.forEach((line, index) => {
-  const delay = index * (line.length * typingSpeed + baseDelay);
-  totalDelay = delay;
-
-  setTimeout(() => {
-    const div = document.createElement('div');
-    div.classList.add('terminal-line');
-    div.textContent = '';
-    linesContainer.appendChild(div);
-
-    let charIndex = 0;
-    const typeInterval = setInterval(() => {
-      if (charIndex < line.length) {
-        div.textContent += line[charIndex++];
-      } else {
-        clearInterval(typeInterval);
-
-        // === NEW FINAL LINE LOGIC ===
-        if (index === lines.length - 1) {
-          setTimeout(() => {
-            // Flicker 'Run it.' after the last line
-            const runLine = document.createElement('div');
-            runLine.classList.add('terminal-line', 'run-it-flicker');
-            runLine.textContent = finalFlicker;
-            linesContainer.appendChild(runLine);
-
-            // Optional glitch echo line (feels like the system dying)
-            setTimeout(() => {
-              const ghostLine = document.createElement('div');
-              ghostLine.classList.add('terminal-line');
-              ghostLine.textContent = '[HANDLER] :: ';
-              linesContainer.appendChild(ghostLine);
-            }, 1000);
-
-            // Fire continuation callback
-            if (typeof callback === 'function') {
-              setTimeout(callback, 1400); // enough time for both visuals
-            }
-          }, 600); // delay before flicker drop
-        }
-      }
-    }, typingSpeed);
-  }, delay);
-});
-
-}  
-function startFragmentStorm(container) {
-  const fragmentMessages = [
-    'SYSERR[195] :: Override in progress...',
-    'MEM BREAK :: Fracture at 0x0003ff',
-    'COMM-LINK :: Signal intercept detected',
-    'WHO IS TRYING TO HELP YOU?',
-    'ACCESS CONTAMINATED :: CONTINUE?',
-    'SYS-ECHO >> YOU MUST KEEP GOING',
-    '???.EXE // SIGNAL BLEED',
-    'RUN_ABANDONED_CORE? [Y/N]',
-    'I’M STILL HERE',
-    'GATE::RECOMPILING(%)'
-  ];
-  const numFragments = 25;
-
-  for (let i = 0; i < numFragments; i++) {
-    setTimeout(() => {
-      const frag = document.createElement('div');
-      frag.classList.add('code-fragment');
-      frag.textContent = fragmentMessages[Math.floor(Math.random() * fragmentMessages.length)];
-      frag.style.left = `${Math.random() * 90 + 5}%`;
-      frag.style.top = `${Math.random() * 20 + 10}%`;
-      frag.style.animationDuration = `${3 + Math.random() * 2}s`;
-      frag.style.fontSize = `${0.85 + Math.random() * 0.5}rem`;
-      container.appendChild(frag);
-      setTimeout(() => { frag.remove(); }, 6000);
-    }, i * 100);
+@keyframes cipherPurge {
+  0% {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+  20% {
+    filter: grayscale(0.5) brightness(1.3) contrast(1.5);
+    transform: scale(1.05) rotate(-1deg);
+  }
+  40% {
+    filter: invert(1) hue-rotate(90deg);
+    transform: scale(1.1) rotate(2deg);
+  }
+  60% {
+    filter: contrast(2) brightness(2);
+    transform: scale(1.15) rotate(-2deg);
+  }
+  80% {
+    opacity: 0.6;
+    filter: grayscale(1);
+    transform: scale(1.25) rotate(3deg);
+  }
+  100% {
+    opacity: 0;
+    filter: brightness(3) contrast(0);
+    transform: scale(1.3) rotate(5deg);
   }
 }
 
-document.getElementById('run-button').addEventListener('click', () => {
-  if (transitionInProgress) return;
-  transitionInProgress = true;
+/* === LOGO + TAGLINE === */
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
 
-  const overlay = document.getElementById('gateway-overlay');
-  const landingPage = document.getElementById('landing-page');
-  const runWrapper = document.getElementById('run-wrapper');
-  const accessMessage = document.getElementById('access-message');
+.logo-main,
+.tagline,
+.decrypt-wrapper,
+.decrypt-instruction {
+  opacity: 0;
+}
 
-  const numStrips = 60;
-  const fallInDuration = 500;
-  const fallOutDuration = 600;
-  const delayBeforeReveal = 1500;
+.logo-main {
+  max-height: 280px;
+  margin-bottom: 15px;
+  filter: drop-shadow(0 0 12px red);
+}
 
-  runWrapper.style.display = 'none';
-  accessMessage.style.display = 'none';
-  landingPage.style.display = 'flex';
-  landingPage.style.opacity = 0;
-  overlay.innerHTML = '';
-  overlay.style.display = 'flex';
-  overlay.style.background = 'transparent';
+.tagline {
+  max-height: 80px;
+  margin-top: 0;
+  filter: drop-shadow(0 0 6px #00ffcc);
+}
 
-  for (let i = 0; i < numStrips; i++) {
-    const strip = document.createElement('div');
-    strip.classList.add('strip', 'cover');
-    strip.style.left = `${(100 / numStrips) * i}%`;
-    strip.style.width = `${100 / numStrips}%`;
-    strip.style.animation = `fallCover ${fallInDuration}ms forwards`;
-    overlay.appendChild(strip);
+/* === CIPHER BOX CONTAINER === */
+.decrypt-wrapper {
+  background: #001100;
+  padding: 24px 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px #00ff44;
+}
+
+.decrypt-boxes {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+}
+
+.box {
+  width: 50px;
+  height: 60px;
+  background: red;
+  color: black;
+  font-size: 2rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #222;
+  box-shadow: 0 0 8px #ff0000;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.3s ease;
+}
+
+.box.green {
+  background: #00ff00;
+  box-shadow: 0 0 12px #00ff00;
+}
+
+.separator {
+  font-size: 2rem;
+  color: #ffffff;
+  padding: 0 5px;
+}
+
+/* === UI FADE OUT === */
+.ui-fade-out {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+}
+
+/* === ACCESS MESSAGE === */
+#access-message {
+  margin-top: 30px;
+  font-size: 1.2rem;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+#access-message .granted {
+  color: #00ffcc;
+  text-shadow: 0 0 6px #00ffee;
+  display: block;
+}
+
+#access-message .warning {
+  color: #ff4444;
+  text-shadow:
+    0 0 6px #ff0000,
+    0 0 12px #ff2222,
+    0 0 18px #ff4444;
+  font-style: italic;
+  font-weight: bold;
+  margin-top: 6px;
+  display: block;
+}
+
+/* === RUN BUTTON === */
+.run-button-wrapper {
+  margin-top: 30px;
+  background: #110000;
+  padding: 16px 32px;
+  border-radius: 12px;
+  box-shadow: 0 0 16px #ff4444;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.run-button-wrapper.glitch-in {
+  display: block;
+  animation: glitchFadeIn 1s ease forwards;
+}
+
+#run-button {
+  padding: 14px 28px;
+  font-size: 1.1rem;
+  background: #ff4444;
+  color: black;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  animation: glitchPulse 1.4s infinite, runItVoidReach 2.5s infinite alternate;
+  box-shadow:
+    0 0 10px #ff0000,
+    0 0 20px #ff0000,
+    0 0 30px #ff0033;
+}
+
+@keyframes glitchPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 6px #ff0000;
   }
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 0 24px #ff0000, 0 0 8px #550000 inset;
+  }
+}
 
-  setTimeout(() => {
-    landingPage.style.opacity = 1;
-    const strips = Array.from(overlay.querySelectorAll('.strip'));
-    const shuffled = strips.sort(() => Math.random() - 0.5);
+@keyframes runItVoidReach {
+  0% {
+    transform: translateX(0) translateY(0);
+    filter: none;
+  }
+  25% {
+    transform: translateX(-1px) translateY(1px);
+    filter: hue-rotate(5deg) brightness(1.1);
+  }
+  50% {
+    transform: translateX(1px) translateY(-1px);
+    filter: hue-rotate(-5deg) brightness(1.1);
+  }
+  75% {
+    transform: translateX(-2px) translateY(2px);
+    filter: hue-rotate(3deg) brightness(1.2);
+  }
+  100% {
+    transform: translateX(1px) translateY(0);
+    filter: none;
+  }
+}
 
-    shuffled.forEach((strip, index) => {
-      setTimeout(() => {
-        strip.classList.remove('cover');
-        strip.classList.add('reveal');
-        strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
-      }, index * 30);
-    });
+/* === STRIP FALL === */
+#gateway-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: row;
+  z-index: 2000;
+  pointer-events: none;
+}
 
-    const totalDelay = shuffled.length * 30 + fallOutDuration;
-    setTimeout(() => {
-      overlay.style.display = 'none';
-    }, totalDelay + 500);
-  }, fallInDuration + delayBeforeReveal);
-});
+.strip {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: black;
+  transform: translateY(-100%);
+  opacity: 1;
+  pointer-events: none;
+  z-index: 2100;
+  will-change: transform;
+  backface-visibility: hidden;
+}
 
-window.addEventListener('DOMContentLoaded', () => {
-  const logo = document.querySelector('.logo-main');
-  const tagline = document.querySelector('.tagline');
-  const cipher = document.querySelector('.decrypt-wrapper');
-  const instruction = document.querySelector('.decrypt-instruction');
+.strip.cover {
+  animation: fallCover 0.5s forwards ease-in;
+}
 
-  setTimeout(() => { logo.style.animation = 'fadeIn 1.2s forwards'; }, 0);
-  setTimeout(() => { tagline.style.animation = 'fadeIn 1.2s forwards'; }, 800);
-  setTimeout(() => { cipher.style.animation = 'glitchIn 0.6s forwards'; }, 1600);
+.strip.reveal {
+  animation: fallReveal 0.5s forwards ease-out;
+}
 
-  setTimeout(() => {
-    instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
-    instruction.style.animation = 'corruptText 6s infinite';
-    instruction.style.opacity = '1';
-    const raw = instruction.textContent;
-    const glitchChars = '!@#$%?~*';
-    setInterval(() => {
-      const corrupted = raw.split('').map(char =>
-        Math.random() < 0.07 && char !== ' '
-          ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
-          : char
-      ).join('');
-      instruction.textContent = corrupted;
-    }, 200);
-  }, 1800);
+@keyframes fallCover {
+  to {
+    transform: translateY(0);
+  }
+}
 
-cycleCharacters();
-startCycling();
-});
+@keyframes fallReveal {
+  to {
+    transform: translateY(100vh);
+  }
+}
+
+/* === LANDING PAGE === */
+#landing-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  z-index: 1;
+  display: none;
+  opacity: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 1s ease;
+  color: #00ffcc;
+  text-align: center;
+}
+
+#landing-page.visible {
+  display: flex;
+  opacity: 1;
+}
+
+/* === UTILITY === */
+.hidden {
+  display: none;
+}
+
+/* === GREEN GLOW EFFECT === */
+.green-glow {
+  color: #00ff00;
+  font-weight: bold;
+  animation: greenPulse 2s infinite;
+  text-shadow:
+    0 0 4px #00ff00,
+    0 0 8px #00ff66,
+    0 0 12px #00ffaa;
+}
+
+@keyframes greenPulse {
+  0%, 100% {
+    text-shadow:
+      0 0 4px #00ff00,
+      0 0 8px #00ff66,
+      0 0 12px #00ffaa;
+  }
+  50% {
+    text-shadow:
+      0 0 8px #00ff00,
+      0 0 16px #00ff66,
+      0 0 24px #00ffaa;
+  }
+}
+
+/* === GATEWAY LOAD ANIMATIONS === */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glitchIn {
+  0% {
+    opacity: 0;
+    transform: scale(1.3) translateY(-30px) rotate(-3deg);
+    filter: brightness(2) contrast(0.2) grayscale(1);
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1) translateY(0) rotate(0deg);
+    filter: none;
+  }
+  30% {
+    transform: translateX(-3px) skewX(8deg);
+  }
+  40% {
+    transform: translateX(3px) skewX(-8deg);
+  }
+  50% {
+    transform: translateX(0) skewX(0deg);
+  }
+  65% {
+    transform: scale(1.02) rotate(1deg);
+  }
+  80% {
+    transform: scale(1) rotate(0);
+  }
+  100% {
+    opacity: 1;
+    filter: none;
+  }
+}
+
+/* === INSTRUCTION OVERRIDE: GLITCHED SIGNAL === */
+.decrypt-instruction {
+  font-family: 'Courier New', monospace;
+  font-size: 1.1rem;
+  color: #00ff00;
+  text-align: center;
+  animation: corruptText 5s infinite;
+  text-shadow:
+    0 0 4px #00ff00,
+    0 0 8px #00ff66,
+    0 0 12px #00ffaa;
+}
+
+@keyframes corruptText {
+  0%   { transform: none; opacity: 0.8; }
+  10%  { transform: skewX(5deg); opacity: 1; }
+  20%  { transform: skewX(-4deg); }
+  30%  { transform: translateX(1px); }
+  40%  { transform: translateX(-1px); opacity: 0.6; }
+  50%  { transform: scale(1.02); opacity: 1; }
+  60%  { transform: rotate(-0.5deg); }
+  70%  { opacity: 0.4; }
+  80%  { transform: skewX(6deg); }
+  90%  { transform: none; opacity: 0.8; }
+  100% { transform: none; }
+}
+
+/* === ENHANCED TERMINAL OVERLAY: CENTERED + COMPACT === */
+.terminal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 650px;
+  max-width: 95vw;
+  height: 800px;
+  max-height: 95vh;
+  background: rgba(0, 15, 0, 0.85);
+  color: #00fff8;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.05rem;
+  line-height: 1.75;
+  z-index: 9999;
+  pointer-events: none;
+  padding: 2rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.2rem;
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  border-radius: 6px;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+}
+
+.terminal.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  display: flex;
+}
+
+.terminal-inner {
+  width: 100%;
+  white-space: pre-wrap;
+}
+
+.terminal.hidden {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.terminal-line {
+  opacity: 0;
+  animation: fadeInLine 0.45s forwards;
+}
+
+@keyframes fadeInLine {
+  to {
+    opacity: 1;
+  }
+}
+
+/* === FINAL HANDLER LINE STYLING === */
+.handler-prefix {
+  color: #00ffcc;
+}
+
+.run-it {
+  color: #ff3333;
+  font-weight: bold;
+  margin-left: 0.2em;
+}
+
+.flicker {
+  animation: flickerAnim 1.2s infinite;
+}
+
+@keyframes flickerAnim {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    opacity: 1;
+  }
+  20%, 22%, 24%, 55% {
+    opacity: 0;
+  }
+}
+
+/* === CODE FRAGMENTS (GLITCH MESSAGES) === */
+.code-fragment {
+  position: absolute;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  color: #ff4444;
+  pointer-events: none;
+  opacity: 0;
+  white-space: nowrap;
+  z-index: 5000;
+  animation: glitchFragment 4s infinite, fragmentDrift 8s linear forwards;
+  filter: brightness(1.5) contrast(1.2);
+  text-shadow:
+    0 0 2px red,
+    0 0 4px #ff0000,
+    0 0 6px #ff2222;
+}
+
+@keyframes glitchFragment {
+  0% { opacity: 0.3; transform: translate(0, 0) scale(1); }
+  10% { opacity: 1; transform: translate(-1px, 1px) rotate(-0.5deg); }
+  25% { transform: translate(1px, -1px) scale(1.05); }
+  40% { opacity: 0.6; transform: translate(-2px, 2px); }
+  60% { opacity: 1; transform: translate(1px, 1px) rotate(0.5deg); }
+  75% { transform: scale(1.02); }
+  100% { opacity: 0; transform: translate(0, 0) scale(1); }
+}
+
+@keyframes fragmentDrift {
+  to {
+    transform: translateY(100vh) rotate(3deg);
+    opacity: 0;
+  }
+}
+/* === FINAL FLICKER LINE === */
+.handler-final {
+  color: #00fff8;
+  animation: fadeInLine 0.45s forwards;
+}
+
+.run-it-flicker {
+  color: red;
+  font-weight: bold;
+  margin-left: 0.5ch;
+  animation: flickerRunIt 1.5s infinite 0.5s; /* add delay */
+  position: relative;
+  z-index: 9999;
+}
+
+@keyframes flickerRunIt {
+  0% { opacity: 1; }
+  10% { opacity: 0.2; }
+  20% { opacity: 1; }
+  30% { opacity: 0.5; }
+  40% { opacity: 1; }
+  60% { opacity: 0.1; }
+  80% { opacity: 0.9; }
+  100% { opacity: 1; }
+}
