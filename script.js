@@ -182,6 +182,8 @@ function showAccessGranted() {
   terminalOverlay.classList.remove('hidden');
   terminalOverlay.style.opacity = 1;
   linesContainer.innerHTML = '';
+  
+  cipherTop.style.display = 'none';
 
   typeLine(sequence[0], 0);
 }
