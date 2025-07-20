@@ -542,7 +542,9 @@ body {
   color: red;
   font-weight: bold;
   margin-left: 0.5ch;
-  animation: flickerRunIt 1.5s infinite;
+  animation: flickerRunIt 1.5s infinite 0.5s; /* add delay */
+  position: relative;
+  z-index: 9999;
 }
 
 @keyframes flickerRunIt {
