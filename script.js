@@ -163,9 +163,8 @@ if (!terminal) {
   '[SYS] :: Connection integrity failing...',
   '[SYS] :: Cipher structure collapse confirmed.',
   '[HANDLER] :: Awaiting final response...',
-  '[HANDLER] :: No more walls. Only wires.',
-  '[SYS] :: Instruction stream fragmentation in progress...'
-  
+  '[SYS] :: Instruction stream fragmentation in progress...',
+  '[HANDLER] :: No more walls. Only wires.'
 ];
 
 const finalFlicker = 'Run it.';
@@ -188,19 +187,28 @@ lines.forEach((line, index) => {
       } else {
         clearInterval(typeInterval);
 
-        // If this is the last line, append flicker span and fire callback
+        // === NEW FINAL LINE LOGIC ===
         if (index === lines.length - 1) {
-          const flickerSpan = document.createElement('span');
-          flickerSpan.classList.add('run-it-flicker');
-          flickerSpan.textContent = ` ${finalFlicker}`;
-          div.appendChild(flickerSpan);
-
-          // Wait briefly after flicker before launching terminal continuation
           setTimeout(() => {
+            // Flicker 'Run it.' after the last line
+            const runLine = document.createElement('div');
+            runLine.classList.add('terminal-line', 'run-it-flicker');
+            runLine.textContent = finalFlicker;
+            linesContainer.appendChild(runLine);
+
+            // Optional glitch echo line (feels like the system dying)
+            setTimeout(() => {
+              const ghostLine = document.createElement('div');
+              ghostLine.classList.add('terminal-line');
+              ghostLine.textContent = '[HANDLER] :: ';
+              linesContainer.appendChild(ghostLine);
+            }, 1000);
+
+            // Fire continuation callback
             if (typeof callback === 'function') {
-              callback();
+              setTimeout(callback, 1400); // enough time for both visuals
             }
-          }, 800); // brief pause after final line
+          }, 600); // delay before flicker drop
         }
       }
     }, typingSpeed);
