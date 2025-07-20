@@ -142,6 +142,7 @@ if (!terminal) {
   return;
 }
 
+  terminal.classList.remove('hidden'); // <== KEY LINE
   terminal.classList.add('show');
   const linesContainer = terminal.querySelector('.terminal-inner');
 
