@@ -152,7 +152,6 @@ function launchTerminalOverlay(callback) {
     '[SYS] :: Command sequence complete.'
   ];
 
-  const finalLine = '[HANDLER] :: No more walls. Only wires. <span class="run-it-flicker">Run it.</span>';
 
   terminal.classList.remove('hidden');
   terminal.classList.add('show');
@@ -183,7 +182,12 @@ lines.forEach((line, index) => {
 // Final flicker line
 const finalLine = '[HANDLER] :: No more walls. Only wires. ';
 const flickerSegment = '<span class="flicker-red">Run it.</span>';
-const finalLineDelay = lines.length * (typingSpeed * 32 + baseDelay) + 800;
+
+const finalLineDelay = lines.reduce(
+  (acc, line) => acc + (line.length * typingSpeed + baseDelay),
+  0
+) + 800;
+
 
 setTimeout(() => {
   const finalDiv = document.createElement('div');
