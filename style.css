@@ -28,13 +28,14 @@ body {
   height: 100vh;
   background: rgba(0, 0, 0, 0.9);
   pointer-events: none;
-  opacity: 0; /* Hidden by default */
+  opacity: 0; /* Prevents it from showing on load */
 }
 
 .fullscreen-glitch.active {
   animation: fullscreenGlitch 2.4s ease-in-out forwards;
   opacity: 1;
 }
+
 
 @keyframes fullscreenGlitch {
   0% { opacity: 1; filter: none; transform: scale(1); }
