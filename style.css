@@ -20,7 +20,6 @@ body {
 
 /* === FULL SCREEN GLITCH ANIMATION === */
 .fullscreen-glitch {
-  animation: fullscreenGlitch 2.4s ease-in-out forwards;
   z-index: 9999;
   position: fixed;
   top: 0;
@@ -29,6 +28,12 @@ body {
   height: 100vh;
   background: rgba(0, 0, 0, 0.9);
   pointer-events: none;
+  opacity: 0; /* Hidden by default */
+}
+
+.fullscreen-glitch.active {
+  animation: fullscreenGlitch 2.4s ease-in-out forwards;
+  opacity: 1;
 }
 
 @keyframes fullscreenGlitch {
