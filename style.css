@@ -30,6 +30,48 @@ body {
   pointer-events: none;
   opacity: 0; /* Prevents it from showing on load */
 }
+.fullscreen-glitch::before,
+.fullscreen-glitch::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.15),
+    rgba(255, 255, 255, 0.15) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  mix-blend-mode: overlay;
+  animation: glitchNoise 0.3s infinite linear;
+  z-index: 99999;
+}
+
+.fullscreen-glitch::after {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 0, 0, 0.05),
+    rgba(0, 255, 0, 0.03),
+    rgba(0, 0, 0, 0.1)
+  );
+  animation: glitchColor 0.4s infinite alternate;
+}
+
+@keyframes glitchNoise {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+  100% { transform: translateY(2px); }
+}
+
+@keyframes glitchColor {
+  0% { opacity: 0.3; transform: translateX(-5px); }
+  50% { opacity: 0.5; transform: translateX(5px); }
+  100% { opacity: 0.3; transform: translateX(-3px); }
+}
 
 .fullscreen-glitch.active {
   animation: fullscreenGlitch 2.4s ease-in-out forwards;
