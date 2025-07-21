@@ -150,7 +150,6 @@ function showAccessGranted() {
       } else {
         clearInterval(interval);
 
-        // Attach purge sequences to specific line indices
         switch (index) {
           case 6: purgeElement('.decrypt-instruction'); break;
           case 7: purgeElement('.green'); break;
