@@ -434,14 +434,14 @@ body {
 /* === TERMINAL OVERLAY: SLIMMED AND CENTERED === */
 .terminal {
   position: fixed;
-  top: 640px; /* Tucks right under the top-container */
+  top: 640px;
   left: 50%;
   transform: translateX(-50%);
-  width: 650px;
+  width: 65vw;
   max-width: 95vw;
   height: 260px;
   background: rgba(0, 15, 0, 0.7);
-  color: #00fff8;
+  color: #00ffb3;
   font-family: 'Courier New', Courier, monospace;
   font-size: 1.05rem;
   line-height: 1.6;
