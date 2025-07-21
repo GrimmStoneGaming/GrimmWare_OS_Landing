@@ -10,6 +10,8 @@ body {
   padding: 0;
   background: black;
   color: #00ffcc;
+  outline: none;
+  box-shadow: none;
   font-family: 'Courier New', Courier, monospace;
   overflow: hidden;
   height: 100vh;
