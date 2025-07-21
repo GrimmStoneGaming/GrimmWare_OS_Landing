@@ -429,71 +429,64 @@ body {
   100% { transform: none; }
 }
 
-/* === ENHANCED TERMINAL OVERLAY: CENTERED + COMPACT === */
+/* === TERMINAL OVERLAY: COMPACT + CENTERED === */
 .terminal {
-  position: fixed;
-  top: 50%;
+  position: absolute;
+  top: calc(100% + 50px); /* Starts 50px below the decrypt block */
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: 480px;
-  max-width: 95vw;
-  height: 600px;
-  max-height: 90vh;
-  background: rgba(0, 15, 0, 0.7);
+  transform: translateX(-50%);
+  width: 75vw;
+  max-width: 600px;
+  height: auto;
+  background: rgba(0, 15, 0, 0.65);
   color: #00fff8;
   font-family: 'Courier New', Courier, monospace;
   font-size: 1.05rem;
-  line-height: 1.75;
+  line-height: 1.5;
   z-index: 9999;
   pointer-events: none;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  gap: 0.2rem;
+  padding: 1.5rem;
   border: 1px solid rgba(0, 255, 255, 0.2);
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  box-shadow: 0 0 16px rgba(0, 255, 255, 0.3);
   border-radius: 6px;
   opacity: 0;
-  overflow: hidden;
   transition: opacity 0.4s ease-in-out;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
 }
 
 .terminal.show {
   opacity: 1;
   visibility: visible;
-  pointer-events: auto;
 }
 
 .terminal.hidden {
   visibility: hidden;
   opacity: 0;
-  pointer-events: none;
-}
-
-.terminal-inner {
-  width: 100%;
-  white-space: pre-wrap;
 }
 
 .terminal-line {
   opacity: 0;
-  animation: fadeInLine 0.45s forwards;
+  animation: fadeInLine 0.4s forwards;
 }
 
 @keyframes fadeInLine {
-  to { opacity: 1; }
+  to {
+    opacity: 1;
+  }
 }
 
-/* === FINAL HANDLER LINE STYLING === */
-.handler-prefix {
-  color: #00ffcc;
-}
+/* === TERMINAL TEXT COLORS === */
+.handler-prefix { color: #00ffcc; }
+.sys-prefix { color: #9999ff; }
+.gateway-prefix { color: #ffcc00; }
 
 .run-it {
   color: #ff3333;
   font-weight: bold;
-  margin-left: 0.2em;
+  margin-left: 0.3em;
 }
 
 .flicker {
