@@ -434,7 +434,7 @@ body {
 /* === TERMINAL OVERLAY: SLIMMED AND CENTERED === */
 .terminal {
   position: fixed;
-  top: 680px; /* Tucks right under the top-container */
+  top: 640px; /* Tucks right under the top-container */
   left: 50%;
   transform: translateX(-50%);
   width: 650px;
