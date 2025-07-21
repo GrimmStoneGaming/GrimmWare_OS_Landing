@@ -115,23 +115,22 @@ function showAccessGranted() {
   ];
 
   function typeLine({ tag, text, delay, isFinal }, index) {
-  const line = document.createElement('div');
-  line.classList.add('terminal-line');
+    const line = document.createElement('div');
+    line.classList.add('terminal-line');
 
-  const prefix = document.createElement('span');
-  if (tag) {
+    const prefix = document.createElement('span');
     prefix.classList.add(`${tag.toLowerCase()}-prefix`);
-    prefix.textContent = `[${tag}] ::`;
-    line.appendChild(prefix);
-  }
+    if (tag) {
+      prefix.textContent = `[${tag}] ::`;
+      line.appendChild(prefix);
+    }
 
-  const content = document.createElement('span');
-  content.classList.add('terminal-content');
-  content.textContent = text;
-  line.appendChild(content);
+    const content = document.createElement('span');
+    content.classList.add('terminal-content');
+    line.appendChild(content);
 
-  linesContainer.appendChild(line);
-}
+    linesContainer.appendChild(line);
+
     let charIndex = 0;
     const interval = setInterval(() => {
       if (charIndex < text.length) {
@@ -145,7 +144,7 @@ function showAccessGranted() {
 
             const finalPrefix = document.createElement('span');
             finalPrefix.classList.add('handler-prefix');
-            finalPrefix.textContent = '[HANDLER] :::';
+            finalPrefix.textContent = `[HANDLER] ::`;
             finalLine.appendChild(finalPrefix);
 
             const runItSpan = document.createElement('span');
@@ -213,9 +212,9 @@ document.getElementById('run-button').addEventListener('click', () => {
   for (let i = 0; i < numStrips; i++) {
     const strip = document.createElement('div');
     strip.classList.add('strip', 'cover');
-    strip.style.left = ${(100 / numStrips) * i}%;
-    strip.style.width = ${100 / numStrips}%;
-    strip.style.animation = fallCover ${fallInDuration}ms forwards;
+    strip.style.left = `${(100 / numStrips) * i}%`;
+    strip.style.width = `${100 / numStrips}%`;
+    strip.style.animation = `fallCover ${fallInDuration}ms forwards`;
     overlay.appendChild(strip);
   }
 
@@ -228,7 +227,7 @@ document.getElementById('run-button').addEventListener('click', () => {
       setTimeout(() => {
         strip.classList.remove('cover');
         strip.classList.add('reveal');
-        strip.style.animation = fallReveal ${fallOutDuration}ms forwards;
+        strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
       }, index * 30);
     });
 
@@ -270,4 +269,4 @@ window.addEventListener('DOMContentLoaded', () => {
 
   cycleCharacters();
   startCycling();
-}); 
+});
