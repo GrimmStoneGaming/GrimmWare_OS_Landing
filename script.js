@@ -70,6 +70,19 @@ boxes.forEach((box, i) => {
   });
 });
 
+// === Purge Helper Function ===
+function purgeElement(selector, delay = 0) {
+  setTimeout(() => {
+    const el = document.querySelector(selector);
+    if (el) {
+      el.classList.add('purge-glitch');
+      setTimeout(() => {
+        el.remove();
+      }, 600);
+    }
+  }, delay);
+}
+
 // === Terminal Typing Helpers ===
 function typeText(target, text, speed, callback) {
   let i = 0;
@@ -88,7 +101,6 @@ function showAccessGranted() {
   const grantedLine = document.querySelector('.granted');
   const warningLine = document.querySelector('.warning');
   const runWrapper = document.getElementById('run-wrapper');
-  const cipherTop = document.querySelector('#top-container');
   const accessMessage = document.getElementById('access-message');
   const terminalOverlay = document.getElementById('terminal-overlay');
   const linesContainer = document.getElementById('terminal-lines');
@@ -137,6 +149,17 @@ function showAccessGranted() {
         content.textContent += text.charAt(charIndex++);
       } else {
         clearInterval(interval);
+
+        // Attach purge sequences to specific line indices
+        switch (index) {
+          case 6: purgeElement('.decrypt-instruction'); break;
+          case 7: purgeElement('.green'); break;
+          case 8: purgeElement('.box'); break;
+          case 9: purgeElement('.decrypt-wrapper'); break;
+          case 10: purgeElement('.tagline'); break;
+          case 15: purgeElement('.logo-main', 1500); break;
+        }
+
         if (isFinal) {
           setTimeout(() => {
             const finalLine = document.createElement('div');
@@ -162,9 +185,9 @@ function showAccessGranted() {
               typeText(grantedLine, 'ACCESS GRANTED.  SYSTEM UNLOCKED.', 40, () => {
                 setTimeout(() => {
                   typeText(warningLine, '>>> WARNING: THIS MAY CHANGE YOU.', 75, () => {
-                  runWrapper.classList.remove('hidden');
-                  runWrapper.classList.add('glitch-in');
-                  runWrapper.style.display = 'block';
+                    runWrapper.classList.remove('hidden');
+                    runWrapper.classList.add('glitch-in');
+                    runWrapper.style.display = 'block';
                   });
                 }, 1000);
               });
