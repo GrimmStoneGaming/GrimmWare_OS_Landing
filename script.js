@@ -145,7 +145,7 @@ function showAccessGranted() {
 
             const finalPrefix = document.createElement('span');
             finalPrefix.classList.add('handler-prefix');
-            finalPrefix.textContent = [HANDLER] ::;
+            finalPrefix.textContent = '[HANDLER] :::';
             finalLine.appendChild(finalPrefix);
 
             const runItSpan = document.createElement('span');
