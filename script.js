@@ -105,6 +105,11 @@ function showAccessGranted() {
   const terminalOverlay = document.getElementById('terminal-overlay');
   const linesContainer = document.getElementById('terminal-lines');
 
+  terminalOverlay.classList.remove('hidden');
+  terminalOverlay.style.opacity = 1;
+  terminalOverlay.scrollTop = terminalOverlay.scrollHeight; // Auto-scroll anchor
+  linesContainer.innerHTML = '';
+
   const sequence = [
     { tag: 'SYS', text: 'Protocol breach detected...', delay: 1000 },
     { tag: 'HANDLER', text: 'Initializing command injection...', delay: 1000 },
@@ -142,11 +147,13 @@ function showAccessGranted() {
     line.appendChild(content);
 
     linesContainer.appendChild(line);
+    terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
 
     let charIndex = 0;
     const interval = setInterval(() => {
       if (charIndex < text.length) {
         content.textContent += text.charAt(charIndex++);
+        terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
       } else {
         clearInterval(interval);
 
@@ -174,6 +181,7 @@ function showAccessGranted() {
             runItSpan.textContent = 'Run it.';
             finalLine.appendChild(runItSpan);
             linesContainer.appendChild(finalLine);
+            terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
 
             setTimeout(() => {
               terminalOverlay.classList.add('hidden');
@@ -200,10 +208,6 @@ function showAccessGranted() {
       }
     }, 30);
   }
-
-  terminalOverlay.classList.remove('hidden');
-  terminalOverlay.style.opacity = 1;
-  linesContainer.innerHTML = '';
 
   typeLine(sequence[0], 0);
 }
