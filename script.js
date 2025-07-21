@@ -115,22 +115,23 @@ function showAccessGranted() {
   ];
 
   function typeLine({ tag, text, delay, isFinal }, index) {
-    const line = document.createElement('div');
-    line.classList.add('terminal-line');
+  const line = document.createElement('div');
+  line.classList.add('terminal-line');
 
-    const prefix = document.createElement('span');
-    prefix.classList.add(${tag.toLowerCase()}-prefix);
-    if (tag) {
-      prefix.textContent = [${tag}] ::;
-      line.appendChild(prefix);
-    }
+  const prefix = document.createElement('span');
+  if (tag) {
+    prefix.classList.add(`${tag.toLowerCase()}-prefix`);
+    prefix.textContent = `[${tag}] ::`;
+    line.appendChild(prefix);
+  }
 
-    const content = document.createElement('span');
-    content.classList.add('terminal-content');
-    line.appendChild(content);
+  const content = document.createElement('span');
+  content.classList.add('terminal-content');
+  content.textContent = text;
+  line.appendChild(content);
 
-    linesContainer.appendChild(line);
-
+  linesContainer.appendChild(line);
+}
     let charIndex = 0;
     const interval = setInterval(() => {
       if (charIndex < text.length) {
