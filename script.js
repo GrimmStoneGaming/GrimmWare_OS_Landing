@@ -64,7 +64,10 @@ boxes.forEach((box, i) => {
 
       if (solved.every(Boolean)) {
         clearInterval(intervalId);
-        setTimeout(showAccessGranted, 800);
+        setTimeout(() => {
+          triggerGatewayPurge();
+          showAccessGranted();
+        }, 800);
       }
     }
   });
@@ -162,9 +165,9 @@ function showAccessGranted() {
               typeText(grantedLine, 'ACCESS GRANTED.  SYSTEM UNLOCKED.', 40, () => {
                 setTimeout(() => {
                   typeText(warningLine, '>>> WARNING: THIS MAY CHANGE YOU.', 75, () => {
-                  runWrapper.classList.remove('hidden');
-                  runWrapper.classList.add('glitch-in');
-                  runWrapper.style.display = 'block';
+                    runWrapper.classList.remove('hidden');
+                    runWrapper.classList.add('glitch-in');
+                    runWrapper.style.display = 'block';
                   });
                 }, 1000);
               });
@@ -269,4 +272,50 @@ window.addEventListener('DOMContentLoaded', () => {
 
   cycleCharacters();
   startCycling();
+});
+
+// === GATEWAY PURGE SEQUENCE ===
+function purgeTagline() {
+  const tagline = document.querySelector('.tagline');
+  if (tagline) tagline.classList.add('purge-effect');
+}
+
+function purgeInstruction() {
+  const instructionText = document.querySelector('.decrypt-instruction');
+  if (instructionText) instructionText.classList.add('purge-effect');
+}
+
+function purgeBoxes() {
+  const boxes = document.querySelectorAll('.box');
+  boxes.forEach((box, i) => {
+    setTimeout(() => {
+      box.classList.add('purge-effect');
+    }, i * 70);
+  });
+}
+
+function purgeWrapper() {
+  const decryptWrapper = document.querySelector('.decrypt-wrapper');
+  if (decryptWrapper) decryptWrapper.classList.add('purge-effect');
+}
+
+function purgeLogo() {
+  const logo = document.querySelector('.logo-main');
+  if (logo) logo.classList.add('purge-effect');
+}
+
+function triggerGatewayPurge() {
+  setTimeout(purgeTagline, 400);
+  setTimeout(purgeInstruction, 1100);
+  setTimeout(purgeBoxes, 1800);
+  setTimeout(purgeWrapper, 2500);
+  setTimeout(purgeLogo, 3100);
+}
+
+window.triggerGatewayPurge = triggerGatewayPurge;
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'p') {
+    triggerGatewayPurge();
+  }
 });
