@@ -64,11 +64,22 @@ boxes.forEach((box, i) => {
 
       if (solved.every(Boolean)) {
         clearInterval(intervalId);
-        setTimeout(showAccessGranted, 800);
+        setTimeout(triggerGlitchToTerminal, 800);
       }
     }
   });
 });
+
+// === Glitch Transition to Terminal ===
+function triggerGlitchToTerminal() {
+  const body = document.body;
+  body.classList.add('pre-terminal-glitch');
+
+  setTimeout(() => {
+    body.classList.remove('pre-terminal-glitch');
+    showAccessGranted();
+  }, 1200);
+}
 
 // === Purge Helper Function ===
 function purgeElement(selector, delay = 0) {
