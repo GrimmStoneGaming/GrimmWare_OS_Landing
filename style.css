@@ -18,6 +18,29 @@ body {
   position: relative;
 }
 
+/* === FULL SCREEN GLITCH ANIMATION === */
+.fullscreen-glitch {
+  animation: fullscreenGlitch 2.4s ease-in-out forwards;
+  z-index: 9999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+}
+
+@keyframes fullscreenGlitch {
+  0% { opacity: 1; filter: none; transform: scale(1); }
+  10% { filter: brightness(1.2) hue-rotate(30deg); transform: scale(1.01); }
+  25% { filter: invert(1) saturate(2); transform: scale(1.05); }
+  45% { filter: blur(2px) contrast(1.8); transform: scale(1.1); }
+  65% { filter: grayscale(1) brightness(1.5); }
+  85% { opacity: 0.6; filter: hue-rotate(-45deg) contrast(2); }
+  100% { opacity: 0; filter: brightness(3); transform: scale(1.2); }
+}
+
 /* === GATEWAY UI WRAPPER === */
 #gateway-ui {
   position: absolute;
