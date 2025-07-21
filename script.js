@@ -72,19 +72,16 @@ boxes.forEach((box, i) => {
 
 // === Glitch Transition to Terminal ===
 function triggerGlitchToTerminal() {
-  const body = document.body;
+  const glitchDiv = document.getElementById('fullscreen-glitch');
+  glitchDiv.classList.add('active');
 
-  // Create fullscreen glitch overlay
-  const glitchDiv = document.createElement('div');
-  glitchDiv.classList.add('fullscreen-glitch');
-  body.appendChild(glitchDiv);
-
-  // Let the glitch play out, then remove and continue
+  // Let the glitch animation play, then remove it and continue
   setTimeout(() => {
-    glitchDiv.remove();
+    glitchDiv.classList.remove('active');
     showAccessGranted();
   }, 2400); // Matches the 2.4s glitch animation duration
 }
+
 
 // === Purge Helper Function ===
 function purgeElement(selector, delay = 0) {
