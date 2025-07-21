@@ -64,10 +64,7 @@ boxes.forEach((box, i) => {
 
       if (solved.every(Boolean)) {
         clearInterval(intervalId);
-        setTimeout(() => {
-          triggerGatewayPurge();
-          showAccessGranted();
-        }, 800);
+        setTimeout(showAccessGranted, 800);
       }
     }
   });
@@ -122,9 +119,9 @@ function showAccessGranted() {
     line.classList.add('terminal-line');
 
     const prefix = document.createElement('span');
-    prefix.classList.add(`${tag.toLowerCase()}-prefix`);
+    prefix.classList.add(${tag.toLowerCase()}-prefix);
     if (tag) {
-      prefix.textContent = `[${tag}] ::`;
+      prefix.textContent = [${tag}] ::;
       line.appendChild(prefix);
     }
 
@@ -147,7 +144,7 @@ function showAccessGranted() {
 
             const finalPrefix = document.createElement('span');
             finalPrefix.classList.add('handler-prefix');
-            finalPrefix.textContent = `[HANDLER] ::`;
+            finalPrefix.textContent = [HANDLER] ::;
             finalLine.appendChild(finalPrefix);
 
             const runItSpan = document.createElement('span');
@@ -165,9 +162,9 @@ function showAccessGranted() {
               typeText(grantedLine, 'ACCESS GRANTED.  SYSTEM UNLOCKED.', 40, () => {
                 setTimeout(() => {
                   typeText(warningLine, '>>> WARNING: THIS MAY CHANGE YOU.', 75, () => {
-                    runWrapper.classList.remove('hidden');
-                    runWrapper.classList.add('glitch-in');
-                    runWrapper.style.display = 'block';
+                  runWrapper.classList.remove('hidden');
+                  runWrapper.classList.add('glitch-in');
+                  runWrapper.style.display = 'block';
                   });
                 }, 1000);
               });
@@ -190,13 +187,86 @@ function showAccessGranted() {
 }
 
 // === Final LP Reveal: Red Button Activation ===
-// [No changes necessary for this block, remains intact]
+document.getElementById('run-button').addEventListener('click', () => {
+  if (transitionInProgress) return;
+  transitionInProgress = true;
+
+  const overlay = document.getElementById('gateway-overlay');
+  const landingPage = document.getElementById('landing-page');
+  const runWrapper = document.getElementById('run-wrapper');
+  const accessMessage = document.getElementById('access-message');
+
+  const numStrips = 60;
+  const fallInDuration = 500;
+  const fallOutDuration = 600;
+  const delayBeforeReveal = 1500;
+
+  runWrapper.style.display = 'none';
+  accessMessage.style.display = 'none';
+  landingPage.style.display = 'flex';
+  landingPage.style.opacity = 0;
+  overlay.innerHTML = '';
+  overlay.style.display = 'flex';
+  overlay.style.background = 'transparent';
+
+  for (let i = 0; i < numStrips; i++) {
+    const strip = document.createElement('div');
+    strip.classList.add('strip', 'cover');
+    strip.style.left = ${(100 / numStrips) * i}%;
+    strip.style.width = ${100 / numStrips}%;
+    strip.style.animation = fallCover ${fallInDuration}ms forwards;
+    overlay.appendChild(strip);
+  }
+
+  setTimeout(() => {
+    landingPage.style.opacity = 1;
+    const strips = Array.from(overlay.querySelectorAll('.strip'));
+    const shuffled = strips.sort(() => Math.random() - 0.5);
+
+    shuffled.forEach((strip, index) => {
+      setTimeout(() => {
+        strip.classList.remove('cover');
+        strip.classList.add('reveal');
+        strip.style.animation = fallReveal ${fallOutDuration}ms forwards;
+      }, index * 30);
+    });
+
+    const totalDelay = shuffled.length * 30 + fallOutDuration;
+    setTimeout(() => {
+      overlay.style.display = 'none';
+    }, totalDelay + 500);
+  }, fallInDuration + delayBeforeReveal);
+});
 
 // === Page Load Fade Effects ===
-// [No changes necessary for this block, remains intact]
+window.addEventListener('DOMContentLoaded', () => {
+  const logo = document.querySelector('.logo-main');
+  const tagline = document.querySelector('.tagline');
+  const cipher = document.querySelector('.decrypt-wrapper');
+  const instruction = document.querySelector('.decrypt-instruction');
 
-// === GATEWAY PURGE SEQUENCE ===
-// [Retains all destruction effect function calls]
+  setTimeout(() => { logo.style.animation = 'fadeIn 1.2s forwards'; }, 0);
+  setTimeout(() => { tagline.style.animation = 'fadeIn 1.2s forwards'; }, 800);
+  setTimeout(() => { cipher.style.animation = 'glitchIn 0.6s forwards'; }, 1600);
 
-window.triggerGatewayPurge = triggerGatewayPurge;
-document.addEventListener('keydown', (e) => { if (e.key === 'p') triggerGatewayPurge(); });
+  setTimeout(() => {
+    instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
+    instruction.style.animation = 'corruptText 6s infinite';
+    instruction.style.opacity = '1';
+
+    const raw = instruction.textContent;
+    const glitchChars = '!@#$%?~*';
+
+    setInterval(() => {
+      const corrupted = raw.split('').map(char =>
+        Math.random() < 0.07 && char !== ' '
+          ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
+          : char
+      ).join('');
+      instruction.textContent = corrupted;
+    }, 200);
+  }, 1800);
+
+  cycleCharacters();
+  startCycling();
+}); 
