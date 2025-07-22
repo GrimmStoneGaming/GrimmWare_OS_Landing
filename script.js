@@ -73,12 +73,26 @@ boxes.forEach((box, i) => {
 // === Glitch Transition to Terminal ===
 function triggerGlitchToTerminal() {
   const body = document.body;
-  body.classList.add('pre-terminal-glitch');
+
+  const glitchDiv = document.createElement('div');
+  glitchDiv.classList.add('fullscreen-glitch');
+  body.appendChild(glitchDiv);
 
   setTimeout(() => {
-    body.classList.remove('pre-terminal-glitch');
-    showTerminalSequence();
-  }, 1200);
+    glitchDiv.remove();
+    showTerminal();  // << This must fire next
+  }, 2400);
+}
+
+function showTerminal() {
+  const terminal = document.getElementById('terminal-overlay');
+  if (terminal) {
+    terminal.classList.remove('hidden');
+    terminal.scrollTop = terminal.scrollHeight; // auto-scroll just in case
+    // You can also populate terminal here if needed
+  } else {
+    console.error('Terminal overlay not found!');
+  }
 }
 
 // === Purge Helper Function ===
