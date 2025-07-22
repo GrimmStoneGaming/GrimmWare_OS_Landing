@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>GrimmWare OS Gateway</title>
   <link rel="stylesheet" href="style.css"/>
@@ -31,6 +30,7 @@
   </style>
 </head>
 <body>
+
   <!-- LANDING PAGE -->
   <div id="landing-page" class="preloaded" aria-hidden="true">
     <div class="lp-content">
@@ -63,25 +63,32 @@
       <div class="decrypt-instruction" id="decrypt-instruction"></div>
     </div>
 
-<!-- Placeholder to mimic cipher height -->
-<div style="height: 250px; width: 100%;"></div>
-    
-    <!-- Anchored Access Message + Button -->
-<div id="access-container">
-  <div id="access-message" class="hidden" aria-live="polite">
-    <span class="granted"></span>
-    <span class="warning" id="warning-line"></span>
+    <!-- Spacer below puzzle -->
+    <div style="height: 250px; width: 100%;"></div>
+
+    <!-- ACCESS MESSAGE -->
+    <div id="access-container">
+      <div id="access-message" class="hidden" aria-live="polite">
+        <span class="granted"></span>
+        <span class="warning" id="warning-line"></span>
+      </div>
+
+      <div id="run-wrapper" class="run-button-wrapper hidden">
+        <button id="run-button" aria-label="Execute Gateway Unlock">&gt;&gt;&gt; RUN IT</button>
+      </div>
+    </div>
+
+    <!-- Overlay to trigger glitch -->
+    <div id="gateway-overlay" aria-hidden="true"></div>
+
+    <!-- TERMINAL WINDOW -->
+    <div id="terminal-overlay">
+      <div id="terminal-lines" class="terminal-inner"></div>
+    </div>
   </div>
 
-  <div id="run-wrapper" class="run-button-wrapper hidden">
-    <button id="run-button" aria-label="Execute Gateway Unlock">&gt;&gt;&gt; RUN IT</button>
-  </div>
-</div>
-
-  <div id="gateway-overlay" aria-hidden="true"></div>
-  <div id="terminal-overlay" class="terminal hidden">
-    <div id="terminal-lines" class="terminal-inner"></div>
-  </div>
+  <!-- DEBUG TOOLS -->
+  <div id="debug-log"></div>
 
   <script>
     function logDebug(message) {
