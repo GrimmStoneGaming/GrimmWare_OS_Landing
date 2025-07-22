@@ -50,7 +50,7 @@ body {
     rgba(0, 255, 0, 0.15) 50%,
     rgba(0, 0, 255, 0.2) 100%
   );
-  animation: glitchColorShift 0.3s infinite;
+  animation: glitchColorShift 0.3s infinite alternate;
 }
 
 .fullscreen-glitch::after {
@@ -68,11 +68,20 @@ body {
   0% {
     opacity: 0;
   }
+  5% {
+    opacity: 0.9;
+  }
   10% {
     opacity: 1;
   }
+  25% {
+    opacity: 0.75;
+  }
   50% {
-    opacity: 0.8;
+    opacity: 0.6;
+  }
+  75% {
+    opacity: 0.4;
   }
   100% {
     opacity: 0;
@@ -85,10 +94,10 @@ body {
     transform: translateX(0px);
   }
   50% {
-    transform: translateX(3px);
+    transform: translateX(4px);
   }
   100% {
-    transform: translateX(-3px);
+    transform: translateX(-4px);
   }
 }
 
