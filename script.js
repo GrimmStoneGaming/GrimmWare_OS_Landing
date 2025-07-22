@@ -73,13 +73,12 @@ boxes.forEach((box, i) => {
 // === Glitch Transition to Terminal ===
 function triggerGlitchToTerminal() {
   const body = document.body;
-
   body.classList.add('pre-terminal-glitch');
 
   setTimeout(() => {
     body.classList.remove('pre-terminal-glitch');
     showAccessGranted();
-  }, 2400); // Match your glitch CSS duration
+  }, 1200);
 }
 
 
