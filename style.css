@@ -444,10 +444,11 @@ body.pre-terminal-glitch::after {
 
 /* === UTILITY === */
 .hidden {
-  opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
 }
+
 
 /* === GREEN GLOW EFFECT === */
 .green-glow {
