@@ -593,9 +593,9 @@ body.pre-terminal-glitch::before {
 /* === TERMINAL OVERLAY: SLIMMED AND CENTERED === */
 #terminal-overlay {
   position: fixed;
-  top: 640px; /* Tucks right under the top-container */
+  top: 640px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) scale(0.92);
   width: 650px;
   max-width: 95vw;
   height: 260px;
@@ -616,24 +616,33 @@ body.pre-terminal-glitch::before {
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
   border-radius: 6px;
   opacity: 0;
-  transition: opacity 0.4s ease-in-out;
+  visibility: hidden;
+  filter: blur(3px);
+  transition: 
+    opacity 0.4s ease-in-out, 
+    transform 0.4s ease-in-out, 
+    filter 0.4s ease-in-out, 
+    visibility 0s linear 0.4s;
 }
 
-.terminal.show {
+#terminal-overlay.show {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
+  transform: translateX(-50%) scale(1);
+  filter: blur(0);
+  transition-delay: 0s;
 }
 
-.terminal-inner {
-  width: 100%;
-  white-space: pre-wrap;
-}
-
-.terminal.hidden {
-  visibility: hidden;
+.terminal-line {
   opacity: 0;
-  pointer-events: none;
+  animation: fadeInLine 0.45s forwards;
+}
+
+@keyframes fadeInLine {
+  to {
+    opacity: 1;
+  }
 }
 
 /* === TERMINAL OVERLAY EFFECT === */
@@ -685,6 +694,26 @@ body.pre-terminal-glitch::before {
   20%, 22%, 24%, 55% {
     opacity: 0;
   }
+}
+
+.run-it-flicker {
+  color: red;
+  font-weight: bold;
+  margin-left: 0.5ch;
+  animation: flickerRunIt 1.5s infinite 0.5s;
+  position: relative;
+  z-index: 9999;
+}
+
+@keyframes flickerRunIt {
+  0% { opacity: 1; }
+  10% { opacity: 0.2; }
+  20% { opacity: 1; }
+  30% { opacity: 0.5; }
+  40% { opacity: 1; }
+  60% { opacity: 0.1; }
+  80% { opacity: 0.9; }
+  100% { opacity: 1; }
 }
 
 /* === CODE FRAGMENTS (GLITCH MESSAGES) === */
