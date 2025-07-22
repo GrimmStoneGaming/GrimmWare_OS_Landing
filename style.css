@@ -589,7 +589,7 @@ body.pre-terminal-glitch::before {
 }
 
 /* === TERMINAL OVERLAY: SLIMMED AND CENTERED === */
-.terminal {
+#terminal-overlay {
   position: fixed;
   top: 640px; /* Tucks right under the top-container */
   left: 50%;
