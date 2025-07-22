@@ -72,14 +72,14 @@ boxes.forEach((box, i) => {
 
 // === Glitch Transition to Terminal ===
 function triggerGlitchToTerminal() {
-  const glitchDiv = document.getElementById('fullscreen-glitch');
-  glitchDiv.classList.add('active');
+  const body = document.body;
 
-  // Let the glitch animation play, then remove it and continue
+  body.classList.add('pre-terminal-glitch');
+
   setTimeout(() => {
-    glitchDiv.classList.remove('active');
+    body.classList.remove('pre-terminal-glitch');
     showAccessGranted();
-  }, 2400); // Matches the 2.4s glitch animation duration
+  }, 2400); // Match your glitch CSS duration
 }
 
 
