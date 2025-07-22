@@ -634,11 +634,6 @@ body.pre-terminal-glitch::before {
   pointer-events: none;
 }
 
-.terminal-line {
-  opacity: 0;
-  animation: fadeInLine 0.45s forwards;
-}
-
 #terminal-overlay {
   opacity: 0;
   transform: scale(0.92) translateY(10px);
@@ -646,6 +641,10 @@ body.pre-terminal-glitch::before {
   transition: none;
 }
 
+.terminal-line {
+  opacity: 0;
+  animation: fadeInLine 0.45s forwards;
+}
 
 @keyframes fadeInLine {
   to {
