@@ -117,7 +117,8 @@ function startTerminalSequence() {
   const terminalOverlay = document.getElementById('terminal-overlay');
   const linesContainer = document.getElementById('terminal-lines');
 
-  terminalOverlay.classList.remove('hidden');
+ terminalOverlay.classList.add('show');
+ terminalOverlay.classList.remove('hidden');
   terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
   linesContainer.innerHTML = '';
 
