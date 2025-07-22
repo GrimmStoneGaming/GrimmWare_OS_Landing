@@ -313,6 +313,20 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 200);
   }, 1800);
 
+// === TERMINAL PRESENCE CHECK ===
+window.addEventListener('DOMContentLoaded', () => {
+  const terminal = document.querySelector('#terminal-overlay');
+  if (!terminal) {
+    console.warn('[Terminal Check] ❌ Terminal element not found in DOM.');
+  } else {
+    console.log('[Terminal Check] ✅ Terminal element found.');
+    console.log('Initial class list:', terminal.classList.value);
+    const styles = window.getComputedStyle(terminal);
+    console.log(`→ Display: ${styles.display} | Visibility: ${styles.visibility} | Opacity: ${styles.opacity}`);
+  }
+});
+
+  
   cycleCharacters();
   startCycling();
 });
