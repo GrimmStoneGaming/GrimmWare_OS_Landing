@@ -64,35 +64,22 @@ boxes.forEach((box, i) => {
 
       if (solved.every(Boolean)) {
         clearInterval(intervalId);
-        setTimeout(triggerGlitchToTerminal, 800);
+        setTimeout(triggerFullscreenGlitch, 800);
       }
     }
   });
 });
 
-// === Glitch Transition to Terminal ===
-function triggerGlitchToTerminal() {
-  const body = document.body;
-
+// === Fullscreen Glitch to Terminal Trigger ===
+function triggerFullscreenGlitch() {
   const glitchDiv = document.createElement('div');
   glitchDiv.classList.add('fullscreen-glitch');
-  body.appendChild(glitchDiv);
+  document.body.appendChild(glitchDiv);
 
   setTimeout(() => {
     glitchDiv.remove();
-    showTerminal();  // << This must fire next
+    startTerminalSequence();
   }, 2400);
-}
-
-function showTerminal() {
-  const terminal = document.getElementById('terminal-overlay');
-  if (terminal) {
-    terminal.classList.remove('hidden');
-    terminal.scrollTop = terminal.scrollHeight; // auto-scroll just in case
-    // You can also populate terminal here if needed
-  } else {
-    console.error('Terminal overlay not found!');
-  }
 }
 
 // === Purge Helper Function ===
@@ -121,8 +108,8 @@ function typeText(target, text, speed, callback) {
   }, speed);
 }
 
-// === Terminal Overlay Logic — Cleaned ===
-function showTerminalSequence() {
+// === Terminal Overlay Logic ===
+function startTerminalSequence() {
   const grantedLine = document.querySelector('.granted');
   const warningLine = document.querySelector('.warning');
   const runWrapper = document.getElementById('run-wrapper');
@@ -131,7 +118,7 @@ function showTerminalSequence() {
   const linesContainer = document.getElementById('terminal-lines');
 
   terminalOverlay.classList.remove('hidden');
-  terminalOverlay.style.opacity = 1;
+  terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
   linesContainer.innerHTML = '';
 
   const sequence = [
@@ -209,19 +196,7 @@ function showTerminalSequence() {
 
             setTimeout(() => {
               terminalOverlay.classList.add('hidden');
-              terminalOverlay.style.opacity = 0;
-              accessMessage.classList.remove('hidden');
-              accessMessage.style.opacity = 1;
-
-              typeText(grantedLine, 'ACCESS GRANTED.  SYSTEM UNLOCKED.', 40, () => {
-                setTimeout(() => {
-                  typeText(warningLine, '>>> WARNING: THIS MAY CHANGE YOU.', 75, () => {
-                    runWrapper.classList.remove('hidden');
-                    runWrapper.classList.add('glitch-in');
-                    runWrapper.style.display = 'block';
-                  });
-                }, 1000);
-              });
+              revealAccessGranted();
             }, 3000);
           }, 500);
         } else if (index + 1 < sequence.length) {
@@ -234,6 +209,27 @@ function showTerminalSequence() {
   }
 
   typeLine(sequence[0], 0);
+}
+
+// === Reveal ACCESS GRANTED After Terminal ===
+function revealAccessGranted() {
+  const grantedLine = document.querySelector('.granted');
+  const warningLine = document.querySelector('.warning');
+  const runWrapper = document.getElementById('run-wrapper');
+  const accessMessage = document.getElementById('access-message');
+
+  accessMessage.classList.remove('hidden');
+  accessMessage.style.opacity = 1;
+
+  typeText(grantedLine, 'ACCESS GRANTED.  SYSTEM UNLOCKED.', 40, () => {
+    setTimeout(() => {
+      typeText(warningLine, '>>> WARNING: THIS MAY CHANGE YOU.', 75, () => {
+        runWrapper.classList.remove('hidden');
+        runWrapper.classList.add('glitch-in');
+        runWrapper.style.display = 'block';
+      });
+    }, 1000);
+  });
 }
 
 // === Final LP Reveal: Red Button Activation ===
