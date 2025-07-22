@@ -77,7 +77,7 @@ function triggerGlitchToTerminal() {
 
   setTimeout(() => {
     body.classList.remove('pre-terminal-glitch');
-    startTerminalSequence();
+    showTerminalSequence();
   }, 1200);
 }
 
@@ -107,8 +107,8 @@ function typeText(target, text, speed, callback) {
   }, speed);
 }
 
-// === Terminal Overlay Logic ===
-function startTerminalSequence() {
+// === Terminal Overlay Logic — Cleaned ===
+function showTerminalSequence() {
   const grantedLine = document.querySelector('.granted');
   const warningLine = document.querySelector('.warning');
   const runWrapper = document.getElementById('run-wrapper');
@@ -118,7 +118,6 @@ function startTerminalSequence() {
 
   terminalOverlay.classList.remove('hidden');
   terminalOverlay.style.opacity = 1;
-  terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
   linesContainer.innerHTML = '';
 
   const sequence = [
@@ -197,7 +196,18 @@ function startTerminalSequence() {
             setTimeout(() => {
               terminalOverlay.classList.add('hidden');
               terminalOverlay.style.opacity = 0;
-              revealAccessGranted();
+              accessMessage.classList.remove('hidden');
+              accessMessage.style.opacity = 1;
+
+              typeText(grantedLine, 'ACCESS GRANTED.  SYSTEM UNLOCKED.', 40, () => {
+                setTimeout(() => {
+                  typeText(warningLine, '>>> WARNING: THIS MAY CHANGE YOU.', 75, () => {
+                    runWrapper.classList.remove('hidden');
+                    runWrapper.classList.add('glitch-in');
+                    runWrapper.style.display = 'block';
+                  });
+                }, 1000);
+              });
             }, 3000);
           }, 500);
         } else if (index + 1 < sequence.length) {
@@ -210,27 +220,6 @@ function startTerminalSequence() {
   }
 
   typeLine(sequence[0], 0);
-}
-
-// === Reveal ACCESS GRANTED After Terminal ===
-function revealAccessGranted() {
-  const grantedLine = document.querySelector('.granted');
-  const warningLine = document.querySelector('.warning');
-  const runWrapper = document.getElementById('run-wrapper');
-  const accessMessage = document.getElementById('access-message');
-
-  accessMessage.classList.remove('hidden');
-  accessMessage.style.opacity = 1;
-
-  typeText(grantedLine, 'ACCESS GRANTED.  SYSTEM UNLOCKED.', 40, () => {
-    setTimeout(() => {
-      typeText(warningLine, '>>> WARNING: THIS MAY CHANGE YOU.', 75, () => {
-        runWrapper.classList.remove('hidden');
-        runWrapper.classList.add('glitch-in');
-        runWrapper.style.display = 'block';
-      });
-    }, 1000);
-  });
 }
 
 // === Final LP Reveal: Red Button Activation ===
