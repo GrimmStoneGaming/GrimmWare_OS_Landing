@@ -634,11 +634,13 @@ body.pre-terminal-glitch::before {
   pointer-events: none;
 }
 
+/* === TERMINAL OVERLAY EFFECT === */
 #terminal-overlay {
   opacity: 0;
-  transform: scale(0.92) translateY(10px);
+  transform: scale(0.95) translateY(10px);
   filter: blur(3px);
-  transition: none;
+  transition: opacity 0.6s ease, transform 0.6s ease, filter 0.6s ease;
+  will-change: opacity, transform, filter;
 }
 
 .terminal-line {
