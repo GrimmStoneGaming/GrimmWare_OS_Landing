@@ -92,6 +92,20 @@ body {
   100% { transform: translateY(6px); }
 }
 
+/* ===== PRE-TERMINAL GLITCH EFFECT ===== */
+body.pre-terminal-glitch {
+  animation: redFlashGlitch 1.2s ease-in-out;
+  background: #1a0000;
+}
+
+@keyframes redFlashGlitch {
+  0%   { background-color: #1a0000; filter: none; }
+  25%  { background-color: #8b0000; filter: contrast(2) brightness(1.2) saturate(2); }
+  50%  { background-color: #ff0000; filter: blur(1px) brightness(1.5) saturate(3); }
+  75%  { background-color: #8b0000; filter: contrast(1.5) brightness(1.2); }
+  100% { background-color: #1a0000; filter: none; }
+}
+
 /* === GATEWAY UI WRAPPER === */
 #gateway-ui {
   position: absolute;
