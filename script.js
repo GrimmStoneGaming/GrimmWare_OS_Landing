@@ -117,7 +117,7 @@ function showAccessGranted() {
   const terminalOverlay = document.getElementById('terminal-overlay');
   const linesContainer = document.getElementById('terminal-lines');
 
-  terminalOverlay.classList.remove('hidden');
+  terminalOverlay.classList.remove('show');
   terminalOverlay.style.opacity = 0;
   terminalOverlay.scrollTop = terminalOverlay.scrollHeight; // Auto-scroll anchor
   linesContainer.innerHTML = '';
