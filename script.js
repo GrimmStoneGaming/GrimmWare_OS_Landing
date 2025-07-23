@@ -294,7 +294,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   setTimeout(() => { logo.style.animation = 'fadeIn 1.2s forwards'; }, 0);
   setTimeout(() => { tagline.style.animation = 'fadeIn 1.2s forwards'; }, 800);
-  setTimeout(() => { cipher.style.animation = 'glitchIn 0.6s forwards'; }, 1600);
+  setTimeout(() => { cipher.classList.remove('hidden'); cipher.style.animation = 'glitchIn 0.6s forwards'; }, 1600);
 
   setTimeout(() => {
     instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
