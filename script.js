@@ -294,6 +294,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   setTimeout(() => { logo.style.animation = 'fadeIn 1.2s forwards'; }, 0);
   setTimeout(() => { tagline.style.animation = 'fadeIn 1.2s forwards'; }, 800);
+                     cipher.classList.remove('hidden');
   setTimeout(() => { cipher.style.animation = 'glitchIn 0.6s forwards'; }, 1600);
 
   setTimeout(() => {
