@@ -90,7 +90,7 @@ function purgeElement(selector, delay = 0) {
       el.classList.add('purge-glitch');
       setTimeout(() => {
         el.remove();
-      }, 600);
+      }, 600); // This matches the 0.6s animation
     }
   }, delay);
 }
