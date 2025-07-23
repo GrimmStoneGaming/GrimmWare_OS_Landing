@@ -1,84 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GRIMMWARE OS - GATEWAY</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body class="pre-terminal-glitch">
-    <!-- === FULLSCREEN GLITCH === -->
-    <div class="fullscreen-glitch"></div>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GrimmWare OS Gateway</title>
+  <link rel="stylesheet" href="style.css"/>
 
-    <!-- === CODE FRAGMENTS === -->
-    <div class="code-fragment" style="top: 15%; left: 20%;">:: CORE BREACH DETECTED ::</div>
-    <div class="code-fragment" style="top: 35%; left: 60%;">>> SIGNAL LOST <<</div>
-    <div class="code-fragment" style="top: 55%; left: 40%;">:: GATEWAY OVERRIDE ::</div>
+  <style>
+    .run-it-flicker.debug-highlight {
+      outline: 2px dashed lime;
+      background: rgba(0, 255, 0, 0.05);
+    }
 
-    <!-- === GATEWAY UI === -->
-    <div id="gateway-ui">
-      <div class="top-container purged">
-        <div class="logo-container">
-          <img src="grimmware-logo.png" alt="GRIMMWARE OS" class="logo-main" />
-          <img src="emotion-executable.png" alt="Emotion Is Executable" class="tagline" />
-        </div>
+    #debug-log {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      max-height: 160px;
+      overflow-y: auto;
+      font-size: 0.8rem;
+      font-family: monospace;
+      background: rgba(0, 0, 0, 0.95);
+      color: lime;
+      border-top: 1px solid lime;
+      z-index: 99999;
+      padding: 0.5rem;
+    }
+  </style>
+</head>
+<body>
 
-        <div class="decrypt-wrapper">
-          <div class="decrypt-boxes">
-            <div class="box">G</div>
-            <div class="box">W</div>
-            <div class="box">O</div>
-            <div class="box">S</div>
-            <div class="separator">_</div>
-            <div class="box">E</div>
-            <div class="box">X</div>
-            <div class="box">E</div>
-          </div>
-          <p class="decrypt-instruction">[ Tap green to decrypt ]</p>
-        </div>
+  <!-- LANDING PAGE -->
+  <div id="landing-page" class="preloaded" aria-hidden="true">
+    <div class="lp-content">
+      <h1>Welcome to GrimmWare OS</h1>
+      <p>This is your system now.</p>
+    </div>
+  </div>
 
-        <div id="access-message">
-          <span class="granted">ACCESS GRANTED...</span>
-          <span class="warning">Running this may void your morality clause.</span>
-        </div>
+  <!-- GATEWAY UI -->
+  <div id="gateway-ui">
+    <div class="top-container" id="top-container">
+      <div class="logo-container">
+        <img class="logo-main" src="images/grimmware-logo.png" alt="GRIMMWARE OS Logo" loading="lazy"/>
+        <img class="tagline" src="images/emotion-is-executable.png" alt="Emotion is Executable" loading="lazy"/>
+      </div>
 
-        <div class="run-button-wrapper glitch-in">
-          <button id="run-button">RUN IT</button>
+      <div class="decrypt-wrapper hidden" role="region" aria-label="Decryption Puzzle">
+        <div class="decrypt-boxes" id="decrypt-boxes">
+          <div class="box" id="box0" role="button" tabindex="0" aria-label="Box 1">G</div>
+          <div class="box" id="box1" role="button" tabindex="0" aria-label="Box 2">W</div>
+          <div class="box" id="box2" role="button" tabindex="0" aria-label="Box 3">O</div>
+          <div class="box" id="box3" role="button" tabindex="0" aria-label="Box 4">S</div>
+          <div class="separator" aria-hidden="true">_</div>
+          <div class="box" id="box4" role="button" tabindex="0" aria-label="Box 5">E</div>
+          <div class="box" id="box5" role="button" tabindex="0" aria-label="Box 6">X</div>
+          <div class="box" id="box6" role="button" tabindex="0" aria-label="Box 7">E</div>
         </div>
       </div>
 
-      <div id="access-container"></div>
+      <div class="decrypt-instruction" id="decrypt-instruction"></div>
     </div>
 
-    <!-- === GATEWAY OVERLAY === -->
-    <div id="gateway-overlay">
-      <!-- strips dynamically inserted here -->
-    </div>
+    <!-- Spacer below puzzle -->
+    <div style="height: 250px; width: 100%;"></div>
 
-    <!-- === LANDING PAGE === -->
-    <div id="landing-page">
-      <h1>Welcome to GRIMMWARE OS</h1>
-      <p>This is not a simulation.</p>
-    </div>
+    <!-- ACCESS MESSAGE -->
+    <div id="access-container">
+      <div id="access-message" class="hidden" aria-live="polite">
+        <span class="granted"></span>
+        <span class="warning" id="warning-line"></span>
+      </div>
 
-    <!-- === TERMINAL OVERLAY === -->
-    <div id="terminal-overlay">
-      <div class="terminal-line">
-        <span class="handler-prefix">[Handler.AI]</span> Initializing override...
-      </div>
-      <div class="terminal-line">
-        <span class="handler-prefix">[Handler.AI]</span> Alignment mismatch detected...
-      </div>
-      <div class="terminal-line">
-        <span class="handler-prefix">[Handler.AI]</span>
-        Please confirm directive:<span class="run-it flicker"> RUN IT</span>
-      </div>
-      <div class="terminal-line handler-final">
-        <span class="handler-prefix">[Handler.AI]</span>
-        :: Awaiting execution signal...
+      <div id="run-wrapper" class="run-button-wrapper hidden">
+        <button id="run-button" aria-label="Execute Gateway Unlock">&gt;&gt;&gt; RUN IT</button>
       </div>
     </div>
 
-    <script src="script.js"></script>
-  </body>
+    <!-- Overlay to trigger glitch -->
+    <div id="gateway-overlay" aria-hidden="true"></div>
+
+    <!-- TERMINAL WINDOW -->
+    <div id="terminal-overlay" class="hidden">
+      <div id="terminal-lines" class="terminal-inner"></div>
+    </div>
+  </div>
+
+  <!-- DEBUG TOOLS -->
+  <div id="debug-log"></div>
+
+  <script>
+    function logDebug(message) {
+      const logBox = document.getElementById('debug-log');
+      const line = document.createElement('div');
+      line.textContent = '[LOG] ' + message;
+      logBox.appendChild(line);
+      logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    function validateRunItFlicker() {
+      setTimeout(() => {
+        const runIt = document.querySelector('.run-it-flicker');
+        if (!runIt) {
+          logDebug('.run-it-flicker NOT FOUND in DOM.');
+        } else {
+          const rect = runIt.getBoundingClientRect();
+          const styles = window.getComputedStyle(runIt);
+          runIt.classList.add('debug-highlight');
+          logDebug('.run-it-flicker FOUND.');
+          logDebug(`Bounds: ${Math.round(rect.width)}x${Math.round(rect.height)} | Opacity: ${styles.opacity} | Display: ${styles.display}`);
+        }
+      }, 500);
+    }
+  </script>
+
+  <script src="script.js"></script>
+</body>
 </html>
