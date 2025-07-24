@@ -236,15 +236,15 @@ body.pre-terminal-glitch::after {
   padding-bottom: 30px;
 }
 
-.top-container.dissolved {
-  animation: cipherDissolve 1.6s ease-in-out forwards;
+.top-container.purged {
+  animation: cipherPurge 1.6s ease-in-out forwards;
   pointer-events: none;
   opacity: 0;
   filter: contrast(0) grayscale(1) brightness(3);
   transform: scale(1.2) rotate(3deg);
 }
 
-@keyframes cipherDissolve {
+@keyframes cipherPurge {
   0% {
     opacity: 1;
     filter: none;
@@ -528,13 +528,13 @@ opacity: 0.1;
   pointer-events: none;
 }
 
-/* === Dissolve Glitch Animation === */
-.dissolve-glitch {
-  animation: dissolveGlitch 0.6s ease-in forwards;
+/* === Purge Glitch Animation === */
+.purge-glitch {
+  animation: purgeGlitch 0.6s ease-in forwards;
   filter: contrast(400%) brightness(200%) grayscale(100%) blur(2px);
   transform: scale(1.05) rotate(0.5deg);
 }
-.box-dissolve {
+.box-purge {
   animation: boxDecay 0.4s ease forwards;
 }
 
@@ -543,7 +543,7 @@ opacity: 0.1;
   100% { transform: scale(1.3) rotate(3deg); opacity: 0; filter: blur(2px) grayscale(1); }
 }
 
-@keyframes dissolveGlitch {
+@keyframes purgeGlitch {
   0% {
     opacity: 1;
     transform: scale(1) rotate(0deg);
