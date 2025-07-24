@@ -189,8 +189,6 @@ function startTerminalSequence() {
             linesContainer.appendChild(finalLine);
             terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
 
-            runItSpan.classList.add('glow', 'pulse', 'flicker');
-
             setTimeout(() => {
               terminalOverlay.classList.add('hidden');
               revealAccessGranted();
@@ -211,7 +209,7 @@ function startTerminalSequence() {
 // === Reveal ACCESS GRANTED After Terminal ===
 function revealAccessGranted() {
   const grantedLine = document.querySelector('.granted');
-  const warningLine = document.getElementById('warning-line');
+  const warningLine = document.querySelector('.warning');
   const runWrapper = document.getElementById('run-wrapper');
   const accessMessage = document.getElementById('access-message');
 
