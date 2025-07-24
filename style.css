@@ -794,3 +794,22 @@ opacity: 0.2;
   position: relative;
   z-index: 9999;
 }
+
+
+/* Enhancing the RUN IT button appearance */
+@keyframes glitchSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.run-it-flicker {
+  animation: glitchSlideUp 0.8s ease-out 0.2s forwards, pulse-flicker 1.2s infinite alternate, glow-flicker 0.3s infinite;
+}
