@@ -82,12 +82,12 @@ function triggerFullscreenGlitch() {
   }, 2400);
 }
 
-// === Purge Helper Function ===
-function purgeElement(selector, delay = 0) {
+// === Dissolve Helper Function ===
+function dissolveElement(selector, delay = 0) {
   setTimeout(() => {
     const el = document.querySelector(selector);
     if (el) {
-      el.classList.add('purge-glitch');
+      el.classList.add('dissolve-glitch');
       setTimeout(() => {
         el.remove();
       }, 600); // This matches the 0.6s animation
@@ -129,7 +129,7 @@ function startTerminalSequence() {
     { tag: 'HANDLER', text: 'Injecting signal disruptor...', delay: 1000 },
     { tag: 'GATEWAY', text: 'Rejecting foreign signal...', delay: 1000 },
     { tag: 'SYS', text: 'Override vector accepted.', delay: 1000 },
-    { tag: 'SYS', text: 'Beginning internal purge...', delay: 1000 },
+    { tag: 'SYS', text: 'Beginning internal dissolve...', delay: 1000 },
     { tag: 'HANDLER', text: 'Forcing cipher shutdown...', delay: 1000 },
     { tag: 'GATEWAY', text: 'Memory lattice destabilizing...', delay: 1000 },
     { tag: 'SYS', text: 'Subsystem identity layers disabled.', delay: 1000 },
@@ -170,12 +170,12 @@ function startTerminalSequence() {
         clearInterval(interval);
 
         switch (index) {
-          case 6: purgeElement('.decrypt-instruction'); break;
-          case 7: purgeElement('.green'); break;
-          case 8: purgeElement('.box'); break;
-          case 9: purgeElement('.decrypt-wrapper'); break;
-          case 10: purgeElement('.tagline'); break;
-          case 15: purgeElement('.logo-main', 1500); break;
+          case 6: dissolveElement('.decrypt-instruction'); break;
+          case 7: dissolveElement('.green'); break;
+          case 8: dissolveElement('.box'); break;
+          case 9: dissolveElement('.decrypt-wrapper'); break;
+          case 10: dissolveElement('.tagline'); break;
+          case 15: dissolveElement('.logo-main', 1500); break;
         }
 
         if (isFinal) {
