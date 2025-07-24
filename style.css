@@ -363,13 +363,6 @@ opacity: 0.1;
   padding: 0 5px;
 }
 
-/* === UI FADE OUT === */
-.ui-fade-out {
-  opacity: 0;
-  transition: opacity 0.8s ease;
-  pointer-events: none;
-}
-
 /* === ACCESS MESSAGE === */
 #access-message {
   margin-top: 30px;
@@ -569,28 +562,6 @@ opacity: 0.1;
     transform: scale(1.1) rotate(-1deg);
     filter: blur(3px) grayscale(100%) brightness(3);
   }
-}
-
-
-/* === GREEN GLOW EFFECT === */
-.green-glow {
-  color: #00ff00;
-  font-weight: bold;
-  animation: greenPulse 2s infinite;
-  text-shadow:
-    0 0 4px #00ff00,
-    0 0 8px #00ff66,
-    0 0 12px #00ffaa;
-}
-
-@keyframes greenPulse {
-  0%, 100% {
-    text-shadow:
-      0 0 4px #00ff00,
-      0 0 8px #00ff66,
-      0 0 12px #00ffaa;
-}
-
 }
 
 /* === FULL SCREEN PRE-TERMINAL GLITCH EFFECT === */
