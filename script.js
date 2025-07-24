@@ -82,15 +82,15 @@ function triggerFullscreenGlitch() {
   }, 2400);
 }
 
-// === Purge Helper Function ===
-function purgeElement(selector, delay = 0) {
+// === Remove Element with Glitch Effect ===
+function zapElement(selector, delay = 0) {
   setTimeout(() => {
     const el = document.querySelector(selector);
     if (el) {
-      el.classList.add('purge-glitch');
+      el.classList.add('zap-glitch');
       setTimeout(() => {
         el.remove();
-      }, 600); // This matches the 0.6s animation
+      }, 600);
     }
   }, delay);
 }
@@ -110,16 +110,10 @@ function typeText(target, text, speed, callback) {
 
 // === Terminal Overlay Logic ===
 function startTerminalSequence() {
-  const grantedLine = document.querySelector('.granted');
-  const warningLine = document.querySelector('.warning');
-  const runWrapper = document.getElementById('run-wrapper');
-  const accessMessage = document.getElementById('access-message');
   const terminalOverlay = document.getElementById('terminal-overlay');
   const linesContainer = document.getElementById('terminal-lines');
-
- terminalOverlay.classList.add('show');
- terminalOverlay.classList.remove('hidden');
-  terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
+  terminalOverlay.classList.add('show');
+  terminalOverlay.classList.remove('hidden');
   linesContainer.innerHTML = '';
 
   const sequence = [
@@ -129,12 +123,12 @@ function startTerminalSequence() {
     { tag: 'HANDLER', text: 'Injecting signal disruptor...', delay: 1000 },
     { tag: 'GATEWAY', text: 'Rejecting foreign signal...', delay: 1000 },
     { tag: 'SYS', text: 'Override vector accepted.', delay: 1000 },
-    { tag: 'SYS', text: 'Beginning internal purge...', delay: 1000 },
-    { tag: 'HANDLER', text: 'Forcing cipher shutdown...', delay: 1000 },
+    { tag: 'SYS', text: 'Beginning internal sequence...', delay: 1000 },
+    { tag: 'HANDLER', text: 'Forcing cipher lockout...', delay: 1000 },
     { tag: 'GATEWAY', text: 'Memory lattice destabilizing...', delay: 1000 },
     { tag: 'SYS', text: 'Subsystem identity layers disabled.', delay: 1000 },
     { tag: 'SYS', text: 'Visual anchor nodes disengaged.', delay: 1000 },
-    { tag: 'SYS', text: 'Command sequence complete.', delay: 1000 },
+    { tag: 'SYS', text: 'Sequence continues...', delay: 1000 },
     { tag: 'SYS', text: 'Connection integrity failing...', delay: 1000 },
     { tag: 'SYS', text: 'Cipher structure collapse confirmed.', delay: 1000 },
     { tag: 'HANDLER', text: 'Awaiting final response...', delay: 1000 },
@@ -170,12 +164,12 @@ function startTerminalSequence() {
         clearInterval(interval);
 
         switch (index) {
-          case 6: purgeElement('.decrypt-instruction'); break;
-          case 7: purgeElement('.green'); break;
-          case 8: purgeElement('.box'); break;
-          case 9: purgeElement('.decrypt-wrapper'); break;
-          case 10: purgeElement('.tagline'); break;
-          case 15: purgeElement('.logo-main', 1500); break;
+          case 6: zapElement('.decrypt-instruction'); break;
+          case 7: zapElement('.green'); break;
+          case 8: zapElement('.box'); break;
+          case 9: zapElement('.decrypt-wrapper'); break;
+          case 10: zapElement('.tagline'); break;
+          case 15: zapElement('.logo-main', 1500); break;
         }
 
         if (isFinal) {
@@ -233,7 +227,7 @@ function revealAccessGranted() {
   });
 }
 
-// === Final LP Reveal: Red Button Activation ===
+// === Red Button Activation ===
 document.getElementById('run-button').addEventListener('click', () => {
   if (transitionInProgress) return;
   transitionInProgress = true;
@@ -285,7 +279,7 @@ document.getElementById('run-button').addEventListener('click', () => {
   }, fallInDuration + delayBeforeReveal);
 });
 
-// === Page Load Fade Effects ===
+// === Page Load Effects ===
 window.addEventListener('DOMContentLoaded', () => {
   const logo = document.querySelector('.logo-main');
   const tagline = document.querySelector('.tagline');
@@ -314,20 +308,6 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 200);
   }, 1800);
 
-// === TERMINAL PRESENCE CHECK ===
-window.addEventListener('DOMContentLoaded', () => {
-  const terminal = document.querySelector('#terminal-overlay');
-  if (!terminal) {
-    console.warn('[Terminal Check] ❌ Terminal element not found in DOM.');
-  } else {
-    console.log('[Terminal Check] ✅ Terminal element found.');
-    console.log('Initial class list:', terminal.classList.value);
-    const styles = window.getComputedStyle(terminal);
-    console.log(`→ Display: ${styles.display} | Visibility: ${styles.visibility} | Opacity: ${styles.opacity}`);
-  }
-});
-
-  
   cycleCharacters();
   startCycling();
 });
