@@ -839,7 +839,7 @@ opacity: 0.2;
 /* === CORRUPTED WARNING STYLE === */
 .warning.glitch {
   font-family: 'Courier New', monospace;
-  font-size: 1.8rem;
+  font-size: 1.3rem;
   color: #00ff00;
   text-align: center;
   animation: corruptText 5s infinite;
