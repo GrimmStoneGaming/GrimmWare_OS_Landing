@@ -409,7 +409,8 @@ opacity: 0.1;
     voidWobble 2.5s ease-in-out infinite,
     glitchPulse 1.4s infinite,
     runItVoidReach 2.5s infinite alternate;
-
+    hardPulse 2.2s ease-in-out infinite;
+  
   box-shadow:
     0 0 10px #ff0000,
     0 0 20px #ff0000,
