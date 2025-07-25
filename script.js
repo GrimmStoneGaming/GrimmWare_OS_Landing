@@ -82,7 +82,7 @@ function triggerFullscreenGlitch() {
   }, 2400);
 }
 
-// === Remove Element with Glitch Effect ===
+// === Glitch Destruction Logic ===
 function zapElement(selector, delay = 0) {
   setTimeout(() => {
     const el = document.querySelector(selector);
@@ -95,7 +95,7 @@ function zapElement(selector, delay = 0) {
   }, delay);
 }
 
-// === Terminal Typing Helpers ===
+// === Type Text Logic ===
 function typeText(target, text, speed, callback) {
   let i = 0;
   target.textContent = '';
@@ -108,7 +108,7 @@ function typeText(target, text, speed, callback) {
   }, speed);
 }
 
-// === Terminal Overlay Logic ===
+// === Terminal Sequence Logic ===
 function startTerminalSequence() {
   const terminalOverlay = document.getElementById('terminal-overlay');
   const linesContainer = document.getElementById('terminal-lines');
@@ -141,9 +141,9 @@ function startTerminalSequence() {
     const line = document.createElement('div');
     line.classList.add('terminal-line');
 
-    const prefix = document.createElement('span');
-    prefix.classList.add(`${tag.toLowerCase()}-prefix`);
     if (tag) {
+      const prefix = document.createElement('span');
+      prefix.classList.add(`${tag.toLowerCase()}-prefix`);
       prefix.textContent = `[${tag}] ::`;
       line.appendChild(prefix);
     }
@@ -151,7 +151,6 @@ function startTerminalSequence() {
     const content = document.createElement('span');
     content.classList.add('terminal-content');
     line.appendChild(content);
-
     linesContainer.appendChild(line);
     terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
 
@@ -174,14 +173,25 @@ function startTerminalSequence() {
 
         if (isFinal) {
           setTimeout(() => {
-            const finalLine = document.createElement('div');
-            finalLine.classList.add('terminal-line');
+            injectFinalRunItLine();
+            setTimeout(() => {
+              terminalOverlay.classList.add('hidden');
+              revealAccessGranted();
+            }, 3000);
+          }, 500);
+        } else if (index + 1 < sequence.length) {
+          setTimeout(() => {
+            typeLine(sequence[index + 1], index + 1);
+          }, delay);
+        }
+      }
+    }, typingSpeed);
+  }
 
-            const finalPrefix = document.createElement('span');
-            finalPrefix.classList.add('handler-prefix');
-            finalPrefix.textContent = `[HANDLER] ::`;
-            finalLine.appendChild(finalPrefix);
+  typeLine(sequence[0], 0);
+}
 
+// === FINAL FLICKERING LINE ===
 function injectFinalRunItLine() {
   const linesContainer = document.getElementById('terminal-lines');
 
@@ -220,8 +230,6 @@ function injectFinalRunItLine() {
 
   finalLine.appendChild(runItSpan);
   linesContainer.appendChild(finalLine);
-
-  // Force reflow before animation trigger
   void runItSpan.offsetWidth;
 
   requestAnimationFrame(() => {
@@ -229,16 +237,12 @@ function injectFinalRunItLine() {
     runItSpan.classList.add('run-it-flicker', 'shock-pulse');
   });
 
-  // Scroll to bottom of terminal
   linesContainer.scrollTop = linesContainer.scrollHeight;
-
-  // Optional: pulse effect on terminal container
   linesContainer.classList.add('terminal-pulse');
   setTimeout(() => linesContainer.classList.remove('terminal-pulse'), 1000);
 }
 
-
-// === Reveal ACCESS GRANTED After Terminal ===
+// === ACCESS GRANTED SEQUENCE ===
 function revealAccessGranted() {
   const grantedLine = document.querySelector('.granted');
   const warningLine = document.querySelector('.warning');
@@ -259,9 +263,7 @@ function revealAccessGranted() {
   });
 }
 
-let transitionInProgress = false;
-
-// === Red Button Activation ===
+// === RUN BUTTON / TRANSITION ===
 document.getElementById('run-button').addEventListener('click', () => {
   if (transitionInProgress) return;
   transitionInProgress = true;
@@ -313,7 +315,7 @@ document.getElementById('run-button').addEventListener('click', () => {
   }, fallInDuration + delayBeforeReveal);
 });
 
-// === Page Load Effects ===
+// === ON LOAD SETUP ===
 window.addEventListener('DOMContentLoaded', () => {
   const logo = document.querySelector('.logo-main');
   const tagline = document.querySelector('.tagline');
@@ -322,7 +324,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
   setTimeout(() => { logo.style.animation = 'fadeIn 1.2s forwards'; }, 0);
   setTimeout(() => { tagline.style.animation = 'fadeIn 1.2s forwards'; }, 800);
-  setTimeout(() => { cipher.classList.remove('hidden'); cipher.style.animation = 'glitchIn 0.6s forwards'; }, 1600);
+  setTimeout(() => {
+    cipher.classList.remove('hidden');
+    cipher.style.animation = 'glitchIn 0.6s forwards';
+  }, 1600);
 
   setTimeout(() => {
     instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
