@@ -259,6 +259,7 @@ function revealAccessGranted() {
   typeText(grantedLine, 'ACCESS GRANTED.  SYSTEM UNLOCKED.', 40, () => {
     setTimeout(() => {
       typeText(warningLine, '>>> WARNING: THIS MAY CHANGE YOU.', 75, () => {
+        warningLine.classList.add('glitch');
         runWrapper.classList.remove('hidden');
         runWrapper.classList.add('glitch-in');
         runWrapper.style.display = 'block';
