@@ -94,7 +94,6 @@ function zapElement(selector, delay = 0) {
     }
   }, delay);
 }
-
 function purgeTopContainer() {
   zapElement('.logo-main');
   zapElement('.tagline');
@@ -105,6 +104,8 @@ function purgeTopContainer() {
     topContainer.classList.add('purge-glitch');
     setTimeout(() => {
       topContainer.remove();
+      const access = document.getElementById('access-container');
+      if (access) access.classList.add('shift-up'); // 💥 Move access visually into perfect final position
     }, 600);
   }
 }
@@ -351,8 +352,10 @@ document.getElementById('run-button').addEventListener('click', () => {
 
     const totalDelay = shuffled.length * 30 + fallOutDuration;
     setTimeout(() => {
-      overlay.style.display = 'none';
-    }, totalDelay + 500);
+  overlay.style.display = 'none';
+  const terminalOverlay = document.getElementById('terminal-overlay');
+  if (terminalOverlay) terminalOverlay.classList.add('hidden'); 
+}, totalDelay + 500);
   }, fallInDuration + delayBeforeReveal);
 });
 
