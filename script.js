@@ -182,14 +182,21 @@ function startTerminalSequence() {
             finalPrefix.textContent = `[HANDLER] ::`;
             finalLine.appendChild(finalPrefix);
 
-        function injectFinalRunItLine() {
+  function injectFinalRunItLine() {
   const linesContainer = document.getElementById('terminal-lines');
+
   const finalLine = document.createElement('div');
   finalLine.classList.add('terminal-line');
-  finalLine.style.opacity = '1'; // Force visibility
-  finalLine.style.animation = 'none'; // Disable any inherited fadeInLine
-  finalLine.style.display = 'block';
-  finalLine.style.visibility = 'visible';
+  Object.assign(finalLine.style, {
+    opacity: '1',
+    animation: 'none',
+    display: 'flex',
+    visibility: 'visible',
+    position: 'relative',
+    flexWrap: 'nowrap',
+    alignItems: 'center',
+    zIndex: '1000'
+  });
 
   const finalPrefix = document.createElement('span');
   finalPrefix.classList.add('handler-prefix');
@@ -197,18 +204,24 @@ function startTerminalSequence() {
   finalLine.appendChild(finalPrefix);
 
   const runItSpan = document.createElement('span');
-  runItSpan.classList.add('run-it'); // Base class first to ensure style fallbacks
+  runItSpan.classList.add('run-it');
   runItSpan.textContent = 'Run it.';
-  runItSpan.style.color = 'red'; // Ensure text color is solid
-  runItSpan.style.animation = 'none'; // Clear any rogue inline assignments
-  runItSpan.style.display = 'inline';
-  runItSpan.style.visibility = 'visible';
-  runItSpan.style.opacity = '1';
+  Object.assign(runItSpan.style, {
+    color: 'red',
+    animation: 'none',
+    display: 'inline',
+    visibility: 'visible',
+    opacity: '1',
+    position: 'relative',
+    zIndex: '1001',
+    marginLeft: '5px',
+    fontWeight: 'bold'
+  });
 
   finalLine.appendChild(runItSpan);
   linesContainer.appendChild(finalLine);
 
-  // Force reflow before animation
+  // Force reflow before animation trigger
   void runItSpan.offsetWidth;
 
   requestAnimationFrame(() => {
@@ -216,30 +229,14 @@ function startTerminalSequence() {
     runItSpan.classList.add('run-it-flicker', 'shock-pulse');
   });
 
-  // Scroll to newest terminal line
+  // Scroll to bottom of terminal
   linesContainer.scrollTop = linesContainer.scrollHeight;
 
-  // Pulse effect on terminal
+  // Optional: pulse effect on terminal container
   linesContainer.classList.add('terminal-pulse');
   setTimeout(() => linesContainer.classList.remove('terminal-pulse'), 1000);
 }
 
-            setTimeout(() => {
-              terminalOverlay.classList.add('hidden');
-              revealAccessGranted();
-            }, 3000);
-          }, 500);
-        } else if (index + 1 < sequence.length) {
-          setTimeout(() => {
-            typeLine(sequence[index + 1], index + 1);
-          }, delay);
-        }
-      }
-    }, 30);
-  }
-
-  typeLine(sequence[0], 0);
-}
 
 // === Reveal ACCESS GRANTED After Terminal ===
 function revealAccessGranted() {
