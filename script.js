@@ -182,10 +182,12 @@ function startTerminalSequence() {
             finalPrefix.textContent = `[HANDLER] ::`;
             finalLine.appendChild(finalPrefix);
 
-          function injectFinalRunItLine() {
+         function injectFinalRunItLine() {
   const linesContainer = document.getElementById('terminal-lines');
   const finalLine = document.createElement('div');
   finalLine.classList.add('terminal-line');
+  finalLine.style.opacity = '1'; // Force visibility
+  finalLine.style.animation = 'none'; // Disable any inherited fadeInLine
 
   const finalPrefix = document.createElement('span');
   finalPrefix.classList.add('handler-prefix');
@@ -195,21 +197,21 @@ function startTerminalSequence() {
   const runItSpan = document.createElement('span');
   runItSpan.classList.add('run-it'); // Base class first to ensure style fallbacks
   runItSpan.textContent = 'Run it.';
-
-  // Clear any rogue inline animation assignments
-  runItSpan.style.animation = 'none';
+  runItSpan.style.color = 'red'; // Ensure text color is solid
+  runItSpan.style.animation = 'none'; // Clear any rogue inline assignments
 
   // Re-trigger animation cleanly with flicker
   setTimeout(() => {
     runItSpan.classList.remove('run-it');
     runItSpan.classList.add('run-it-flicker');
+    runItSpan.classList.add('shock-pulse');
   }, 10); // Slight timeout forces DOM reflow
 
   finalLine.appendChild(runItSpan);
   linesContainer.appendChild(finalLine);
   linesContainer.scrollTop = linesContainer.scrollHeight;
 
-  // Optional: add a tiny pulse effect to terminal to emphasize finality
+  // Optional: pulse effect on terminal container
   linesContainer.classList.add('terminal-pulse');
   setTimeout(() => linesContainer.classList.remove('terminal-pulse'), 1000);
 }
