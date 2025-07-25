@@ -94,16 +94,7 @@ function zapElement(selector, delay = 0) {
     }
   }, delay);
 }
-  setTimeout(() => {
-    const el = document.querySelector(selector);
-    if (el) {
-      el.classList.add('zap-glitch');
-      setTimeout(() => {
-        el.remove();
-      }, 600);
-    }
-  }, delay);
-}
+
 
 // === Type Text Logic ===
 function typeText(target, text, speed, callback) {
