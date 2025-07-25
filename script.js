@@ -259,6 +259,8 @@ function revealAccessGranted() {
   });
 }
 
+let transitionInProgress = false;
+
 // === Red Button Activation ===
 document.getElementById('run-button').addEventListener('click', () => {
   if (transitionInProgress) return;
