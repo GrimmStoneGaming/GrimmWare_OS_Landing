@@ -344,4 +344,4 @@ window.addEventListener('DOMContentLoaded', () => {
 
   cycleCharacters();
   startCycling();
-});
+
