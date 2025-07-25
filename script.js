@@ -96,6 +96,10 @@ function zapElement(selector, delay = 0) {
 }
 
 function purgeTopContainer() {
+  zapElement('.logo-main');
+  zapElement('.tagline');
+  zapElement('.logo-container');
+
   const topContainer = document.getElementById('top-container');
   if (topContainer) {
     topContainer.classList.add('purge-glitch');
