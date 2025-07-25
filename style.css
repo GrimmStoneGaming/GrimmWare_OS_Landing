@@ -1,4 +1,4 @@
-/* ==== GLOBAL ==== */
+/* === GLOBAL === */
 *,
 *::before,
 *::after {
@@ -363,13 +363,6 @@ opacity: 0.1;
   padding: 0 5px;
 }
 
-/* === UI FADE OUT === */
-.ui-fade-out {
-  opacity: 0;
-  transition: opacity 0.8s ease;
-  pointer-events: none;
-}
-
 /* === ACCESS MESSAGE === */
 #access-message {
   margin-top: 30px;
@@ -571,28 +564,6 @@ opacity: 0.1;
   }
 }
 
-
-/* === GREEN GLOW EFFECT === */
-.green-glow {
-  color: #00ff00;
-  font-weight: bold;
-  animation: greenPulse 2s infinite;
-  text-shadow:
-    0 0 4px #00ff00,
-    0 0 8px #00ff66,
-    0 0 12px #00ffaa;
-}
-
-@keyframes greenPulse {
-  0%, 100% {
-    text-shadow:
-      0 0 4px #00ff00,
-      0 0 8px #00ff66,
-      0 0 12px #00ffaa;
-}
-
-}
-
 /* === FULL SCREEN PRE-TERMINAL GLITCH EFFECT === */
 body.pre-terminal-glitch::before {
   content: '';
@@ -763,14 +734,7 @@ opacity: 0.2;
 
 }
 
-.run-it-flicker {
-  color: red;
-  font-weight: bold;
-  margin-left: 0.5ch;
-  animation: flickerRunIt 1.5s infinite 0.5s;
-  position: relative;
-  z-index: 9999;
-}
+
 
 @keyframes flickerRunIt {
   0% { opacity: 1;
@@ -815,11 +779,48 @@ opacity: 0.2;
   animation: fadeInLine 0.45s forwards;
 }
 
-.run-it-flicker {
-  color: red;
-  font-weight: bold;
-  margin-left: 0.5ch;
-  animation: flickerRunIt 1.5s infinite 0.5s; /* add delay */
-  position: relative;
-  z-index: 9999;
+
+
+
+/* Enhancing the RUN IT button appearance */
+@keyframes glitchSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
 }
+
+
+
+
+
+  20% {
+    transform: translate(-1px, 1px);
+    opacity: 0.8;
+  }
+  40% {
+    transform: translate(1px, -1px);
+    opacity: 0.6;
+  }
+  60% {
+    transform: translate(-2px, 2px);
+    opacity: 0.9;
+  }
+  80% {
+    transform: translate(2px, -2px);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(0px, 0px);
+    opacity: 1;
+  }
+}
+
+/* INFINITE FLICKER RESTORATION */
+
