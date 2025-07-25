@@ -391,23 +391,6 @@ opacity: 0.1;
 }
 
 /* === RUN BUTTON === */
-.run-button-wrapper {
-  margin-top: 30px;
-  background: #110000;
-  padding: 16px 32px;
-  border-radius: 12px;
-  box-shadow: 0 0 16px #ff4444;
-  display: none;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-.run-button-wrapper.glitch-in {
-  display: block;
-  opacity: 1;
-  animation: glitchFadeIn 1s ease forwards;
-}
-
 #run-button {
   padding: 14px 28px;
   font-size: 1.1rem;
@@ -419,25 +402,51 @@ opacity: 0.1;
   cursor: pointer;
   position: relative;
   z-index: 2;
-  animation: glitchPulse 1.4s infinite, runItVoidReach 2.5s infinite alternate;
+
+  animation:
+    emergeFromVoid 1.4s ease-out forwards,
+    voidWobble 2.5s ease-in-out infinite,
+    glitchPulse 1.4s infinite,
+    runItVoidReach 2.5s infinite alternate;
+
   box-shadow:
     0 0 10px #ff0000,
     0 0 20px #ff0000,
     0 0 30px #ff0033;
 }
 
-@keyframes glitchPulse {
-  0%, 100% {
-    transform: scale(1);
-    box-shadow: 0 0 6px #ff0000;
-}
-
-}
-
-@keyframes runItVoidReach {
+/* Keyframe: emergeFromVoid */
+@keyframes emergeFromVoid {
   0% {
-    transform: translateX(0) translateY(0);
+    opacity: 0;
+    transform: translateZ(-1000px) translateY(-50px) scale(0.2) rotateX(45deg);
+    filter: blur(12px) brightness(0.3);
+  }
+  40% {
+    opacity: 0.4;
+    transform: translateZ(-400px) scale(0.6) rotateX(20deg);
+    filter: blur(8px) brightness(0.6);
+  }
+  70% {
+    opacity: 0.9;
+    transform: translateZ(-100px) scale(1.1) rotateX(5deg);
+    filter: blur(2px) brightness(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: translateZ(0) scale(1) rotateX(0);
     filter: none;
+  }
+}
+
+/* Keyframe: voidWobble */
+@keyframes voidWobble {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  15% { transform: rotate(-0.8deg) scale(1.02); }
+  30% { transform: rotate(0.5deg) scale(0.99); }
+  45% { transform: rotate(-0.3deg) scale(1.01); }
+  60% { transform: rotate(0.6deg) scale(1.03); }
+  75% { transform: rotate(-0.2deg) scale(0.98); }
 }
 
 }
