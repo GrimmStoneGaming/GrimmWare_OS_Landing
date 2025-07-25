@@ -199,7 +199,6 @@ function injectFinalRunItLine() {
   finalLine.classList.add('terminal-line');
   Object.assign(finalLine.style, {
     opacity: '1',
-    animation: 'none',
     display: 'flex',
     visibility: 'visible',
     position: 'relative',
@@ -218,7 +217,6 @@ function injectFinalRunItLine() {
   runItSpan.textContent = 'Run it.';
   Object.assign(runItSpan.style, {
     color: 'red',
-    animation: 'none',
     display: 'inline',
     visibility: 'visible',
     opacity: '1',
@@ -230,7 +228,12 @@ function injectFinalRunItLine() {
 
   finalLine.appendChild(runItSpan);
   linesContainer.appendChild(finalLine);
+
+  // Force reflow before animation trigger
   void runItSpan.offsetWidth;
+
+  // Remove any inline animation property to ensure CSS animation applies
+  runItSpan.style.removeProperty('animation');
 
   requestAnimationFrame(() => {
     runItSpan.classList.remove('run-it');
@@ -241,6 +244,7 @@ function injectFinalRunItLine() {
   linesContainer.classList.add('terminal-pulse');
   setTimeout(() => linesContainer.classList.remove('terminal-pulse'), 1000);
 }
+
 
 // === ACCESS GRANTED SEQUENCE ===
 function revealAccessGranted() {
