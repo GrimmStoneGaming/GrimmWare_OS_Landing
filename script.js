@@ -83,6 +83,7 @@ function triggerFullscreenGlitch() {
 }
 
 // === Glitch Destruction Logic ===
+
 function zapElement(selector, delay = 0) {
   setTimeout(() => {
     const el = document.querySelector(selector);
