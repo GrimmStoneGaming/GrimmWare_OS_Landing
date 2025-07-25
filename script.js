@@ -135,6 +135,7 @@ function startTerminalSequence() {
     { tag: 'HANDLER', text: 'Awaiting final response...', delay: 1000 },
     { tag: 'SYS', text: 'Instruction stream fragmentation in progress...', delay: 1000 },
     { tag: 'HANDLER', text: 'No more walls. Only wires.', delay: 2000 },
+    { tag: '', text: '', delay: 200, action: () => zapElement('.logo-container') },
     { tag: '', text: '', delay: 0, isFinal: true }
   ];
 
