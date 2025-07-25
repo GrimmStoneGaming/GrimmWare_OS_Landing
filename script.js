@@ -87,6 +87,16 @@ function zapElement(selector, delay = 0) {
   setTimeout(() => {
     const el = document.querySelector(selector);
     if (el) {
+      el.classList.add('purge-glitch');
+      setTimeout(() => {
+        el.remove();
+      }, 600);
+    }
+  }, delay);
+}
+  setTimeout(() => {
+    const el = document.querySelector(selector);
+    if (el) {
       el.classList.add('zap-glitch');
       setTimeout(() => {
         el.remove();
@@ -164,11 +174,21 @@ function startTerminalSequence() {
 
         switch (index) {
           case 6: zapElement('.decrypt-instruction'); break;
-          case 7: zapElement('.green'); break;
-          case 8: zapElement('.box'); break;
+          case 7:
+      const green = document.querySelectorAll('.green');
+      [...green].sort(() => Math.random() - 0.5).forEach((el, idx) => {
+        setTimeout(() => zapElement(`#${el.id}`), idx * 75);
+      });
+      break;
+          case 8:
+      const boxes = document.querySelectorAll('.box:not(.green)');
+      [...boxes].sort(() => Math.random() - 0.5).forEach((el, idx) => {
+        setTimeout(() => zapElement(`#${el.id}`), idx * 75);
+      });
+      break;
           case 9: zapElement('.decrypt-wrapper'); break;
           case 10: zapElement('.tagline'); break;
-          case 15: zapElement('.logo-main', 1500); break;
+          
         }
 
         if (isFinal) {
