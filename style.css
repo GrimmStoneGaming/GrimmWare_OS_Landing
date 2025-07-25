@@ -405,10 +405,7 @@ opacity: 0.1;
   z-index: 2;
 
   animation:
-    emergeFromVoid 1.4s ease-out forwards,
-    voidWobble 2.5s ease-in-out infinite,
-    glitchPulse 1.4s infinite,
-    runItVoidReach 2.5s infinite alternate;
+    emergeFromVoid 1.4s ease-out forwards, voidWobble 2.5s ease-in-out infinite, existentialFlicker 4.2s infinite;
 
   box-shadow:
     0 0 10px #ff0000,
@@ -857,4 +854,15 @@ opacity: 0.2;
     0 0 4px #00ff00,
     0 0 8px #00ff66,
     0 0 12px #00ffaa;
+}
+
+
+@keyframes existentialFlicker {
+  0%, 3%   { opacity: 1; filter: brightness(1); }
+  5%, 10%  { opacity: 0.2; filter: brightness(0.3) blur(1px); }
+  12%, 18% { opacity: 1; filter: brightness(1.2); }
+  20%, 25% { opacity: 0.05; filter: blur(2px) brightness(0.1); }
+  27%, 45% { opacity: 1; filter: brightness(1); }
+  50%, 55% { opacity: 0.1; filter: blur(3px); }
+  58%, 100% { opacity: 1; filter: none; }
 }
