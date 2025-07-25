@@ -291,8 +291,7 @@ opacity: 0.1;
   justify-content: center;
   align-items: center;
   position: relative;
-  top: 360px;
-  top: 100px !important;
+  top: 400px;
   transition: top 0.6s ease;
 
 }
