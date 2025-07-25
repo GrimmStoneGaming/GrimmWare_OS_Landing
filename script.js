@@ -259,17 +259,6 @@ function revealAccessGranted() {
   typeText(grantedLine, 'ACCESS GRANTED.  SYSTEM UNLOCKED.', 40, () => {
     setTimeout(() => {
       typeText(warningLine, '>>> WARNING: THIS MAY CHANGE YOU.', 75, () => {
-        warningLine.classList.add('glitch');
-
-        const rawText = warningLine.textContent;
-        const glitchChars = '!@#$%?~*';
-        setInterval(() => {
-          const corrupted = rawText.split('').map(char =>
-            Math.random() < 0.07 && char !== ' ' ? glitchChars[Math.floor(Math.random() * glitchChars.length)] : char
-          ).join('');
-          warningLine.textContent = corrupted;
-        }, 200);
-
         runWrapper.classList.remove('hidden');
         runWrapper.classList.add('glitch-in');
         runWrapper.style.display = 'block';
@@ -277,7 +266,6 @@ function revealAccessGranted() {
     }, 1000);
   });
 }
-
 
 // === RUN BUTTON / TRANSITION ===
 document.getElementById('run-button').addEventListener('click', () => {
