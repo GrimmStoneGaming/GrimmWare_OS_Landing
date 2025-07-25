@@ -292,6 +292,9 @@ opacity: 0.1;
   align-items: center;
   position: relative;
   top: 200px;
+  top: 100px !important;
+  transition: top 0.6s ease;
+
 }
 
 /* === LOGO + TAGLINE === */
