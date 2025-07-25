@@ -185,6 +185,8 @@ function startTerminalSequence() {
             const runItSpan = document.createElement('span');
             runItSpan.classList.add('run-it', 'run-it-flicker');
             runItSpan.textContent = 'Run it.';
+            runItSpan.style.color = 'red';
+            runItSpan.style.animation = 'pulseGlow 1.5s infinite ease-in-out';
             finalLine.appendChild(runItSpan);
             linesContainer.appendChild(finalLine);
             terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
