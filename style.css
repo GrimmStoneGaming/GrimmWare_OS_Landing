@@ -742,6 +742,14 @@ opacity: 0.2;
   position: relative;
   z-index: 9999;
 }
+@keyframes shockPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+.shock-pulse {
+  animation: shockPulse 0.4s ease-out;
+}
 
 @keyframes flickerRunIt {
   0%, 100% {
