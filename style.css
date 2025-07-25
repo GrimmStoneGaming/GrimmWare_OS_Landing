@@ -835,3 +835,16 @@ opacity: 0.2;
   position: relative;
   z-index: 9999;
 }
+
+/* === CORRUPTED WARNING STYLE === */
+.warning.glitch {
+  font-family: 'Courier New', monospace;
+  font-size: 1.1rem;
+  color: #00ff00;
+  text-align: center;
+  animation: corruptText 5s infinite;
+  text-shadow:
+    0 0 4px #00ff00,
+    0 0 8px #00ff66,
+    0 0 12px #00ffaa;
+}
