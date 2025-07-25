@@ -866,3 +866,18 @@ opacity: 0.2;
   50%, 55% { opacity: 0.1; filter: blur(3px); }
   58%, 100% { opacity: 1; filter: none; }
 }
+
+
+.nuke-top {
+  animation: topCollapse 1s ease-in forwards;
+}
+
+@keyframes topCollapse {
+  to {
+    opacity: 0;
+    transform: scaleY(0);
+    height: 0;
+    margin: 0;
+    padding: 0;
+  }
+}
