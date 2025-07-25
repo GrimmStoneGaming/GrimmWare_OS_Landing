@@ -182,7 +182,7 @@ function startTerminalSequence() {
             finalPrefix.textContent = `[HANDLER] ::`;
             finalLine.appendChild(finalPrefix);
 
-  function injectFinalRunItLine() {
+function injectFinalRunItLine() {
   const linesContainer = document.getElementById('terminal-lines');
 
   const finalLine = document.createElement('div');
@@ -344,4 +344,4 @@ window.addEventListener('DOMContentLoaded', () => {
 
   cycleCharacters();
   startCycling();
-
+});
