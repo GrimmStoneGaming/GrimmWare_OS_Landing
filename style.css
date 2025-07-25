@@ -393,6 +393,7 @@ opacity: 0.1;
 /* === RUN BUTTON === */
 #run-button {
   padding: 14px 28px;
+  margin-top: 40px;
   font-size: 1.1rem;
   background: #ff4444;
   color: black;
@@ -408,7 +409,8 @@ opacity: 0.1;
     voidWobble 2.5s ease-in-out infinite,
     glitchPulse 1.4s infinite,
     runItVoidReach 2.5s infinite alternate;
-
+    hardPulse 2.2s ease-in-out infinite;
+  
   box-shadow:
     0 0 10px #ff0000,
     0 0 20px #ff0000,
@@ -857,3 +859,15 @@ opacity: 0.2;
     0 0 8px #00ff66,
     0 0 12px #00ffaa;
 }
+
+@keyframes hardPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.08);
+  }
+}
+
