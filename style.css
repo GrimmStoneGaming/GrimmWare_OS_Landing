@@ -858,3 +858,15 @@ opacity: 0.2;
     0 0 8px #00ff66,
     0 0 12px #00ffaa;
 }
+
+@keyframes hardPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.08);
+  }
+}
+
