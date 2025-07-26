@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +6,8 @@
   <title>GrimmWare OS Gateway</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
-<body style="display: none;">
+<body>
+
   <!-- LANDING PAGE -->
   <div id="landing-page" class="preloaded" aria-hidden="true">
     <div class="lp-content">
@@ -26,15 +26,43 @@
 
       <div class="decrypt-wrapper hidden" role="region" aria-label="Decryption Puzzle">
         <div class="decrypt-boxes" id="decrypt-boxes">
-          <!-- Box elements will go here dynamically -->
+          <div class="box" id="box0" role="button" tabindex="0" aria-label="Box 1">G</div>
+          <div class="box" id="box1" role="button" tabindex="0" aria-label="Box 2">W</div>
+          <div class="box" id="box2" role="button" tabindex="0" aria-label="Box 3">O</div>
+          <div class="box" id="box3" role="button" tabindex="0" aria-label="Box 4">S</div>
+          <div class="separator" aria-hidden="true">_</div>
+          <div class="box" id="box4" role="button" tabindex="0" aria-label="Box 5">E</div>
+          <div class="box" id="box5" role="button" tabindex="0" aria-label="Box 6">X</div>
+          <div class="box" id="box6" role="button" tabindex="0" aria-label="Box 7">E</div>
         </div>
       </div>
-    </div>
-    <button id="runItButton">RUN IT</button>
-  </div>
 
-  <!-- RED SHOCK OVERLAY -->
-  <div id="shock-overlay"></div>
+      <div class="decrypt-instruction" id="decrypt-instruction"></div>
+    </div>
+
+    <!-- Spacer below puzzle -->
+    <div style="height: 250px; width: 100%;"></div>
+
+    <!-- ACCESS MESSAGE -->
+    <div id="access-container">
+      <div id="access-message" class="hidden" aria-live="polite">
+        <span class="granted"></span>
+        <span class="warning" id="warning-line"></span>
+      </div>
+
+      <div id="run-wrapper" class="run-button-wrapper hidden">
+        <button id="run-button" aria-label="Execute Gateway Unlock">&gt;&gt;&gt; RUN IT</button>
+      </div>
+    </div>
+
+    <!-- Overlay to trigger glitch -->
+    <div id="gateway-overlay" aria-hidden="true"></div>
+
+    <!-- TERMINAL WINDOW -->
+    <div id="terminal-overlay" class="hidden">
+      <div id="terminal-lines" class="terminal-inner"></div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
