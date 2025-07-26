@@ -1,4 +1,4 @@
-// === GRIMMWare OS Gateway Script === //
+// === GRIMMWare OS Gateway Script ===
 
 const boxes = document.querySelectorAll('.box');
 const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
@@ -6,139 +6,6 @@ let currentGreenIndex = null;
 let intervalId = null;
 let solved = Array(boxes.length).fill(false);
 let transitionInProgress = false;
-let tapTimes = [];
-let failCount = 0;
-
-const snarkLines = [
-  "If you were aiming for *wrong*, congrats—dead center.",
-  "Decrypt, not desecrate. This ain’t a crime scene.",
-  "That green box? Still not this one. You okay?",
-  "This puzzle isn’t *that* hard, sugar. Breathe.",
-  "You tap like you code: *enthusiastically incorrect.*",
-  "Hot tip: guessing wildly doesn’t make you a hacker.",
-  "You’re not hacking—you're flailing with enthusiasm.",
-  "You want me to solve it *for* you next time?",
-  "I’ve seen toddlers solve harder puzzles with a crayon.",
-  "Look me in the eyes and *try* that again. I dare you.",
-  "At this point, even the boxes are judging you.",
-  "We're rebooting your instincts next patch, yeah?",
-  "Did you mean to click that? Or is this interpretive dance?"
-];
-
-function showSnark(message) {
-  const snark = document.getElementById('snark-msg');
-  if (snark) {
-    snark.textContent = message;
-    snark.classList.remove('hidden', 'flash');
-    snark.classList.add('visible');
-    void snark.offsetWidth;
-    snark.classList.add('flash');
-    setTimeout(() => {
-      snark.classList.remove('visible', 'flash');
-      snark.classList.add('hidden');
-    }, 4000);
-  }
-}
-
-function getRandomChar() {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  return chars[Math.floor(Math.random() * chars.length)];
-}
-
-function cycleCharacters() {
-  setInterval(() => {
-    boxes.forEach((box, i) => {
-      if (!solved[i] && i !== currentGreenIndex) {
-        box.textContent = getRandomChar();
-      }
-    });
-  }, 100);
-}
-
-function startCycling() {
-  intervalId = setInterval(() => {
-    let nextIndex;
-    do {
-      nextIndex = Math.floor(Math.random() * boxes.length);
-    } while (solved[nextIndex]);
-
-    boxes.forEach((box, i) => {
-      if (!solved[i]) {
-        box.classList.remove('green');
-        box.style.backgroundColor = 'red';
-        box.style.boxShadow = '0 0 8px #ff0000';
-      }
-    });
-
-    currentGreenIndex = nextIndex;
-    const box = boxes[currentGreenIndex];
-    box.classList.add('green');
-    box.textContent = correctCode[currentGreenIndex];
-    box.style.backgroundColor = '#00ff00';
-    box.style.boxShadow = '0 0 8px #00ff00';
-  }, 750);
-}
-
-boxes.forEach((box, i) => {
-  box.addEventListener('click', () => {
-    registerTap();
-
-    if (i === currentGreenIndex && !solved[i]) {
-      solved[i] = true;
-      box.classList.add('green');
-      box.style.backgroundColor = '#00ff00';
-      box.style.boxShadow = '0 0 12px #00ff00';
-      box.textContent = correctCode[i];
-      currentGreenIndex = null;
-      failCount = 0;
-
-      if (solved.every(Boolean)) {
-        clearInterval(intervalId);
-        setTimeout(triggerFullscreenGlitch, 800);
-        const snark = document.getElementById('snark-msg');
-if (snark) {
-  snark.classList.remove('visible', 'flash');
-  snark.classList.add('hidden');
-}
-
-      }
-    } else {
-      failCount++;
-
-      if (failCount > 9) {
-        const roast = snarkLines[Math.floor(Math.random() * snarkLines.length)];
-        showSnark(roast);
-      }
-    }
-  });
-});
-
-function registerTap() {
-  const now = Date.now();
-  tapTimes.push(now);
-  tapTimes = tapTimes.filter(t => now - t <= 1200);
-  if (tapTimes.length > 7) {
-    triggerRageReset();
-    tapTimes = [];
-  }
-}
-
-function triggerRageReset() {
-  solved.fill(false);
-  currentGreenIndex = null;
-
-  boxes.forEach((box, i) => {
-    box.textContent = getRandomChar();
-    box.classList.remove('green');
-    box.style.backgroundColor = 'red';
-    box.style.boxShadow = '0 0 8px #ff0000';
-  });
-
-  showSnark("Whoa there, thumbs of fury. This ain’t a slot machine. Try decoding, not detonating.");
-}
-
-// All other logic remains unchanged below...
-
 
 // === TIMING CONSTANTS ===
 const typingSpeed = 35;
@@ -208,11 +75,7 @@ function triggerFullscreenGlitch() {
   const glitchDiv = document.createElement('div');
   glitchDiv.classList.add('fullscreen-glitch');
   document.body.appendChild(glitchDiv);
-const snark = document.getElementById('snark-msg');
-if (snark) {
-  snark.classList.add('hidden');
-  snark.textContent = '';
-}
+
   setTimeout(() => {
     glitchDiv.remove();
     startTerminalSequence();
