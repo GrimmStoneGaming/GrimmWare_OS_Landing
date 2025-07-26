@@ -76,7 +76,7 @@ function startCycling() {
     box.textContent = correctCode[currentGreenIndex];
     box.style.backgroundColor = '#00ff00';
     box.style.boxShadow = '0 0 8px #00ff00';
-  }, 1000);
+  }, 750);
 }
 
 boxes.forEach((box, i) => {
@@ -99,7 +99,7 @@ boxes.forEach((box, i) => {
     } else {
       failCount++;
 
-      if (failCount > 4) {
+      if (failCount > 9) {
         const roast = snarkLines[Math.floor(Math.random() * snarkLines.length)];
         showSnark(roast);
       }
