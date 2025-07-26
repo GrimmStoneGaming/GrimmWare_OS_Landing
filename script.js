@@ -366,6 +366,13 @@ document.getElementById('run-button').addEventListener('click', () => {
 });
 
 // === ON LOAD SETUP ===
+  const preloadOverlay = document.getElementById('preload-overlay');
+  setTimeout(() => {
+    if (preloadOverlay) {
+      preloadOverlay.classList.add('fade-out');
+      setTimeout(() => preloadOverlay.remove(), 1000);
+    }
+  }, 2300);
 window.addEventListener('DOMContentLoaded', () => {
   const logo = document.querySelector('.logo-main');
   const tagline = document.querySelector('.tagline');
