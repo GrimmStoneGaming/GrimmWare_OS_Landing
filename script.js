@@ -78,7 +78,7 @@ boxes.forEach((box, i) => {
         setTimeout(() => {
           eggMsg.textContent = '';
           eggMsg.style.opacity = 0;
-        }, 4000);
+        }, 5000);
       }
     }
 
@@ -88,7 +88,7 @@ boxes.forEach((box, i) => {
       clearTimeout(rageTapTimer);
       rageTapTimer = setTimeout(() => {
         rageTapCount = 0;
-      }, 2000);
+      }, 4000);
 
       if (rageTapCount >= 5) {
         solved = Array(boxes.length).fill(false);
