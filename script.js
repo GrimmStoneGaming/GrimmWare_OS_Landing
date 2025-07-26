@@ -59,30 +59,37 @@ function startCycling() {
 
 // === Trigger Fullscreen Glitch and Terminal Sequence ===
 function triggerFullscreenGlitch(mode = 'run') {
-  const glitchDiv = document.createElement('div');
-  glitchDiv.classList.add('fullscreen-glitch');
-  glitchDiv.style.backgroundColor = mode === 'run' ? '#6a0000' : '#ff6600';
-  glitchDiv.style.position = 'fixed';
-  glitchDiv.style.top = '0';
-  glitchDiv.style.left = '0';
-  glitchDiv.style.width = '100vw';
-  glitchDiv.style.height = '100vh';
-  glitchDiv.style.zIndex = '9999';
-  glitchDiv.style.opacity = '1';
-  glitchDiv.style.transition = 'opacity 0.3s ease-in-out';
-  document.body.appendChild(glitchDiv);
+  if (mode === 'cipher') {
+    const glitchDiv = document.createElement('div');
+    glitchDiv.classList.add('fullscreen-glitch');
+    document.body.appendChild(glitchDiv);
 
-  const delay = mode === 'run' ? runItDelay : 1000;
-
-  setTimeout(() => {
-    glitchDiv.style.opacity = '0';
     setTimeout(() => {
       glitchDiv.remove();
-      if (mode === 'run' || mode === 'cipher') {
+      startTerminalSequence();
+    }, 2400);
+  } else {
+    const glitchDiv = document.createElement('div');
+    glitchDiv.classList.add('fullscreen-glitch');
+    glitchDiv.style.backgroundColor = '#6a0000';
+    glitchDiv.style.position = 'fixed';
+    glitchDiv.style.top = '0';
+    glitchDiv.style.left = '0';
+    glitchDiv.style.width = '100vw';
+    glitchDiv.style.height = '100vh';
+    glitchDiv.style.zIndex = '9999';
+    glitchDiv.style.opacity = '1';
+    glitchDiv.style.transition = 'opacity 0.3s ease-in-out';
+    document.body.appendChild(glitchDiv);
+
+    setTimeout(() => {
+      glitchDiv.style.opacity = '0';
+      setTimeout(() => {
+        glitchDiv.remove();
         startTerminalSequence();
-      }
-    }, 300);
-  }, delay);
+      }, 300);
+    }, runItDelay);
+  }
 }
 
 // === Delay initialization to sync with sound glitch ===
