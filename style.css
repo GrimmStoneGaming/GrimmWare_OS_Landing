@@ -404,8 +404,8 @@ opacity: 0.1;
 
 .run-button-wrapper.glitch-in {
   display: block;
-  opacity: 1;
-  animation: glitchFadeIn 1s ease forwards;
+  opacity: 0;
+  animation: fadeInRunIt 1.8s ease forwards;
 }
 
 #run-button {
