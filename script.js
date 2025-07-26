@@ -186,6 +186,13 @@ function startTerminalSequence() {
   terminalOverlay.classList.add('show');
   terminalOverlay.classList.remove('hidden');
   linesContainer.innerHTML = '';
+  const snark = document.getElementById('snark-message');
+if (snark) snark.remove();
+const decryptWrapper = document.querySelector('.decrypt-wrapper');
+if (decryptWrapper) decryptWrapper.remove();
+const decryptInstruction = document.getElementById('decrypt-instruction');
+if (decryptInstruction) decryptInstruction.remove();
+
 
   const sequence = [
     { tag: 'SYS', text: 'Protocol breach detected...', delay: 1000 },
