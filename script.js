@@ -58,10 +58,10 @@ function startCycling() {
 }
 
 // === Trigger Fullscreen Glitch and Terminal Sequence ===
-function triggerFullscreenGlitch() {
+function triggerFullscreenGlitch(mode = 'run') {
   const glitchDiv = document.createElement('div');
   glitchDiv.classList.add('fullscreen-glitch');
-  glitchDiv.style.backgroundColor = '#6a0000';
+  glitchDiv.style.backgroundColor = mode === 'run' ? '#6a0000' : '#ff6600';
   glitchDiv.style.position = 'fixed';
   glitchDiv.style.top = '0';
   glitchDiv.style.left = '0';
@@ -72,13 +72,17 @@ function triggerFullscreenGlitch() {
   glitchDiv.style.transition = 'opacity 0.3s ease-in-out';
   document.body.appendChild(glitchDiv);
 
+  const delay = mode === 'run' ? runItDelay : 1000;
+
   setTimeout(() => {
     glitchDiv.style.opacity = '0';
     setTimeout(() => {
       glitchDiv.remove();
-      startTerminalSequence();
+      if (mode === 'run') {
+        startTerminalSequence();
+      }
     }, 300);
-  }, runItDelay);
+  }, delay);
 }
 
 // === Delay initialization to sync with sound glitch ===
@@ -163,7 +167,7 @@ boxes.forEach((box, i) => {
 
       if (solved.every(Boolean)) {
         clearInterval(intervalId);
-        setTimeout(triggerFullscreenGlitch, 800);
+        setTimeout(() => triggerFullscreenGlitch('cipher'), 800);
       }
       return;
     }
