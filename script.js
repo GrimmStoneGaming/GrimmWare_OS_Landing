@@ -15,7 +15,6 @@ const eggMsg = document.getElementById('easter-egg-msg');
 const typingSpeed = 35;
 const baseDelay = 100;
 const introDelay = 2300; // Delay before initializing visuals
-const runItDelay = 1000; // Delay for RUN IT sound to sync
 
 // === Cipher Glitch Logic ===
 function getRandomChar() {
@@ -58,38 +57,15 @@ function startCycling() {
 }
 
 // === Trigger Fullscreen Glitch and Terminal Sequence ===
-function triggerFullscreenGlitch(mode = 'run') {
-  if (mode === 'cipher') {
-    const glitchDiv = document.createElement('div');
-    glitchDiv.classList.add('fullscreen-glitch');
-    document.body.appendChild(glitchDiv);
+function triggerFullscreenGlitch() {
+  const glitchDiv = document.createElement('div');
+  glitchDiv.classList.add('fullscreen-glitch');
+  document.body.appendChild(glitchDiv);
 
-    setTimeout(() => {
-      glitchDiv.remove();
-      startTerminalSequence();
-    }, 2400);
-  } else {
-    const glitchDiv = document.createElement('div');
-    glitchDiv.classList.add('fullscreen-glitch');
-    glitchDiv.style.backgroundColor = '#6a0000';
-    glitchDiv.style.position = 'fixed';
-    glitchDiv.style.top = '0';
-    glitchDiv.style.left = '0';
-    glitchDiv.style.width = '100vw';
-    glitchDiv.style.height = '100vh';
-    glitchDiv.style.zIndex = '9999';
-    glitchDiv.style.opacity = '1';
-    glitchDiv.style.transition = 'opacity 0.3s ease-in-out';
-    document.body.appendChild(glitchDiv);
-
-    setTimeout(() => {
-      glitchDiv.style.opacity = '0';
-      setTimeout(() => {
-        glitchDiv.remove();
-        startTerminalSequence();
-      }, 300);
-    }, runItDelay);
-  }
+  setTimeout(() => {
+    glitchDiv.remove();
+    startTerminalSequence();
+  }, 2400);
 }
 
 // === Delay initialization to sync with sound glitch ===
@@ -97,10 +73,6 @@ window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     cycleCharacters();
     startCycling();
-    const visualContainer = document.getElementById('visual-container');
-    if (visualContainer) {
-      visualContainer.style.opacity = '1';
-    }
   }, introDelay);
 });
 
@@ -162,25 +134,22 @@ boxes.forEach((box, i) => {
       }
     }
 
-   // CORRECT TAP: Solve logic
-if (isCorrectTap) {
-  solved[i] = true;
-  box.classList.add('green');
-  box.style.backgroundColor = '#00ff00';
-  box.style.boxShadow = '0 0 12px #00ff00';
-  box.textContent = correctCode[i];
-  box.dataset.clickCount = 0;
-  currentGreenIndex = null;
+    // CORRECT TAP: Solve logic
+    if (isCorrectTap) {
+      solved[i] = true;
+      box.classList.add('green');
+      box.style.backgroundColor = '#00ff00';
+      box.style.boxShadow = '0 0 12px #00ff00';
+      box.textContent = correctCode[i];
+      box.dataset.clickCount = 0;
+      currentGreenIndex = null;
 
-  // Delay slightly to ensure state is fully updated
-  setTimeout(() => {
-    if (solved.every(Boolean)) {
-      clearInterval(intervalId);
-      triggerFullscreenGlitch('cipher');
+      if (solved.every(Boolean)) {
+        clearInterval(intervalId);
+        setTimeout(triggerFullscreenGlitch, 800);
+      }
+      return;
     }
-  }, 50);
-  return;
-}
 
     // SLOTH: wrong taps spam detector
     if (isWrongTap) {
