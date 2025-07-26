@@ -16,8 +16,9 @@
     </div>
   </div>
 
-  <!-- GATEWAY UI -->
-  <div id="gateway-ui">
+<!-- GATEWAY UI -->
+<div id="gateway-ui">
+  <div id="visual-container" style="opacity: 0; transition: opacity 0.5s ease-in-out;">
     <div class="top-container" id="top-container">
       <div class="logo-container">
         <img class="logo-main" src="images/grimmware-logo.png" alt="GRIMMWARE OS Logo" loading="lazy"/>
@@ -36,6 +37,11 @@
           <div class="box" id="box6" role="button" tabindex="0" aria-label="Box 7">E</div>
         </div>
       </div>
+
+      <div class="decrypt-instruction" id="decrypt-instruction"></div>
+      <p id="easter-egg-msg" class="egg-text"></p>
+    </div>
+  </div>
 
       <div class="decrypt-instruction" id="decrypt-instruction"></div>
       <p id="easter-egg-msg" class="egg-text"></p>
@@ -70,7 +76,7 @@
 
 <div style="position:absolute; bottom:8px; right:12px; font-size:0.7rem; opacity:0.3; pointer-events:none;">
   Built by GrimmStone & Gizmo 🖤 Emotion is Executable
-</div>
-  
+    </div>
+  </div>
 </body>
 </html>
