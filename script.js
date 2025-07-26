@@ -14,6 +14,7 @@ const eggMsg = document.getElementById('easter-egg-msg');
 // === TIMING CONSTANTS ===
 const typingSpeed = 35;
 const baseDelay = 100;
+const introDelay = 2300; // Delay before initializing visuals
 
 // === Cipher Glitch Logic ===
 function getRandomChar() {
@@ -67,6 +68,14 @@ function triggerFullscreenGlitch() {
   }, 2400);
 }
 
+// === Delay initialization to sync with sound glitch ===
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    cycleCharacters();
+    startCycling();
+  }, introDelay);
+});
+
 // === Box Click Detection ===
 boxes.forEach((box, i) => {
   box.dataset.clickCount = 0;
@@ -100,9 +109,9 @@ boxes.forEach((box, i) => {
       clearTimeout(rageTapTimer);
       rageTapTimer = setTimeout(() => {
         rageTapCount = 0;
-      }, 1250); // shorten timer to 1250ms
+      }, 1250);
 
-      if (rageTapCount >= 7) { // raise threshold to 7
+      if (rageTapCount >= 7) {
         solved = Array(boxes.length).fill(false);
         boxes.forEach((box, idx) => {
           box.textContent = getRandomChar();
