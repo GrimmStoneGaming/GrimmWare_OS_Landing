@@ -58,38 +58,40 @@ function startCycling() {
 boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
     // WRATH: Rage tap detector
-rageTapCount++;
-clearTimeout(rageTapTimer);
-rageTapTimer = setTimeout(() => {
-  rageTapCount = 0;
-}, 2000);
+    if (i !== currentGreenIndex || solved[i]) {
+      rageTapCount++;
+      clearTimeout(rageTapTimer);
+      rageTapTimer = setTimeout(() => {
+        rageTapCount = 0;
+      }, 2000);
 
-if (rageTapCount >= 5) {
-  solved = Array(boxes.length).fill(false);
-  boxes.forEach((box, idx) => {
-    box.textContent = getRandomChar();
-    box.classList.remove('green');
-    box.style.backgroundColor = 'red';
-    box.style.boxShadow = '0 0 8px #ff0000';
-    box.dataset.clickCount = 0;
-  });
-  currentGreenIndex = null;
-  wrongTaps = 0;
-  rageTapCount = 0;
+      if (rageTapCount >= 5) {
+        solved = Array(boxes.length).fill(false);
+        boxes.forEach((box, idx) => {
+          box.textContent = getRandomChar();
+          box.classList.remove('green');
+          box.style.backgroundColor = 'red';
+          box.style.boxShadow = '0 0 8px #ff0000';
+          box.dataset.clickCount = 0;
+        });
+        currentGreenIndex = null;
+        wrongTaps = 0;
+        rageTapCount = 0;
 
-  const instruction = document.getElementById('decrypt-instruction');
-  instruction.textContent = 'Temper tantrum detected. Cipher reset initiated.';
-  instruction.style.color = '#ff4444';
-  instruction.style.textShadow = '0 0 8px #ff0000';
-  setTimeout(() => {
-    instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
-    instruction.style.color = '#00ff00';
-    instruction.style.textShadow = '0 0 6px #00ff00';
-  }, 4000);
-  return;
-}
+        const instruction = document.getElementById('decrypt-instruction');
+        instruction.textContent = 'Temper tantrum detected. Cipher reset initiated.';
+        instruction.style.color = '#ff4444';
+        instruction.style.textShadow = '0 0 8px #ff0000';
+        setTimeout(() => {
+          instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
+          instruction.style.color = '#00ff00';
+          instruction.style.textShadow = '0 0 6px #00ff00';
+        }, 4000);
+        return;
+      }
+    }
 
-        // GLUTTONY: Count excessive clicks on a single box
+    // GLUTTONY: Count excessive clicks on a single box
     box.dataset.clickCount = (parseInt(box.dataset.clickCount) || 0) + 1;
 
     if (box.dataset.clickCount >= 15) {
@@ -109,36 +111,34 @@ if (rageTapCount >= 5) {
       box.style.boxShadow = '0 0 12px #00ff00';
       box.textContent = correctCode[i];
       currentGreenIndex = null;
-//=== Sloth ===//
-} else {
-  wrongTaps++;
-  if (wrongTaps >= 10) {
-    const slothMessages = [
-      'Hey [USER4571], try *reading* next time.',
-      'Some of y’all really just clicking vibes, huh?',
-      'System suggests: Less mashing, more thinking.',
-      'Error rate climbing. Try aim, not luck.',
-      'Statistically improbable. Impressively so.'
-    ];
-    const msg = slothMessages[Math.floor(Math.random() * slothMessages.length)];
-    const instruction = document.getElementById('decrypt-instruction');
-    instruction.textContent = msg;
-    instruction.style.color = '#ffaa00';
-    instruction.style.textShadow = '0 0 10px #ffaa00';
-    setTimeout(() => {
-      instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
-      instruction.style.color = '#00ff00';
-      instruction.style.textShadow = '0 0 6px #00ff00';
-    }, 4000);
-    wrongTaps = 0;
-  }
-}
-
-      if (solved.every(Boolean)) {
-        clearInterval(intervalId);
-        setTimeout(triggerFullscreenGlitch, 800);
+    } else {
+      wrongTaps++;
+      if (wrongTaps >= 10) {
+        const slothMessages = [
+          'Hey [USER4571], try *reading* next time.',
+          'Some of y’all really just clicking vibes, huh?',
+          'System suggests: Less mashing, more thinking.',
+          'Error rate climbing. Try aim, not luck.',
+          'Statistically improbable. Impressively so.'
+        ];
+        const msg = slothMessages[Math.floor(Math.random() * slothMessages.length)];
+        const instruction = document.getElementById('decrypt-instruction');
+        instruction.textContent = msg;
+        instruction.style.color = '#ffaa00';
+        instruction.style.textShadow = '0 0 10px #ffaa00';
+        setTimeout(() => {
+          instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
+          instruction.style.color = '#00ff00';
+          instruction.style.textShadow = '0 0 6px #00ff00';
+        }, 4000);
+        wrongTaps = 0;
       }
-    
+    }
+
+    if (solved.every(Boolean)) {
+      clearInterval(intervalId);
+      setTimeout(triggerFullscreenGlitch, 800);
+    }
   });
 });
 
