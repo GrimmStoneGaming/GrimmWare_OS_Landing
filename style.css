@@ -291,11 +291,8 @@ opacity: 0.1;
   justify-content: center;
   align-items: center;
   position: relative;
-  top: 320px;
-  padding-top: 320px; 
-  transition: top 0.6s ease;
+  top: 200px;
 }
-
 
 /* === LOGO + TAGLINE === */
 .logo-container {
@@ -406,9 +403,9 @@ opacity: 0.1;
 }
 
 .run-button-wrapper.glitch-in {
-  display: block !important;
-  opacity: 0;
-  animation: fadeInRunIt 1.8s ease forwards;
+  display: block;
+  opacity: 1;
+  animation: glitchFadeIn 1s ease forwards;
 }
 
 #run-button {
@@ -422,21 +419,12 @@ opacity: 0.1;
   cursor: pointer;
   position: relative;
   z-index: 2;
-  animation:
-    voidFlicker 2.8s infinite,
-    echoPulse 1.4s infinite alternate,
-    labelSplit 1.7s infinite;
+  animation: glitchPulse 1.4s infinite, runItVoidReach 2.5s infinite alternate;
   box-shadow:
     0 0 10px #ff0000,
     0 0 20px #ff0000,
     0 0 30px #ff0033;
-  text-shadow:
-    0 0 3px #ff2222,
-    0 0 6px #ff4444,
-    0 0 9px #00ffff;
-  transition: all 0.4s ease;
 }
-
 
 @keyframes glitchPulse {
   0%, 100% {
@@ -894,21 +882,3 @@ opacity: 0.2;
 .logo-container.purged .decrypt-instruction {
   animation: logoGlitchOut 1.8s ease-in-out forwards;
 }
-/* === ENHANCED RUN BUTTON ANIMATIONS === */
-
-@keyframes voidFlicker {
-  ...
-}
-
-@keyframes echoPulse {
-  ...
-}
-
-@keyframes labelSplit {
-  ...
-}
-
-@keyframes fadeInRunIt {
-  ...
-}
-
