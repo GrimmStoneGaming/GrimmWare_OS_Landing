@@ -10,6 +10,8 @@ let transitionInProgress = false;
 // === TIMING CONSTANTS ===
 const typingSpeed = 35;
 const baseDelay = 100;
+const introDelay = 2300; // Delay before initializing visuals
+const runItDelay = 1000; // Delay for RUN IT sound to sync
 
 // === Cipher Glitch Logic ===
 function getRandomChar() {
