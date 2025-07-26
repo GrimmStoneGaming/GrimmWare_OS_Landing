@@ -12,6 +12,16 @@ const typingSpeed = 35;
 const baseDelay = 100;
 
 // === AUDIO CLIPS ===
+
+// Unlock autoplay with user interaction
+window.addEventListener('click', function initAudio() {
+  if (typeof sounds !== 'undefined') {
+    sounds.gateway_intro.play();
+    sounds.glitch_throb_heart.play();
+  }
+  window.removeEventListener('click', initAudio);
+});
+
 const sounds = {
   correct_glitch: new Audio("data:audio/mp3;base64,//vkRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA..."),
   incorrect_glitch: new Audio("data:audio/mp3;base64,//vURAAABM5gVIUlIACRTjpwphgAWIYdYbmGgAMLw60/MQAAYsjAOAMAYJisnFAoFBIgQQuaBAgQIE..."),
