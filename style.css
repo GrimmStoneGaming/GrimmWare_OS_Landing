@@ -291,7 +291,7 @@ opacity: 0.1;
   justify-content: center;
   align-items: center;
   position: relative;
-  top: 520px;
+  top: 200px;
 }
 
 /* === LOGO + TAGLINE === */
@@ -404,8 +404,8 @@ opacity: 0.1;
 
 .run-button-wrapper.glitch-in {
   display: block;
-  opacity: 0;
-  animation: fadeInRunIt 1.8s ease forwards;
+  opacity: 1;
+  animation: glitchFadeIn 1s ease forwards;
 }
 
 #run-button {
@@ -881,129 +881,4 @@ opacity: 0.2;
 .logo-container.purged .tagline,
 .logo-container.purged .decrypt-instruction {
   animation: logoGlitchOut 1.8s ease-in-out forwards;
-}
-
-/* === ENHANCED GLITCH RUN IT BUTTON === */
-#run-button {
-  padding: 14px 28px;
-  font-size: 1.1rem;
-  background: #ff4444;
-  color: black;
-  border: none;
-  border-radius: 4px;
-  font-weight: bold;
-  cursor: pointer;
-  position: relative;
-  z-index: 2;
-  animation:
-    voidFlicker 2.8s infinite,
-    echoPulse 1.4s infinite alternate,
-    labelSplit 1.7s infinite;
-  box-shadow:
-    0 0 10px #ff0000,
-    0 0 20px #ff0000,
-    0 0 30px #ff0033;
-  text-shadow:
-    0 0 3px #ff2222,
-    0 0 6px #ff4444,
-    0 0 9px #00ffff;
-  transition: all 0.4s ease;
-}
-
-@keyframes voidFlicker {
-  0%, 100% {
-    opacity: 1;
-    filter: hue-rotate(0deg);
-    transform: scale(1);
-  }
-  10% {
-    opacity: 0.5;
-    transform: scale(1.02) rotate(0.3deg);
-    filter: hue-rotate(20deg);
-  }
-  25% {
-    opacity: 0.7;
-    filter: brightness(1.3) contrast(1.2);
-    transform: skewX(-1deg);
-  }
-  50% {
-    opacity: 0.2;
-    filter: hue-rotate(-40deg) saturate(2);
-    transform: scale(1.05) rotate(-0.2deg);
-  }
-  75% {
-    opacity: 0.8;
-    transform: scale(0.95) skewY(1deg);
-    filter: grayscale(0.5);
-  }
-}
-
-@keyframes echoPulse {
-  0%, 100% {
-    box-shadow:
-      0 0 6px #ff0000,
-      0 0 12px #ff3333,
-      0 0 20px #ff4444;
-  }
-  50% {
-    box-shadow:
-      -2px -2px 12px #ff5555,
-      2px 2px 24px #ff0000,
-      0 0 36px #ff2222;
-  }
-}
-
-@keyframes labelSplit {
-  0%, 100% {
-    text-shadow:
-      0 0 1px red,
-      0 0 2px #ff3333,
-      0 0 3px #00ffff;
-    transform: none;
-  }
-  33% {
-    text-shadow:
-      1px 0 red,
-      -1px 0 cyan;
-    transform: scale(1.02) rotate(0.3deg);
-  }
-  66% {
-    text-shadow:
-      -1px 0 red,
-      1px 0 cyan;
-    transform: rotate(-0.3deg);
-  }
-}
-@keyframes fadeInRunIt {
-  0% {
-    opacity: 0;
-    transform: translateY(10px);
-    filter: blur(4px);
-  }
-  60% {
-    opacity: 0.4;
-    transform: translateY(2px);
-    filter: blur(2px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
-}
-
-/* === RE-POSITIONED ACCESS CONTAINER === */
-#access-container {
-  min-height: 300px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  top: 320px;
-  transition: top 0.6s ease;
-}
-
-#access-container.shift-up {
-  top: 320px;
 }
