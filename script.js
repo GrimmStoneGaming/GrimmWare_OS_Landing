@@ -9,6 +9,7 @@ let transitionInProgress = false;
 let wrongTaps = 0;
 let rageTapCount = 0;
 let rageTapTimer = null;
+const eggMsg = document.getElementById('easter-egg-msg');
 
 // === TIMING CONSTANTS ===
 const typingSpeed = 35;
@@ -78,14 +79,11 @@ boxes.forEach((box, i) => {
         wrongTaps = 0;
         rageTapCount = 0;
 
-        const instruction = document.getElementById('decrypt-instruction');
-        instruction.textContent = 'Temper tantrum detected. Cipher reset initiated.';
-        instruction.style.color = '#ff4444';
-        instruction.style.textShadow = '0 0 8px #ff0000';
+        eggMsg.textContent = 'Temper tantrum detected. Cipher reset initiated.';
+        eggMsg.style.opacity = 1;
         setTimeout(() => {
-          instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
-          instruction.style.color = '#00ff00';
-          instruction.style.textShadow = '0 0 6px #00ff00';
+          eggMsg.textContent = '';
+          eggMsg.style.opacity = 0;
         }, 4000);
         return;
       }
@@ -101,7 +99,12 @@ boxes.forEach((box, i) => {
         box.style.backgroundColor = '#00ff00';
         box.style.boxShadow = '0 0 12px #00ff00';
       }, 3000);
-      console.log('[HANDLER] :: Hungry much, stranger?');
+      eggMsg.textContent = '[HANDLER] :: Hungry much, stranger?';
+      eggMsg.style.opacity = 1;
+      setTimeout(() => {
+        eggMsg.textContent = '';
+        eggMsg.style.opacity = 0;
+      }, 4000);
     }
 
     if (i === currentGreenIndex && !solved[i]) {
@@ -122,14 +125,11 @@ boxes.forEach((box, i) => {
           'Statistically improbable. Impressively so.'
         ];
         const msg = slothMessages[Math.floor(Math.random() * slothMessages.length)];
-        const instruction = document.getElementById('decrypt-instruction');
-        instruction.textContent = msg;
-        instruction.style.color = '#ffaa00';
-        instruction.style.textShadow = '0 0 10px #ffaa00';
+        eggMsg.textContent = msg;
+        eggMsg.style.opacity = 1;
         setTimeout(() => {
-          instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
-          instruction.style.color = '#00ff00';
-          instruction.style.textShadow = '0 0 6px #00ff00';
+          eggMsg.textContent = '';
+          eggMsg.style.opacity = 0;
         }, 4000);
         wrongTaps = 0;
       }
