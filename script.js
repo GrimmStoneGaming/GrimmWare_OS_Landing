@@ -128,7 +128,7 @@ function triggerRageReset() {
     box.style.boxShadow = '0 0 8px #ff0000';
   });
 
-  showSnark("Whoa there, thumbs of fury. This ain’t a slot machine, lover. Try decoding, not detonating.");
+  showSnark("Whoa there, thumbs of fury. This ain’t a slot machine. Try decoding, not detonating.");
 }
 
 // All other logic remains unchanged below...
