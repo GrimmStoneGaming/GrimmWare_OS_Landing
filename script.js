@@ -7,11 +7,21 @@ let intervalId = null;
 let solved = Array(boxes.length).fill(false);
 let transitionInProgress = false;
 
+// === SOUND EFFECTS ===
+const sfx = {
+  intro: document.getElementById('glitchIntro'),
+  loop: document.getElementById('glitchThrob'),
+  success: document.getElementById('cipherSuccess'),
+  fail: document.getElementById('cipherFail'),
+  hack: document.getElementById('hackNoise'),
+  terminal: document.getElementById('terminalTheme'),
+  click: document.getElementById('runItClick'),
+};
+
 // === TIMING CONSTANTS ===
 const typingSpeed = 35;
 const baseDelay = 100;
 
-// === Cipher Glitch Logic ===
 function getRandomChar() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return chars[Math.floor(Math.random() * chars.length)];
@@ -51,7 +61,6 @@ function startCycling() {
   }, 1000);
 }
 
-// === Box Click Detection ===
 boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
     if (i === currentGreenIndex && !solved[i]) {
@@ -60,40 +69,40 @@ boxes.forEach((box, i) => {
       box.style.backgroundColor = '#00ff00';
       box.style.boxShadow = '0 0 12px #00ff00';
       box.textContent = correctCode[i];
+      sfx.success?.play();
       currentGreenIndex = null;
 
       if (solved.every(Boolean)) {
         clearInterval(intervalId);
         setTimeout(triggerFullscreenGlitch, 800);
       }
+    } else {
+      sfx.fail?.play();
     }
   });
 });
 
-// === Fullscreen Glitch to Terminal Trigger ===
 function triggerFullscreenGlitch() {
   const glitchDiv = document.createElement('div');
   glitchDiv.classList.add('fullscreen-glitch');
   document.body.appendChild(glitchDiv);
-
+  sfx.hack?.play();
   setTimeout(() => {
     glitchDiv.remove();
     startTerminalSequence();
   }, 2400);
 }
 
-// === Glitch Destruction Logic ===
 function zapElement(selector, delay = 0) {
   setTimeout(() => {
     const el = document.querySelector(selector);
     if (el) {
       el.classList.add('purge-glitch');
-      setTimeout(() => {
-        el.remove();
-      }, 600);
+      setTimeout(() => el.remove(), 600);
     }
   }, delay);
 }
+
 function purgeTopContainer() {
   zapElement('.logo-main');
   zapElement('.tagline');
@@ -105,12 +114,11 @@ function purgeTopContainer() {
     setTimeout(() => {
       topContainer.remove();
       const access = document.getElementById('access-container');
-      if (access) access.classList.add('shift-up'); // 💥 Move access visually into perfect final position
+      if (access) access.classList.add('shift-up');
     }, 600);
   }
 }
 
-// === Type Text Logic ===
 function typeText(target, text, speed, callback) {
   let i = 0;
   target.textContent = '';
@@ -123,13 +131,13 @@ function typeText(target, text, speed, callback) {
   }, speed);
 }
 
-// === Terminal Sequence Logic ===
 function startTerminalSequence() {
-  const terminalOverlay = document.getElementById('terminal-overlay');
-  const linesContainer = document.getElementById('terminal-lines');
-  terminalOverlay.classList.add('show');
-  terminalOverlay.classList.remove('hidden');
-  linesContainer.innerHTML = '';
+  const overlay = document.getElementById('terminal-overlay');
+  const lines = document.getElementById('terminal-lines');
+  overlay.classList.add('show');
+  overlay.classList.remove('hidden');
+  lines.innerHTML = '';
+  sfx.terminal?.play();
 
   const sequence = [
     { tag: 'SYS', text: 'Protocol breach detected...', delay: 1000 },
@@ -149,7 +157,7 @@ function startTerminalSequence() {
     { tag: 'HANDLER', text: 'Awaiting final response...', delay: 1000 },
     { tag: 'SYS', text: 'Instruction stream fragmentation in progress...', delay: 1000 },
     { tag: 'HANDLER', text: 'No more walls. Only wires.', delay: 2000 },
-    { tag: '', text: '', delay: 200, action: () => zapElement('.logo-container') },
+    { tag: '', text: '', delay: 300, action: () => zapElement('.logo-container') },
     { tag: '', text: '', delay: 0, isFinal: true }
   ];
 
@@ -167,35 +175,32 @@ function startTerminalSequence() {
     const content = document.createElement('span');
     content.classList.add('terminal-content');
     line.appendChild(content);
-    linesContainer.appendChild(line);
-    terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
+    lines.appendChild(line);
+    overlay.scrollTop = overlay.scrollHeight;
 
     let charIndex = 0;
     const interval = setInterval(() => {
       if (charIndex < text.length) {
         content.textContent += text.charAt(charIndex++);
-        terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
+        overlay.scrollTop = overlay.scrollHeight;
       } else {
         clearInterval(interval);
 
-        switch (index) {
-          case 6: zapElement('.decrypt-instruction'); break;
-          case 7:
-            const green = document.querySelectorAll('.green');
-            [...green].sort(() => Math.random() - 0.5).forEach((el, idx) => {
-              setTimeout(() => zapElement(`#${el.id}`), idx * 75);
-            });
-            break;
-          case 8:
-            const boxes = document.querySelectorAll('.box:not(.green)');
-            [...boxes].sort(() => Math.random() - 0.5).forEach((el, idx) => {
-              setTimeout(() => zapElement(`#${el.id}`), idx * 75);
-            });
-            break;
-          case 9: zapElement('.decrypt-wrapper'); break;
-          case 10: zapElement('.tagline'); break;
+        if (index === 6) zapElement('.decrypt-instruction');
+        if (index === 7) {
+          const green = document.querySelectorAll('.green');
+          [...green].sort(() => Math.random() - 0.5).forEach((el, i) => {
+            setTimeout(() => zapElement(`#${el.id}`), i * 75);
+          });
         }
-
+        if (index === 8) {
+          const remain = document.querySelectorAll('.box:not(.green)');
+          [...remain].sort(() => Math.random() - 0.5).forEach((el, i) => {
+            setTimeout(() => zapElement(`#${el.id}`), i * 75);
+          });
+        }
+        if (index === 9) zapElement('.decrypt-wrapper');
+        if (index === 10) zapElement('.tagline');
         if (action) action();
 
         if (isFinal) {
@@ -203,14 +208,12 @@ function startTerminalSequence() {
             injectFinalRunItLine();
             purgeTopContainer();
             setTimeout(() => {
-              terminalOverlay.classList.add('hidden');
+              overlay.classList.add('hidden');
               revealAccessGranted();
             }, 3000);
           }, 500);
         } else if (index + 1 < sequence.length) {
-          setTimeout(() => {
-            typeLine(sequence[index + 1], index + 1);
-          }, delay);
+          setTimeout(() => typeLine(sequence[index + 1], index + 1), delay);
         }
       }
     }, typingSpeed);
@@ -219,84 +222,40 @@ function startTerminalSequence() {
   typeLine(sequence[0], 0);
 }
 
-// === FINAL FLICKERING LINE ===
 function injectFinalRunItLine() {
-  const linesContainer = document.getElementById('terminal-lines');
-
+  const container = document.getElementById('terminal-lines');
   const finalLine = document.createElement('div');
   finalLine.classList.add('terminal-line');
-  Object.assign(finalLine.style, {
-    opacity: '1',
-    display: 'flex',
-    visibility: 'visible',
-    position: 'relative',
-    flexWrap: 'nowrap',
-    alignItems: 'center',
-    zIndex: '1000'
-  });
-
-  const finalPrefix = document.createElement('span');
-  finalPrefix.classList.add('handler-prefix');
-  finalPrefix.textContent = '[HANDLER] ::';
-  finalLine.appendChild(finalPrefix);
-
-  const runItSpan = document.createElement('span');
-  runItSpan.classList.add('run-it');
-  runItSpan.textContent = 'Run it.';
-  Object.assign(runItSpan.style, {
-    color: 'red',
-    display: 'inline',
-    visibility: 'visible',
-    opacity: '1',
-    position: 'relative',
-    zIndex: '1001',
-    marginLeft: '5px',
-    fontWeight: 'bold'
-  });
-
-  finalLine.appendChild(runItSpan);
-  linesContainer.appendChild(finalLine);
-
-  // Force reflow before animation trigger
-  void runItSpan.offsetWidth;
-
-  // Remove any inline animation property to ensure CSS animation applies
-  runItSpan.style.removeProperty('animation');
-
+  finalLine.innerHTML = `<span class="handler-prefix">[HANDLER] ::</span><span class="run-it">Run it.</span>`;
+  container.appendChild(finalLine);
   requestAnimationFrame(() => {
-    runItSpan.classList.remove('run-it');
+    const runItSpan = finalLine.querySelector('.run-it');
     runItSpan.classList.add('run-it-flicker', 'shock-pulse');
   });
-
-  linesContainer.scrollTop = linesContainer.scrollHeight;
-  linesContainer.classList.add('terminal-pulse');
-  setTimeout(() => linesContainer.classList.remove('terminal-pulse'), 1000);
+  container.scrollTop = container.scrollHeight;
+  container.classList.add('terminal-pulse');
+  setTimeout(() => container.classList.remove('terminal-pulse'), 1000);
 }
 
-// === ACCESS GRANTED SEQUENCE ===
 function revealAccessGranted() {
-  const grantedLine = document.querySelector('.granted');
-  const warningLine = document.querySelector('.warning');
+  const granted = document.querySelector('.granted');
+  const warning = document.querySelector('.warning');
   const runWrapper = document.getElementById('run-wrapper');
-  const accessMessage = document.getElementById('access-message');
+  const message = document.getElementById('access-message');
+  message.classList.remove('hidden');
+  message.style.opacity = 1;
 
-  accessMessage.classList.remove('hidden');
-  accessMessage.style.opacity = 1;
-
-  typeText(grantedLine, 'ACCESS GRANTED.  SYSTEM UNLOCKED.', 40, () => {
+  typeText(granted, 'ACCESS GRANTED.  SYSTEM UNLOCKED.', 40, () => {
     setTimeout(() => {
-      typeText(warningLine, '>>> WARNING: THIS MAY CHANGE YOU.', 75, () => {
-        warningLine.classList.add('glitch');
-
-        const rawText = warningLine.textContent;
+      typeText(warning, '>>> WARNING: THIS MAY CHANGE YOU.', 75, () => {
+        warning.classList.add('glitch');
+        const rawText = warning.textContent;
         const glitchChars = '!@#$%?~*';
         setInterval(() => {
-          const corrupted = rawText.split('').map(char =>
-            Math.random() < 0.07 && char !== ' ' ? glitchChars[Math.floor(Math.random() * glitchChars.length)] : char
+          warning.textContent = rawText.split('').map(c =>
+            Math.random() < 0.07 && c !== ' ' ? glitchChars[Math.floor(Math.random() * glitchChars.length)] : c
           ).join('');
-          warningLine.textContent = corrupted;
         }, 200);
-
         runWrapper.classList.remove('hidden');
         runWrapper.classList.add('glitch-in');
         runWrapper.style.display = 'block';
@@ -305,69 +264,63 @@ function revealAccessGranted() {
   });
 }
 
-// === RUN BUTTON / TRANSITION ===
 document.getElementById('run-button').addEventListener('click', () => {
   if (transitionInProgress) return;
   transitionInProgress = true;
 
   const overlay = document.getElementById('gateway-overlay');
-  const landingPage = document.getElementById('landing-page');
+  const landing = document.getElementById('landing-page');
   const runWrapper = document.getElementById('run-wrapper');
-  const accessMessage = document.getElementById('access-message');
+  const message = document.getElementById('access-message');
 
-  const numStrips = 60;
-  const fallInDuration = 500;
-  const fallOutDuration = 600;
-  const delayBeforeReveal = 1500;
-
+  const strips = 60, inDur = 500, outDur = 600, delayReveal = 1500;
   runWrapper.style.display = 'none';
-  accessMessage.style.display = 'none';
-  landingPage.style.display = 'flex';
-  landingPage.style.opacity = 0;
+  message.style.display = 'none';
+  landing.style.display = 'flex';
+  landing.style.opacity = 0;
   overlay.innerHTML = '';
   overlay.style.display = 'flex';
   overlay.style.background = 'transparent';
 
-  for (let i = 0; i < numStrips; i++) {
+  for (let i = 0; i < strips; i++) {
     const strip = document.createElement('div');
     strip.classList.add('strip', 'cover');
-    strip.style.left = `${(100 / numStrips) * i}%`;
-    strip.style.width = `${100 / numStrips}%`;
-    strip.style.animation = `fallCover ${fallInDuration}ms forwards`;
+    strip.style.left = `${(100 / strips) * i}%`;
+    strip.style.width = `${100 / strips}%`;
+    strip.style.animation = `fallCover ${inDur}ms forwards`;
     overlay.appendChild(strip);
   }
 
   setTimeout(() => {
-    landingPage.style.opacity = 1;
-    const strips = Array.from(overlay.querySelectorAll('.strip'));
-    const shuffled = strips.sort(() => Math.random() - 0.5);
-
-    shuffled.forEach((strip, index) => {
+    landing.style.opacity = 1;
+    const parts = Array.from(overlay.querySelectorAll('.strip'));
+    parts.sort(() => Math.random() - 0.5).forEach((strip, i) => {
       setTimeout(() => {
         strip.classList.remove('cover');
         strip.classList.add('reveal');
-        strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
-      }, index * 30);
+        strip.style.animation = `fallReveal ${outDur}ms forwards`;
+      }, i * 30);
     });
 
-    const totalDelay = shuffled.length * 30 + fallOutDuration;
     setTimeout(() => {
-  overlay.style.display = 'none';
-  const terminalOverlay = document.getElementById('terminal-overlay');
-  if (terminalOverlay) terminalOverlay.classList.add('hidden'); 
-}, totalDelay + 500);
-  }, fallInDuration + delayBeforeReveal);
+      overlay.style.display = 'none';
+      const terminal = document.getElementById('terminal-overlay');
+      if (terminal) terminal.classList.add('hidden');
+    }, parts.length * 30 + outDur + 500);
+  }, inDur + delayReveal);
 });
 
-// === ON LOAD SETUP ===
 window.addEventListener('DOMContentLoaded', () => {
   const logo = document.querySelector('.logo-main');
   const tagline = document.querySelector('.tagline');
   const cipher = document.querySelector('.decrypt-wrapper');
   const instruction = document.querySelector('.decrypt-instruction');
 
-  setTimeout(() => { logo.style.animation = 'fadeIn 1.2s forwards'; }, 0);
-  setTimeout(() => { tagline.style.animation = 'fadeIn 1.2s forwards'; }, 800);
+  sfx.intro?.play();
+  sfx.loop?.play();
+
+  setTimeout(() => logo.style.animation = 'fadeIn 1.2s forwards', 0);
+  setTimeout(() => tagline.style.animation = 'fadeIn 1.2s forwards', 800);
   setTimeout(() => {
     cipher.classList.remove('hidden');
     cipher.style.animation = 'glitchIn 0.6s forwards';
@@ -377,17 +330,14 @@ window.addEventListener('DOMContentLoaded', () => {
     instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
     instruction.style.animation = 'corruptText 6s infinite';
     instruction.style.opacity = '1';
-
     const raw = instruction.textContent;
     const glitchChars = '!@#$%?~*';
-
     setInterval(() => {
-      const corrupted = raw.split('').map(char =>
-        Math.random() < 0.07 && char !== ' '
+      instruction.textContent = raw.split('').map(c =>
+        Math.random() < 0.07 && c !== ' '
           ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
-          : char
+          : c
       ).join('');
-      instruction.textContent = corrupted;
     }, 200);
   }, 1800);
 
