@@ -59,12 +59,12 @@ function startCycling() {
 boxes.forEach((box, i) => {
   box.dataset.clickCount = 0;
   box.addEventListener('click', () => {
-    const isWrongTap = (i !== currentGreenIndex || solved[i]);
-    const clickCount = parseInt(box.dataset.clickCount) || 0;
     const isCorrectTap = i === currentGreenIndex && !solved[i];
+    const isWrongTap = !isCorrectTap;
+    const clickCount = parseInt(box.dataset.clickCount) || 0;
 
     // GLUTTONY: Count excessive clicks on a single box (no Wrath if correct)
-    if (!isWrongTap) {
+    if (isCorrectTap) {
       box.dataset.clickCount = clickCount + 1;
       if (clickCount + 1 === 15) {
         box.style.backgroundColor = '#ffa500';
@@ -78,7 +78,7 @@ boxes.forEach((box, i) => {
         setTimeout(() => {
           eggMsg.textContent = '';
           eggMsg.style.opacity = 0;
-        }, 5000);
+        }, 4000);
       }
     }
 
@@ -88,9 +88,9 @@ boxes.forEach((box, i) => {
       clearTimeout(rageTapTimer);
       rageTapTimer = setTimeout(() => {
         rageTapCount = 0;
-      }, 4000);
+      }, 1250); // shorten timer to 1250ms
 
-      if (rageTapCount >= 5) {
+      if (rageTapCount >= 7) { // raise threshold to 7
         solved = Array(boxes.length).fill(false);
         boxes.forEach((box, idx) => {
           box.textContent = getRandomChar();
@@ -125,23 +125,25 @@ boxes.forEach((box, i) => {
     }
 
     // SLOTH: wrong taps spam detector
-    wrongTaps++;
-    if (wrongTaps >= 10) {
-      const slothMessages = [
-        'Hey [USER4571], try *reading* next time.',
-        'Some of y’all really just clicking vibes, huh?',
-        'System suggests: Less mashing, more thinking.',
-        'Error rate climbing. Try aim, not luck.',
-        'Statistically improbable. Impressively so.'
-      ];
-      const msg = slothMessages[Math.floor(Math.random() * slothMessages.length)];
-      eggMsg.textContent = msg;
-      eggMsg.style.opacity = 1;
-      setTimeout(() => {
-        eggMsg.textContent = '';
-        eggMsg.style.opacity = 0;
-      }, 4000);
-      wrongTaps = 0;
+    if (isWrongTap) {
+      wrongTaps++;
+      if (wrongTaps >= 10) {
+        const slothMessages = [
+          'Hey [USER4571], try *reading* next time.',
+          'Some of y’all really just clicking vibes, huh?',
+          'System suggests: Less mashing, more thinking.',
+          'Error rate climbing. Try aim, not luck.',
+          'Statistically improbable. Impressively so.'
+        ];
+        const msg = slothMessages[Math.floor(Math.random() * slothMessages.length)];
+        eggMsg.textContent = msg;
+        eggMsg.style.opacity = 1;
+        setTimeout(() => {
+          eggMsg.textContent = '';
+          eggMsg.style.opacity = 0;
+        }, 4000);
+        wrongTaps = 0;
+      }
     }
 
     if (solved.every(Boolean)) {
