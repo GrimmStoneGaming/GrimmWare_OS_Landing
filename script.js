@@ -55,6 +55,18 @@ function startCycling() {
   }, 1000);
 }
 
+// === Trigger Fullscreen Glitch and Terminal Sequence ===
+function triggerFullscreenGlitch() {
+  const glitchDiv = document.createElement('div');
+  glitchDiv.classList.add('fullscreen-glitch');
+  document.body.appendChild(glitchDiv);
+
+  setTimeout(() => {
+    glitchDiv.remove();
+    startTerminalSequence();
+  }, 2400);
+}
+
 // === Box Click Detection ===
 boxes.forEach((box, i) => {
   box.dataset.clickCount = 0;
@@ -120,7 +132,13 @@ boxes.forEach((box, i) => {
       box.style.backgroundColor = '#00ff00';
       box.style.boxShadow = '0 0 12px #00ff00';
       box.textContent = correctCode[i];
+      box.dataset.clickCount = 0;
       currentGreenIndex = null;
+
+      if (solved.every(Boolean)) {
+        clearInterval(intervalId);
+        setTimeout(triggerFullscreenGlitch, 800);
+      }
       return;
     }
 
@@ -144,11 +162,6 @@ boxes.forEach((box, i) => {
         }, 4000);
         wrongTaps = 0;
       }
-    }
-
-    if (solved.every(Boolean)) {
-      clearInterval(intervalId);
-      setTimeout(triggerFullscreenGlitch, 800);
     }
   });
 });
