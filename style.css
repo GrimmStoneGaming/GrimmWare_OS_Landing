@@ -18,6 +18,11 @@ body {
   position: relative;
 }
 
+#visual-container {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
 /* === FULL SCREEN GLITCH ANIMATION === */
 .fullscreen-glitch {
   position: fixed;
