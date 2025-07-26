@@ -1,13 +1,3 @@
-
-window.addEventListener("load", () => {
-  setTimeout(() => {
-    const overlay = document.getElementById("preload-overlay");
-    overlay.classList.add("fade-out");
-    setTimeout(() => overlay.remove(), 800);
-  }, 2300);
-});
-
-
 // === GRIMMWare OS Gateway Script ===
 
 const boxes = document.querySelectorAll('.box');
@@ -319,51 +309,60 @@ document.getElementById('run-button').addEventListener('click', () => {
   if (transitionInProgress) return;
   transitionInProgress = true;
 
-  const overlay = document.getElementById('gateway-overlay');
-  const landingPage = document.getElementById('landing-page');
-  const runWrapper = document.getElementById('run-wrapper');
-  const accessMessage = document.getElementById('access-message');
-
-  const numStrips = 60;
-  const fallInDuration = 500;
-  const fallOutDuration = 600;
-  const delayBeforeReveal = 1500;
-
-  runWrapper.style.display = 'none';
-  accessMessage.style.display = 'none';
-  landingPage.style.display = 'flex';
-  landingPage.style.opacity = 0;
-  overlay.innerHTML = '';
-  overlay.style.display = 'flex';
-  overlay.style.background = 'transparent';
-
-  for (let i = 0; i < numStrips; i++) {
-    const strip = document.createElement('div');
-    strip.classList.add('strip', 'cover');
-    strip.style.left = `${(100 / numStrips) * i}%`;
-    strip.style.width = `${100 / numStrips}%`;
-    strip.style.animation = `fallCover ${fallInDuration}ms forwards`;
-    overlay.appendChild(strip);
-  }
+  const smashOverlay = document.getElementById('smash-overlay');
+  smashOverlay.classList.add('active');
 
   setTimeout(() => {
-    landingPage.style.opacity = 1;
-    const strips = Array.from(overlay.querySelectorAll('.strip'));
-    const shuffled = strips.sort(() => Math.random() - 0.5);
+    smashOverlay.classList.remove('active');
+  }, 1300);
 
-    shuffled.forEach((strip, index) => {
-      setTimeout(() => {
-        strip.classList.remove('cover');
-        strip.classList.add('reveal');
-        strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
-      }, index * 30);
-    });
+  setTimeout(() => {
+    const overlay = document.getElementById('gateway-overlay');
+    const landingPage = document.getElementById('landing-page');
+    const runWrapper = document.getElementById('run-wrapper');
+    const accessMessage = document.getElementById('access-message');
 
-    const totalDelay = shuffled.length * 30 + fallOutDuration;
+    const numStrips = 60;
+    const fallInDuration = 500;
+    const fallOutDuration = 600;
+    const delayBeforeReveal = 1500;
+
+    runWrapper.style.display = 'none';
+    accessMessage.style.display = 'none';
+    landingPage.style.display = 'flex';
+    landingPage.style.opacity = 0;
+    overlay.innerHTML = '';
+    overlay.style.display = 'flex';
+    overlay.style.background = 'transparent';
+
+    for (let i = 0; i < numStrips; i++) {
+      const strip = document.createElement('div');
+      strip.classList.add('strip', 'cover');
+      strip.style.left = `${(100 / numStrips) * i}%`;
+      strip.style.width = `${100 / numStrips}%`;
+      strip.style.animation = `fallCover ${fallInDuration}ms forwards`;
+      overlay.appendChild(strip);
+    }
+
     setTimeout(() => {
-      overlay.style.display = 'none';
-    }, totalDelay + 500);
-  }, fallInDuration + delayBeforeReveal);
+      landingPage.style.opacity = 1;
+      const strips = Array.from(overlay.querySelectorAll('.strip'));
+      const shuffled = strips.sort(() => Math.random() - 0.5);
+
+      shuffled.forEach((strip, index) => {
+        setTimeout(() => {
+          strip.classList.remove('cover');
+          strip.classList.add('reveal');
+          strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
+        }, index * 30);
+      });
+
+      const totalDelay = shuffled.length * 30 + fallOutDuration;
+      setTimeout(() => {
+        overlay.style.display = 'none';
+      }, totalDelay + 500);
+    }, fallInDuration + delayBeforeReveal);
+  }, 1000);
 });
 
 // === ON LOAD SETUP ===
@@ -400,20 +399,4 @@ window.addEventListener('DOMContentLoaded', () => {
 
   cycleCharacters();
   startCycling();
-});
-
-
-
-document.getElementById("run-button").addEventListener("click", () => {
-  const smash = document.getElementById("smash-overlay");
-  smash.classList.add("active");
-
-  setTimeout(() => {
-    smash.classList.remove("active");
-  }, 1300);
-
-  setTimeout(() => {
-    // INSERT YOUR EXISTING "RUN IT" LOGIC HERE
-    console.log("RUN IT triggered."); // Placeholder
-  }, 1000);
 });
