@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GrimmWare Gateway</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>GrimmWare OS Gateway</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
-<body style="display: none;">
-  <!-- === PRELOAD LANDING === -->
+<body>
+
+  <!-- LANDING PAGE -->
   <div id="landing-page" class="preloaded" aria-hidden="true">
     <div class="lp-content">
       <h1>Welcome to GrimmWare OS</h1>
@@ -15,16 +16,14 @@
     </div>
   </div>
 
-  <!-- == GATEWAY UI == -->
+  <!-- GATEWAY UI -->
   <div id="gateway-ui">
     <div class="top-container" id="top-container">
-      <!-- LOGO + TAGLINE -->
       <div class="logo-container">
-        <img class="logo-main" src="images/grimmware-logo.png" alt="GRIMMWARE OS Logo" loading="lazy" />
-        <img class="tagline" src="images/emotion-is-executable.png" alt="Emotion is Executable" loading="lazy" />
+        <img class="logo-main" src="images/grimmware-logo.png" alt="GRIMMWARE OS Logo" loading="lazy"/>
+        <img class="tagline" src="images/emotion-is-executable.png" alt="Emotion is Executable" loading="lazy"/>
       </div>
 
-      <!-- DECRYPTION PUZZLE -->
       <div class="decrypt-wrapper hidden" role="region" aria-label="Decryption Puzzle">
         <div class="decrypt-boxes" id="decrypt-boxes">
           <div class="box" id="box0" role="button" tabindex="0" aria-label="Box 1">G</div>
@@ -36,34 +35,35 @@
           <div class="box" id="box5" role="button" tabindex="0" aria-label="Box 6">X</div>
           <div class="box" id="box6" role="button" tabindex="0" aria-label="Box 7">E</div>
         </div>
-        <div class="decrypt-instruction" id="decrypt-instruction">x</div>
+      </div>
+
+      <div class="decrypt-instruction" id="decrypt-instruction"></div>
+    </div>
+
+    <!-- Spacer below puzzle -->
+    <div style="height: 250px; width: 100%;"></div>
+
+    <!-- ACCESS MESSAGE -->
+    <div id="access-container">
+      <div id="access-message" class="hidden" aria-live="polite">
+        <span class="granted"></span>
+        <span class="warning" id="warning-line"></span>
+      </div>
+
+      <div id="run-wrapper" class="run-button-wrapper hidden">
+        <button id="run-button" aria-label="Execute Gateway Unlock">&gt;&gt;&gt; RUN IT</button>
       </div>
     </div>
 
-    <!-- === RUN IT BUTTON === -->
-    <button id="runItButton">RUN IT</button>
-  </div>
+    <!-- Overlay to trigger glitch -->
+    <div id="gateway-overlay" aria-hidden="true"></div>
 
-  <!-- === TERMINAL OVERLAY (CMD FIGHT) === -->
-  <div id="terminal-overlay" class="hidden" role="region" aria-label="Terminal Response">
-    <div class="terminal-container">
-      <div class="terminal-lines" id="terminal-lines"></div>
+    <!-- TERMINAL WINDOW -->
+    <div id="terminal-overlay" class="hidden">
+      <div id="terminal-lines" class="terminal-inner"></div>
     </div>
   </div>
 
-  <!-- === SHOCK RED SCREEN === -->
-  <div id="shock-overlay"></div>
-
-  <!-- === AUDIO PAYLOAD === -->
-  <audio id="glitchIntro" src="sounds/glitch-intro.mp3"></audio>
-  <audio id="glitchThrob" src="sounds/glitch-throb-loop.mp3" loop></audio>
-  <audio id="cipherSuccess" src="sounds/correct-tap.mp3"></audio>
-  <audio id="cipherFail" src="sounds/incorrect-tap.mp3"></audio>
-  <audio id="hackNoise" src="sounds/hack-static-transition.mp3"></audio>
-  <audio id="terminalTheme" src="sounds/terminal-ambient.mp3"></audio>
-  <audio id="runItClick" src="sounds/run-it-press.mp3"></audio>
-
-  <!-- === JS CORE === -->
   <script src="script.js"></script>
 </body>
 </html>
