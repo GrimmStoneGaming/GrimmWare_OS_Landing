@@ -73,6 +73,10 @@ window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     cycleCharacters();
     startCycling();
+    const visualContainer = document.getElementById('visual-container');
+    if (visualContainer) {
+      visualContainer.style.opacity = '1';
+    }
   }, introDelay);
 });
 
