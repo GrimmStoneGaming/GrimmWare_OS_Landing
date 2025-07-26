@@ -6,10 +6,15 @@ let currentGreenIndex = null;
 let intervalId = null;
 let solved = Array(boxes.length).fill(false);
 let transitionInProgress = false;
+let wrongTaps = 0;
+let rageTapCount = 0;
+let rageTapTimer = null;
+const eggMsg = document.getElementById('easter-egg-msg');
 
 // === TIMING CONSTANTS ===
 const typingSpeed = 35;
 const baseDelay = 100;
+const introDelay = 2300; // Delay before initializing visuals
 
 // === Cipher Glitch Logic ===
 function getRandomChar() {
@@ -51,20 +56,120 @@ function startCycling() {
   }, 1000);
 }
 
+// === Trigger Fullscreen Glitch and Terminal Sequence ===
+function triggerFullscreenGlitch() {
+  const glitchDiv = document.createElement('div');
+  glitchDiv.classList.add('fullscreen-glitch');
+  document.body.appendChild(glitchDiv);
+
+  setTimeout(() => {
+    glitchDiv.remove();
+    startTerminalSequence();
+  }, 2400);
+}
+
+// === Delay initialization to sync with sound glitch ===
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    cycleCharacters();
+    startCycling();
+  }, introDelay);
+});
+
 // === Box Click Detection ===
 boxes.forEach((box, i) => {
+  box.dataset.clickCount = 0;
   box.addEventListener('click', () => {
-    if (i === currentGreenIndex && !solved[i]) {
+    const isCorrectTap = i === currentGreenIndex && !solved[i];
+    const isWrongTap = !isCorrectTap;
+    const clickCount = parseInt(box.dataset.clickCount) || 0;
+
+    // GLUTTONY: Count excessive clicks on a single box (no Wrath if correct)
+    if (isCorrectTap) {
+      box.dataset.clickCount = clickCount + 1;
+      if (clickCount + 1 === 15) {
+        box.style.backgroundColor = '#ffa500';
+        box.style.boxShadow = '0 0 14px #ffa500';
+        setTimeout(() => {
+          box.style.backgroundColor = '#00ff00';
+          box.style.boxShadow = '0 0 12px #00ff00';
+        }, 3000);
+        eggMsg.textContent = '[HANDLER] :: Hungry much, stranger?';
+        eggMsg.style.opacity = 1;
+        setTimeout(() => {
+          eggMsg.textContent = '';
+          eggMsg.style.opacity = 0;
+        }, 4000);
+      }
+    }
+
+    // WRATH: Rage tap detector (only on wrong taps)
+    if (isWrongTap) {
+      rageTapCount++;
+      clearTimeout(rageTapTimer);
+      rageTapTimer = setTimeout(() => {
+        rageTapCount = 0;
+      }, 1250);
+
+      if (rageTapCount >= 7) {
+        solved = Array(boxes.length).fill(false);
+        boxes.forEach((box, idx) => {
+          box.textContent = getRandomChar();
+          box.classList.remove('green');
+          box.style.backgroundColor = 'red';
+          box.style.boxShadow = '0 0 8px #ff0000';
+          box.dataset.clickCount = 0;
+        });
+        currentGreenIndex = null;
+        wrongTaps = 0;
+        rageTapCount = 0;
+
+        eggMsg.textContent = 'Temper tantrum detected. Cipher reset initiated.';
+        eggMsg.style.opacity = 1;
+        setTimeout(() => {
+          eggMsg.textContent = '';
+          eggMsg.style.opacity = 0;
+        }, 4000);
+        return;
+      }
+    }
+
+    // CORRECT TAP: Solve logic
+    if (isCorrectTap) {
       solved[i] = true;
       box.classList.add('green');
       box.style.backgroundColor = '#00ff00';
       box.style.boxShadow = '0 0 12px #00ff00';
       box.textContent = correctCode[i];
+      box.dataset.clickCount = 0;
       currentGreenIndex = null;
 
       if (solved.every(Boolean)) {
         clearInterval(intervalId);
         setTimeout(triggerFullscreenGlitch, 800);
+      }
+      return;
+    }
+
+    // SLOTH: wrong taps spam detector
+    if (isWrongTap) {
+      wrongTaps++;
+      if (wrongTaps >= 10) {
+        const slothMessages = [
+          'Hey [USER4571], try *reading* next time.',
+          'Some of y’all really just clicking vibes, huh?',
+          'System suggests: Less mashing, more thinking.',
+          'Error rate climbing. Try aim, not luck.',
+          'Statistically improbable. Impressively so.'
+        ];
+        const msg = slothMessages[Math.floor(Math.random() * slothMessages.length)];
+        eggMsg.textContent = msg;
+        eggMsg.style.opacity = 1;
+        setTimeout(() => {
+          eggMsg.textContent = '';
+          eggMsg.style.opacity = 0;
+        }, 4000);
+        wrongTaps = 0;
       }
     }
   });
