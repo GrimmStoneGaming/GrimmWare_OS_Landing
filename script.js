@@ -162,22 +162,25 @@ boxes.forEach((box, i) => {
       }
     }
 
-    // CORRECT TAP: Solve logic
-    if (isCorrectTap) {
-      solved[i] = true;
-      box.classList.add('green');
-      box.style.backgroundColor = '#00ff00';
-      box.style.boxShadow = '0 0 12px #00ff00';
-      box.textContent = correctCode[i];
-      box.dataset.clickCount = 0;
-      currentGreenIndex = null;
+   // CORRECT TAP: Solve logic
+if (isCorrectTap) {
+  solved[i] = true;
+  box.classList.add('green');
+  box.style.backgroundColor = '#00ff00';
+  box.style.boxShadow = '0 0 12px #00ff00';
+  box.textContent = correctCode[i];
+  box.dataset.clickCount = 0;
+  currentGreenIndex = null;
 
-      if (solved.every(Boolean)) {
-        clearInterval(intervalId);
-        setTimeout(() => triggerFullscreenGlitch('cipher'), 800);
-      }
-      return;
+  // Delay slightly to ensure state is fully updated
+  setTimeout(() => {
+    if (solved.every(Boolean)) {
+      clearInterval(intervalId);
+      triggerFullscreenGlitch('cipher');
     }
+  }, 50);
+  return;
+}
 
     // SLOTH: wrong taps spam detector
     if (isWrongTap) {
