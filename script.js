@@ -48,7 +48,7 @@ function startCycling() {
     box.textContent = correctCode[currentGreenIndex];
     box.style.backgroundColor = '#00ff00';
     box.style.boxShadow = '0 0 8px #00ff00';
-  }, 1000);
+  }, 1500);
 }
 
 // === Box Click Detection ===
@@ -87,27 +87,12 @@ function zapElement(selector, delay = 0) {
   setTimeout(() => {
     const el = document.querySelector(selector);
     if (el) {
-      el.classList.add('purge-glitch');
+      el.classList.add('zap-glitch');
       setTimeout(() => {
         el.remove();
       }, 600);
     }
   }, delay);
-}
-function purgeTopContainer() {
-  zapElement('.logo-main');
-  zapElement('.tagline');
-  zapElement('.logo-container');
-
-  const topContainer = document.getElementById('top-container');
-  if (topContainer) {
-    topContainer.classList.add('purge-glitch');
-    setTimeout(() => {
-      topContainer.remove();
-      const access = document.getElementById('access-container');
-      if (access) access.classList.add('shift-up'); // 💥 Move access visually into perfect final position
-    }, 600);
-  }
 }
 
 // === Type Text Logic ===
@@ -149,11 +134,10 @@ function startTerminalSequence() {
     { tag: 'HANDLER', text: 'Awaiting final response...', delay: 1000 },
     { tag: 'SYS', text: 'Instruction stream fragmentation in progress...', delay: 1000 },
     { tag: 'HANDLER', text: 'No more walls. Only wires.', delay: 2000 },
-    { tag: '', text: '', delay: 200, action: () => zapElement('.logo-container') },
     { tag: '', text: '', delay: 0, isFinal: true }
   ];
 
-  function typeLine({ tag, text, delay, isFinal, action }, index) {
+  function typeLine({ tag, text, delay, isFinal }, index) {
     const line = document.createElement('div');
     line.classList.add('terminal-line');
 
@@ -180,28 +164,16 @@ function startTerminalSequence() {
 
         switch (index) {
           case 6: zapElement('.decrypt-instruction'); break;
-          case 7:
-            const green = document.querySelectorAll('.green');
-            [...green].sort(() => Math.random() - 0.5).forEach((el, idx) => {
-              setTimeout(() => zapElement(`#${el.id}`), idx * 75);
-            });
-            break;
-          case 8:
-            const boxes = document.querySelectorAll('.box:not(.green)');
-            [...boxes].sort(() => Math.random() - 0.5).forEach((el, idx) => {
-              setTimeout(() => zapElement(`#${el.id}`), idx * 75);
-            });
-            break;
+          case 7: zapElement('.green'); break;
+          case 8: zapElement('.box'); break;
           case 9: zapElement('.decrypt-wrapper'); break;
           case 10: zapElement('.tagline'); break;
+          case 15: zapElement('.logo-main', 1500); break;
         }
-
-        if (action) action();
 
         if (isFinal) {
           setTimeout(() => {
             injectFinalRunItLine();
-            purgeTopContainer();
             setTimeout(() => {
               terminalOverlay.classList.add('hidden');
               revealAccessGranted();
@@ -273,6 +245,7 @@ function injectFinalRunItLine() {
   setTimeout(() => linesContainer.classList.remove('terminal-pulse'), 1000);
 }
 
+
 // === ACCESS GRANTED SEQUENCE ===
 function revealAccessGranted() {
   const grantedLine = document.querySelector('.granted');
@@ -304,6 +277,7 @@ function revealAccessGranted() {
     }, 1000);
   });
 }
+
 
 // === RUN BUTTON / TRANSITION ===
 document.getElementById('run-button').addEventListener('click', () => {
@@ -352,10 +326,8 @@ document.getElementById('run-button').addEventListener('click', () => {
 
     const totalDelay = shuffled.length * 30 + fallOutDuration;
     setTimeout(() => {
-  overlay.style.display = 'none';
-  const terminalOverlay = document.getElementById('terminal-overlay');
-  if (terminalOverlay) terminalOverlay.classList.add('hidden'); 
-}, totalDelay + 500);
+      overlay.style.display = 'none';
+    }, totalDelay + 500);
   }, fallInDuration + delayBeforeReveal);
 });
 
