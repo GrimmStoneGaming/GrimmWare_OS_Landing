@@ -138,7 +138,7 @@ if (rageTapCount >= 5) {
         clearInterval(intervalId);
         setTimeout(triggerFullscreenGlitch, 800);
       }
-    }
+    
   });
 });
 
