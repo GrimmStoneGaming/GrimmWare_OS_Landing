@@ -75,7 +75,11 @@ function triggerFullscreenGlitch() {
   const glitchDiv = document.createElement('div');
   glitchDiv.classList.add('fullscreen-glitch');
   document.body.appendChild(glitchDiv);
-
+const snark = document.getElementById('snark-msg');
+if (snark) {
+  snark.classList.add('hidden');
+  snark.textContent = '';
+}
   setTimeout(() => {
     glitchDiv.remove();
     startTerminalSequence();
