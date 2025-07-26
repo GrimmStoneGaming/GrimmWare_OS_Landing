@@ -6,10 +6,52 @@ let currentGreenIndex = null;
 let intervalId = null;
 let solved = Array(boxes.length).fill(false);
 let transitionInProgress = false;
+let missCount = 0;
+let rageTapCount = 0;
+let lastTapTimestamp = 0;
 
 // === TIMING CONSTANTS ===
 const typingSpeed = 35;
 const baseDelay = 100;
+
+// === Rage Tap Reset & Snark Injection ===
+function injectSnarkMessage(message) {
+  const instruction = document.getElementById('decrypt-instruction');
+  if (!instruction) return;
+  instruction.textContent = message;
+  instruction.classList.add('snark-glitch');
+  setTimeout(() => {
+    instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
+    instruction.classList.remove('snark-glitch');
+  }, 5000);
+}
+
+function resetCipherPuzzle() {
+  solved = Array(boxes.length).fill(false);
+  boxes.forEach((box, i) => {
+    box.classList.remove('green');
+    box.style.backgroundColor = 'red';
+    box.style.boxShadow = '0 0 8px #ff0000';
+    box.textContent = getRandomChar();
+  });
+  startCycling();
+}
+
+function handleRageTap() {
+  const now = Date.now();
+  if (now - lastTapTimestamp < 1200) {
+    rageTapCount++;
+  } else {
+    rageTapCount = 1;
+  }
+  lastTapTimestamp = now;
+
+  if (rageTapCount >= 7) {
+    injectSnarkMessage("Whoa there, Neo. It's a puzzle, not a touchscreen exorcism.");
+    resetCipherPuzzle();
+    rageTapCount = 0;
+  }
+}
 
 // === Cipher Glitch Logic ===
 function getRandomChar() {
@@ -28,6 +70,7 @@ function cycleCharacters() {
 }
 
 function startCycling() {
+  clearInterval(intervalId);
   intervalId = setInterval(() => {
     let nextIndex;
     do {
@@ -54,6 +97,8 @@ function startCycling() {
 // === Box Click Detection ===
 boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
+    handleRageTap();
+
     if (i === currentGreenIndex && !solved[i]) {
       solved[i] = true;
       box.classList.add('green');
@@ -65,6 +110,11 @@ boxes.forEach((box, i) => {
       if (solved.every(Boolean)) {
         clearInterval(intervalId);
         setTimeout(triggerFullscreenGlitch, 800);
+      }
+    } else {
+      missCount++;
+      if (missCount === 5) {
+        injectSnarkMessage("Maybe we start with the tutorial next time, champ?");
       }
     }
   });
