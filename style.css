@@ -882,3 +882,78 @@ opacity: 0.2;
 .logo-container.purged .decrypt-instruction {
   animation: logoGlitchOut 1.8s ease-in-out forwards;
 }
+
+
+
+/* === GLITCHED RUN IT BUTTON === */
+
+#access-container {
+  padding-top: 120px;
+}
+
+.run-button-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+
+#run-button {
+  background: linear-gradient(90deg, #ff0040, #8000ff, #00eaff, #ff0040);
+  background-size: 300% 300%;
+  color: #ffffff;
+  border: 2px solid #ff0040;
+  padding: 1em 2.5em;
+  font-size: 1.5rem;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  text-shadow: 0 0 6px #ff0040;
+  box-shadow: 0 0 16px #ff0040, 0 0 6px #00eaff inset;
+  animation: neonFade 6s ease-in-out 1 forwards, pulseGlitch 2.5s infinite;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  z-index: 1000;
+  opacity: 0;
+}
+
+.glitch-in #run-button {
+  animation: neonFade 2s ease-out forwards, pulseGlitch 2s infinite;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+@keyframes neonFade {
+  0% {
+    opacity: 0;
+    transform: scale(0.95) translateY(20px);
+    filter: blur(6px);
+  }
+  50% {
+    opacity: 0.6;
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0px);
+  }
+}
+
+@keyframes pulseGlitch {
+  0% {
+    box-shadow: 0 0 8px #ff0040, 0 0 4px #00eaff inset;
+  }
+  25% {
+    box-shadow: 0 0 16px #00eaff, 0 0 6px #ff0040 inset;
+  }
+  50% {
+    box-shadow: 0 0 12px #ff0040, 0 0 8px #00eaff inset;
+  }
+  75% {
+    box-shadow: 0 0 20px #00eaff, 0 0 10px #ff0040 inset;
+  }
+  100% {
+    box-shadow: 0 0 8px #ff0040, 0 0 4px #00eaff inset;
+  }
+}
