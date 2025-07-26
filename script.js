@@ -78,7 +78,7 @@ function triggerFullscreenGlitch(mode = 'run') {
     glitchDiv.style.opacity = '0';
     setTimeout(() => {
       glitchDiv.remove();
-      if (mode === 'run') {
+      if (mode === 'run' || mode === 'cipher') {
         startTerminalSequence();
       }
     }, 300);
