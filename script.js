@@ -48,7 +48,7 @@ function startCycling() {
     box.textContent = correctCode[currentGreenIndex];
     box.style.backgroundColor = '#00ff00';
     box.style.boxShadow = '0 0 8px #00ff00';
-  }, 1500);
+  }, 1000);
 }
 
 // === Box Click Detection ===
