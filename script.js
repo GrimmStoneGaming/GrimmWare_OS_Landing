@@ -95,6 +95,12 @@ boxes.forEach((box, i) => {
       if (solved.every(Boolean)) {
         clearInterval(intervalId);
         setTimeout(triggerFullscreenGlitch, 800);
+        const snark = document.getElementById('snark-msg');
+if (snark) {
+  snark.classList.remove('visible', 'flash');
+  snark.classList.add('hidden');
+}
+
       }
     } else {
       failCount++;
