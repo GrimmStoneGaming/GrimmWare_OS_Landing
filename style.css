@@ -520,18 +520,24 @@ opacity: 0.1;
   opacity: 0;
   pointer-events: none;
 }
+#snark-message {
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  margin-top: 10px;
+  color: #ff4444;
+  text-align: center;
+  display: none;
+}
+
 .snark-glitch {
   animation: flickerSnark 1.2s infinite;
-  color: #ff3333;
+  font-weight: bold;
   text-shadow:
     0 0 4px #ff3333,
     0 0 8px #ff6666,
     0 0 12px #ff9999;
-  font-style: italic;
-  font-weight: bold;
 }
 
-/* Optional extra sass */
 @keyframes flickerSnark {
   0%, 100% { opacity: 1; }
   25% { opacity: 0.6; }
