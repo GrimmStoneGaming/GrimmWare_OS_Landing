@@ -1,4 +1,4 @@
-// === GRIMMWare OS Gateway Script ===
+// === GRIMMWare OS Gateway Script with Embedded Audio ===
 
 const boxes = document.querySelectorAll('.box');
 const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
@@ -10,6 +10,128 @@ let transitionInProgress = false;
 // === TIMING CONSTANTS ===
 const typingSpeed = 35;
 const baseDelay = 100;
+
+// === AUDIO CLIPS ===
+const sounds = {
+  correct_glitch: new Audio("data:audio/mp3;base64,data:audio/mp3;base64,//vkRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA..."),
+  incorrect_glitch: new Audio("data:audio/mp3;base64,data:audio/mp3;base64,//vURAAABM5gVIUlIACRTjpwphgAWIYdYbmGgAMLw60/MQAAYsjAOAMAYJisnFAoFBIgQQuaBAgQIE..."),
+  glitch_typing: new Audio("data:audio/mp3;base64,data:audio/mp3;base64,//vUZAAABoRyzi0l4AJgiSnVoYwAH6IdX9nIgAIgjiu7NvAAgAAHqEPOa6MkYXRyIAQMAHDUC4IxvV..."),
+  glitch_throb_heart: new Audio("data:audio/mp3;base64,data:audio/mp3;base64,//vkRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA..."),
+  gateway_intro: new Audio("data:audio/mp3;base64,data:audio/mp3;base64,//vkRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA..."),
+  terminal_fight: new Audio("data:audio/mp3;base64,data:audio/mp3;base64,//vkRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA..."),
+  static: new Audio("data:audio/mp3;base64,data:audio/mp3;base64,//vkRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA..."),
+  run_it_button: new Audio("data:audio/mp3;base64,data:audio/mp3;base64,//vkRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...")
+};
+sounds.glitch_throb_heart.loop = true;
+sounds.gateway_intro.volume = 0.7;
+
+window.addEventListener('DOMContentLoaded', () => {
+  sounds.gateway_intro.play();
+  sounds.glitch_throb_heart.play();
+});
+
+function playTypingSFX() {
+  sounds.glitch_typing.currentTime = 0;
+  sounds.glitch_typing.play();
+}
+
+function getRandomChar() {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  return chars[Math.floor(Math.random() * chars.length)];
+}
+
+function cycleCharacters() {
+  setInterval(() => {
+    boxes.forEach((box, i) => {
+      if (!solved[i] && i !== currentGreenIndex) {
+        box.textContent = getRandomChar();
+      }
+    });
+  }, 100);
+}
+
+function startCycling() {
+  intervalId = setInterval(() => {
+    let nextIndex;
+    do {
+      nextIndex = Math.floor(Math.random() * boxes.length);
+    } while (solved[nextIndex]);
+
+    boxes.forEach((box, i) => {
+      if (!solved[i]) {
+        box.classList.remove('green');
+        box.style.backgroundColor = 'red';
+        box.style.boxShadow = '0 0 8px #ff0000';
+      }
+    });
+
+    currentGreenIndex = nextIndex;
+    const box = boxes[currentGreenIndex];
+    box.classList.add('green');
+    box.textContent = correctCode[currentGreenIndex];
+    box.style.backgroundColor = '#00ff00';
+    box.style.boxShadow = '0 0 8px #00ff00';
+  }, 1500);
+}
+
+boxes.forEach((box, i) => {
+  box.addEventListener('click', () => {
+    if (i === currentGreenIndex && !solved[i]) {
+      solved[i] = true;
+      box.classList.add('green');
+      box.style.backgroundColor = '#00ff00';
+      box.style.boxShadow = '0 0 12px #00ff00';
+      box.textContent = correctCode[i];
+      currentGreenIndex = null;
+      sounds.correct_glitch.currentTime = 0;
+      sounds.correct_glitch.play();
+
+      if (solved.every(Boolean)) {
+        clearInterval(intervalId);
+        setTimeout(triggerFullscreenGlitch, 800);
+      }
+    } else {
+      sounds.incorrect_glitch.currentTime = 0;
+      sounds.incorrect_glitch.play();
+    }
+  });
+});
+
+function triggerFullscreenGlitch() {
+  sounds.glitch_throb_heart.pause();
+  sounds.static.currentTime = 0;
+  sounds.static.play();
+  const glitchDiv = document.createElement('div');
+  glitchDiv.classList.add('fullscreen-glitch');
+  document.body.appendChild(glitchDiv);
+
+  setTimeout(() => {
+    glitchDiv.remove();
+    startTerminalSequence();
+  }, 2400);
+}
+
+function startTerminalSequence() {
+  const terminalOverlay = document.getElementById('terminal-overlay');
+  const linesContainer = document.getElementById('terminal-lines');
+  terminalOverlay.classList.add('show');
+  terminalOverlay.classList.remove('hidden');
+  linesContainer.innerHTML = '';
+
+  sounds.terminal_fight.currentTime = 0;
+  sounds.terminal_fight.play();
+  sounds.terminal_fight.onended = () => {
+    sounds.glitch_throb_heart.currentTime = 0;
+    sounds.glitch_throb_heart.play();
+  };
+}
+
+document.getElementById('run-button').addEventListener('click', () => {
+  sounds.run_it_button.currentTime = 0;
+  sounds.run_it_button.play();
+  transitionInProgress = true;
+});
+
 
 // === Cipher Glitch Logic ===
 function getRandomChar() {
