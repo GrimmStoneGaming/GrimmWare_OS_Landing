@@ -306,6 +306,8 @@ function revealAccessGranted() {
 
 // === RUN BUTTON / TRANSITION ===
 document.getElementById('run-button').addEventListener('click', () => {
+  const terminal = document.getElementById('terminal');
+  if (terminal) terminal.remove();
   if (transitionInProgress) return;
   transitionInProgress = true;
 
@@ -407,3 +409,4 @@ window.addEventListener('DOMContentLoaded', () => {
   cycleCharacters();
   startCycling();
 });
+  
