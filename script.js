@@ -16,13 +16,19 @@ const baseDelay = 100;
 
 // === Rage Tap Reset & Snark Injection ===
 function injectSnarkMessage(message) {
-  const instruction = document.getElementById('decrypt-instruction');
-  if (!instruction) return;
-  instruction.textContent = message;
-  instruction.classList.add('snark-glitch');
+  let snarkEl = document.getElementById('snark-message');
+  if (!snarkEl) {
+    snarkEl = document.createElement('div');
+    snarkEl.id = 'snark-message';
+    snarkEl.className = 'snark-glitch';
+    const instruction = document.getElementById('decrypt-instruction');
+    instruction.insertAdjacentElement('afterend', snarkEl);
+  }
+  snarkEl.textContent = message;
+  snarkEl.style.display = 'block';
+
   setTimeout(() => {
-    instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
-    instruction.classList.remove('snark-glitch');
+    snarkEl.style.display = 'none';
   }, 5000);
 }
 
