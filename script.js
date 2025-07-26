@@ -311,6 +311,9 @@ document.getElementById('run-button').addEventListener('click', () => {
   if (transitionInProgress) return;
   transitionInProgress = true;
 
+  const terminalOverlay = document.getElementById('terminal-overlay');
+  if (terminalOverlay) terminalOverlay.remove();
+
   const smashOverlay = document.getElementById('smash-overlay');
   smashOverlay.classList.add('active');
 
