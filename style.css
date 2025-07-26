@@ -17,6 +17,37 @@ body {
   height: 100vh;
   position: relative;
 }
+#startup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100000;
+}
+
+#initiate-button {
+  font-size: 1.8rem;
+  padding: 18px 36px;
+  font-family: 'Courier New', monospace;
+  color: #00ffcc;
+  background: transparent;
+  border: 2px solid #00ffcc;
+  cursor: pointer;
+  text-shadow: 0 0 10px #00ffee;
+  box-shadow: 0 0 20px #00ffaa;
+  transition: all 0.3s ease;
+}
+
+#initiate-button:hover {
+  background: #00ffcc;
+  color: black;
+  text-shadow: none;
+}
 
 /* === FULL SCREEN GLITCH ANIMATION === */
 .fullscreen-glitch {
