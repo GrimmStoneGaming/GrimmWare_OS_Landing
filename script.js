@@ -1,3 +1,13 @@
+
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    const overlay = document.getElementById("preload-overlay");
+    overlay.classList.add("fade-out");
+    setTimeout(() => overlay.remove(), 800);
+  }, 2300);
+});
+
+
 // === GRIMMWare OS Gateway Script ===
 
 const boxes = document.querySelectorAll('.box');
@@ -390,4 +400,20 @@ window.addEventListener('DOMContentLoaded', () => {
 
   cycleCharacters();
   startCycling();
+});
+
+
+
+document.getElementById("run-button").addEventListener("click", () => {
+  const smash = document.getElementById("smash-overlay");
+  smash.classList.add("active");
+
+  setTimeout(() => {
+    smash.classList.remove("active");
+  }, 1300);
+
+  setTimeout(() => {
+    // INSERT YOUR EXISTING "RUN IT" LOGIC HERE
+    console.log("RUN IT triggered."); // Placeholder
+  }, 1000);
 });
