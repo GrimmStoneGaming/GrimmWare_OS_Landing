@@ -1,4 +1,4 @@
-// === GRIMMWare OS Gateway Script === //
+// === GRIMMWare OS Gateway Script ===
 
 const boxes = document.querySelectorAll('.box');
 const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
@@ -58,8 +58,27 @@ function startCycling() {
 // === Box Click Detection ===
 boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
-    // WRATH: Rage tap detector
-    if (i !== currentGreenIndex || solved[i]) {
+    const isWrongTap = (i !== currentGreenIndex || solved[i]);
+
+    // GLUTTONY: Count excessive clicks on a single box
+    box.dataset.clickCount = (parseInt(box.dataset.clickCount) || 0) + 1;
+    if (box.dataset.clickCount >= 15) {
+      box.style.backgroundColor = '#ffa500';
+      box.style.boxShadow = '0 0 14px #ffa500';
+      setTimeout(() => {
+        box.style.backgroundColor = '#00ff00';
+        box.style.boxShadow = '0 0 12px #00ff00';
+      }, 3000);
+      eggMsg.textContent = '[HANDLER] :: Hungry much, stranger?';
+      eggMsg.style.opacity = 1;
+      setTimeout(() => {
+        eggMsg.textContent = '';
+        eggMsg.style.opacity = 0;
+      }, 4000);
+    }
+
+    // WRATH: Rage tap detector (only on wrong taps)
+    if (isWrongTap) {
       rageTapCount++;
       clearTimeout(rageTapTimer);
       rageTapTimer = setTimeout(() => {
@@ -87,24 +106,6 @@ boxes.forEach((box, i) => {
         }, 4000);
         return;
       }
-    }
-
-    // GLUTTONY: Count excessive clicks on a single box
-    box.dataset.clickCount = (parseInt(box.dataset.clickCount) || 0) + 1;
-
-    if (box.dataset.clickCount >= 15) {
-      box.style.backgroundColor = '#ffa500';
-      box.style.boxShadow = '0 0 14px #ffa500';
-      setTimeout(() => {
-        box.style.backgroundColor = '#00ff00';
-        box.style.boxShadow = '0 0 12px #00ff00';
-      }, 3000);
-      eggMsg.textContent = '[HANDLER] :: Hungry much, stranger?';
-      eggMsg.style.opacity = 1;
-      setTimeout(() => {
-        eggMsg.textContent = '';
-        eggMsg.style.opacity = 0;
-      }, 4000);
     }
 
     if (i === currentGreenIndex && !solved[i]) {
