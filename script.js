@@ -13,14 +13,14 @@ const baseDelay = 100;
 
 // === AUDIO CLIPS ===
 const sounds = {
-  correct_glitch: new Audio("data:audio/mp3;base64,data:audio/mp3;base64,//vkRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA..."),
-  incorrect_glitch: new Audio("data:audio/mp3;base64,data:audio/mp3;base64,//vURAAABM5gVIUlIACRTjpwphgAWIYdYbmGgAMLw60/MQAAYsjAOAMAYJisnFAoFBIgQQuaBAgQIE..."),
-  glitch_typing: new Audio("data:audio/mp3;base64,data:audio/mp3;base64,//vUZAAABoRyzi0l4AJgiSnVoYwAH6IdX9nIgAIgjiu7NvAAgAAHqEPOa6MkYXRyIAQMAHDUC4IxvV..."),
-  glitch_throb_heart: new Audio("data:audio/mp3;base64,data:audio/mp3;base64,//vkRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA..."),
-  gateway_intro: new Audio("data:audio/mp3;base64,data:audio/mp3;base64,//vkRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA..."),
-  terminal_fight: new Audio("data:audio/mp3;base64,data:audio/mp3;base64,//vkRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA..."),
-  static: new Audio("data:audio/mp3;base64,data:audio/mp3;base64,//vkRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA..."),
-  run_it_button: new Audio("data:audio/mp3;base64,data:audio/mp3;base64,//vkRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...")
+  correct_glitch: new Audio("data:audio/mp3;base64,//vkRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA..."),
+  incorrect_glitch: new Audio("data:audio/mp3;base64,//vURAAABM5gVIUlIACRTjpwphgAWIYdYbmGgAMLw60/MQAAYsjAOAMAYJisnFAoFBIgQQuaBAgQIE..."),
+  glitch_typing: new Audio("data:audio/mp3;base64,//vUZAAABoRyzi0l4AJgiSnVoYwAH6IdX9nIgAIgjiu7NvAAgAAHqEPOa6MkYXRyIAQMAHDUC4IxvV..."),
+  glitch_throb_heart: new Audio("data:audio/mp3;base64,//vkRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA..."),
+  gateway_intro: new Audio("data:audio/mp3;base64,//vkRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA..."),
+  terminal_fight: new Audio("data:audio/mp3;base64,//vkRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA..."),
+  static: new Audio("data:audio/mp3;base64,//vkRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA..."),
+  run_it_button: new Audio("data:audio/mp3;base64,//vkRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...")
 };
 sounds.glitch_throb_heart.loop = true;
 sounds.gateway_intro.volume = 0.7;
