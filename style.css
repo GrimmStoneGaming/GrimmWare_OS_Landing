@@ -1023,20 +1023,25 @@ opacity: 0.2;
     position: relative;
   }
 
+ @media (max-width: 600px) {
   #terminal-overlay {
-    margin-top: -4vh; /* pulls it higher */
-    margin-bottom: 0;
+    position: relative;
+    top: -7vh; /* bumped up 1 more */
+    margin-bottom: 15vh; /* give a little more breathing room */
     z-index: 1;
   }
 
   #access-container {
-    position: relative;
-    top: -1vh; /* attaches it visually to the bottom of terminal */
-    margin-bottom: 4vh; /* adds some spacing from edge of screen */
+    position: absolute;
+    bottom: 1vh; /* nudged down slightly */
+    left: 0;
+    width: 100%;
     z-index: 2;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 0;
+    margin: 0;
   }
 }
