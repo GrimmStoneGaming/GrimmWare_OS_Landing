@@ -413,8 +413,8 @@ function revealAccessGranted() {
 // === RUN BUTTON / TRANSITION (with Audio) ===
 document.getElementById('run-button').addEventListener('click', () => {
   fadeOutSound('glitchThrob', 1500);
-  playSound('runIt', 0);
-
+  sounds.runItPulse.pause();
+  sounds.runItPulse.currentTime = 0;
 
   const terminal = document.getElementById('terminal');
   if (terminal) terminal.remove();
