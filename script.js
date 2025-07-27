@@ -65,7 +65,13 @@ function fadeOutSound(key, duration = 1000) {
 const typingSpeed = 35;
 const baseDelay = 100;
 
-// === Cipher Glitch Logic w/ Audio ===
+let cipherSolved = false; // ✅ Flag to track completion
+
+function markCipherSolved() {
+  cipherSolved = true;
+}
+
+// === Cipher Glitch Logic w/ Audio + Trace Mode Handling ===
 function getRandomChar() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return chars[Math.floor(Math.random() * chars.length)];
@@ -88,11 +94,17 @@ function startCycling() {
       nextIndex = Math.floor(Math.random() * boxes.length);
     } while (solved[nextIndex]);
 
+    const isInverted = cipher.classList.contains('inverted');
+
     boxes.forEach((box, i) => {
       if (!solved[i]) {
         box.classList.remove('green');
-        box.style.backgroundColor = 'red';
-        box.style.boxShadow = '0 0 8px #ff0000';
+
+        const bgColor = isInverted ? '#00ff00' : 'red';
+        const shadowColor = isInverted ? '#00ff00' : '#ff0000';
+
+        box.style.backgroundColor = bgColor;
+        box.style.boxShadow = `0 0 8px ${shadowColor}`;
       }
     });
 
@@ -100,10 +112,48 @@ function startCycling() {
     const box = boxes[currentGreenIndex];
     box.classList.add('green');
     box.textContent = correctCode[currentGreenIndex];
-    box.style.backgroundColor = '#00ff00';
-    box.style.boxShadow = '0 0 8px #00ff00';
-  }, 1500);
+
+    const correctBgColor = isInverted ? 'red' : '#00ff00';
+    const correctShadowColor = isInverted ? '#ff0000' : '#00ff00';
+
+    box.style.backgroundColor = correctBgColor;
+    box.style.boxShadow = `0 0 8px ${correctShadowColor}`;
+  }, 750); // ✅ Cycle speed locked at 750ms
 }
+
+// === TRACE / TIMEOUT KILL SWITCH ===
+
+// 🔴 3:28 = Flip cipher color logic + warning
+setTimeout(() => {
+  if (!cipherSolved) {
+    decryptWrapper.classList.add('trace-mode');
+    decryptInstructions.textContent = "ACCESS DENIED: SYSTEM TRACE ACTIVE";
+    cipher.classList.add('inverted');
+  }
+}, 208000);
+
+// 🔒 6:57 = Lockout
+setTimeout(() => {
+  if (!cipherSolved) {
+    document.body.innerHTML = `
+      <div id="lockdownScreen" style="background:black;color:#ff2222;
+           font-family:monospace;display:flex;justify-content:center;
+           align-items:center;height:100vh;text-align:center;cursor:pointer;">
+        <div id="lockdownMessage">CONNECTION SEVERED<br>REBOOT TO RELINK</div>
+      </div>
+    `;
+
+    const msg = document.getElementById('lockdownMessage');
+    setInterval(() => {
+      msg.style.visibility = msg.style.visibility === 'hidden' ? 'visible' : 'visible';
+    }, 800);
+
+    document.getElementById('lockdownScreen').addEventListener('click', () => {
+      location.reload();
+    });
+  }
+}, 417000);
+
 
 // === Box Click Detection w/ Audio ===
 boxes.forEach((box, i) => {
@@ -119,6 +169,7 @@ boxes.forEach((box, i) => {
       playSound('correctGlitch');
 
       if (solved.every(Boolean)) {
+        markCipherSolved(); // ✅ critical for trace mode bypass
         clearInterval(intervalId);
         setTimeout(() => {
           fadeOutSound('glitchThrob', 1000);
