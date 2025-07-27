@@ -502,3 +502,16 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 2300);
   });
 });
+// === LOCK OUT LANDSCAPE MODE ===
+function checkOrientation() {
+  if (window.innerHeight < window.innerWidth) {
+    alert("Please rotate your device to portrait mode.");
+    document.body.style.display = "none";
+  } else {
+    document.body.style.display = "block";
+  }
+}
+
+window.addEventListener("orientationchange", checkOrientation);
+window.addEventListener("resize", checkOrientation);
+checkOrientation(); // run on load
