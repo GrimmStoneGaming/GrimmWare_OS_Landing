@@ -1,6 +1,7 @@
 // === GRIMMWare OS Gateway Script ===
 
 const boxes = document.querySelectorAll('.box');
+const cipher = document.querySelector('.decrypt-wrapper');
 const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
 let currentGreenIndex = null;
 let intervalId = null;
@@ -520,7 +521,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
       const logo = document.querySelector('.logo-main');
       const tagline = document.querySelector('.tagline');
-      const cipher = document.querySelector('.decrypt-wrapper');
       const instruction = document.querySelector('.decrypt-instruction');
 
       setTimeout(() => { logo.style.animation = 'fadeIn 1.2s forwards'; }, 0);
