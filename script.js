@@ -347,6 +347,7 @@ function revealAccessGranted() {
   const warningLine = document.querySelector('.warning');
   const runWrapper = document.getElementById('run-wrapper');
   const accessMessage = document.getElementById('access-message');
+  document.getElementById('access-container').classList.remove('hidden');
 
   accessMessage.classList.remove('hidden');
   accessMessage.style.opacity = 1;
