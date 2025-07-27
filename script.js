@@ -11,16 +11,31 @@ let transitionInProgress = false;
 
 // === AUDIO SETUP ===
 const sounds = {
-  gatewayIntro: new Audio('assets/audio/Gateway Intro.mp3'),
-  glitchThrob: new Audio('assets/audio/Glitch Throb Heart.mp3'),
-  preterminalGlitch: new Audio('assets/audio/preterminal glitch.mp3'),
-  correctGlitch: new Audio('assets/audio/Correct Glitch.mp3'),
-  incorrectGlitch: new Audio('assets/audio/Incorrect Glitch.mp3'),
-  terminalFight: new Audio('assets/audio/Terminal Fight.mp3'),
-  glitchTyping: new Audio('assets/audio/glitch typing.mp3'),
-  runIt: new Audio('assets/audio/RUN IT BUTTON.mp3')
+  gatewayIntro: new Audio('sounds/Gateway Intro.mp3'),
+  glitchThrob: new Audio('sounds/Glitch Throb Heart.mp3'),
+  preterminalGlitch: new Audio('sounds/preterminal glitch.mp3'),
+  correctGlitch: new Audio('sounds/Correct Glitch.mp3'),
+  incorrectGlitch: new Audio('sounds/Incorrect Glitch.mp3'),
+  terminalFight: new Audio('sounds/Terminal Fight.mp3'),
+  glitchTyping: new Audio('sounds/glitch typing.mp3'),
+  runIt: new Audio('sounds/RUN IT BUTTON.mp3'),
+  static: new Audio('sounds/Static.mp3')
 };
 sounds.glitchThrob.loop = true;
+
+// === AUDIO UNLOCK ===
+function unlockAudio() {
+  Object.values(sounds).forEach(audio => {
+    audio.volume = 0;
+    audio.play().then(() => {
+      audio.pause();
+      audio.currentTime = 0;
+      audio.volume = 1;
+    }).catch(() => {
+      // Silently ignore autoplay errors; they'll resolve on next interaction
+    });
+  });
+}
 
 // === SOUND HELPERS ===
 function playSound(key, delay = 0, reset = true) {
@@ -454,23 +469,26 @@ window.addEventListener('DOMContentLoaded', () => {
   const preloadOverlay = document.getElementById('preload-overlay');
 
   initButton.addEventListener('click', () => {
+    // 🔓 Unlock all audio for autoplay on interaction
+    unlockAudio();
+
     // Step 1: Hide INIT screen
     initScreen.style.display = 'none';
 
-    // Step 2: Show preload overlay for real
+    // Step 2: Show preload overlay
     preloadOverlay.style.display = 'block';
     preloadOverlay.style.opacity = '1';
     preloadOverlay.classList.remove('fade-out');
 
-    // ✅ INIT AUDIO STARTS HERE
+    // ✅ Play Gateway Intro sound shortly after INIT press
     playSound('gatewayIntro', 100);
 
-    // Step 3: Start delay before fading out
+    // Step 3: Delay before beginning animations
     setTimeout(() => {
       preloadOverlay.classList.add('fade-out');
       setTimeout(() => preloadOverlay.remove(), 1000);
 
-      // ✅ AFTER preload delay ends, THEN begin Gateway animations
+      // ✅ Gateway visuals animate in
       const logo = document.querySelector('.logo-main');
       const tagline = document.querySelector('.tagline');
       const cipher = document.querySelector('.decrypt-wrapper');
@@ -482,7 +500,7 @@ window.addEventListener('DOMContentLoaded', () => {
         cipher.classList.remove('hidden');
         cipher.style.animation = 'glitchIn 0.6s forwards';
 
-        // ✅ Looping throb begins when cipher glitches in
+        // ✅ Start background throb loop once cipher appears
         playSound('glitchThrob');
       }, 1600);
 
@@ -508,3 +526,4 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 2300);
   });
 });
+
