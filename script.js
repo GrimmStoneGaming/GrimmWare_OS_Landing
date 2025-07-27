@@ -504,14 +504,34 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 // === LOCK OUT LANDSCAPE MODE ===
 function checkOrientation() {
+  const warningOverlayId = 'rotate-warning';
+  let existing = document.getElementById(warningOverlayId);
+
   if (window.innerHeight < window.innerWidth) {
-    alert("Please rotate your device to portrait mode.");
-    document.body.style.display = "none";
+    if (!existing) {
+      const overlay = document.createElement('div');
+      overlay.id = warningOverlayId;
+      overlay.style.position = 'fixed';
+      overlay.style.top = 0;
+      overlay.style.left = 0;
+      overlay.style.width = '100vw';
+      overlay.style.height = '100vh';
+      overlay.style.background = 'black';
+      overlay.style.color = '#ff4444';
+      overlay.style.zIndex = 9999999;
+      overlay.style.display = 'flex';
+      overlay.style.alignItems = 'center';
+      overlay.style.justifyContent = 'center';
+      overlay.style.fontFamily = 'monospace';
+      overlay.style.fontSize = '1.5rem';
+      overlay.innerHTML = '📴 Please rotate your device to portrait mode.';
+      document.body.appendChild(overlay);
+    }
   } else {
-    document.body.style.display = "block";
+    if (existing) existing.remove();
   }
 }
 
-window.addEventListener("orientationchange", checkOrientation);
-window.addEventListener("resize", checkOrientation);
-checkOrientation(); // run on load
+window.addEventListener('resize', checkOrientation);
+window.addEventListener('orientationchange', checkOrientation);
+checkOrientation();
