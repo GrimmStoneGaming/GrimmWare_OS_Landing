@@ -1020,12 +1020,12 @@ opacity: 0.2;
     position: relative;
   }
 
-  #terminal-overlay {
-    position: relative;
-    top: -6vh;
-    margin-bottom: 14vh;
-    z-index: 1;
-  }
+ #terminal-overlay {
+  position: relative;
+  margin-top: 4vh;
+  margin-bottom: 14vh;
+  z-index: 1;
+}
 
   #access-container {
     position: absolute;
