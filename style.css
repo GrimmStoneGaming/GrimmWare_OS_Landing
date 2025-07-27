@@ -1002,28 +1002,36 @@ opacity: 0.2;
     0 0 12px #ff7777;
   animation: corruptText 5s infinite !important;
 }
-/* === DEFCON 53 GLOBAL WRAPPER — DARK FIX === */
-body.defcon53,
-.decrypt-wrapper.defcon53 {
-  animation: defconPulse 0.6s infinite alternate;
-  box-shadow: 0 0 20px red;
-  border: 2px solid red !important;
-  background-color: rgba(20, 0, 0, 0.4) !important; /* dark and subtle */
-  transition: background-color 0.3s ease-in-out;
+/* === DEFCON 53 VISUAL LOCKDOWN === */
+body.defcon53 {
+  background-color: black !important;
 }
 
-/* === Glitch Text Style for Trace Mode === */
+.decrypt-wrapper.defcon53 {
+  border: 2px solid red !important;
+  box-shadow: 0 0 12px red, 0 0 20px red inset;
+  background-color: rgba(20, 0, 0, 0.4) !important;
+  animation: defconPulse 0.6s infinite alternate;
+  transition: all 0.3s ease-in-out;
+}
+
+/* === TRACE MODE TEXT GLITCH === */
 .trace-mode {
   color: red !important;
   border-color: red !important;
   animation: glitchText 0.9s infinite;
+  font-family: monospace;
+  font-weight: bold;
+  letter-spacing: 1px;
 }
 
+/* === GLOWING RED PULSE === */
 @keyframes defconPulse {
-  0%   { box-shadow: 0 0 8px red; }
+  0%   { box-shadow: 0 0 8px red, 0 0 5px red inset; }
   100% { box-shadow: 0 0 20px red, 0 0 10px red inset; }
 }
 
+/* === INSTRUCTION TEXT GLITCH JITTER === */
 @keyframes glitchText {
   0%, 100% { transform: translate(0, 0); }
   20% { transform: translate(-1px, 1px); }
@@ -1031,5 +1039,5 @@ body.defcon53,
   60% { transform: translate(-1px, -1px); }
   80% { transform: translate(1px, 1px); }
 }
-/* === END TRACE MODE STYLES === */
+
 
