@@ -47,6 +47,100 @@ body {
     display: none !important;
   }
 }
+/* === RESPONSIVE LAYOUT === */
+.lp-content h1 {
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  text-align: center;
+}
+.lp-content p {
+  font-size: clamp(1rem, 4vw, 1.5rem);
+  text-align: center;
+}
+
+.logo-container img {
+  max-width: 80vw;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+
+.decrypt-boxes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  max-width: 100%;
+  padding: 0 5vw;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.box {
+  font-size: clamp(1.4rem, 6vw, 2.2rem);
+  padding: 10px 14px;
+}
+.separator {
+  font-size: clamp(1.4rem, 6vw, 2.2rem);
+  padding: 0 6px;
+}
+
+#decrypt-instruction {
+  font-size: clamp(0.8rem, 4vw, 1.2rem);
+  text-align: center;
+  margin-top: 1rem;
+}
+
+#access-message {
+  font-size: clamp(1rem, 4vw, 1.5rem);
+  padding: 1rem;
+  text-align: center;
+}
+
+#run-wrapper button {
+  font-size: clamp(1rem, 4.5vw, 2rem);
+  padding: 0.6rem 1.2rem;
+}
+
+#init-button {
+  font-size: clamp(1rem, 4.5vw, 2rem);
+  padding: 0.8rem 1.5rem;
+  margin: 2rem auto;
+  display: block;
+}
+
+.terminal-line {
+  font-size: clamp(0.8rem, 3.5vw, 1.2rem);
+  word-break: break-word;
+}
+
+/* === FALLBACK FOR SMALL SCREENS === */
+@media screen and (max-height: 600px) {
+  .lp-content h1,
+  .lp-content p,
+  #access-message,
+  #run-wrapper button,
+  #init-button {
+    transform: scale(0.85);
+  }
+}
+
+/* === EXTRA SMALL DEVICE PATCH (like iPhone 6) === */
+@media screen and (max-width: 360px) {
+  .box, .separator {
+    font-size: 1rem;
+    padding: 6px 10px;
+  }
+
+  #decrypt-instruction {
+    font-size: 0.8rem;
+  }
+
+  .decrypt-boxes {
+    gap: 3px;
+    padding: 0 3vw;
+  }
+}
 
 /* === FULL SCREEN GLITCH ANIMATION === */
 .fullscreen-glitch {
