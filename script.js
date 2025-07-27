@@ -163,12 +163,14 @@ window.addEventListener('DOMContentLoaded', () => {
         decryptWrapper?.classList.add('trace-mode');
         cipher?.classList.add('inverted');
 
-        // === Override instruction corruption interval by cloning ===
         const original = document.querySelector('.decrypt-instruction');
         const clone = original.cloneNode(true);
         original.parentNode.replaceChild(clone, original);
         decryptInstructions = clone;
         decryptInstructions.textContent = "ACCESS DENIED: SYSTEM TRACE ACTIVE";
+
+        // NEW: Apply trace-mode FX styling
+        decryptInstructions.classList.add('trace-mode');
 
         console.log("[TRACE] Trace mode activated.");
       }
