@@ -49,7 +49,17 @@ function playSound(key, delay = 0, reset = true) {
     sounds[key].pause();
     sounds[key].currentTime = 0;
   }
-  setTimeout(() => sounds[key].play(), delay);
+  setTimeout(() => {
+    sounds[key].play();
+
+    // Special override: stop 'gatewayIntro' at 2300ms
+    if (key === 'gatewayIntro') {
+      setTimeout(() => {
+        sounds.gatewayIntro.pause();
+        sounds.gatewayIntro.currentTime = 0;
+      }, 2300);
+    }
+  }, delay);
 }
 
 function fadeOutSound(key, duration = 1000) {
@@ -160,6 +170,7 @@ boxes.forEach((box, i) => {
     }
   });
 });
+
 
 
 // === Fullscreen Glitch to Terminal Trigger ===
