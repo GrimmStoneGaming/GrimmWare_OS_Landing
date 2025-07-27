@@ -158,11 +158,7 @@ boxes.forEach((box, i) => {
           fadeOutSound('glitchThrob', 1000);
           playSound('preterminalGlitch');
           triggerFullscreenGlitch();
-          setTimeout(() => {
-            if (cipherSolved) {
-              playSound('glitchThrob'); // ⏱ This now plays only AFTER terminalFight sequence begins
-            }
-          }, 6700); // Same delay from your terminalFight audio kickoff
+          // Removed glitchThrob replay to avoid early kick-in
         }, 800);
       }
     } else {
@@ -170,7 +166,6 @@ boxes.forEach((box, i) => {
     }
   });
 });
-
 
 
 // === Fullscreen Glitch to Terminal Trigger ===
