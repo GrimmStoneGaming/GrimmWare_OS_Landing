@@ -1061,7 +1061,7 @@ body.defcon53 {
 /* === MOBILE ONLY LOCKDOWN === */
 @media screen and (orientation: landscape) {
   body::before {
-    content: "Flip your f***ing phone, rookie. GrimmWare doesnâ€™t run sideways.";
+    content: "Flip your phone, rookie. GrimmWare doesn’t run sideways.";
     position: fixed;
     top: 50%;
     left: 50%;
@@ -1131,6 +1131,106 @@ body.defcon53 {
   }
 }
 
+@media only screen and (max-width: 768px) {
+  #access-container {
+    padding-top: 50px !important;
+    padding-bottom: 60px !important;
+    min-height: unset !important;
+  }
+
+  #terminal-overlay {
+    transform: translate(-50%, -60%) scale(0.9) !important;
+  }
+
+  .run-button-wrapper {
+    margin-bottom: 16px !important;
+  }
+}
+
+/* === MOBILE ONLY LOCKDOWN === */
+@media screen and (orientation: landscape) {
+  body::before {
+    content: "Flip your phone, rookie. GrimmWare doesn\\'t run sideways.";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: black;
+    color: red;
+    font-size: 1.2rem;
+    padding: 20px;
+    z-index: 1000000;
+    text-align: center;
+    box-shadow: 0 0 20px red;
+    border: 2px solid red;
+  }
+
+  #gateway-ui,
+  #init-screen,
+  #landing-page {
+    display: none !important;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .top-container {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .logo-main {
+    max-height: 160px;
+  }
+
+  .tagline {
+    max-height: 50px;
+  }
+
+  .decrypt-wrapper {
+    padding: 16px 20px;
+    transform: scale(0.85);
+  }
+
+  .box {
+    width: 38px;
+    height: 50px;
+    font-size: 1.4rem;
+  }
+
+  .separator {
+    font-size: 1.5rem;
+  }
+
+  #access-container {
+    padding-top: 50px !important;
+    padding-bottom: 60px !important;
+    min-height: unset !important;
+  }
+
+  #terminal-overlay {
+    transform: translate(-50%, -60%) scale(0.9) !important;
+  }
+
+  .run-button-wrapper {
+    padding: 10px 24px;
+    margin-bottom: 16px !important;
+  }
+
+  #run-button {
+    font-size: 1rem;
+    padding: 12px 22px;
+  }
+
+  .decrypt-instruction {
+    font-size: 0.9rem;
+  }
+
+  .grimm-footer {
+    font-size: 0.65rem;
+    bottom: 6px;
+  }
+}
+
 /* === LOCK SCROLLS === */
 html, body {
   overflow: hidden;
@@ -1153,11 +1253,3 @@ html, body {
   z-index: 5000;
   text-align: center;
 }
-
-@media (max-width: 768px) {
-  .grimm-footer {
-    font-size: 0.65rem;
-    bottom: 6px;
-  }
-}
-
