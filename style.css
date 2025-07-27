@@ -975,4 +975,19 @@ opacity: 0.2;
   box-shadow: 0 0 32px #00ffcc;
   transform: scale(1.05);
 }
+/* === BEGIN TRACE MODE STYLES === */
+
+.inverted .char.correct {
+  color: red !important;
+}
+.inverted .char.incorrect {
+  color: lime !important;
+}
+
+.trace-mode {
+  color: red !important;
+  border-color: red !important;
+}
+
+/* === END TRACE MODE STYLES === */
 
