@@ -102,7 +102,7 @@ function startCycling() {
     box.textContent = correctCode[currentGreenIndex];
     box.style.backgroundColor = '#00ff00';
     box.style.boxShadow = '0 0 8px #00ff00';
-  }, 800);
+  }, 1500);
 }
 
 // === Box Click Detection w/ Audio ===
@@ -502,36 +502,3 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 2300);
   });
 });
-// === LOCK OUT LANDSCAPE MODE ===
-function checkOrientation() {
-  const warningOverlayId = 'rotate-warning';
-  let existing = document.getElementById(warningOverlayId);
-
-  if (window.innerHeight < window.innerWidth) {
-    if (!existing) {
-      const overlay = document.createElement('div');
-      overlay.id = warningOverlayId;
-      overlay.style.position = 'fixed';
-      overlay.style.top = 0;
-      overlay.style.left = 0;
-      overlay.style.width = '100vw';
-      overlay.style.height = '100vh';
-      overlay.style.background = 'black';
-      overlay.style.color = '#ff4444';
-      overlay.style.zIndex = 9999999;
-      overlay.style.display = 'flex';
-      overlay.style.alignItems = 'center';
-      overlay.style.justifyContent = 'center';
-      overlay.style.fontFamily = 'monospace';
-      overlay.style.fontSize = '1.5rem';
-      overlay.innerHTML = '📴 Please rotate your device to portrait mode.';
-      document.body.appendChild(overlay);
-    }
-  } else {
-    if (existing) existing.remove();
-  }
-}
-
-//window.addEventListener('resize', checkOrientation);
-//window.addEventListener('orientationchange', checkOrientation);
-//checkOrientation();
