@@ -11,6 +11,8 @@ let solved = Array(boxes.length).fill(false);
 let transitionInProgress = false;
 let cipherSolved = false; // ✅ Flag to track completion
 
+const traceDevMode = true; // 🧪 Toggle this to false to re-enable lockdown timer
+
 console.log("[INIT] Cipher Solved Flag:", cipherSolved);
 console.log("[INIT] Decrypt Wrapper:", decryptWrapper);
 console.log("[INIT] Decrypt Instructions:", decryptInstructions);
@@ -176,30 +178,32 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     }, 5000);
 
-    setTimeout(() => {
-      console.log("[LOCKOUT] 10s dev lockout timeout fired. Cipher solved:", cipherSolved);
-      if (!cipherSolved) {
-        document.body.innerHTML = `
-          <div id=\"lockdownScreen\" style=\"background:black;color:#ff2222;
-               font-family:monospace;display:flex;justify-content:center;
-               align-items:center;height:100vh;text-align:center;cursor:pointer;\">
-            <div id=\"lockdownMessage\">CONNECTION SEVERED<br>REBOOT TO RELINK</div>
-          </div>
-        `;
+    if (!traceDevMode) {
+      setTimeout(() => {
+        console.log("[LOCKOUT] 10s dev lockout timeout fired. Cipher solved:", cipherSolved);
+        if (!cipherSolved) {
+          document.body.innerHTML = `
+            <div id=\"lockdownScreen\" style=\"background:black;color:#ff2222;
+                 font-family:monospace;display:flex;justify-content:center;
+                 align-items:center;height:100vh;text-align:center;cursor:pointer;\">
+              <div id=\"lockdownMessage\">CONNECTION SEVERED<br>REBOOT TO RELINK</div>
+            </div>
+          `;
 
-        const msg = document.getElementById('lockdownMessage');
-        let visible = true;
-        setInterval(() => {
-          visible = !visible;
-          msg.style.visibility = visible ? 'visible' : 'hidden';
-        }, 800);
+          const msg = document.getElementById('lockdownMessage');
+          let visible = true;
+          setInterval(() => {
+            visible = !visible;
+            msg.style.visibility = visible ? 'visible' : 'hidden';
+          }, 800);
 
-        document.getElementById('lockdownScreen').addEventListener('click', () => {
-          location.reload();
-        });
-        console.log("[LOCKOUT] Lockdown screen activated.");
-      }
-    }, 10000);
+          document.getElementById('lockdownScreen').addEventListener('click', () => {
+            location.reload();
+          });
+          console.log("[LOCKOUT] Lockdown screen activated.");
+        }
+      }, 10000);
+    }
   });
 });
 
