@@ -158,6 +158,7 @@ boxes.forEach((box, i) => {
           fadeOutSound('glitchThrob', 1000);
           playSound('preterminalGlitch');
           triggerFullscreenGlitch();
+          // Removed glitchThrob replay to avoid early kick-in
         }, 800);
       }
     } else {
@@ -177,13 +178,6 @@ function triggerFullscreenGlitch() {
     glitchDiv.remove();
     startTerminalSequence();
   }, 2400);
-}
-
-// === Patch: Delay glitchThrob after 'Run it.' ===
-function delayGlitchThrobAfterRunIt() {
-  setTimeout(() => {
-    playSound('glitchThrob');
-  }, 500); // 500ms after 'Run it.'
 }
 
 // === Glitch Destruction Logic ===
@@ -224,6 +218,108 @@ function typeText(target, text, speed, callback) {
       if (callback) callback();
     }
   }, speed);
+}
+
+// === Terminal Sequence Logic (w/ Audio) ===
+function startTerminalSequence() {
+  const terminalOverlay = document.getElementById('terminal-overlay');
+  const linesContainer = document.getElementById('terminal-lines');
+  terminalOverlay.classList.add('show');
+  terminalOverlay.classList.remove('hidden');
+  linesContainer.innerHTML = '';
+
+  playSound('terminalFight');
+  setTimeout(() => {
+    playSound('glitchThrob');
+  }, 6700); // time-aligned to throb after terminalFight starts
+
+  const sequence = [
+    { tag: 'SYS', text: 'Protocol breach detected...', delay: 1000 },
+    { tag: 'HANDLER', text: 'Initializing command injection...', delay: 1000 },
+    { tag: 'SYS', text: 'Firewall spike deployed.', delay: 1000 },
+    { tag: 'HANDLER', text: 'Injecting signal disruptor...', delay: 1000 },
+    { tag: 'GATEWAY', text: 'Rejecting foreign signal...', delay: 1000 },
+    { tag: 'SYS', text: 'Override vector accepted.', delay: 1000 },
+    { tag: 'SYS', text: 'Beginning internal sequence...', delay: 1000 },
+    { tag: 'HANDLER', text: 'Forcing cipher lockout...', delay: 1000 },
+    { tag: 'GATEWAY', text: 'Memory lattice destabilizing...', delay: 1000 },
+    { tag: 'SYS', text: 'Subsystem identity layers disabled.', delay: 1000 },
+    { tag: 'SYS', text: 'Visual anchor nodes disengaged.', delay: 1000 },
+    { tag: 'SYS', text: 'Sequence continues...', delay: 1000 },
+    { tag: 'SYS', text: 'Connection integrity failing...', delay: 1000 },
+    { tag: 'SYS', text: 'Cipher structure collapse confirmed.', delay: 1000 },
+    { tag: 'HANDLER', text: 'Awaiting final response...', delay: 1000 },
+    { tag: 'SYS', text: 'Instruction stream fragmentation in progress...', delay: 1000 },
+    { tag: 'HANDLER', text: 'No more walls. Only wires.', delay: 2000 },
+    { tag: '', text: '', delay: 200, action: () => zapElement('.logo-container') },
+    { tag: '', text: '', delay: 0, isFinal: true }
+  ];
+
+  function typeLine({ tag, text, delay, isFinal, action }, index) {
+    const line = document.createElement('div');
+    line.classList.add('terminal-line');
+
+    if (tag) {
+      const prefix = document.createElement('span');
+      prefix.classList.add(`${tag.toLowerCase()}-prefix`);
+      prefix.textContent = `[${tag}] ::`;
+      line.appendChild(prefix);
+    }
+
+    const content = document.createElement('span');
+    content.classList.add('terminal-content');
+    line.appendChild(content);
+    linesContainer.appendChild(line);
+    terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
+
+    let charIndex = 0;
+    const interval = setInterval(() => {
+      if (charIndex < text.length) {
+        content.textContent += text.charAt(charIndex++);
+        terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
+        playSound('glitchTyping', 0, false);
+      } else {
+        clearInterval(interval);
+
+        switch (index) {
+          case 6: zapElement('.decrypt-instruction'); break;
+          case 7:
+            const green = document.querySelectorAll('.green');
+            [...green].sort(() => Math.random() - 0.5).forEach((el, idx) => {
+              setTimeout(() => zapElement(`#${el.id}`), idx * 75);
+            });
+            break;
+          case 8:
+            const boxes = document.querySelectorAll('.box:not(.green)');
+            [...boxes].sort(() => Math.random() - 0.5).forEach((el, idx) => {
+              setTimeout(() => zapElement(`#${el.id}`), idx * 75);
+            });
+            break;
+          case 9: zapElement('.decrypt-wrapper'); break;
+          case 10: zapElement('.tagline'); break;
+        }
+
+        if (action) action();
+
+        if (isFinal) {
+          setTimeout(() => {
+            injectFinalRunItLine();
+            purgeTopContainer();
+            setTimeout(() => {
+              terminalOverlay.classList.add('hidden');
+              revealAccessGranted();
+            }, 3000);
+          }, 500);
+        } else if (index + 1 < sequence.length) {
+          setTimeout(() => {
+            typeLine(sequence[index + 1], index + 1);
+          }, delay);
+        }
+      }
+    }, typingSpeed);
+  }
+
+  typeLine(sequence[0], 0);
 }
 
 // === FINAL FLICKERING LINE ===
@@ -279,9 +375,6 @@ function injectFinalRunItLine() {
 
   // Audio
   playSound('runIt');
-
-  // PATCH: Trigger glitchThrob fade-in after delay
-  delayGlitchThrobAfterRunIt();
 }
 
 // === ACCESS GRANTED SEQUENCE ===
@@ -321,6 +414,7 @@ function revealAccessGranted() {
 document.getElementById('run-button').addEventListener('click', () => {
   fadeOutSound('glitchThrob', 1500);
   playSound('runIt', 0);
+
 
   const terminal = document.getElementById('terminal');
   if (terminal) terminal.remove();
