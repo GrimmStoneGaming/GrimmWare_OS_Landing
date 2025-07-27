@@ -1,4 +1,4 @@
-// === GRIMMWare OS Gateway Script ===
+/* === GRIMMWare OS Gateway Script === */
 
 const boxes = document.querySelectorAll('.box');
 const decryptWrapper = document.querySelector('.decrypt-wrapper');
@@ -20,7 +20,7 @@ console.log("[INIT] Decrypt Instructions:", decryptInstructions);
 // === AUDIO SETUP ===
 const sounds = {
   gatewayIntro: new Audio('sounds/Gateway Intro.mp3'),
-  glitchThrob: new Audio('sounds/Glitch Throb Heart.mp3'),
+  glitchThrob: new Audio('sounds/Glitch Throb Heart.mp3?v=2'),
   preterminalGlitch: new Audio('sounds/preterminal glitch.mp3'),
   correctGlitch: new Audio('sounds/Correct Glitch.mp3'),
   incorrectGlitch: new Audio('sounds/Incorrect Glitch.mp3'),
@@ -162,23 +162,24 @@ window.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       console.log("[TRACE] 208s prod trace timeout fired. Cipher solved:", cipherSolved);
       if (!cipherSolved) {
-        decryptWrapper?.classList.add('trace-mode');
-        cipher?.classList.add('inverted');
+        document.body.classList.add('glitch-flash');
 
-        const original = document.querySelector('.decrypt-instruction');
-        const clone = original.cloneNode(true);
-        original.parentNode.replaceChild(clone, original);
-        decryptInstructions = clone;
-        decryptInstructions.textContent = "ACCESS DENIED: SYSTEM TRACE ACTIVE";
+        setTimeout(() => {
+          decryptWrapper?.classList.add('trace-mode');
+          cipher?.classList.add('inverted');
 
-        // NEW: Apply trace-mode FX styling
-        decryptInstructions.classList.add('trace-mode');
+          const original = document.querySelector('.decrypt-instruction');
+          const clone = original.cloneNode(true);
+          original.parentNode.replaceChild(clone, original);
+          decryptInstructions = clone;
+          decryptInstructions.textContent = "ACCESS DENIED: SYSTEM TRACE ACTIVE";
 
-        // NEW: Add global red warning state
-        document.body.classList.add('defcon53');
-        decryptWrapper.classList.add('defcon53');
+          decryptInstructions.classList.add('trace-mode', 'glitch');
+          document.body.classList.add('defcon53');
+          decryptWrapper.classList.add('defcon53');
 
-        console.log("[TRACE] Trace mode activated.");
+          console.log("[TRACE] Trace mode activated.");
+        }, 600);
       }
     }, 208000);
 
@@ -210,6 +211,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
 
 
 
