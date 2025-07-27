@@ -7,11 +7,50 @@ let intervalId = null;
 let solved = Array(boxes.length).fill(false);
 let transitionInProgress = false;
 
+// === GRIMMWare OS Gateway Script (Full Audio Integrated) ===
+
+// === AUDIO SETUP ===
+const sounds = {
+  gatewayIntro: new Audio('assets/audio/Gateway Intro.mp3'),
+  glitchThrob: new Audio('assets/audio/Glitch Throb Heart.mp3'),
+  preterminalGlitch: new Audio('assets/audio/preterminal glitch.mp3'),
+  correctGlitch: new Audio('assets/audio/Correct Glitch.mp3'),
+  incorrectGlitch: new Audio('assets/audio/Incorrect Glitch.mp3'),
+  terminalFight: new Audio('assets/audio/Terminal Fight.mp3'),
+  glitchTyping: new Audio('assets/audio/glitch typing.mp3'),
+  runIt: new Audio('assets/audio/RUN IT BUTTON.mp3')
+};
+sounds.glitchThrob.loop = true;
+
+// === SOUND HELPERS ===
+function playSound(key, delay = 0, reset = true) {
+  if (!sounds[key]) return;
+  if (reset) {
+    sounds[key].pause();
+    sounds[key].currentTime = 0;
+  }
+  setTimeout(() => sounds[key].play(), delay);
+}
+
+function fadeOutSound(key, duration = 1000) {
+  if (!sounds[key]) return;
+  const audio = sounds[key];
+  let step = audio.volume / (duration / 100);
+  let fade = setInterval(() => {
+    audio.volume = Math.max(0, audio.volume - step);
+    if (audio.volume <= 0.01) {
+      clearInterval(fade);
+      audio.pause();
+      audio.volume = 1;
+    }
+  }, 100);
+}
+
 // === TIMING CONSTANTS ===
 const typingSpeed = 35;
 const baseDelay = 100;
 
-// === Cipher Glitch Logic ===
+// === Cipher Glitch Logic w/ Audio ===
 function getRandomChar() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return chars[Math.floor(Math.random() * chars.length)];
@@ -51,7 +90,7 @@ function startCycling() {
   }, 1500);
 }
 
-// === Box Click Detection ===
+// === Box Click Detection w/ Audio ===
 boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
     if (i === currentGreenIndex && !solved[i]) {
@@ -62,10 +101,18 @@ boxes.forEach((box, i) => {
       box.textContent = correctCode[i];
       currentGreenIndex = null;
 
+      playSound('correctGlitch');
+
       if (solved.every(Boolean)) {
         clearInterval(intervalId);
-        setTimeout(triggerFullscreenGlitch, 800);
+        setTimeout(() => {
+          fadeOutSound('glitchThrob', 1000);
+          playSound('preterminalGlitch');
+          triggerFullscreenGlitch();
+        }, 800);
       }
+    } else {
+      playSound('incorrectGlitch');
     }
   });
 });
@@ -122,13 +169,18 @@ function typeText(target, text, speed, callback) {
   }, speed);
 }
 
-// === Terminal Sequence Logic ===
+// === Terminal Sequence Logic (w/ Audio) ===
 function startTerminalSequence() {
   const terminalOverlay = document.getElementById('terminal-overlay');
   const linesContainer = document.getElementById('terminal-lines');
   terminalOverlay.classList.add('show');
   terminalOverlay.classList.remove('hidden');
   linesContainer.innerHTML = '';
+
+  playSound('terminalFight');
+  setTimeout(() => {
+    playSound('glitchThrob');
+  }, 6700); // time-aligned to throb after terminalFight starts
 
   const sequence = [
     { tag: 'SYS', text: 'Protocol breach detected...', delay: 1000 },
@@ -174,6 +226,7 @@ function startTerminalSequence() {
       if (charIndex < text.length) {
         content.textContent += text.charAt(charIndex++);
         terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
+        playSound('glitchTyping', 0, false);
       } else {
         clearInterval(interval);
 
@@ -218,8 +271,7 @@ function startTerminalSequence() {
   typeLine(sequence[0], 0);
 }
 
-// === FINAL FLICKERING LINE ===
-function injectFinalRunItLine() {
+// === FINAL FLICKERING LINE ===function injectFinalRunItLine() {
   const linesContainer = document.getElementById('terminal-lines');
 
   const finalLine = document.createElement('div');
@@ -255,6 +307,24 @@ function injectFinalRunItLine() {
 
   finalLine.appendChild(runItSpan);
   linesContainer.appendChild(finalLine);
+
+  // Force reflow before animation trigger
+  void runItSpan.offsetWidth;
+
+  // Remove inline animation to ensure CSS trigger fires
+  runItSpan.style.removeProperty('animation');
+
+  requestAnimationFrame(() => {
+    runItSpan.classList.remove('run-it');
+    runItSpan.classList.add('run-it-flicker', 'shock-pulse');
+  });
+
+  linesContainer.scrollTop = linesContainer.scrollHeight;
+  linesContainer.classList.add('terminal-pulse');
+
+  setTimeout(() => linesContainer.classList.remove('terminal-pulse'), 1000);
+  playSound('runIt'); // play audio when line drops
+}
 
   // Force reflow before animation trigger
   void runItSpan.offsetWidth;
@@ -304,8 +374,10 @@ function revealAccessGranted() {
   });
 }
 
-// === RUN BUTTON / TRANSITION ===
+// === RUN BUTTON / TRANSITION (with Audio) ===
 document.getElementById('run-button').addEventListener('click', () => {
+  playSound('runIt', 0); // 🔊 Play immediately, bypassing transition delay
+
   const terminal = document.getElementById('terminal');
   if (terminal) terminal.remove();
   if (transitionInProgress) return;
@@ -317,10 +389,12 @@ document.getElementById('run-button').addEventListener('click', () => {
   const smashOverlay = document.getElementById('smash-overlay');
   smashOverlay.classList.add('active');
 
+  // Visual screen smash FX
   setTimeout(() => {
     smashOverlay.classList.remove('active');
   }, 1300);
 
+  // Begin page strip transition
   setTimeout(() => {
     const overlay = document.getElementById('gateway-overlay');
     const landingPage = document.getElementById('landing-page');
@@ -340,6 +414,7 @@ document.getElementById('run-button').addEventListener('click', () => {
     overlay.style.display = 'flex';
     overlay.style.background = 'transparent';
 
+    // Cover strips fall in
     for (let i = 0; i < numStrips; i++) {
       const strip = document.createElement('div');
       strip.classList.add('strip', 'cover');
@@ -349,6 +424,7 @@ document.getElementById('run-button').addEventListener('click', () => {
       overlay.appendChild(strip);
     }
 
+    // Reveal after delay
     setTimeout(() => {
       landingPage.style.opacity = 1;
       const strips = Array.from(overlay.querySelectorAll('.strip'));
@@ -362,14 +438,15 @@ document.getElementById('run-button').addEventListener('click', () => {
         }, index * 30);
       });
 
+      // Cleanup
       const totalDelay = shuffled.length * 30 + fallOutDuration;
       setTimeout(() => {
         overlay.style.display = 'none';
       }, totalDelay + 500);
     }, fallInDuration + delayBeforeReveal);
-  }, 1000);
+  }, 1000); // 🔄 Keep this delay for visual pacing
 });
- 
+
 // === INIT SCREEN TRIGGER ===
 window.addEventListener('DOMContentLoaded', () => {
   const initScreen = document.getElementById('init-screen');
@@ -384,6 +461,9 @@ window.addEventListener('DOMContentLoaded', () => {
     preloadOverlay.style.display = 'block';
     preloadOverlay.style.opacity = '1';
     preloadOverlay.classList.remove('fade-out');
+
+    // ✅ INIT AUDIO STARTS HERE
+    playSound('gatewayIntro', 100);
 
     // Step 3: Start delay before fading out
     setTimeout(() => {
@@ -401,6 +481,9 @@ window.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         cipher.classList.remove('hidden');
         cipher.style.animation = 'glitchIn 0.6s forwards';
+
+        // ✅ Looping throb begins when cipher glitches in
+        playSound('glitchThrob');
       }, 1600);
 
       setTimeout(() => {
@@ -410,7 +493,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
         const raw = instruction.textContent;
         const glitchChars = '!@#$%?~*';
-
         setInterval(() => {
           const corrupted = raw.split('').map(char =>
             Math.random() < 0.07 && char !== ' '
@@ -423,7 +505,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
       cycleCharacters();
       startCycling();
-
-    }, 2300); // closes setTimeout (preload delay)
+    }, 2300);
   });
 });
