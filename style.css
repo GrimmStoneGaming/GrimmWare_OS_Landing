@@ -1019,28 +1019,24 @@ opacity: 0.2;
   #gateway-ui {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    position: relative;
   }
 
   #terminal-overlay {
-    margin-top: 4vh;
-    margin-bottom: 12vh;
-    transform: translateY(-5vh);
+    margin-top: -4vh; /* pulls it higher */
+    margin-bottom: 0;
+    z-index: 1;
   }
 
   #access-container {
-    position: absolute;
-    bottom: 2vh;
-    left: 0;
-    width: 100%;
+    position: relative;
+    top: -1vh; /* attaches it visually to the bottom of terminal */
+    margin-bottom: 4vh; /* adds some spacing from edge of screen */
     z-index: 2;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    pointer-events: none;
-  }
-
-  #access-container * {
-    pointer-events: auto;
   }
 }
