@@ -988,6 +988,19 @@ opacity: 0.2;
   color: red !important;
   border-color: red !important;
 }
+.decrypt-wrapper.trace-mode {
+  background-color: #220000 !important;
+  border: 2px solid red !important;
+  box-shadow: 0 0 20px red !important;
+}
 
+.decrypt-instruction.trace-mode {
+  color: red !important;
+  text-shadow:
+    0 0 4px #ff0000,
+    0 0 8px #ff4444,
+    0 0 12px #ff7777;
+  animation: corruptText 5s infinite !important;
+}
 /* === END TRACE MODE STYLES === */
 
