@@ -360,9 +360,14 @@ opacity: 0.1;
 
 .decrypt-boxes {
   display: flex;
-  align-items: center;
-  gap: 10px;
   justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  max-width: 100%;
+  padding: 0 5vw;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .box {
