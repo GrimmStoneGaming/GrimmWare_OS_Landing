@@ -11,7 +11,7 @@ let solved = Array(boxes.length).fill(false);
 let transitionInProgress = false;
 let cipherSolved = false; // ✅ Flag to track completion
 
-const traceDevMode = false; // 🧪 Toggle this to true to override lockdown timer for testing
+const traceDevMode = true; // 🧪 Toggle this to true to override lockdown timer for testing
 
 console.log("[INIT] Cipher Solved Flag:", cipherSolved);
 console.log("[INIT] Decrypt Wrapper:", decryptWrapper);
@@ -72,6 +72,19 @@ const baseDelay = 100;
 function markCipherSolved() {
   cipherSolved = true;
   console.log("[MARK] Cipher marked as solved.");
+
+  // Stop glitchThrob immediately
+  fadeOutSound('glitchThrob', 200);
+
+  // Schedule glitchThrob restart near end of terminal fight audio
+  const terminalFight = sounds.terminalFight;
+  terminalFight.addEventListener('play', () => {
+    setTimeout(() => {
+      if (!cipherSolved) return;
+      console.log("[AUDIO] Replaying glitchThrob for terminal climax");
+      playSound('glitchThrob');
+    }, terminalFight.duration * 1000 - 1500); // 1500ms before it ends
+  }, { once: true });
 }
 
 function getRandomChar() {
@@ -164,6 +177,11 @@ window.addEventListener('DOMContentLoaded', () => {
       if (!cipherSolved) {
         document.body.classList.add('glitch-flash');
 
+        // Add red pulse overlay edge glow
+        const pulseOverlay = document.createElement('div');
+        pulseOverlay.className = 'trace-pulse-overlay';
+        document.body.appendChild(pulseOverlay);
+
         setTimeout(() => {
           decryptWrapper?.classList.add('trace-mode');
           cipher?.classList.add('inverted');
@@ -211,8 +229,6 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-
-
 
 
 // === Fullscreen Glitch to Terminal Trigger ===
