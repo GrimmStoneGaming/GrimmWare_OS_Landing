@@ -939,3 +939,38 @@ opacity: 0.2;
 #access-container {
   padding-top: 170px;
 }
+/* === INIT SCREEN STYLES === */
+#init-screen {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#init-button {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1.6rem;
+  color: #00ffcc;
+  background: transparent;
+  border: 2px solid #00ffcc;
+  padding: 18px 36px;
+  border-radius: 8px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  box-shadow: 0 0 18px #00ffcc;
+  transition: all 0.3s ease;
+}
+
+#init-button:hover {
+  background: #00ffcc;
+  color: black;
+  box-shadow: 0 0 32px #00ffcc;
+  transform: scale(1.05);
+}
+
