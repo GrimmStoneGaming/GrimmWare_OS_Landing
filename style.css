@@ -975,4 +975,30 @@ opacity: 0.2;
   box-shadow: 0 0 32px #00ffcc;
   transform: scale(1.05);
 }
+/* === LANDSCAPE LOCKOUT: MOBILE ONLY === */
+@media screen and (max-width: 900px) and (orientation: landscape) {
+  body::before {
+    content: 'ROTATE DEVICE TO PORTRAIT';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: black;
+    color: red;
+    font-size: 1.8rem;
+    font-family: 'Courier New', monospace;
+    z-index: 9999999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  #gateway-ui,
+  #init-screen,
+  #landing-page {
+    display: none !important;
+  }
+}
 
