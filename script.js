@@ -27,7 +27,8 @@ const sounds = {
   terminalFight: new Audio('sounds/Terminal Fight.mp3'),
   glitchTyping: new Audio('sounds/glitch typing.mp3'),
   runIt: new Audio('sounds/RUN IT BUTTON.mp3'),
-  static: new Audio('sounds/Static.mp3')
+  static: new Audio('sounds/Static.mp3'),
+  runItPulse: new Audio('sounds/Run It Pulse.mp3')
 };
 
 function unlockAudio() {
@@ -229,9 +230,7 @@ function startTerminalSequence() {
   linesContainer.innerHTML = '';
 
   playSound('terminalFight');
-  setTimeout(() => {
-    playSound('glitchThrob');
-  }, 6700); // time-aligned to throb after terminalFight starts
+  // Removed glitchThrob replay // time-aligned to throb after terminalFight starts
 
   const sequence = [
     { tag: 'SYS', text: 'Protocol breach detected...', delay: 1000 },
@@ -375,6 +374,7 @@ function injectFinalRunItLine() {
 
   // Audio
   playSound('runIt');
+  setTimeout(() => { playSound('runItPulse'); }, 500);
 }
 
 // === ACCESS GRANTED SEQUENCE ===
