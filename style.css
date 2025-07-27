@@ -1024,7 +1024,7 @@ opacity: 0.2;
   #terminal-overlay {
     margin-top: 4vh;
     margin-bottom: 12vh;
-    z-index: 1;
+    transform: translateY(-5vh);
   }
 
   #access-container {
