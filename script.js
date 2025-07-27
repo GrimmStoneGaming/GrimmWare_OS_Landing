@@ -412,10 +412,17 @@ function revealAccessGranted() {
 
 // === RUN BUTTON / TRANSITION (with Audio) ===
 document.getElementById('run-button').addEventListener('click', () => {
+ playSound('runIt');
   fadeOutSound('glitchThrob', 1500);
   sounds.runItPulse.pause();
   sounds.runItPulse.currentTime = 0;
 
+  const footer = document.querySelector('.grimm-footer');
+  if (footer) {
+  
+  footer.style.transition = 'opacity 0.8s ease';
+  footer.style.opacity = '0';
+}
   const terminal = document.getElementById('terminal');
   if (terminal) terminal.remove();
   if (transitionInProgress) return;
