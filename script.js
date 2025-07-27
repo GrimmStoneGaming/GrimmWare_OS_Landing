@@ -1,12 +1,15 @@
 // === GRIMMWare OS Gateway Script ===
 
 const boxes = document.querySelectorAll('.box');
+const decryptWrapper = document.querySelector('.decrypt-wrapper');
 const cipher = document.querySelector('.decrypt-wrapper');
+const decryptInstructions = document.querySelector('.decrypt-instruction');
 const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
 let currentGreenIndex = null;
 let intervalId = null;
 let solved = Array(boxes.length).fill(false);
 let transitionInProgress = false;
+let cipherSolved = false; // ✅ Flag to track completion
 
 // === GRIMMWare OS Gateway Script (Full Audio Integrated) ===
 
