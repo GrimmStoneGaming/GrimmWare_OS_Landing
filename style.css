@@ -975,8 +975,8 @@ opacity: 0.2;
   box-shadow: 0 0 32px #00ffcc;
   transform: scale(1.05);
 }
-/* === LANDSCAPE LOCKOUT === */
-@media screen and (orientation: landscape) {
+/* === LANDSCAPE LOCKOUT: MOBILE ONLY === */
+@media screen and (max-width: 900px) and (orientation: landscape) {
   body::before {
     content: 'ROTATE DEVICE TO PORTRAIT';
     position: fixed;
@@ -1001,6 +1001,7 @@ opacity: 0.2;
     display: none !important;
   }
 }
+
 /* === MOBILE BOX SIZING === */
 @media (max-width: 500px) {
   .box {
