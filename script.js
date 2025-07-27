@@ -11,7 +11,7 @@ let solved = Array(boxes.length).fill(false);
 let transitionInProgress = false;
 let cipherSolved = false; // ✅ Flag to track completion
 
-const traceDevMode = true; // 🧪 Toggle this to true to override lockdown timer for testing
+const traceDevMode = false; // 🧪 Toggle this to true to override lockdown timer for testing
 
 console.log("[INIT] Cipher Solved Flag:", cipherSolved);
 console.log("[INIT] Decrypt Wrapper:", decryptWrapper);
