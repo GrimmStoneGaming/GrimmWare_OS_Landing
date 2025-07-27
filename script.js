@@ -28,7 +28,6 @@ const sounds = {
   static: new Audio('sounds/Static.mp3')
 };
 
-// === AUDIO UNLOCK ===
 function unlockAudio() {
   Object.values(sounds).forEach(audio => {
     audio.volume = 0;
@@ -42,7 +41,6 @@ function unlockAudio() {
   });
 }
 
-// === SOUND HELPERS ===
 function playSound(key, delay = 0, reset = true) {
   if (!sounds[key]) return;
   if (reset) {
@@ -123,42 +121,6 @@ function startCycling() {
   }, 750);
 }
 
-// === TRACE / TIMEOUT KILL SWITCH ===
-setTimeout(() => {
-  console.log("[TRACE] 208s trace timeout fired. Cipher solved:", cipherSolved);
-  if (!cipherSolved) {
-    decryptWrapper?.classList.add('trace-mode');
-    if (decryptInstructions) decryptInstructions.textContent = "ACCESS DENIED: SYSTEM TRACE ACTIVE";
-    cipher?.classList.add('inverted');
-    console.log("[TRACE] Trace mode activated.");
-  }
-}, 208000);
-
-setTimeout(() => {
-  console.log("[LOCKOUT] 417s lockout timeout fired. Cipher solved:", cipherSolved);
-  if (!cipherSolved) {
-    document.body.innerHTML = `
-      <div id="lockdownScreen" style="background:black;color:#ff2222;
-           font-family:monospace;display:flex;justify-content:center;
-           align-items:center;height:100vh;text-align:center;cursor:pointer;">
-        <div id="lockdownMessage">CONNECTION SEVERED<br>REBOOT TO RELINK</div>
-      </div>
-    `;
-
-    const msg = document.getElementById('lockdownMessage');
-    let visible = true;
-    setInterval(() => {
-      visible = !visible;
-      msg.style.visibility = visible ? 'visible' : 'hidden';
-    }, 800);
-
-    document.getElementById('lockdownScreen').addEventListener('click', () => {
-      location.reload();
-    });
-    console.log("[LOCKOUT] Lockdown screen activated.");
-  }
-}, 417000);
-
 // === Box Click Detection w/ Audio ===
 boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
@@ -186,6 +148,49 @@ boxes.forEach((box, i) => {
     } else {
       playSound('incorrectGlitch');
     }
+  });
+});
+
+// === DEV TEST TIMERS – START AFTER INIT ===
+window.addEventListener('DOMContentLoaded', () => {
+  const initButton = document.getElementById('init-button');
+  initButton.addEventListener('click', () => {
+    console.log("[DEV TIMER] Init clicked. Starting test timeouts (5s / 10s)");
+
+    setTimeout(() => {
+      console.log("[TRACE] 5s dev trace timeout fired. Cipher solved:", cipherSolved);
+      if (!cipherSolved) {
+        decryptWrapper?.classList.add('trace-mode');
+        if (decryptInstructions) decryptInstructions.textContent = "ACCESS DENIED: SYSTEM TRACE ACTIVE";
+        cipher?.classList.add('inverted');
+        console.log("[TRACE] Trace mode activated.");
+      }
+    }, 5000);
+
+    setTimeout(() => {
+      console.log("[LOCKOUT] 10s dev lockout timeout fired. Cipher solved:", cipherSolved);
+      if (!cipherSolved) {
+        document.body.innerHTML = `
+          <div id=\"lockdownScreen\" style=\"background:black;color:#ff2222;
+               font-family:monospace;display:flex;justify-content:center;
+               align-items:center;height:100vh;text-align:center;cursor:pointer;\">
+            <div id=\"lockdownMessage\">CONNECTION SEVERED<br>REBOOT TO RELINK</div>
+          </div>
+        `;
+
+        const msg = document.getElementById('lockdownMessage');
+        let visible = true;
+        setInterval(() => {
+          visible = !visible;
+          msg.style.visibility = visible ? 'visible' : 'hidden';
+        }, 800);
+
+        document.getElementById('lockdownScreen').addEventListener('click', () => {
+          location.reload();
+        });
+        console.log("[LOCKOUT] Lockdown screen activated.");
+      }
+    }, 10000);
   });
 });
 
