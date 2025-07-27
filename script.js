@@ -215,6 +215,35 @@ function startTerminalSequence() {
     { tag: 'HANDLER', text: 'Awaiting final response...', delay: 1000 },
     { tag: 'SYS', text: 'Instruction stream fragmentation in progress...', delay: 1000 },
     { tag: 'HANDLER', text: 'No more walls. Only wires.', delay: 2000 },
+    { tag: '', text: '', delay: 500, action: () => {
+    const accessMessage = document.getElementById('access-message');
+    accessMessage.classList.remove('hidden');
+    accessMessage.style.opacity = 1;
+
+    const grantedLine = document.querySelector('.granted');
+    const warningLine = document.querySelector('.warning');
+
+    typeText(grantedLine, 'ACCESS GRANTED.  SYSTEM UNLOCKED.', 40, () => {
+      setTimeout(() => {
+        typeText(warningLine, '>>> WARNING: THIS MAY CHANGE YOU.', 75, () => {
+          warningLine.classList.add('glitch');
+
+          const rawText = warningLine.textContent;
+          const glitchChars = '!@#$%?~*';
+
+          setInterval(() => {
+            const corrupted = rawText.split('').map(char =>
+              Math.random() < 0.07 && char !== ' '
+                ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
+                : char
+            ).join('');
+            warningLine.textContent = corrupted;
+          }, 200);
+        });
+      }, 1000);
+    });
+  }},
+
     { tag: '', text: '', delay: 200, action: () => zapElement('.logo-container') },
     { tag: '', text: '', delay: 0, isFinal: true }
   ];
