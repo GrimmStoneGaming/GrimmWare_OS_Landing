@@ -11,7 +11,7 @@ let solved = Array(boxes.length).fill(false);
 let transitionInProgress = false;
 let cipherSolved = false; // ✅ Flag to track completion
 
-const traceDevMode = true; // 🧪 Toggle this to false to re-enable lockdown timer
+const traceDevMode = true; // 🧪 Toggle this to true to override lockdown timer for testing
 
 console.log("[INIT] Cipher Solved Flag:", cipherSolved);
 console.log("[INIT] Decrypt Wrapper:", decryptWrapper);
@@ -20,7 +20,7 @@ console.log("[INIT] Decrypt Instructions:", decryptInstructions);
 // === AUDIO SETUP ===
 const sounds = {
   gatewayIntro: new Audio('sounds/Gateway Intro.mp3'),
-  glitchThrob: new Audio('sounds/Glitch Throb Heart.mp3?v=2'),
+  glitchThrob: new Audio('sounds/Glitch Throb Heart.mp3'),
   preterminalGlitch: new Audio('sounds/preterminal glitch.mp3'),
   correctGlitch: new Audio('sounds/Correct Glitch.mp3'),
   incorrectGlitch: new Audio('sounds/Incorrect Glitch.mp3'),
@@ -157,10 +157,10 @@ boxes.forEach((box, i) => {
 window.addEventListener('DOMContentLoaded', () => {
   const initButton = document.getElementById('init-button');
   initButton.addEventListener('click', () => {
-    console.log("[DEV TIMER] Init clicked. Starting test timeouts (5s / 10s)");
+    console.log("[DEV TIMER] Init clicked. Starting prod timeouts (208s / 417s)");
 
     setTimeout(() => {
-      console.log("[TRACE] 5s dev trace timeout fired. Cipher solved:", cipherSolved);
+      console.log("[TRACE] 208s prod trace timeout fired. Cipher solved:", cipherSolved);
       if (!cipherSolved) {
         decryptWrapper?.classList.add('trace-mode');
         cipher?.classList.add('inverted');
@@ -174,13 +174,17 @@ window.addEventListener('DOMContentLoaded', () => {
         // NEW: Apply trace-mode FX styling
         decryptInstructions.classList.add('trace-mode');
 
+        // NEW: Add global red warning state
+        document.body.classList.add('defcon53');
+        decryptWrapper.classList.add('defcon53');
+
         console.log("[TRACE] Trace mode activated.");
       }
-    }, 5000);
+    }, 208000);
 
     if (!traceDevMode) {
       setTimeout(() => {
-        console.log("[LOCKOUT] 10s dev lockout timeout fired. Cipher solved:", cipherSolved);
+        console.log("[LOCKOUT] 417s prod lockout timeout fired. Cipher solved:", cipherSolved);
         if (!cipherSolved) {
           document.body.innerHTML = `
             <div id=\"lockdownScreen\" style=\"background:black;color:#ff2222;
@@ -202,10 +206,11 @@ window.addEventListener('DOMContentLoaded', () => {
           });
           console.log("[LOCKOUT] Lockdown screen activated.");
         }
-      }, 10000);
+      }, 417000);
     }
   });
 });
+
 
 
 // === Fullscreen Glitch to Terminal Trigger ===
