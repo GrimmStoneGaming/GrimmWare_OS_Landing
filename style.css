@@ -285,14 +285,13 @@ opacity: 0.1;
 
 /*===Bottom Container===*/
 #access-container {
-  padding-top: 10vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative;
-  top: 0;
+  margin-top: 6vh;
 }
+
 
 /* === LOGO + TAGLINE === */
 .logo-container {
@@ -938,8 +937,8 @@ opacity: 0.2;
 }
 
 /* === ACCESS CONTAINER PADDING FIX === */
-#access-container {
-  padding-top: 170px;
+/*#access-container {
+  padding-top: 170px;-->
 }
 /* === INIT SCREEN STYLES === */
 #init-screen {
