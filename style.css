@@ -1002,5 +1002,33 @@ opacity: 0.2;
     0 0 12px #ff7777;
   animation: corruptText 5s infinite !important;
 }
+/* === DEFCON 53 GLOBAL WRAPPER === */
+body.defcon53,
+.decrypt-wrapper.defcon53 {
+  animation: defconPulse 0.6s infinite alternate;
+  box-shadow: 0 0 20px red;
+  border: 2px solid red !important;
+  background-color: rgba(255, 0, 0, 0.05) !important;
+}
+
+/* === Glitch Text Style for Trace Mode === */
+.trace-mode {
+  color: red !important;
+  border-color: red !important;
+  animation: glitchText 0.9s infinite;
+}
+
+@keyframes defconPulse {
+  0%   { box-shadow: 0 0 8px red; }
+  100% { box-shadow: 0 0 20px red, 0 0 10px red inset; }
+}
+
+@keyframes glitchText {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-1px, 1px); }
+  40% { transform: translate(1px, -1px); }
+  60% { transform: translate(-1px, -1px); }
+  80% { transform: translate(1px, 1px); }
+}
 /* === END TRACE MODE STYLES === */
 
