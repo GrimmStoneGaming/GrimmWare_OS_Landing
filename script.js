@@ -478,7 +478,7 @@ window.addEventListener('DOMContentLoaded', () => {
         cipher.classList.remove('hidden');
         cipher.style.animation = 'glitchIn 0.6s forwards';
         playSound('glitchThrob');
-      }, 400);
+      }, 100);
 
       setTimeout(() => {
         instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
