@@ -11,7 +11,7 @@ let solved = Array(boxes.length).fill(false);
 let transitionInProgress = false;
 let cipherSolved = false; // ✅ Flag to track completion
 
-const traceDevMode = true; // 🧪 Toggle this to true to override lockdown timer for testing
+const traceDevMode = false; // 🧪 Toggle this to true to override lockdown timer for testing
 
 console.log("[INIT] Cipher Solved Flag:", cipherSolved);
 console.log("[INIT] Decrypt Wrapper:", decryptWrapper);
@@ -75,16 +75,6 @@ function markCipherSolved() {
 
   // Stop glitchThrob immediately
   fadeOutSound('glitchThrob', 200);
-
-  // Schedule glitchThrob restart near end of terminal fight audio
-  const terminalFight = sounds.terminalFight;
-  terminalFight.addEventListener('play', () => {
-    setTimeout(() => {
-      if (!cipherSolved) return;
-      console.log("[AUDIO] Replaying glitchThrob for terminal climax");
-      playSound('glitchThrob');
-    }, terminalFight.duration * 1000 - 1500); // 1500ms before it ends
-  }, { once: true });
 }
 
 function getRandomChar() {
@@ -158,74 +148,15 @@ boxes.forEach((box, i) => {
           fadeOutSound('glitchThrob', 1000);
           playSound('preterminalGlitch');
           triggerFullscreenGlitch();
+          setTimeout(() => {
+            if (cipherSolved) {
+              playSound('glitchThrob'); // ⏱ This now plays only AFTER terminalFight sequence begins
+            }
+          }, 6700); // Same delay from your terminalFight audio kickoff
         }, 800);
       }
     } else {
       playSound('incorrectGlitch');
-    }
-  });
-});
-
-// === DEV TEST TIMERS – START AFTER INIT ===
-window.addEventListener('DOMContentLoaded', () => {
-  const initButton = document.getElementById('init-button');
-  initButton.addEventListener('click', () => {
-    console.log("[DEV TIMER] Init clicked. Starting prod timeouts (208s / 417s)");
-
-    setTimeout(() => {
-      console.log("[TRACE] 208s prod trace timeout fired. Cipher solved:", cipherSolved);
-      if (!cipherSolved) {
-        document.body.classList.add('glitch-flash');
-
-        // Add red pulse overlay edge glow
-        const pulseOverlay = document.createElement('div');
-        pulseOverlay.className = 'trace-pulse-overlay';
-        document.body.appendChild(pulseOverlay);
-
-        setTimeout(() => {
-          decryptWrapper?.classList.add('trace-mode');
-          cipher?.classList.add('inverted');
-
-          const original = document.querySelector('.decrypt-instruction');
-          const clone = original.cloneNode(true);
-          original.parentNode.replaceChild(clone, original);
-          decryptInstructions = clone;
-          decryptInstructions.textContent = "ACCESS DENIED: SYSTEM TRACE ACTIVE";
-
-          decryptInstructions.classList.add('trace-mode', 'glitch');
-          document.body.classList.add('defcon53');
-          decryptWrapper.classList.add('defcon53');
-
-          console.log("[TRACE] Trace mode activated.");
-        }, 600);
-      }
-    }, 208000);
-
-    if (!traceDevMode) {
-      setTimeout(() => {
-        console.log("[LOCKOUT] 417s prod lockout timeout fired. Cipher solved:", cipherSolved);
-        if (!cipherSolved) {
-          document.body.innerHTML = `
-            <div id=\"lockdownScreen\" style=\"background:black;color:#ff2222;
-                 font-family:monospace;display:flex;justify-content:center;
-                 align-items:center;height:100vh;text-align:center;cursor:pointer;\">
-              <div id=\"lockdownMessage\">CONNECTION SEVERED<br>REBOOT TO RELINK</div>
-            </div>
-          `;
-
-          const msg = document.getElementById('lockdownMessage');
-          let visible = true;
-          setInterval(() => {
-            visible = !visible;
-            msg.style.visibility = visible ? 'visible' : 'hidden';
-          }, 800);
-
-          document.getElementById('lockdownScreen').addEventListener('click', () => {
-            location.reload();
-          });
-          console.log("[LOCKOUT] Lockdown screen activated.");
-        }
-      }, 417000);
     }
   });
 });
