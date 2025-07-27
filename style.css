@@ -1002,7 +1002,7 @@ opacity: 0.2;
   }
 }
 
-/* === MOBILE BOX SIZING === */
+/* === MOBILE BOX SIZING & GATEWAY ADJUSTMENTS === */
 @media (max-width: 500px) {
   .box {
     width: 36px;
@@ -1039,6 +1039,10 @@ opacity: 0.2;
     align-items: center;
     padding: 0;
     margin: 0;
+    pointer-events: none; /* Prevents blocking clicks behind */
+  }
+
+  #access-container * {
+    pointer-events: auto; /* Allows clicks on button + text */
   }
 }
-
