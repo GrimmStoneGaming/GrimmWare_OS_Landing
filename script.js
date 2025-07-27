@@ -134,7 +134,7 @@ function startCycling() {
 
     box.style.backgroundColor = correctBgColor;
     box.style.boxShadow = `0 0 8px ${correctShadowColor}`;
-  }, 750);
+  }, 600);
 }
 
 // === Box Click Detection w/ Audio ===
