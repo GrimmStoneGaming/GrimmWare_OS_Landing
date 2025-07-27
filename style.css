@@ -1017,15 +1017,15 @@ opacity: 0.2;
 
 @media (max-width: 600px) {
   #gateway-ui {
-    position: relative;
+    display: flex;
+    flex-direction: column;
   }
 
- #terminal-overlay {
-  position: relative;
-  margin-top: 4vh;
-  margin-bottom: 14vh;
-  z-index: 1;
-}
+  #terminal-overlay {
+    margin-top: 4vh;
+    margin-bottom: 12vh;
+    z-index: 1;
+  }
 
   #access-container {
     position: absolute;
@@ -1037,12 +1037,10 @@ opacity: 0.2;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 0;
-    margin: 0;
-    pointer-events: none; /* Prevents blocking clicks behind */
+    pointer-events: none;
   }
 
   #access-container * {
-    pointer-events: auto; /* Allows clicks on button + text */
+    pointer-events: auto;
   }
 }
