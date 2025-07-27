@@ -1023,7 +1023,6 @@ opacity: 0.2;
     position: relative;
   }
 
- @media (max-width: 600px) {
   #terminal-overlay {
     position: relative;
     top: -7vh; /* bumped up 1 more */
