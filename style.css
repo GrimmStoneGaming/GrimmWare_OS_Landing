@@ -912,7 +912,7 @@ opacity: 0.2;
   z-index: 99999;
   opacity: 1;
   pointer-events: none;
-  display: none; /* ðŸ› ï¸ THIS RIGHT HERE */
+  display: none; /* Ã°Å¸â€ºÂ Ã¯Â¸Â THIS RIGHT HERE */
   transition: opacity 0.8s ease;
 }
 
@@ -1058,61 +1058,20 @@ body.defcon53 {
 
 
 
-/* ===== MOBILE RESPONSIVE OVERRIDES ===== */
+/* === PATCHED MOBILE LAYOUT FIXES === */
+
 @media screen and (max-width: 768px) {
-  html, body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    max-height: 100vh;
-    max-width: 100vw;
-    height: 100vh;
-    width: 100vw;
-    position: fixed;
-    touch-action: none;
-    overscroll-behavior: none;
-    background-color: black;
-  }
-
-  #cipher-container, #terminal-container, .decrypt-box, #run-button {
-    transform: scale(0.85);
-    transform-origin: center center;
-  }
-
-  .decrypt-box {
-    width: 36px;
-    height: 36px;
-    font-size: 1rem;
-  }
-
-  #run-button {
-    padding: 10px 18px;
-    font-size: 0.9rem;
+  #cipher-container {
+    transform: scale(0.72);
+    margin-top: -1vh;
   }
 
   #terminal-container {
-    font-size: 0.75rem;
-    padding: 12px;
-    height: auto;
-    overflow: hidden;
+    margin-top: -6vh;
   }
 
-  /* Prevent landscape mode layout shifts */
-  @media (orientation: landscape) {
-    body::before {
-      content: "Please rotate your device to portrait mode.";
-      color: white;
-      font-size: 1.2rem;
-      position: absolute;
-      top: 40%;
-      left: 10%;
-      width: 80%;
-      text-align: center;
-      background: black;
-      z-index: 9999;
-    }
-    #cipher-container, #terminal-container {
-      display: none !important;
-    }
+  .access-granted {
+    position: relative;
+    top: -4vh;
   }
 }
