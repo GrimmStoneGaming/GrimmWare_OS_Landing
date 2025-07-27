@@ -1014,4 +1014,20 @@ opacity: 0.2;
     padding: 16px 20px;
   }
 }
+@media (max-width: 600px) {
+  #access-container {
+    padding-top: 4vh;
+    order: 1;
+    margin-top: 0;
+  }
+
+  #terminal-overlay {
+    order: 0;
+  }
+
+  #gateway-ui {
+    display: flex;
+    flex-direction: column;
+  }
+}
 
