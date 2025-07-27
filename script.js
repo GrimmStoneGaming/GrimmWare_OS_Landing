@@ -69,8 +69,6 @@ function fadeOutSound(key, duration = 1000) {
 const typingSpeed = 35;
 const baseDelay = 100;
 
-let cipherSolved = false; // ✅ Flag to track completion
-
 function markCipherSolved() {
   cipherSolved = true;
 }
