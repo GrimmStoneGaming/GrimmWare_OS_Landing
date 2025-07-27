@@ -379,21 +379,27 @@ document.getElementById('run-button').addEventListener('click', () => {
     }
   }, 2300);
 window.addEventListener('DOMContentLoaded', () => {
-  // === INIT SCREEN TRIGGER ===
-const initScreen = document.getElementById('init-screen');
-const initButton = document.getElementById('init-button');
-const preloadOverlay = document.getElementById('preload-overlay');
+// === INIT SCREEN TRIGGER ===
+window.addEventListener('DOMContentLoaded', () => {
+  const initScreen = document.getElementById('init-screen');
+  const initButton = document.getElementById('init-button');
+  const preloadOverlay = document.getElementById('preload-overlay');
 
-initButton.addEventListener('click', () => {
-  initScreen.style.display = 'none'; // Hide INIT screen
-  preloadOverlay.classList.remove('fade-out'); // Reset overlay
-  preloadOverlay.style.opacity = '1'; // Make sure it's visible
+  initButton.addEventListener('click', () => {
+    // Step 1: Hide INIT screen
+    initScreen.style.display = 'none';
 
-  // Trigger the preload delay sequence
-  setTimeout(() => {
-    preloadOverlay.classList.add('fade-out');
-    setTimeout(() => preloadOverlay.remove(), 1000);
-  }, 2300);
+    // Step 2: Force PRELOAD overlay visible
+    preloadOverlay.style.display = 'block';
+    preloadOverlay.style.opacity = '1';
+    preloadOverlay.classList.remove('fade-out');
+
+    // Step 3: Start delay before fading out
+    setTimeout(() => {
+      preloadOverlay.classList.add('fade-out');
+      setTimeout(() => preloadOverlay.remove(), 1000);
+    }, 2300);
+  });
 });
 
   const logo = document.querySelector('.logo-main');
