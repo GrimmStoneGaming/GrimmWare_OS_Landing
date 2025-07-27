@@ -1022,28 +1022,3 @@ opacity: 0.2;
     align-items: center;
     position: relative;
   }
-
-  #terminal-overlay {
-    position: relative;
-    top: -7vh; /* bumped up 1 more */
-    margin-bottom: 15vh; /* give a little more breathing room */
-    z-index: 1;
-  }
-
-  #access-container {
-    position: absolute;
-    bottom: 1vh; /* nudged down slightly */
-    left: 0;
-    width: 100%;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 0;
-    margin: 0;
-  }
-}
-#access-container {
-  display: none;
-}
