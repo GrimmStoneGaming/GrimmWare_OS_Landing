@@ -379,6 +379,23 @@ document.getElementById('run-button').addEventListener('click', () => {
     }
   }, 2300);
 window.addEventListener('DOMContentLoaded', () => {
+  // === INIT SCREEN TRIGGER ===
+const initScreen = document.getElementById('init-screen');
+const initButton = document.getElementById('init-button');
+const preloadOverlay = document.getElementById('preload-overlay');
+
+initButton.addEventListener('click', () => {
+  initScreen.style.display = 'none'; // Hide INIT screen
+  preloadOverlay.classList.remove('fade-out'); // Reset overlay
+  preloadOverlay.style.opacity = '1'; // Make sure it's visible
+
+  // Trigger the preload delay sequence
+  setTimeout(() => {
+    preloadOverlay.classList.add('fade-out');
+    setTimeout(() => preloadOverlay.remove(), 1000);
+  }, 2300);
+});
+
   const logo = document.querySelector('.logo-main');
   const tagline = document.querySelector('.tagline');
   const cipher = document.querySelector('.decrypt-wrapper');
