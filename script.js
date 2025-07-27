@@ -286,7 +286,8 @@ function startTerminalSequence() {
   typeLine(sequence[0], 0);
 }
 
-// === FINAL FLICKERING LINE ===function injectFinalRunItLine() {
+// === FINAL FLICKERING LINE ===
+function injectFinalRunItLine() {
   const linesContainer = document.getElementById('terminal-lines');
 
   const finalLine = document.createElement('div');
@@ -323,28 +324,8 @@ function startTerminalSequence() {
   finalLine.appendChild(runItSpan);
   linesContainer.appendChild(finalLine);
 
-  // Force reflow before animation trigger
+  // Animation trigger
   void runItSpan.offsetWidth;
-
-  // Remove inline animation to ensure CSS trigger fires
-  runItSpan.style.removeProperty('animation');
-
-  requestAnimationFrame(() => {
-    runItSpan.classList.remove('run-it');
-    runItSpan.classList.add('run-it-flicker', 'shock-pulse');
-  });
-
-  linesContainer.scrollTop = linesContainer.scrollHeight;
-  linesContainer.classList.add('terminal-pulse');
-
-  setTimeout(() => linesContainer.classList.remove('terminal-pulse'), 1000);
-  playSound('runIt'); // play audio when line drops
-
-
-  // Force reflow before animation trigger
-  void runItSpan.offsetWidth;
-
-  // Remove any inline animation property to ensure CSS animation applies
   runItSpan.style.removeProperty('animation');
 
   requestAnimationFrame(() => {
@@ -355,6 +336,9 @@ function startTerminalSequence() {
   linesContainer.scrollTop = linesContainer.scrollHeight;
   linesContainer.classList.add('terminal-pulse');
   setTimeout(() => linesContainer.classList.remove('terminal-pulse'), 1000);
+
+  // Audio
+  playSound('runIt');
 }
 
 // === ACCESS GRANTED SEQUENCE ===
@@ -374,6 +358,7 @@ function revealAccessGranted() {
 
         const rawText = warningLine.textContent;
         const glitchChars = '!@#$%?~*';
+
         setInterval(() => {
           const corrupted = rawText.split('').map(char =>
             Math.random() < 0.07 && char !== ' ' ? glitchChars[Math.floor(Math.random() * glitchChars.length)] : char
@@ -391,7 +376,7 @@ function revealAccessGranted() {
 
 // === RUN BUTTON / TRANSITION (with Audio) ===
 document.getElementById('run-button').addEventListener('click', () => {
-  playSound('runIt', 0); // 🔊 Play immediately, bypassing transition delay
+  playSound('runIt', 0); // 🔊 Play immediately
 
   const terminal = document.getElementById('terminal');
   if (terminal) terminal.remove();
@@ -404,12 +389,12 @@ document.getElementById('run-button').addEventListener('click', () => {
   const smashOverlay = document.getElementById('smash-overlay');
   smashOverlay.classList.add('active');
 
-  // Visual screen smash FX
+  // Screen smash FX
   setTimeout(() => {
     smashOverlay.classList.remove('active');
   }, 1300);
 
-  // Begin page strip transition
+  // Gateway strip transition
   setTimeout(() => {
     const overlay = document.getElementById('gateway-overlay');
     const landingPage = document.getElementById('landing-page');
@@ -429,7 +414,6 @@ document.getElementById('run-button').addEventListener('click', () => {
     overlay.style.display = 'flex';
     overlay.style.background = 'transparent';
 
-    // Cover strips fall in
     for (let i = 0; i < numStrips; i++) {
       const strip = document.createElement('div');
       strip.classList.add('strip', 'cover');
@@ -439,9 +423,9 @@ document.getElementById('run-button').addEventListener('click', () => {
       overlay.appendChild(strip);
     }
 
-    // Reveal after delay
     setTimeout(() => {
       landingPage.style.opacity = 1;
+
       const strips = Array.from(overlay.querySelectorAll('.strip'));
       const shuffled = strips.sort(() => Math.random() - 0.5);
 
@@ -453,13 +437,12 @@ document.getElementById('run-button').addEventListener('click', () => {
         }, index * 30);
       });
 
-      // Cleanup
       const totalDelay = shuffled.length * 30 + fallOutDuration;
       setTimeout(() => {
         overlay.style.display = 'none';
       }, totalDelay + 500);
     }, fallInDuration + delayBeforeReveal);
-  }, 1000); // 🔄 Keep this delay for visual pacing
+  }, 1000); // ⌛ Delay for final tension
 });
 
 // === INIT SCREEN TRIGGER ===
@@ -469,26 +452,19 @@ window.addEventListener('DOMContentLoaded', () => {
   const preloadOverlay = document.getElementById('preload-overlay');
 
   initButton.addEventListener('click', () => {
-    // 🔓 Unlock all audio for autoplay on interaction
     unlockAudio();
 
-    // Step 1: Hide INIT screen
     initScreen.style.display = 'none';
-
-    // Step 2: Show preload overlay
     preloadOverlay.style.display = 'block';
     preloadOverlay.style.opacity = '1';
     preloadOverlay.classList.remove('fade-out');
 
-    // ✅ Play Gateway Intro sound shortly after INIT press
     playSound('gatewayIntro', 100);
 
-    // Step 3: Delay before beginning animations
     setTimeout(() => {
       preloadOverlay.classList.add('fade-out');
       setTimeout(() => preloadOverlay.remove(), 1000);
 
-      // ✅ Gateway visuals animate in
       const logo = document.querySelector('.logo-main');
       const tagline = document.querySelector('.tagline');
       const cipher = document.querySelector('.decrypt-wrapper');
@@ -499,8 +475,6 @@ window.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         cipher.classList.remove('hidden');
         cipher.style.animation = 'glitchIn 0.6s forwards';
-
-        // ✅ Start background throb loop once cipher appears
         playSound('glitchThrob');
       }, 1600);
 
@@ -526,4 +500,3 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 2300);
   });
 });
-
