@@ -64,21 +64,23 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 5px;
   max-width: 100%;
   padding: 0 5vw;
   box-sizing: border-box;
-  overflow-x: hidden;
+  overflow-x: auto;
 }
 
 .box {
   font-size: clamp(1.4rem, 6vw, 2.2rem);
   padding: 10px 14px;
+  white-space: nowrap;
 }
 .separator {
   font-size: clamp(1.4rem, 6vw, 2.2rem);
   padding: 0 6px;
+  white-space: nowrap;
 }
 
 #decrypt-instruction {
@@ -91,10 +93,10 @@ html, body {
   font-size: clamp(1rem, 4vw, 1.5rem);
   padding: 1rem;
   text-align: center;
-  margin: 2rem auto;
+  margin: 2rem auto 1rem;
   max-width: 90vw;
   position: relative;
-  bottom: 2vh;
+  bottom: 0;
 }
 
 #run-wrapper button {
