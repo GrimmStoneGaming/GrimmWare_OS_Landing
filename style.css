@@ -70,17 +70,19 @@ html, body {
   padding: 0 5vw;
   box-sizing: border-box;
   overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
 }
 
 .box {
   font-size: clamp(1.4rem, 6vw, 2.2rem);
   padding: 10px 14px;
-  white-space: nowrap;
+  display: inline-block;
 }
 .separator {
   font-size: clamp(1.4rem, 6vw, 2.2rem);
   padding: 0 6px;
-  white-space: nowrap;
+  display: inline-block;
 }
 
 #decrypt-instruction {
@@ -97,6 +99,7 @@ html, body {
   max-width: 90vw;
   position: relative;
   bottom: 0;
+  transform: translateY(-30%);
 }
 
 #run-wrapper button {
@@ -143,6 +146,7 @@ html, body {
     padding: 0 3vw;
   }
 } 
+
 
 
 /* === FULL SCREEN GLITCH ANIMATION === */
