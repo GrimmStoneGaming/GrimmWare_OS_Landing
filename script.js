@@ -389,7 +389,7 @@ window.addEventListener('DOMContentLoaded', () => {
     // Step 1: Hide INIT screen
     initScreen.style.display = 'none';
 
-    // Step 2: Force PRELOAD overlay visible
+    // Step 2: Show preload overlay for real
     preloadOverlay.style.display = 'block';
     preloadOverlay.style.opacity = '1';
     preloadOverlay.classList.remove('fade-out');
