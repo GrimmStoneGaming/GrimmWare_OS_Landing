@@ -21,7 +21,6 @@ const sounds = {
   runIt: new Audio('sounds/RUN IT BUTTON.mp3'),
   static: new Audio('sounds/Static.mp3')
 };
-sounds.glitchThrob.loop = true;
 
 // === AUDIO UNLOCK ===
 function unlockAudio() {
