@@ -1021,21 +1021,24 @@ opacity: 0.2;
   }
 
   #terminal-overlay {
-    margin-bottom: 12vh;
+    position: relative;
+    top: -6vh;
+    margin-bottom: 14vh;
+    z-index: 1;
   }
 
   #access-container {
     position: absolute;
-    bottom: 4vh;
+    bottom: 2vh;
     left: 0;
     width: 100%;
-    padding-top: 0;
-    margin-top: 0;
-    z-index: 9999;
+    z-index: 2;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 0;
+    margin: 0;
   }
 }
 
