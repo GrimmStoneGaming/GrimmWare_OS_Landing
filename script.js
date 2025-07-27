@@ -3,7 +3,7 @@
 const boxes = document.querySelectorAll('.box');
 const decryptWrapper = document.querySelector('.decrypt-wrapper');
 const cipher = document.querySelector('.decrypt-wrapper');
-const decryptInstructions = document.querySelector('.decrypt-instruction');
+let decryptInstructions = document.querySelector('.decrypt-instruction');
 const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
 let currentGreenIndex = null;
 let intervalId = null;
@@ -161,8 +161,15 @@ window.addEventListener('DOMContentLoaded', () => {
       console.log("[TRACE] 5s dev trace timeout fired. Cipher solved:", cipherSolved);
       if (!cipherSolved) {
         decryptWrapper?.classList.add('trace-mode');
-        if (decryptInstructions) decryptInstructions.textContent = "ACCESS DENIED: SYSTEM TRACE ACTIVE";
         cipher?.classList.add('inverted');
+
+        // === Override instruction corruption interval by cloning ===
+        const original = document.querySelector('.decrypt-instruction');
+        const clone = original.cloneNode(true);
+        original.parentNode.replaceChild(clone, original);
+        decryptInstructions = clone;
+        decryptInstructions.textContent = "ACCESS DENIED: SYSTEM TRACE ACTIVE";
+
         console.log("[TRACE] Trace mode activated.");
       }
     }, 5000);
