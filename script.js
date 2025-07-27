@@ -12,7 +12,7 @@ let transitionInProgress = false;
 // === AUDIO SETUP ===
 const sounds = {
   gatewayIntro: new Audio('sounds/Gateway Intro.mp3'),
-  glitchThrob: new Audio('sounds/Glitch Throb Heart.mp3'),
+  glitchThrob: new Audio('sounds/Glitch Throb Heart.mp3?v=2'),
   preterminalGlitch: new Audio('sounds/preterminal glitch.mp3'),
   correctGlitch: new Audio('sounds/Correct Glitch.mp3'),
   incorrectGlitch: new Audio('sounds/Incorrect Glitch.mp3'),
