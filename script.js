@@ -26,7 +26,6 @@ const sounds = {
   static: new Audio('sounds/Static.mp3')
 };
 
-
 // === AUDIO UNLOCK ===
 function unlockAudio() {
   Object.values(sounds).forEach(audio => {
@@ -96,7 +95,7 @@ function startCycling() {
       nextIndex = Math.floor(Math.random() * boxes.length);
     } while (solved[nextIndex]);
 
-    const isInverted = cipher.classList.contains('inverted');
+    let isInverted = cipher.classList.contains('inverted');
 
     boxes.forEach((box, i) => {
       if (!solved[i]) {
@@ -155,7 +154,6 @@ setTimeout(() => {
     });
   }
 }, 417000);
-
 
 // === Box Click Detection w/ Audio ===
 boxes.forEach((box, i) => {
