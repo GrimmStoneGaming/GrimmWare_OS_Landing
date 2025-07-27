@@ -5,21 +5,23 @@
   box-sizing: border-box;
 }
 
-body {
+/* === GLOBAL RESET & BASE STYLES === */
+html, body {
   margin: 0;
   padding: 0;
-  background: black;
-  color: #00ffcc;
-  outline: none;
-  box-shadow: none;
   font-family: 'Courier New', Courier, monospace;
-  overflow: hidden;
+  background-color: #000;
+  color: #0f0;
+  overflow-x: hidden;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   height: 100vh;
-  position: relative;
+  width: 100vw;
 }
 
-/* === LOCK TO PORTRAIT MODE === */
-@media screen and (orientation: landscape) {
+/* === LOCK TO PORTRAIT MODE (MOBILE ONLY) === */
+@media screen and (orientation: landscape) and (max-width: 1024px) {
   body::before {
     content: "Please rotate your device.";
     position: fixed;
@@ -47,6 +49,7 @@ body {
     display: none !important;
   }
 }
+
 /* === RESPONSIVE LAYOUT === */
 .lp-content h1 {
   font-size: clamp(1.8rem, 5vw, 3rem);
