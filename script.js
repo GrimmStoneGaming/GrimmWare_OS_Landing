@@ -11,7 +11,9 @@ let solved = Array(boxes.length).fill(false);
 let transitionInProgress = false;
 let cipherSolved = false; // ✅ Flag to track completion
 
-// === GRIMMWare OS Gateway Script (Full Audio Integrated) ===
+console.log("[INIT] Cipher Solved Flag:", cipherSolved);
+console.log("[INIT] Decrypt Wrapper:", decryptWrapper);
+console.log("[INIT] Decrypt Instructions:", decryptInstructions);
 
 // === AUDIO SETUP ===
 const sounds = {
@@ -35,7 +37,7 @@ function unlockAudio() {
       audio.currentTime = 0;
       audio.volume = 1;
     }).catch(() => {
-      // Silently ignore autoplay errors; they'll resolve on next interaction
+      // Silently ignore autoplay errors
     });
   });
 }
@@ -64,15 +66,14 @@ function fadeOutSound(key, duration = 1000) {
   }, 100);
 }
 
-// === TIMING CONSTANTS ===
 const typingSpeed = 35;
 const baseDelay = 100;
 
 function markCipherSolved() {
   cipherSolved = true;
+  console.log("[MARK] Cipher marked as solved.");
 }
 
-// === Cipher Glitch Logic w/ Audio + Trace Mode Handling ===
 function getRandomChar() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return chars[Math.floor(Math.random() * chars.length)];
@@ -119,22 +120,22 @@ function startCycling() {
 
     box.style.backgroundColor = correctBgColor;
     box.style.boxShadow = `0 0 8px ${correctShadowColor}`;
-  }, 750); // ✅ Cycle speed locked at 750ms
+  }, 750);
 }
 
 // === TRACE / TIMEOUT KILL SWITCH ===
-
-// 🔴 3:28 = Flip cipher color logic + warning
 setTimeout(() => {
+  console.log("[TRACE] 208s trace timeout fired. Cipher solved:", cipherSolved);
   if (!cipherSolved) {
-    decryptWrapper.classList.add('trace-mode');
-    decryptInstructions.textContent = "ACCESS DENIED: SYSTEM TRACE ACTIVE";
-    cipher.classList.add('inverted');
+    decryptWrapper?.classList.add('trace-mode');
+    if (decryptInstructions) decryptInstructions.textContent = "ACCESS DENIED: SYSTEM TRACE ACTIVE";
+    cipher?.classList.add('inverted');
+    console.log("[TRACE] Trace mode activated.");
   }
 }, 208000);
 
-// 🔒 6:57 = Lockout
 setTimeout(() => {
+  console.log("[LOCKOUT] 417s lockout timeout fired. Cipher solved:", cipherSolved);
   if (!cipherSolved) {
     document.body.innerHTML = `
       <div id="lockdownScreen" style="background:black;color:#ff2222;
@@ -145,19 +146,24 @@ setTimeout(() => {
     `;
 
     const msg = document.getElementById('lockdownMessage');
+    let visible = true;
     setInterval(() => {
-      msg.style.visibility = msg.style.visibility === 'hidden' ? 'visible' : 'visible';
+      visible = !visible;
+      msg.style.visibility = visible ? 'visible' : 'hidden';
     }, 800);
 
     document.getElementById('lockdownScreen').addEventListener('click', () => {
       location.reload();
     });
+    console.log("[LOCKOUT] Lockdown screen activated.");
   }
 }, 417000);
 
 // === Box Click Detection w/ Audio ===
 boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
+    console.log(`[CLICK] Box ${i} clicked. Green index: ${currentGreenIndex}, Solved: ${solved[i]}`);
+
     if (i === currentGreenIndex && !solved[i]) {
       solved[i] = true;
       box.classList.add('green');
@@ -169,7 +175,7 @@ boxes.forEach((box, i) => {
       playSound('correctGlitch');
 
       if (solved.every(Boolean)) {
-        markCipherSolved(); // ✅ critical for trace mode bypass
+        markCipherSolved();
         clearInterval(intervalId);
         setTimeout(() => {
           fadeOutSound('glitchThrob', 1000);
@@ -182,6 +188,7 @@ boxes.forEach((box, i) => {
     }
   });
 });
+
 
 // === Fullscreen Glitch to Terminal Trigger ===
 function triggerFullscreenGlitch() {
