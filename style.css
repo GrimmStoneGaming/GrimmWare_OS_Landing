@@ -18,6 +18,36 @@ body {
   position: relative;
 }
 
+/* === LOCK TO PORTRAIT MODE === */
+@media screen and (orientation: landscape) {
+  body::before {
+    content: "Please rotate your device.";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #000;
+    color: #f00;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    z-index: 99999;
+  }
+
+  #gateway-ui,
+  #landing-page,
+  #terminal-overlay,
+  #init-screen,
+  #access-container,
+  #gateway-overlay,
+  #preload-overlay,
+  #smash-overlay {
+    display: none !important;
+  }
+}
+
 /* === FULL SCREEN GLITCH ANIMATION === */
 .fullscreen-glitch {
   position: fixed;
