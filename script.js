@@ -339,7 +339,7 @@ function startTerminalSequence() {
 
   setTimeout(() => linesContainer.classList.remove('terminal-pulse'), 1000);
   playSound('runIt'); // play audio when line drops
-}
+
 
   // Force reflow before animation trigger
   void runItSpan.offsetWidth;
