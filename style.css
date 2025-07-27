@@ -1002,3 +1002,16 @@ opacity: 0.2;
   }
 }
 
+/* === MOBILE BOX SIZING === */
+@media (max-width: 500px) {
+  .box {
+    width: 36px;
+    height: 45px;
+    font-size: 1.4rem;
+  }
+
+  .decrypt-wrapper {
+    padding: 16px 20px;
+  }
+}
+
