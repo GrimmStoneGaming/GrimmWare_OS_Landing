@@ -912,8 +912,10 @@ opacity: 0.2;
   z-index: 99999;
   opacity: 1;
   pointer-events: none;
+  display: none; /* 🛠️ THIS RIGHT HERE */
   transition: opacity 0.8s ease;
 }
+
 #preload-overlay.fade-out {
   opacity: 0;
 }
