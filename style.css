@@ -1055,4 +1055,10 @@ opacity: 0.2;
   box-shadow: 0 0 32px #00ffcc;
   transform: scale(1.05);
 }
+#init-screen {
+  display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  z-index: 999999 !important;
+}
 
