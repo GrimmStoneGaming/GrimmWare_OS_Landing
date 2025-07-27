@@ -1044,3 +1044,6 @@ opacity: 0.2;
     margin: 0;
   }
 }
+#access-container {
+  display: none;
+}
