@@ -369,16 +369,7 @@ document.getElementById('run-button').addEventListener('click', () => {
     }, fallInDuration + delayBeforeReveal);
   }, 1000);
 });
-
-// === ON LOAD SETUP ===
-  const preloadOverlay = document.getElementById('preload-overlay');
-  setTimeout(() => {
-    if (preloadOverlay) {
-      preloadOverlay.classList.add('fade-out');
-      setTimeout(() => preloadOverlay.remove(), 1000);
-    }
-  }, 2300);
-window.addEventListener('DOMContentLoaded', () => {
+ 
 // === INIT SCREEN TRIGGER ===
 window.addEventListener('DOMContentLoaded', () => {
   const initScreen = document.getElementById('init-screen');
@@ -398,41 +389,41 @@ window.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       preloadOverlay.classList.add('fade-out');
       setTimeout(() => preloadOverlay.remove(), 1000);
-    }, 2300);
+
+      // ✅ AFTER preload delay ends, THEN begin Gateway animations
+      const logo = document.querySelector('.logo-main');
+      const tagline = document.querySelector('.tagline');
+      const cipher = document.querySelector('.decrypt-wrapper');
+      const instruction = document.querySelector('.decrypt-instruction');
+
+      setTimeout(() => { logo.style.animation = 'fadeIn 1.2s forwards'; }, 0);
+      setTimeout(() => { tagline.style.animation = 'fadeIn 1.2s forwards'; }, 800);
+      setTimeout(() => {
+        cipher.classList.remove('hidden');
+        cipher.style.animation = 'glitchIn 0.6s forwards';
+      }, 1600);
+
+      setTimeout(() => {
+        instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
+        instruction.style.animation = 'corruptText 6s infinite';
+        instruction.style.opacity = '1';
+
+        const raw = instruction.textContent;
+        const glitchChars = '!@#$%?~*';
+
+        setInterval(() => {
+          const corrupted = raw.split('').map(char =>
+            Math.random() < 0.07 && char !== ' '
+              ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
+              : char
+          ).join('');
+          instruction.textContent = corrupted;
+        }, 200);
+      }, 1800);
+
+      cycleCharacters();
+      startCycling();
+
+    }, 2300); // closes setTimeout (preload delay)
   });
 });
-
-  const logo = document.querySelector('.logo-main');
-  const tagline = document.querySelector('.tagline');
-  const cipher = document.querySelector('.decrypt-wrapper');
-  const instruction = document.querySelector('.decrypt-instruction');
-
-  setTimeout(() => { logo.style.animation = 'fadeIn 1.2s forwards'; }, 0);
-  setTimeout(() => { tagline.style.animation = 'fadeIn 1.2s forwards'; }, 800);
-  setTimeout(() => {
-    cipher.classList.remove('hidden');
-    cipher.style.animation = 'glitchIn 0.6s forwards';
-  }, 1600);
-
-  setTimeout(() => {
-    instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
-    instruction.style.animation = 'corruptText 6s infinite';
-    instruction.style.opacity = '1';
-
-    const raw = instruction.textContent;
-    const glitchChars = '!@#$%?~*';
-
-    setInterval(() => {
-      const corrupted = raw.split('').map(char =>
-        Math.random() < 0.07 && char !== ' '
-          ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
-          : char
-      ).join('');
-      instruction.textContent = corrupted;
-    }, 200);
-  }, 1800);
-
-  cycleCharacters();
-  startCycling();
-});
-  
