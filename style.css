@@ -305,7 +305,7 @@ opacity: 0.1;
 .logo-main,
 .tagline,
 .decrypt-instruction {
-  opacity: 0;
+  opacity: 1;
 }
 
 .logo-main {
