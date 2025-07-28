@@ -282,14 +282,12 @@ function startTerminalSequence() {
         switch (index) {
           case 6: zapElement('.decrypt-instruction'); break;
           case 7:
-            const green = document.querySelectorAll('.green');
-            [...green].sort(() => Math.random() - 0.5).forEach((el, idx) => {
+            document.querySelectorAll('.green').forEach((el, idx) => {
               setTimeout(() => zapElement(`#${el.id}`), idx * 75);
             });
             break;
           case 8:
-            const boxes = document.querySelectorAll('.box:not(.green)');
-            [...boxes].sort(() => Math.random() - 0.5).forEach((el, idx) => {
+            document.querySelectorAll('.box:not(.green)').forEach((el, idx) => {
               setTimeout(() => zapElement(`#${el.id}`), idx * 75);
             });
             break;
@@ -300,29 +298,39 @@ function startTerminalSequence() {
         if (action) action();
 
         if (isFinal) {
-  setTimeout(() => {
-    injectFinalRunItLine(); // ⬅ Triggers LP handoff
-    purgeTopContainer();
+          setTimeout(() => {
+            injectFinalRunItLine(); // ⬅ Final flicker line
+            purgeTopContainer();
 
-    // 🧨 Reveal Access Container + RUN IT Button
-    const accessMessage = document.getElementById('access-message');
-    const runWrapper = document.getElementById('run-wrapper');
-    if (accessMessage) accessMessage.classList.remove('hidden');
-    if (runWrapper) runWrapper.classList.remove('hidden');
+            // Reveal access section properly
+            const accessMessage = document.getElementById('access-message');
+            const runWrapper = document.getElementById('run-wrapper');
 
-    terminalOverlay.classList.add('hidden');
-  }, 500);
-} else if (index + 1 < sequence.length) {
-  setTimeout(() => {
-    typeLine(sequence[index + 1], index + 1);
-  }, delay);
-}
+            if (accessMessage) {
+              accessMessage.classList.remove('hidden');
+              accessMessage.style.display = 'block';
+              accessMessage.style.opacity = '1';
+            }
+
+            if (runWrapper) {
+              runWrapper.classList.remove('hidden');
+              runWrapper.style.display = 'block';
+            }
+
+            terminalOverlay.classList.add('hidden');
+          }, 500);
+        } else if (index + 1 < sequence.length) {
+          setTimeout(() => {
+            typeLine(sequence[index + 1], index + 1);
+          }, delay);
+        }
       }
     }, typingSpeed);
   }
 
   typeLine(sequence[0], 0);
 }
+
 
 // === FINAL FLICKERING LINE ===
 function injectFinalRunItLine() {
