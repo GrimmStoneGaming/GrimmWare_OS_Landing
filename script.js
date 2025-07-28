@@ -645,3 +645,4 @@ document.getElementById('run-button').addEventListener('click', () => {
           strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
         }, index * 30);
       });
+}}}
