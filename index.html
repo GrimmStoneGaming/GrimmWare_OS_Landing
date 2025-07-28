@@ -4,33 +4,18 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>GrimmWare OS Gateway</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="LP-style.css" />
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <div id="preload-overlay"></div>
-  <div id="smash-overlay"></div>
+<div id="preload-overlay"></div>
+<div id="smash-overlay"></div>
 
-  <!-- LANDING PAGE (LP) CONTENT - INITIALLY HIDDEN -->
-  <div id="landing-page" style="display: none; opacity: 0;">
-    <header>
-      <div class="top-container">
-        <img src="images/grimmware-logo.png" alt="GWOS Logo" class="logo-main" />
-        <img src="images/emotion-is-executable.png" alt="Emotion Is Executable" class="tagline" />
-      </div>
-    </header>
-    <main>
-      <section class="featured-track">
-        <h2>Featured Track: Pre-Release</h2>
-        <div class="yt-wrapper">
-          <iframe id="featured-yt-player" width="100%" height="315" src="https://www.youtube.com/embed/TNyoVtTO33M?enablejsapi=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        </div>
-      </section>
-      <section class="description-block">
-        <h3>Welcome to GrimmWare OS</h3>
-        <p>This is the cutting edge of emotion-based tech. Dig into the tracks, explore the shadows, and decrypt what's hidden.</p>
-      </section>
-    </main>
+  <!-- LANDING PAGE --->
+  <div id="landing-page" class="preloaded" aria-hidden="true">
+    <div class="lp-content">
+      <h1>Welcome to GrimmWare OS</h1>
+      <p>This is your system now.</p>
+    </div>
   </div>
 
   <!-- GATEWAY UI -->
@@ -57,6 +42,7 @@
       <div class="decrypt-instruction" id="decrypt-instruction"></div>
     </div>
 
+    <!-- Spacer below puzzle -->
     <div style="height: 250px; width: 100%;"></div>
 
     <!-- ACCESS MESSAGE -->
@@ -71,11 +57,12 @@
       </div>
     </div>
 
-    <!-- INIT SCREEN (Pre-Gateway Trigger) -->
-    <div id="init-screen">
-      <button id="init-button">&gt;&gt;&gt; INITIATE &lt;&lt;&lt;</button>
-    </div>
-
+<!-- INIT SCREEN (Pre-Gateway Trigger) -->
+<div id="init-screen">
+  <button id="init-button">&gt;&gt;&gt; INITIATE &lt;&lt;&lt;</button>
+</div>
+    
+    <!-- Overlay to trigger glitch -->
     <div id="gateway-overlay" aria-hidden="true"></div>
 
     <!-- TERMINAL WINDOW -->
@@ -83,40 +70,11 @@
       <div id="terminal-lines" class="terminal-inner"></div>
     </div>
   </div>
+ <div class="grimm-footer">
+  Built by GrimmStone & Gizmo 🖤 Emotion is Executable
+</div>
 
-  <div class="grimm-footer">
-    Built by GrimmStone & Gizmo 🖤 Emotion is Executable
-  </div>
-
-  <audio id="insiderTrack" src="sounds/Dyfyushun.mp3" preload="auto" loop></audio>
-
-  <script>
-    var player;
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('featured-yt-player', {
-        events: {
-          'onStateChange': onPlayerStateChange
-        }
-      });
-    }
-
-    function onPlayerStateChange(event) {
-      const insiderTrack = document.getElementById('insiderTrack');
-      if (!insiderTrack) return;
-      switch (event.data) {
-        case YT.PlayerState.PLAYING:
-          insiderTrack.pause();
-          break;
-        case YT.PlayerState.PAUSED:
-        case YT.PlayerState.ENDED:
-          insiderTrack.play();
-          break;
-      }
-    }
-  </script>
 
   <script src="script.js"></script>
-  <script src="LP-script.js"></script>
-  <script src="https://www.youtube.com/iframe_api"></script>
 </body>
 </html>
