@@ -632,19 +632,19 @@ document.getElementById('run-button').addEventListener('click', () => {
       overlay.appendChild(strip);
     }
 
+  setTimeout(() => {
+  landingPage.style.opacity = 1;
+
+  const strips = Array.from(overlay.querySelectorAll('.strip'));
+  const shuffled = strips.sort(() => Math.random() - 0.5);
+
+  shuffled.forEach((strip, index) => {
     setTimeout(() => {
-      landingPage.style.opacity = 1;
+      strip.classList.remove('cover');
+      strip.classList.add('reveal');
+      strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
+    }, index * 30);
+  });
+}, fallInDuration + delayBeforeReveal + 1000);
 
-      const strips = Array.from(overlay.querySelectorAll('.strip'));
-      const shuffled = strips.sort(() => Math.random() - 0.5);
-
-      shuffled.forEach((strip, index) => {
-        setTimeout(() => {
-          strip.classList.remove('cover');
-          strip.classList.add('reveal');
-          strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
-        }, index * 30);
-    }
-  }
- });
 
