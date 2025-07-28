@@ -302,21 +302,20 @@ if (isFinal) {
     injectFinalRunItLine(); // Terminal Line Handoff
     purgeTopContainer();    // Clear top containers
 
-    // 🧨 Reveal Access Message + Run Button
-    const accessContainer = document.getElementById('access-container');
-    const accessMessage = document.getElementById('access-message');
-    const runWrapper = document.getElementById('run-wrapper');
+  // Reveal Access Container + Message + Button
+const accessContainer = document.getElementById('access-container');
+const accessMessage = document.getElementById('access-message');
+const runWrapper = document.getElementById('run-wrapper');
 
-    if (accessContainer) accessContainer.classList.remove('hidden');
-    if (accessMessage) {
-      accessMessage.classList.remove('hidden');
-      accessMessage.style.opacity = '1';
-      accessMessage.style.display = 'block';
-    }
-    if (runWrapper) {
-      runWrapper.classList.remove('hidden');
-      runWrapper.style.display = 'block';
-    }
+if (accessContainer) {
+  accessContainer.classList.remove('hidden');
+  accessContainer.style.display = 'flex';
+  accessContainer.style.opacity = '1';
+  accessContainer.style.visibility = 'visible';
+}
+
+if (accessMessage) accessMessage.classList.remove('hidden');
+if (runWrapper) runWrapper.classList.remove('hidden');
 
     terminalOverlay.classList.add('hidden');
   }, 500);
