@@ -1,6 +1,9 @@
 // === GRIMMWARE OS CORE JS ===
 
 document.addEventListener("DOMContentLoaded", () => {
+  const landingRoot = document.querySelector(".landing-wrapper");
+  if (!landingRoot) return; // prevent script from running if LP isn't present
+
   // 🎯 FLOATING EGGS — Randomized position + animation
   const floatingEggs = document.querySelectorAll(".drifting-egg");
   floatingEggs.forEach((egg) => {
