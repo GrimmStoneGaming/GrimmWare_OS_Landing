@@ -1,6 +1,3 @@
-// === GATEWAY + LANDING JS FULLY MERGED ===
-
-// GATEWAY SECTION STARTS HERE
 /* === GRIMMWare OS Gateway Script === */
 
 const boxes = document.querySelectorAll('.box');
@@ -575,38 +572,76 @@ window.addEventListener('DOMContentLoaded', () => {
       startCycling();
     }, 2300);
   });
-// LANDING PAGE SECTION STARTS HERE
-
-// === LANDING PAGE TRACK PLAYER ===
-function startHandoffTrack() {
-  const easterEgg = document.getElementById('easterEggTrack');
-  if (easterEgg) {
-    easterEgg.play().catch(err => console.warn("Audio autoplay blocked: ", err));
-  }
-}
-
-// === Additional LANDING PAGE Behaviors or Easter Eggs ===
-function startLandingVisuals() {
-  // Example animation or typing effect if needed
-  const infoHeader = document.querySelector('.lp-info-title');
-  const infoText = document.querySelector('.lp-info-text');
-
-  if (infoHeader && infoText) {
-    typeLandingText(infoHeader, "Why does it exist?", 40, () => {
-      typeLandingText(infoText, "Because creativity isn’t defined by your tools—only by your truth.", 30);
-    });
-  }
-}
-
-function typeLandingText(element, text, speed = 50, callback = null) {
-  let i = 0;
-  element.textContent = '';
-  const interval = setInterval(() => {
-    element.textContent += text.charAt(i++);
-    if (i >= text.length) {
-      clearInterval(interval);
-      if (callback) callback();
-    }
-  }, speed);
-}
 });
+
+document.getElementById('run-button').addEventListener('click', () => {
+ startHandoffTrack();
+  playSound('runIt');
+  fadeOutSound('glitchThrob', 1500);
+  sounds.runItPulse.pause();
+  sounds.runItPulse.currentTime = 0;
+
+  const footer = document.querySelector('.grimm-footer');
+  if (footer) {
+  
+  footer.style.transition = 'opacity 0.8s ease';
+  footer.style.opacity = '0';
+}
+  const terminal = document.getElementById('terminal');
+  if (terminal) terminal.remove();
+  if (transitionInProgress) return;
+  transitionInProgress = true;
+
+  const terminalOverlay = document.getElementById('terminal-overlay');
+  if (terminalOverlay) terminalOverlay.remove();
+
+  const smashOverlay = document.getElementById('smash-overlay');
+  smashOverlay.classList.add('active');
+
+  // Screen smash FX
+  setTimeout(() => {
+    smashOverlay.classList.remove('active');
+  }, 1300);
+
+  // Gateway strip transition
+  setTimeout(() => {
+    const overlay = document.getElementById('gateway-overlay');
+    const landingPage = document.getElementById('landing-page');
+    const runWrapper = document.getElementById('run-wrapper');
+    const accessMessage = document.getElementById('access-message');
+
+    const numStrips = 60;
+    const fallInDuration = 500;
+    const fallOutDuration = 600;
+    const delayBeforeReveal = 1500;
+
+    runWrapper.style.display = 'none';
+    accessMessage.style.display = 'none';
+    landingPage.style.display = 'flex';
+    landingPage.style.opacity = 0;
+    overlay.innerHTML = '';
+    overlay.style.display = 'flex';
+    overlay.style.background = 'transparent';
+
+    for (let i = 0; i < numStrips; i++) {
+      const strip = document.createElement('div');
+      strip.classList.add('strip', 'cover');
+      strip.style.left = `${(100 / numStrips) * i}%`;
+      strip.style.width = `${100 / numStrips}%`;
+      strip.style.animation = `fallCover ${fallInDuration}ms forwards`;
+      overlay.appendChild(strip);
+    }
+
+    setTimeout(() => {
+      landingPage.style.opacity = 1;
+
+      const strips = Array.from(overlay.querySelectorAll('.strip'));
+      const shuffled = strips.sort(() => Math.random() - 0.5);
+
+      shuffled.forEach((strip, index) => {
+        setTimeout(() => {
+          strip.classList.remove('cover');
+          strip.classList.add('reveal');
+          strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
+        }, index * 30);
+      });
