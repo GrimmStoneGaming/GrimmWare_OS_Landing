@@ -230,11 +230,13 @@ function revealAccessGranted() {
     return;
   }
 
-  // Clear any previous content
+  // UNHIDE elements
+  accessMsg.classList.remove("hidden");
+  runWrapper.classList.remove("hidden");
+
   accessMsg.innerHTML = "";
   accessMsg.style.opacity = 1;
 
-  // Type out the ACCESS GRANTED sequence
   const grantedLine = document.createElement("span");
   grantedLine.classList.add("granted");
   grantedLine.textContent = "ACCESS GRANTED";
@@ -247,12 +249,11 @@ function revealAccessGranted() {
 
   setTimeout(() => {
     accessMsg.appendChild(warningLine);
-  }, 1000); // Delay for drama
+  }, 1000);
 
-  // Reveal the Run It button with glitch animation
   setTimeout(() => {
     runWrapper.classList.add("glitch-in");
-  }, 1800); // Button fades in after full message
+  }, 1800);
 }
 
 // === Terminal Sequence Logic (w/ Audio) ===
