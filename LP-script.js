@@ -43,30 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("scroll", revealOnScroll);
   revealOnScroll();
 
-  // === YOUTUBE AUDIO CROSSFADE ===
-  var player;
-  window.onYouTubeIframeAPIReady = function () {
-    player = new YT.Player("featured-yt-player", {
-      events: {
-        onStateChange: onPlayerStateChange,
-      },
-    });
-  };
-
-  const insiderTrack = document.getElementById("insiderTrack");
-  function onPlayerStateChange(event) {
-    if (!insiderTrack) return;
-    switch (event.data) {
-      case YT.PlayerState.PLAYING:
-        insiderTrack.pause();
-        break;
-      case YT.PlayerState.PAUSED:
-      case YT.PlayerState.ENDED:
-        insiderTrack.play();
-        break;
-    }
-  }
-
   // 🧠 TYPING ANIMATION
   const loading1 = document.getElementById("loading-1");
   const loading2 = document.getElementById("loading-2");
