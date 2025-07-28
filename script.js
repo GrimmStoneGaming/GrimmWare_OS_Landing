@@ -341,7 +341,7 @@ function startTerminalSequence() {
             purgeTopContainer();     // Clean the top
 
             // === Show Access Text & Button Properly ===
-            revealAccessGranted();  // <-- Patched typing version here
+            revealAccessGranted();
 
             // Fade terminal overlay out
             terminalOverlay.classList.add('hidden');
@@ -357,6 +357,7 @@ function startTerminalSequence() {
                 }
               }, 1000);
             }
+
           }, 500);
         } else if (index + 1 < sequence.length) {
           setTimeout(() => {
@@ -370,54 +371,156 @@ function startTerminalSequence() {
   typeLine(sequence[0], 0);
 }
 
-// === REVEAL ACCESS TEXT WITH TYPEWRITER EFFECT ===
-function revealAccessGranted() {
-  const accessMsg = document.getElementById("access-message");
-  const runWrapper = document.querySelector(".run-button-wrapper");
 
-  if (!accessMsg || !runWrapper) {
-    console.warn("[WARN] Missing elements for revealAccessGranted.");
-    return;
-  }
+// === FINAL FLICKERING LINE ===
+function injectFinalRunItLine() {
+  const linesContainer = document.getElementById('terminal-lines');
 
-  // Clear and show
-  accessMsg.innerHTML = '';
-  accessMsg.classList.remove('hidden');
-  runWrapper.classList.remove('hidden');
-
-  const grantedText = "ACCESS GRANTED. SYSTEM UNLOCKED.";
-  const warningText = ">>> WARNING: THIS MAY CHANGE YOU";
-
-  const grantedSpan = document.createElement("span");
-  grantedSpan.classList.add("granted");
-  accessMsg.appendChild(grantedSpan);
-
-  const warningSpan = document.createElement("span");
-  warningSpan.classList.add("warning");
-
-  let idx = 0;
-
-  function typeText(text, span, callback) {
-    const interval = setInterval(() => {
-      if (idx < text.length) {
-        span.textContent += text.charAt(idx++);
-        playSound('glitchTyping', 0, false);
-      } else {
-        clearInterval(interval);
-        idx = 0;
-        if (callback) callback();
-      }
-    }, 35);
-  }
-
-  typeText(grantedText, grantedSpan, () => {
-    accessMsg.appendChild(document.createElement("br"));
-    accessMsg.appendChild(warningSpan);
-    typeText(warningText, warningSpan, () => {
-      runWrapper.classList.add("glitch-in");
-    });
+  const finalLine = document.createElement('div');
+  finalLine.classList.add('terminal-line');
+  Object.assign(finalLine.style, {
+    opacity: '1',
+    display: 'flex',
+    visibility: 'visible',
+    position: 'relative',
+    flexWrap: 'nowrap',
+    alignItems: 'center',
+    zIndex: '1000'
   });
+
+  const finalPrefix = document.createElement('span');
+  finalPrefix.classList.add('handler-prefix');
+  finalPrefix.textContent = '[HANDLER] ::';
+  finalLine.appendChild(finalPrefix);
+
+  const runItSpan = document.createElement('span');
+  runItSpan.classList.add('run-it');
+  runItSpan.textContent = 'Run it.';
+  Object.assign(runItSpan.style, {
+    color: 'red',
+    display: 'inline',
+    visibility: 'visible',
+    opacity: '1',
+    position: 'relative',
+    zIndex: '1001',
+    marginLeft: '5px',
+    fontWeight: 'bold'
+  });
+
+  finalLine.appendChild(runItSpan);
+  linesContainer.appendChild(finalLine);
+
+  // Animation trigger
+  void runItSpan.offsetWidth;
+  runItSpan.style.removeProperty('animation');
+
+  requestAnimationFrame(() => {
+    runItSpan.classList.remove('run-it');
+    runItSpan.classList.add('run-it-flicker', 'shock-pulse');
+  });
+
+  linesContainer.scrollTop = linesContainer.scrollHeight;
+  linesContainer.classList.add('terminal-pulse');
+  setTimeout(() => linesContainer.classList.remove('terminal-pulse'), 1000);
+
+  // Audio
+  playSound('runIt');
+  setTimeout(() => { playSound('runItPulse'); }, 500);
+
+  // === 🔥 LANDING PAGE HANDOFF INITIATOR ===
+  const preloadOverlay = document.getElementById('preload-overlay');
+if (preloadOverlay) {
+  preloadOverlay.classList.add('fade-out');
+
+  setTimeout(() => {
+    preloadOverlay.classList.add('hidden'); // Don't remove from DOM
+
+    // Optionally trigger Dyfyushun.mp3 handoff audio
+    if (typeof startHandoffTrack === 'function') {
+      startHandoffTrack();
+      }
+    }, 1000);
+  }
 }
+// === RUN BUTTON / TRANSITION (with Audio) ===
+document.getElementById('run-button').addEventListener('click', () => {
+ playSound('runIt');
+  fadeOutSound('glitchThrob', 1500);
+  sounds.runItPulse.pause();
+  sounds.runItPulse.currentTime = 0;
+
+  const footer = document.querySelector('.grimm-footer');
+  if (footer) {
+  
+  footer.style.transition = 'opacity 0.8s ease';
+  footer.style.opacity = '0';
+}
+  const terminal = document.getElementById('terminal');
+  if (terminal) terminal.remove();
+  if (transitionInProgress) return;
+  transitionInProgress = true;
+
+  const terminalOverlay = document.getElementById('terminal-overlay');
+  if (terminalOverlay) terminalOverlay.remove();
+
+  const smashOverlay = document.getElementById('smash-overlay');
+  smashOverlay.classList.add('active');
+
+  // Screen smash FX
+  setTimeout(() => {
+    smashOverlay.classList.remove('active');
+  }, 1300);
+
+  // Gateway strip transition
+  setTimeout(() => {
+    const overlay = document.getElementById('gateway-overlay');
+    const landingPage = document.getElementById('landing-page');
+    const runWrapper = document.getElementById('run-wrapper');
+    const accessMessage = document.getElementById('access-message');
+
+    const numStrips = 60;
+    const fallInDuration = 500;
+    const fallOutDuration = 600;
+    const delayBeforeReveal = 1500;
+
+    runWrapper.style.display = 'none';
+    accessMessage.style.display = 'none';
+    landingPage.style.display = 'flex';
+    landingPage.style.opacity = 0;
+    overlay.innerHTML = '';
+    overlay.style.display = 'flex';
+    overlay.style.background = 'transparent';
+
+    for (let i = 0; i < numStrips; i++) {
+      const strip = document.createElement('div');
+      strip.classList.add('strip', 'cover');
+      strip.style.left = `${(100 / numStrips) * i}%`;
+      strip.style.width = `${100 / numStrips}%`;
+      strip.style.animation = `fallCover ${fallInDuration}ms forwards`;
+      overlay.appendChild(strip);
+    }
+
+    setTimeout(() => {
+      landingPage.style.opacity = 1;
+
+      const strips = Array.from(overlay.querySelectorAll('.strip'));
+      const shuffled = strips.sort(() => Math.random() - 0.5);
+
+      shuffled.forEach((strip, index) => {
+        setTimeout(() => {
+          strip.classList.remove('cover');
+          strip.classList.add('reveal');
+          strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
+        }, index * 30);
+      });
+
+      const totalDelay = shuffled.length * 30 + fallOutDuration;
+      setTimeout(() => {
+        overlay.style.display = 'none';
+      }, totalDelay + 500);
+    }, fallInDuration + delayBeforeReveal);
+  }, 1000); // ⌛ Delay for final tension
+});
 
 // === INIT SCREEN TRIGGER ===
 window.addEventListener('DOMContentLoaded', () => {
