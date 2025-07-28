@@ -1,12 +1,13 @@
 /* === GRIMMWare OS Gateway Script === */
 
+const boxes = document.querySelectorAll('.box');
 const decryptWrapper = document.querySelector('.decrypt-wrapper');
 const cipher = document.querySelector('.decrypt-wrapper');
 let decryptInstructions = document.querySelector('.decrypt-instruction');
 const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
 let currentGreenIndex = null;
 let intervalId = null;
-let solved = Array(decryptBoxes.length).fill(false);
+let solved = Array(boxes.length).fill(false);
 let transitionInProgress = false;
 let cipherSolved = false; // ✅ Flag to track completion
 
@@ -183,12 +184,6 @@ function triggerFullscreenGlitch() {
 // === Glitch Destruction Logic ===
 function zapElement(selector, delay = 0) {
   setTimeout(() => {
-    // Validate selector
-    if (typeof selector !== 'string' || !selector.match(/^[.#][\w-]+$/)) {
-      console.warn("Invalid selector passed to zapElement:", selector);
-      return;
-    }
-
     const el = document.querySelector(selector);
     if (el) {
       el.classList.add('purge-glitch');
@@ -198,8 +193,6 @@ function zapElement(selector, delay = 0) {
     }
   }, delay);
 }
-
-
 
 function purgeTopContainer() {
   zapElement('.logo-main');
@@ -292,16 +285,14 @@ function startTerminalSequence() {
           case 7:
             const green = document.querySelectorAll('.green');
             [...green].sort(() => Math.random() - 0.5).forEach((el, idx) => {
-  if (!el.id) return; // 💡 Skip elements without IDs
-  setTimeout(() => zapElement(`#${el.id}`), idx * 75);
-});
-           break;
+              setTimeout(() => zapElement(`#${el.id}`), idx * 75);
+            });
+            break;
           case 8:
-             boxes = document.querySelectorAll('.box:not(.green)');
+            const boxes = document.querySelectorAll('.box:not(.green)');
             [...boxes].sort(() => Math.random() - 0.5).forEach((el, idx) => {
-  if (!el.id) return;
-  setTimeout(() => zapElement(`#${el.id}`), idx * 75);
-});
+              setTimeout(() => zapElement(`#${el.id}`), idx * 75);
+            });
             break;
           case 9: zapElement('.decrypt-wrapper'); break;
           case 10: zapElement('.tagline'); break;
@@ -553,89 +544,3 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 2300);
   });
 });
-
-
-function playDyfyushunTrack() {
-  const audio = document.getElementById('dyfyushunTrack');
-  if (!audio) return;
-  audio.volume = 0;
-  audio.play().catch(err => console.warn("Playback failed:", err));
-  const fadeIn = setInterval(() => {
-    if (audio.volume < 0.99) {
-      audio.volume = Math.min(1, audio.volume + 0.05);
-    } else {
-      clearInterval(fadeIn);
-    }
-  }, 100);
-}
-
-// Call this where RUN IT logic fires
-setTimeout(() => {
-  playDyfyushunTrack();
-}, 2500);
-
-
-// YT iframe API handler
-let ytPlayer;
-function onYouTubeIframeAPIReady() {
-  ytPlayer = new YT.Player('yt-iframe', {
-    events: {
-      'onStateChange': event => {
-        const dyTrack = document.getElementById('dyfyushunTrack');
-        if (!dyTrack) return;
-
-        switch (event.data) {
-          case YT.PlayerState.PLAYING:
-            const fadeOut = setInterval(() => {
-              if (dyTrack.volume > 0.05) {
-                dyTrack.volume = Math.max(0, dyTrack.volume - 0.1);
-              } else {
-                dyTrack.pause();
-                clearInterval(fadeOut);
-              }
-            }, 100);
-            break;
-
-          case YT.PlayerState.PAUSED:
-          case YT.PlayerState.ENDED:
-            dyTrack.volume = 0;
-            dyTrack.play().then(() => {
-              const fadeIn = setInterval(() => {
-                if (dyTrack.volume < 0.95) {
-                  dyTrack.volume = Math.min(1, dyTrack.volume + 0.1);
-                } else {
-                  clearInterval(fadeIn);
-                }
-              }, 100);
-            }).catch(err => console.warn("Resume failed:", err));
-            break;
-        }
-      }
-    }
-  });
-}
-
-// === LANDING PAGE REVEAL ===
-function showLandingPage() {
-  const landingPage = document.getElementById("landing-page");
-  landingPage.classList.remove("preloaded");
-  landingPage.classList.add("visible");
-
-  const audio = document.getElementById("dyfyushunTrack");
-  audio.volume = 0.5;
-  const playPromise = audio.play();
-
-  if (playPromise !== undefined) {
-    playPromise.catch(() => {
-      window.addEventListener("click", () => {
-        audio.play();
-      }, { once: true });
-    });
-  }
-}
-
-// === GATEWAY COMPLETION HOOK ===
-// Trigger this after the final strip fall / glitch is done
-setTimeout(() => {
-  showLandingPage();
-}, 2500);
