@@ -1165,3 +1165,17 @@ html, body {
     bottom: 6px;
   }
 }
+#landing-page.preloaded {
+  display: none;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#landing-page.visible {
+  display: flex;
+  flex-direction: column;
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 1s ease-in-out;
+}
+
