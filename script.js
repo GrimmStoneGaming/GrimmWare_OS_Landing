@@ -230,7 +230,6 @@ function startTerminalSequence() {
   linesContainer.innerHTML = '';
 
   playSound('terminalFight');
-  // Removed glitchThrob replay // time-aligned to throb after terminalFight starts
 
   const sequence = [
     { tag: 'SYS', text: 'Protocol breach detected...', delay: 1000 },
@@ -302,12 +301,9 @@ function startTerminalSequence() {
 
         if (isFinal) {
           setTimeout(() => {
-            injectFinalRunItLine();
+            injectFinalRunItLine(); // ⬅ This triggers the LP handoff instead of revealAccessGranted()
             purgeTopContainer();
-            setTimeout(() => {
-              terminalOverlay.classList.add('hidden');
-              revealAccessGranted();
-            }, 3000);
+            terminalOverlay.classList.add('hidden');
           }, 500);
         } else if (index + 1 < sequence.length) {
           setTimeout(() => {
