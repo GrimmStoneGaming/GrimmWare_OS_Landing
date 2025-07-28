@@ -298,7 +298,7 @@ function startTerminalSequence() {
 });
            break;
           case 8:
-            const boxes = document.querySelectorAll('.box:not(.green)');
+             boxes = document.querySelectorAll('.box:not(.green)');
             [...boxes].sort(() => Math.random() - 0.5).forEach((el, idx) => {
   if (!el.id) return;
   setTimeout(() => zapElement(`#${el.id}`), idx * 75);
