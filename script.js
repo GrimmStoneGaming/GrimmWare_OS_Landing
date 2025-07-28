@@ -142,16 +142,21 @@ boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
     console.log(`[CLICK] Box ${i} clicked. Green index: ${currentGreenIndex}, Solved: ${solved[i]}`);
 
+    // ✅ If this box is the current green and not solved yet
     if (i === currentGreenIndex && !solved[i]) {
       solved[i] = true;
       box.classList.add('green');
       box.style.backgroundColor = '#00ff00';
       box.style.boxShadow = '0 0 12px #00ff00';
+
+      // 💡 Always update the letter visually
       box.textContent = correctCode[i];
+
       currentGreenIndex = null;
 
       playSound('correctGlitch');
 
+      // ✅ Check if all boxes are solved
       if (solved.every(Boolean)) {
         markCipherSolved();
         clearInterval(intervalId);
@@ -159,10 +164,17 @@ boxes.forEach((box, i) => {
           fadeOutSound('glitchThrob', 1000);
           playSound('preterminalGlitch');
           triggerFullscreenGlitch();
-          // Removed glitchThrob replay to avoid early kick-in
         }, 800);
       }
-    } else {
+    }
+
+    // 🔁 If the box is already solved, just show the correct letter (backup safety)
+    else if (solved[i]) {
+      box.textContent = correctCode[i];
+    }
+
+    // ❌ Wrong box clicked
+    else {
       playSound('incorrectGlitch');
     }
   });
