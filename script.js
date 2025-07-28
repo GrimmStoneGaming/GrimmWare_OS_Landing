@@ -646,5 +646,5 @@ document.getElementById('run-button').addEventListener('click', () => {
     }, index * 30);
   });
 }, fallInDuration + delayBeforeReveal + 1000);
-
+});
 
