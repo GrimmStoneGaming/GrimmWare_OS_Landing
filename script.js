@@ -183,13 +183,13 @@ function triggerFullscreenGlitch() {
 
 // === Glitch Destruction Logic ===
 function zapElement(selector, delay = 0) {
+  if (!selector || typeof selector !== 'string' || selector === '#') return;
+
   setTimeout(() => {
     const el = document.querySelector(selector);
     if (el) {
       el.classList.add('purge-glitch');
-      setTimeout(() => {
-        el.remove();
-      }, 600);
+      setTimeout(() => el.remove(), 600);
     }
   }, delay);
 }
