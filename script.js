@@ -221,6 +221,40 @@ function typeText(target, text, speed, callback) {
   }, speed);
 }
 
+function revealAccessGranted() {
+  const accessMsg = document.getElementById("access-message");
+  const runWrapper = document.querySelector(".run-button-wrapper");
+
+  if (!accessMsg || !runWrapper) {
+    console.warn("[WARN] Missing elements for revealAccessGranted.");
+    return;
+  }
+
+  // Clear any previous content
+  accessMsg.innerHTML = "";
+  accessMsg.style.opacity = 1;
+
+  // Type out the ACCESS GRANTED sequence
+  const grantedLine = document.createElement("span");
+  grantedLine.classList.add("granted");
+  grantedLine.textContent = "ACCESS GRANTED";
+
+  const warningLine = document.createElement("span");
+  warningLine.classList.add("warning");
+  warningLine.textContent = ">>> WARNING: THIS MAY CHANGE YOU";
+
+  accessMsg.appendChild(grantedLine);
+
+  setTimeout(() => {
+    accessMsg.appendChild(warningLine);
+  }, 1000); // Delay for drama
+
+  // Reveal the Run It button with glitch animation
+  setTimeout(() => {
+    runWrapper.classList.add("glitch-in");
+  }, 1800); // Button fades in after full message
+}
+
 // === Terminal Sequence Logic (w/ Audio) ===
 function startTerminalSequence() {
   const terminalOverlay = document.getElementById('terminal-overlay');
