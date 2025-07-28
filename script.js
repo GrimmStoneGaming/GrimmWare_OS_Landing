@@ -383,10 +383,10 @@ if (preloadOverlay) {
     // Optionally trigger Dyfyushun.mp3 handoff audio
     if (typeof startHandoffTrack === 'function') {
       startHandoffTrack();
-    }
-  }, 1000);
+      }
+    }, 1000);
+  }
 }
-
 // === RUN BUTTON / TRANSITION (with Audio) ===
 document.getElementById('run-button').addEventListener('click', () => {
  playSound('runIt');
