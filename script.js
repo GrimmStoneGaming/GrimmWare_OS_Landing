@@ -1,3 +1,6 @@
+// === GATEWAY + LANDING JS FULLY MERGED ===
+
+// GATEWAY SECTION STARTS HERE
 /* === GRIMMWare OS Gateway Script === */
 
 const boxes = document.querySelectorAll('.box');
@@ -572,4 +575,37 @@ window.addEventListener('DOMContentLoaded', () => {
       startCycling();
     }, 2300);
   });
-});
+// LANDING PAGE SECTION STARTS HERE
+
+// === LANDING PAGE TRACK PLAYER ===
+function startHandoffTrack() {
+  const easterEgg = document.getElementById('easterEggTrack');
+  if (easterEgg) {
+    easterEgg.play().catch(err => console.warn("Audio autoplay blocked: ", err));
+  }
+}
+
+// === Additional LANDING PAGE Behaviors or Easter Eggs ===
+function startLandingVisuals() {
+  // Example animation or typing effect if needed
+  const infoHeader = document.querySelector('.lp-info-title');
+  const infoText = document.querySelector('.lp-info-text');
+
+  if (infoHeader && infoText) {
+    typeLandingText(infoHeader, "Why does it exist?", 40, () => {
+      typeLandingText(infoText, "Because creativity isn’t defined by your tools—only by your truth.", 30);
+    });
+  }
+}
+
+function typeLandingText(element, text, speed = 50, callback = null) {
+  let i = 0;
+  element.textContent = '';
+  const interval = setInterval(() => {
+    element.textContent += text.charAt(i++);
+    if (i >= text.length) {
+      clearInterval(interval);
+      if (callback) callback();
+    }
+  }, speed);
+}
