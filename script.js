@@ -297,28 +297,30 @@ function startTerminalSequence() {
 
         if (action) action();
 
-if (isFinal) {
-  setTimeout(() => {
-    injectFinalRunItLine(); // Terminal Line Handoff
-    purgeTopContainer();    // Clear top containers
+        if (isFinal) {
+          setTimeout(() => {
+            injectFinalRunItLine();  // Typing animation for "Run it."
+            purgeTopContainer();     // Clean the top
 
-  // Reveal Access Container + Message + Button
-const accessContainer = document.getElementById('access-container');
-const accessMessage = document.getElementById('access-message');
-const runWrapper = document.getElementById('run-wrapper');
+            // === Show Access Text & Button Properly ===
+            revealAccessGranted();
 
-if (accessContainer) {
-  accessContainer.classList.remove('hidden');
-  accessContainer.style.display = 'flex';
-  accessContainer.style.opacity = '1';
-  accessContainer.style.visibility = 'visible';
-}
+            // Fade terminal overlay out
+            terminalOverlay.classList.add('hidden');
 
-if (accessMessage) accessMessage.classList.remove('hidden');
-if (runWrapper) runWrapper.classList.remove('hidden');
+            // Trigger optional music
+            const preloadOverlay = document.getElementById('preload-overlay');
+            if (preloadOverlay) {
+              preloadOverlay.classList.add('fade-out');
+              setTimeout(() => {
+                preloadOverlay.classList.add('hidden');
+                if (typeof startHandoffTrack === 'function') {
+                  startHandoffTrack();
+                }
+              }, 1000);
+            }
 
-    terminalOverlay.classList.add('hidden');
-  }, 500);
+          }, 500);
         } else if (index + 1 < sequence.length) {
           setTimeout(() => {
             typeLine(sequence[index + 1], index + 1);
