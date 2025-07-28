@@ -1,4 +1,3 @@
-
 // === EASTER EGG AUDIO LOGIC FOR GRIMMWare OS ===
 
 const easterTrack = new Audio("sounds/Dyfyushun.mp3");
@@ -40,14 +39,14 @@ function fadeOutAudio(audio, duration = 500) {
   }, step);
 }
 
-// === TRIGGER TRACK ON RUN IT BUTTON CLICK ===
-document.getElementById("run-button")?.addEventListener("click", () => {
+// === HANDOFF TRIGGER FUNCTION (Call manually) ===
+function startHandoffTrack() {
   setTimeout(() => {
     easterTrack.play().then(() => {
       fadeInAudio(easterTrack, 1000);
     }).catch(e => console.error("Audio play failed:", e));
   }, 2000);
-});
+}
 
 // === YOUTUBE API HOOK ===
 let ytPlayer;
@@ -84,7 +83,12 @@ function onYTPlayerStateChange(event) {
   }
 }
 
-// Load YT API
+// === AUTOTRIGGER (failsafe for button clicks) ===
+document.getElementById("run-button")?.addEventListener("click", () => {
+  startHandoffTrack();
+});
+
+// === YT API LOAD ===
 const tag = document.createElement("script");
 tag.src = "https://www.youtube.com/iframe_api";
 document.head.appendChild(tag);
