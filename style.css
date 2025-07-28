@@ -321,46 +321,48 @@ opacity: 0.1;
 }
 
 /* === CIPHER BOX CONTAINER === */
-.decrypt-wrapper {
-  background: #001100;
-  padding: 24px 30px;
-  border-radius: 12px;
-  box-shadow: 0 0 20px #00ff44;
+#cipher-container .decrypt-wrapper {
+  background: #001100 !important;
+  padding: 24px 30px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 0 20px #00ff44 !important;
 }
 
-.decrypt-boxes {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  justify-content: center;
+#cipher-container .decrypt-boxes {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  justify-content: center !important;
 }
 
-.box {
-  width: 50px;
-  height: 60px;
-  background: red;
-  color: black;
-  font-size: 2rem;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid #222;
-  box-shadow: 0 0 8px #ff0000;
-  cursor: pointer;
-  user-select: none;
-  transition: all 0.3s ease;
+#cipher-container .box {
+  width: 50px !important;
+  height: 60px !important;
+  background: red !important;
+  color: black !important;
+  font-size: 2rem !important;
+  font-weight: bold !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 2px solid #222 !important;
+  box-shadow: 0 0 8px #ff0000 !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  transition: all 0.3s ease !important;
+  font-family: 'Share Tech Mono', monospace !important;
 }
 
-.box.green {
-  background: #00ff00;
-  box-shadow: 0 0 12px #00ff00;
+#cipher-container .box.green {
+  background: #00ff00 !important;
+  color: #000 !important;
+  box-shadow: 0 0 12px #00ff00 !important;
 }
 
-.separator {
-  font-size: 2rem;
-  color: #ffffff;
-  padding: 0 5px;
+#cipher-container .separator {
+  font-size: 2rem !important;
+  color: #ffffff !important;
+  padding: 0 5px !important;
 }
 
 /* === ACCESS MESSAGE === */
