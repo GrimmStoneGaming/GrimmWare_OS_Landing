@@ -1,4 +1,4 @@
-/* ========= GLOBAL BASELINE ========= */
+/* ========== GLOBAL BASELINE ========== */
 * {
   margin: 0;
   padding: 0;
@@ -410,7 +410,7 @@ iframe {
   box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
   position: relative;
 }
-/* 🔹 HOLO FRAME DISTORTION + CORNER GLOW 🔹 */
+/* ðŸ”¹ HOLO FRAME DISTORTION + CORNER GLOW ðŸ”¹ */
 
 @keyframes pulseGlow {
   0%, 100% {
@@ -506,7 +506,7 @@ iframe {
   border-radius: 4px;
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
 }
-/* 👾 Static wave distortion overlay — dual-axis glitch */
+/* ðŸ‘¾ Static wave distortion overlay â€” dual-axis glitch */
 .static-overlay {
   pointer-events: none;
   position: absolute;
@@ -538,7 +538,7 @@ iframe {
   100% { transform: translateY(-10%); opacity: 0.1; }
 }
 
-/* ✨ Corner highlights for style */
+/* âœ¨ Corner highlights for style */
 .holo-corners .corner {
   position: absolute;
   width: 10px;
@@ -562,7 +562,7 @@ iframe {
     text-align: center;
   }
 }
-/* ✨ Animated pulsing glow for corner lights */
+/* âœ¨ Animated pulsing glow for corner lights */
 @keyframes pulseGlow {
   0%, 100% { opacity: 1; box-shadow: 0 0 6px #00ffff; }
   50% { opacity: 0.4; box-shadow: 0 0 12px #00ffff; }
