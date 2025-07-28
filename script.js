@@ -609,3 +609,4 @@ function typeLandingText(element, text, speed = 50, callback = null) {
     }
   }, speed);
 }
+});
