@@ -615,3 +615,28 @@ function onYouTubeIframeAPIReady() {
     }
   });
 }
+
+// === LANDING PAGE REVEAL ===
+function showLandingPage() {
+  const landingPage = document.getElementById("landing-page");
+  landingPage.classList.remove("preloaded");
+  landingPage.classList.add("visible");
+
+  const audio = document.getElementById("dyfyushunTrack");
+  audio.volume = 0.5;
+  const playPromise = audio.play();
+
+  if (playPromise !== undefined) {
+    playPromise.catch(() => {
+      window.addEventListener("click", () => {
+        audio.play();
+      }, { once: true });
+    });
+  }
+}
+
+// === GATEWAY COMPLETION HOOK ===
+// Trigger this after the final strip fall / glitch is done
+setTimeout(() => {
+  showLandingPage();
+}, 2500);
