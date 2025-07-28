@@ -300,16 +300,23 @@ function startTerminalSequence() {
         if (action) action();
 
         if (isFinal) {
-          setTimeout(() => {
-            injectFinalRunItLine(); // ⬅ This triggers the LP handoff instead of revealAccessGranted()
-            purgeTopContainer();
-            terminalOverlay.classList.add('hidden');
-          }, 500);
-        } else if (index + 1 < sequence.length) {
-          setTimeout(() => {
-            typeLine(sequence[index + 1], index + 1);
-          }, delay);
-        }
+  setTimeout(() => {
+    injectFinalRunItLine(); // ⬅ Triggers LP handoff
+    purgeTopContainer();
+
+    // 🧨 Reveal Access Container + RUN IT Button
+    const accessMessage = document.getElementById('access-message');
+    const runWrapper = document.getElementById('run-wrapper');
+    if (accessMessage) accessMessage.classList.remove('hidden');
+    if (runWrapper) runWrapper.classList.remove('hidden');
+
+    terminalOverlay.classList.add('hidden');
+  }, 500);
+} else if (index + 1 < sequence.length) {
+  setTimeout(() => {
+    typeLine(sequence[index + 1], index + 1);
+  }, delay);
+}
       }
     }, typingSpeed);
   }
