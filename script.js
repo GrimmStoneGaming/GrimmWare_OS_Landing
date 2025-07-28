@@ -184,12 +184,9 @@ function triggerFullscreenGlitch() {
 // === Glitch Destruction Logic ===
 function zapElement(selector, delay = 0) {
   setTimeout(() => {
-   if (typeof selector !== 'string' || !selector.match(/^[.#][\w-]+$/)) {
-  console.warn("Invalid selector passed to zapElement:", selector);
-  return;
-}
-
-      console.warn(`Invalid selector passed to zapElement:`, selector);
+    // Validate selector
+    if (typeof selector !== 'string' || !selector.match(/^[.#][\w-]+$/)) {
+      console.warn("Invalid selector passed to zapElement:", selector);
       return;
     }
 
@@ -202,6 +199,7 @@ function zapElement(selector, delay = 0) {
     }
   }, delay);
 }
+
 
 
 function purgeTopContainer() {
