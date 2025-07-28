@@ -567,8 +567,6 @@ setTimeout(() => {
 
 
 // YT iframe API handler
-
-
 let ytPlayer;
 function onYouTubeIframeAPIReady() {
   ytPlayer = new YT.Player('yt-iframe', {
@@ -604,17 +602,6 @@ function onYouTubeIframeAPIReady() {
             break;
         }
       }
-    }
-  });
-}
-
-            break;
-        }
-      }
-    }
-  });
-}
-}
     }
   });
 }
