@@ -374,18 +374,17 @@ function injectFinalRunItLine() {
 
   // === 🔥 LANDING PAGE HANDOFF INITIATOR ===
   const preloadOverlay = document.getElementById('preload-overlay');
-  if (preloadOverlay) {
-    preloadOverlay.classList.add('fade-out');
+if (preloadOverlay) {
+  preloadOverlay.classList.add('fade-out');
 
-    setTimeout(() => {
-      preloadOverlay.remove();
+  setTimeout(() => {
+    preloadOverlay.classList.add('hidden'); // Don't remove from DOM
 
-      // Optionally trigger Dyfyushun.mp3 handoff audio
-      if (typeof startHandoffTrack === 'function') {
-        startHandoffTrack(); // inside audio-handler.js
-      }
-    }, 1000);
-  }
+    // Optionally trigger Dyfyushun.mp3 handoff audio
+    if (typeof startHandoffTrack === 'function') {
+      startHandoffTrack();
+    }
+  }, 1000);
 }
 
 // === RUN BUTTON / TRANSITION (with Audio) ===
