@@ -184,7 +184,11 @@ function triggerFullscreenGlitch() {
 // === Glitch Destruction Logic ===
 function zapElement(selector, delay = 0) {
   setTimeout(() => {
-    if (typeof selector !== 'string' || !selector.match(/^[.#]/)) {
+   if (typeof selector !== 'string' || !selector.match(/^[.#][\w-]+$/)) {
+  console.warn("Invalid selector passed to zapElement:", selector);
+  return;
+}
+
       console.warn(`Invalid selector passed to zapElement:`, selector);
       return;
     }
@@ -291,14 +295,16 @@ function startTerminalSequence() {
           case 7:
             const green = document.querySelectorAll('.green');
             [...green].sort(() => Math.random() - 0.5).forEach((el, idx) => {
-              setTimeout(() => zapElement(`#${el.id}`), idx * 75);
-            });
-            break;
+  if (!el.id) return; // 💡 Skip elements without IDs
+  setTimeout(() => zapElement(`#${el.id}`), idx * 75);
+});
+           break;
           case 8:
             const boxes = document.querySelectorAll('.box:not(.green)');
             [...boxes].sort(() => Math.random() - 0.5).forEach((el, idx) => {
-              setTimeout(() => zapElement(`#${el.id}`), idx * 75);
-            });
+  if (!el.id) return;
+  setTimeout(() => zapElement(`#${el.id}`), idx * 75);
+});
             break;
           case 9: zapElement('.decrypt-wrapper'); break;
           case 10: zapElement('.tagline'); break;
