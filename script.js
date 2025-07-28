@@ -544,3 +544,77 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 2300);
   });
 });
+
+
+function playDyfyushunTrack() {
+  const audio = document.getElementById('dyfyushunTrack');
+  if (!audio) return;
+  audio.volume = 0;
+  audio.play().catch(err => console.warn("Playback failed:", err));
+  const fadeIn = setInterval(() => {
+    if (audio.volume < 0.99) {
+      audio.volume = Math.min(1, audio.volume + 0.05);
+    } else {
+      clearInterval(fadeIn);
+    }
+  }, 100);
+}
+
+// Call this where RUN IT logic fires
+setTimeout(() => {
+  playDyfyushunTrack();
+}, 2500);
+
+
+// YT iframe API handler
+
+
+let ytPlayer;
+function onYouTubeIframeAPIReady() {
+  ytPlayer = new YT.Player('yt-iframe', {
+    events: {
+      'onStateChange': event => {
+        const dyTrack = document.getElementById('dyfyushunTrack');
+        if (!dyTrack) return;
+
+        switch (event.data) {
+          case YT.PlayerState.PLAYING:
+            const fadeOut = setInterval(() => {
+              if (dyTrack.volume > 0.05) {
+                dyTrack.volume = Math.max(0, dyTrack.volume - 0.1);
+              } else {
+                dyTrack.pause();
+                clearInterval(fadeOut);
+              }
+            }, 100);
+            break;
+
+          case YT.PlayerState.PAUSED:
+          case YT.PlayerState.ENDED:
+            dyTrack.volume = 0;
+            dyTrack.play().then(() => {
+              const fadeIn = setInterval(() => {
+                if (dyTrack.volume < 0.95) {
+                  dyTrack.volume = Math.min(1, dyTrack.volume + 0.1);
+                } else {
+                  clearInterval(fadeIn);
+                }
+              }, 100);
+            }).catch(err => console.warn("Resume failed:", err));
+            break;
+        }
+      }
+    }
+  });
+}
+
+            break;
+        }
+      }
+    }
+  });
+}
+}
+    }
+  });
+}
