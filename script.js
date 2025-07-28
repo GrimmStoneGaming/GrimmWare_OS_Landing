@@ -1,6 +1,5 @@
 /* === GRIMMWare OS Gateway Script === */
 
-const decryptBoxes = document.querySelectorAll('.box');
 const decryptWrapper = document.querySelector('.decrypt-wrapper');
 const cipher = document.querySelector('.decrypt-wrapper');
 let decryptInstructions = document.querySelector('.decrypt-instruction');
