@@ -1084,7 +1084,7 @@ html, body {
 /* === MOBILE ONLY LANDSCAPE LOCK === */
 @media screen and (orientation: landscape) and (max-width: 768px) {
   body::before {
-    content: "Flip your phone, rookie. GrimmWare doesn’t run sideways.";
+    content: "Flip your phone, rookie. GrimmWare doesnâ€™t run sideways.";
     position: fixed;
     top: 50%;
     left: 50%;
@@ -1165,17 +1165,3 @@ html, body {
     bottom: 6px;
   }
 }
-#landing-page.preloaded {
-  display: none;
-  opacity: 0;
-  pointer-events: none;
-}
-
-#landing-page.visible {
-  display: flex;
-  flex-direction: column;
-  opacity: 1;
-  pointer-events: auto;
-  transition: opacity 1s ease-in-out;
-}
-
