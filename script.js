@@ -489,8 +489,8 @@ window.addEventListener('DOMContentLoaded', () => {
     playSound('gatewayIntro', 100);
 
     setTimeout(() => {
-     // preloadOverlay.classList.add('fade-out');
-    //setTimeout(() => preloadOverlay.remove(), 1000);//
+      preloadOverlay.classList.add('fade-out');
+      setTimeout(() => preloadOverlay.remove(), 1000);
 
       const logo = document.querySelector('.logo-main');
       const tagline = document.querySelector('.tagline');
