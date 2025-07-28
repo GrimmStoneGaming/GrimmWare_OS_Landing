@@ -297,28 +297,29 @@ function startTerminalSequence() {
 
         if (action) action();
 
-        if (isFinal) {
-          setTimeout(() => {
-            injectFinalRunItLine(); // ⬅ Final flicker line
-            purgeTopContainer();
+if (isFinal) {
+  setTimeout(() => {
+    injectFinalRunItLine(); // Terminal Line Handoff
+    purgeTopContainer();    // Clear top containers
 
-            // Reveal access section properly
-            const accessMessage = document.getElementById('access-message');
-            const runWrapper = document.getElementById('run-wrapper');
+    // 🧨 Reveal Access Message + Run Button
+    const accessContainer = document.getElementById('access-container');
+    const accessMessage = document.getElementById('access-message');
+    const runWrapper = document.getElementById('run-wrapper');
 
-            if (accessMessage) {
-              accessMessage.classList.remove('hidden');
-              accessMessage.style.display = 'block';
-              accessMessage.style.opacity = '1';
-            }
+    if (accessContainer) accessContainer.classList.remove('hidden');
+    if (accessMessage) {
+      accessMessage.classList.remove('hidden');
+      accessMessage.style.opacity = '1';
+      accessMessage.style.display = 'block';
+    }
+    if (runWrapper) {
+      runWrapper.classList.remove('hidden');
+      runWrapper.style.display = 'block';
+    }
 
-            if (runWrapper) {
-              runWrapper.classList.remove('hidden');
-              runWrapper.style.display = 'block';
-            }
-
-            terminalOverlay.classList.add('hidden');
-          }, 500);
+    terminalOverlay.classList.add('hidden');
+  }, 500);
         } else if (index + 1 < sequence.length) {
           setTimeout(() => {
             typeLine(sequence[index + 1], index + 1);
