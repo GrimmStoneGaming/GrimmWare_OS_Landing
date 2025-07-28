@@ -1165,3 +1165,36 @@ html, body {
     bottom: 6px;
   }
 }
+@keyframes fallCover {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+@keyframes fallReveal {
+  0% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+.strip {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: black;
+  z-index: 9999;
+}
+
+.strip.cover {
+  animation: fallCover 500ms forwards;
+}
+
+.strip.reveal {
+  animation: fallReveal 600ms forwards;
+}
