@@ -375,39 +375,21 @@ function injectFinalRunItLine() {
   // Audio
   playSound('runIt');
   setTimeout(() => { playSound('runItPulse'); }, 500);
-}
 
-// === ACCESS GRANTED SEQUENCE ===
-function revealAccessGranted() {
-  const grantedLine = document.querySelector('.granted');
-  const warningLine = document.querySelector('.warning');
-  const runWrapper = document.getElementById('run-wrapper');
-  const accessMessage = document.getElementById('access-message');
+  // === 🔥 LANDING PAGE HANDOFF INITIATOR ===
+  const preloadOverlay = document.getElementById('preload-overlay');
+  if (preloadOverlay) {
+    preloadOverlay.classList.add('fade-out');
 
-  accessMessage.classList.remove('hidden');
-  accessMessage.style.opacity = 1;
-
-  typeText(grantedLine, 'ACCESS GRANTED.  SYSTEM UNLOCKED.', 40, () => {
     setTimeout(() => {
-      typeText(warningLine, '>>> WARNING: THIS MAY CHANGE YOU.', 75, () => {
-        warningLine.classList.add('glitch');
+      preloadOverlay.remove();
 
-        const rawText = warningLine.textContent;
-        const glitchChars = '!@#$%?~*';
-
-        setInterval(() => {
-          const corrupted = rawText.split('').map(char =>
-            Math.random() < 0.07 && char !== ' ' ? glitchChars[Math.floor(Math.random() * glitchChars.length)] : char
-          ).join('');
-          warningLine.textContent = corrupted;
-        }, 200);
-
-        runWrapper.classList.remove('hidden');
-        runWrapper.classList.add('glitch-in');
-        runWrapper.style.display = 'block';
-      });
+      // Optionally trigger Dyfyushun.mp3 handoff audio
+      if (typeof startHandoffTrack === 'function') {
+        startHandoffTrack(); // inside audio-handler.js
+      }
     }, 1000);
-  });
+  }
 }
 
 // === RUN BUTTON / TRANSITION (with Audio) ===
@@ -507,8 +489,8 @@ window.addEventListener('DOMContentLoaded', () => {
     playSound('gatewayIntro', 100);
 
     setTimeout(() => {
-      preloadOverlay.classList.add('fade-out');
-      setTimeout(() => preloadOverlay.remove(), 1000);
+     // preloadOverlay.classList.add('fade-out');
+    //setTimeout(() => preloadOverlay.remove(), 1000);//
 
       const logo = document.querySelector('.logo-main');
       const tagline = document.querySelector('.tagline');
