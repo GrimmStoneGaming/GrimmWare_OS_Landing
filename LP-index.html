@@ -8,17 +8,8 @@
   <script src="script.js" defer></script>
 </head>
 <body>
-  <div id="landing-page-wrapper" style="display: none;" aria-hidden="true">
   <canvas id="matrix"></canvas>
 
-    <!-- LANDING PAGE ELEMENT (used by LP-script.js) -->
-<div id="landing-page" class="preloaded" aria-hidden="true">
-  <div class="lp-content">
-    <h1>Welcome to GrimmWare OS</h1>
-    <p>This is your system now.</p>
-  </div>
-</div>
-    
   <!-- Hidden Easter Eggs -->
   <pre id="bleeding-syntax" class="hidden-egg drifting-egg">
 ERROR: Syntax is bleeding...
@@ -139,7 +130,7 @@ if (pain > threshold) {
       </div>
       <div class="holo-frame">
         <div class="holo-video-wrapper">
-          <iframe src="https://www.youtube.com/embed/TNy0vTO33M" allowfullscreen></iframe>
+          <iframe id="yt-embed" src="https://www.youtube.com/embed/TNy0vTO33M?enablejsapi=1" allowfullscreen></iframe>
           <div class="static-overlay"></div>
         </div>
         <div class="holo-corners">
@@ -246,8 +237,5 @@ if (pain > threshold) {
   <p>© 2025 GrimmWare OS | The future doesn't ask for permission. <br>It Executes.</p>
   <p><a href="mailto:contact@grimmwareos.com">contact@grimmwareos.com</a></p>
 </footer>
-      </div>
   </body>
 </html>
-
-
