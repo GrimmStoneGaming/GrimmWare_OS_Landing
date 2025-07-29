@@ -501,6 +501,11 @@ window.addEventListener('DOMContentLoaded', () => {
         const warning = document.getElementById('warning');
         const runBtn = document.getElementById('run-button');
 
+        if (!access || !warning || !runBtn) {
+          console.error("Missing critical elements: #access, #warning, or #run-button");
+          return;
+        }
+
         let accessText = 'ACCESS GRANTED';
         let i = 0;
 
@@ -514,21 +519,21 @@ window.addEventListener('DOMContentLoaded', () => {
               warning.classList.remove('hidden');
               warning.style.animation = 'glitchIn 1s forwards';
 
-              const raw = warning.textContent;
-              const glitchChars = '!@#$%?~*';
-              setInterval(() => {
-                const corrupted = raw.split('').map(char =>
-                  Math.random() < 0.12 && char !== ' '
-                    ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
-                    : char
-                ).join('');
-                warning.textContent = corrupted;
-              }, 130);
-
               setTimeout(() => {
+                const raw = warning.textContent;
+                const glitchChars = '!@#$%?~*';
+                setInterval(() => {
+                  const corrupted = raw.split('').map(char =>
+                    Math.random() < 0.12 && char !== ' '
+                      ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
+                      : char
+                  ).join('');
+                  warning.textContent = corrupted;
+                }, 130);
+
                 runBtn.style.opacity = '1';
                 runBtn.classList.add('active');
-              }, 1300);
+              }, 300);
             }, 600);
           }
         }, 70);
