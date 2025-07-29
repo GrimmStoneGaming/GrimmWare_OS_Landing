@@ -1,63 +1,59 @@
-  // === GRIMWare OS Gateway Script ===
+/* === GRIMMWare OS Gateway Script === */
 
-(() => {
-  const gatewayBoxes = document.querySelectorAll('.box');
-  const decryptWrapper = document.querySelector('.decrypt-wrapper');
-  const decryptInstruction = document.querySelector('.decrypt-instruction');
-  const decryptInstructions = document.querySelectorAll('.decrypt-instruction');
+const boxes = document.querySelectorAll('.box');
+const decryptWrapper = document.querySelector('.decrypt-wrapper');
+const cipher = document.querySelector('.decrypt-wrapper');
+let decryptInstructions = document.querySelector('.decrypt-instruction');
+const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
+let currentGreenIndex = null;
+let intervalId = null;
+let solved = Array(boxes.length).fill(false);
+let transitionInProgress = false;
+let cipherSolved = false; // ✅ Flag to track completion
 
-  const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
-  let currentGreenIndex = null;
-  let intervalId = null;
+const traceDevMode = false; // 🧪 Toggle this to true to override lockdown timer for testing
 
-  let solved = Array(gatewayBoxes.length).fill(false);
-  let transitionInProgress = false;
-  let cipherSolved = false; // ✅ Flag to track completion
-  let traceDevMode = false; // 🛑 Toggle this to true to override lockdown timer for testing
+console.log("[INIT] Cipher Solved Flag:", cipherSolved);
+console.log("[INIT] Decrypt Wrapper:", decryptWrapper);
+console.log("[INIT] Decrypt Instructions:", decryptInstructions);
 
-  console.log('[INIT] Cipher Solved Flag:', cipherSolved);
-  console.log('[INIT] Decrypt Wrapper:', decryptWrapper);
-  console.log('[INIT] Decrypt Instructions:', decryptInstructions);
+// === AUDIO SETUP ===
+const sounds = {
+  gatewayIntro: new Audio('sounds/Gateway Intro.mp3'),
+  glitchThrob: new Audio('sounds/Glitch Throb Heart.mp3?v=2'),
+  preterminalGlitch: new Audio('sounds/preterminal glitch.mp3'),
+  correctGlitch: new Audio('sounds/Correct Glitch.mp3'),
+  incorrectGlitch: new Audio('sounds/Incorrect Glitch.mp3'),
+  terminalFight: new Audio('sounds/Terminal Fight.mp3'),
+  glitchTyping: new Audio('sounds/glitch typing.mp3'),
+  runIt: new Audio('sounds/RUN IT BUTTON.mp3'),
+  static: new Audio('sounds/Static.mp3'),
+  runItPulse: new Audio('sounds/Run It Pulse.mp3')
+};
 
-  // === AUDIO SETUP ===
-  const sounds = {
-    gatewayIntro: new Audio('sounds/Gateway Intro.mp3'),
-    glitchThrob: new Audio('sounds/Glitch Thro Heart.mp3?v=2'),
-    preterminalGlitch: new Audio('sounds/preterminal glitch.mp3'),
-    correctGlitch: new Audio('sounds/Correct Glitch.mp3'),
-    incorrectGlitch: new Audio('sounds/Incorrect Glitch.mp3'),
-    terminalFight: new Audio('sounds/Terminal Fight.mp3'),
-    glitchTyping: new Audio('sounds/glitch typing.mp3'),
-    runIt: new Audio('sounds/RUN IT BUTTON.mp3'),
-    static: new Audio('sounds/Static.mp3'),
-    runItPulse: new Audio('sounds/Run It Pulse.mp3')
-  };
-
-  function unlockAudio() {
-    Object.values(sounds).forEach(audio => {
-      audio.volume = 0;
-      audio.play().then(() => {
-        audio.pause();
-        audio.currentTime = 0;
-        audio.volume = 1;
-      }).catch(() => {
-        // silently ignore autoplay errors
-      });
+function unlockAudio() {
+  Object.values(sounds).forEach(audio => {
+    audio.volume = 0;
+    audio.play().then(() => {
+      audio.pause();
+      audio.currentTime = 0;
+      audio.volume = 1;
+    }).catch(() => {
+      // Silently ignore autoplay errors
     });
-  }
+  });
+}
 
-  function playSound(key, delay = 0, reset = true) {
+function playSound(key, delay = 0, reset = true) {
   if (!sounds[key]) return;
-
   if (reset) {
     sounds[key].pause();
     sounds[key].currentTime = 0;
   }
-
   setTimeout(() => {
     sounds[key].play();
 
-    // Special override: Stop 'gatewayIntro' at 2380ms
+    // Special override: stop 'gatewayIntro' at 2300ms
     if (key === 'gatewayIntro') {
       setTimeout(() => {
         sounds.gatewayIntro.pause();
@@ -66,7 +62,7 @@
     }
   }, delay);
 }
-  
+
 function fadeOutSound(key, duration = 1000) {
   if (!sounds[key]) return;
   const audio = sounds[key];
@@ -141,18 +137,18 @@ function startCycling() {
   }, 600);
 }
 
- // === Box Click Detection w/ Audio ===
-  gatewayBoxes.forEach((box, i) => {
-    box.addEventListener('click', () => {
-      console.log(`[CLICK] Box ${i} clicked. Green index: ${currentGreenIndex}, Solved: ${solved[i]}`);
+// === Box Click Detection w/ Audio ===
+boxes.forEach((box, i) => {
+  box.addEventListener('click', () => {
+    console.log(`[CLICK] Box ${i} clicked. Green index: ${currentGreenIndex}, Solved: ${solved[i]}`);
 
-      if (i === currentGreenIndex && !solved[i]) {
-        solved[i] = true;
-        box.classList.add('green');
-        box.style.backgroundColor = '#00ff00';
-        box.style.boxShadow = '0 0 12px #00ff00';
-        box.textContent = correctCode[i];
-        currentGreenIndex = null;
+    if (i === currentGreenIndex && !solved[i]) {
+      solved[i] = true;
+      box.classList.add('green');
+      box.style.backgroundColor = '#00ff00';
+      box.style.boxShadow = '0 0 12px #00ff00';
+      box.textContent = correctCode[i];
+      currentGreenIndex = null;
 
       playSound('correctGlitch');
 
@@ -518,16 +514,6 @@ document.getElementById('run-button').addEventListener('click', () => {
       const totalDelay = shuffled.length * 30 + fallOutDuration;
       setTimeout(() => {
         overlay.style.display = 'none';
-
-        // 🔥 LANDING PAGE GO TIME
-        const landing = document.getElementById('landing-page');
-        if (landing) {
-          landing.classList.add('visible');
-          console.log('[HANDOFF] Landing page revealed.');
-        } else {
-          console.warn('[HANDOFF] #landing-page not found.');
-        }
-
       }, totalDelay + 500);
     }, fallInDuration + delayBeforeReveal);
   }, 1000); // ⌛ Delay for final tension
@@ -587,4 +573,3 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 2300);
   });
 });
-})();
