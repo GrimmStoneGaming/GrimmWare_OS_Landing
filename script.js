@@ -17,6 +17,8 @@ console.log("[INIT] Cipher Solved Flag:", cipherSolved);
 console.log("[INIT] Decrypt Wrapper:", decryptWrapper);
 console.log("[INIT] Decrypt Instructions:", decryptInstructions);
 
+
+
 // === AUDIO SETUP ===
 const sounds = {
   gatewayIntro: new Audio('sounds/Gateway Intro.mp3'),
@@ -303,6 +305,7 @@ function startTerminalSequence() {
         if (isFinal) {
           setTimeout(() => {
             injectFinalRunItLine();
+            preloadLandingSkeleton();
             purgeTopContainer();
             setTimeout(() => {
               terminalOverlay.classList.add('hidden');
