@@ -1,23 +1,17 @@
-/* === GATEWAY SCRIPT START === */
+/* === GRIMMWare OS Gateway Script === */
 
-/* === GRIMMWare OS Gateway Script (Cleaned + Patched) === */
-
-// DOM Selectors
 const boxes = document.querySelectorAll('.box');
 const decryptWrapper = document.querySelector('.decrypt-wrapper');
-const decryptInstructions = document.querySelector('.decrypt-instruction');
-const lpWrapper = document.getElementById('lp-wrapper');
-
-// Cipher Configuration
+const cipher = document.querySelector('.decrypt-wrapper');
+let decryptInstructions = document.querySelector('.decrypt-instruction');
 const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
-let solved = Array(correctCode.length).fill(false);
 let currentGreenIndex = null;
 let intervalId = null;
-let cipherSolved = false;
+let solved = Array(boxes.length).fill(false);
+let transitionInProgress = false;
+let cipherSolved = false; // ✅ Flag to track completion
 
-// Dev Mode Flag
-const traceDevMode = false;
-console.log("[INIT] Cipher Initialized", { cipherSolved, decryptWrapper, decryptInstructions });
+const traceDevMode = false; // 🧪 Toggle this to true to override lockdown timer for testing
 
 // === AUDIO SETUP ===
 const sounds = {
@@ -40,7 +34,9 @@ function unlockAudio() {
       audio.pause();
       audio.currentTime = 0;
       audio.volume = 1;
-    }).catch(() => { /* ignore autoplay fails */ });
+    }).catch(() => {
+      // Silently ignore autoplay errors
+    });
   });
 }
 
@@ -52,6 +48,8 @@ function playSound(key, delay = 0, reset = true) {
   }
   setTimeout(() => {
     sounds[key].play();
+
+    // Special override: stop 'gatewayIntro' at 2300ms
     if (key === 'gatewayIntro') {
       setTimeout(() => {
         sounds.gatewayIntro.pause();
@@ -64,8 +62,8 @@ function playSound(key, delay = 0, reset = true) {
 function fadeOutSound(key, duration = 1000) {
   if (!sounds[key]) return;
   const audio = sounds[key];
-  const step = audio.volume / (duration / 100);
-  const fade = setInterval(() => {
+  let step = audio.volume / (duration / 100);
+  let fade = setInterval(() => {
     audio.volume = Math.max(0, audio.volume - step);
     if (audio.volume <= 0.01) {
       clearInterval(fade);
@@ -75,19 +73,19 @@ function fadeOutSound(key, duration = 1000) {
   }, 100);
 }
 
-// === CIPHER UTILITIES ===
 const typingSpeed = 35;
 const baseDelay = 100;
+
+function markCipherSolved() {
+  cipherSolved = true;
+
+  // Stop glitchThrob immediately
+  fadeOutSound('glitchThrob', 200);
+}
 
 function getRandomChar() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return chars[Math.floor(Math.random() * chars.length)];
-}
-
-function markCipherSolved() {
-  cipherSolved = true;
-  console.log("[MARK] Cipher marked as solved.");
-  fadeOutSound('glitchThrob', 200);
 }
 
 function cycleCharacters() {
@@ -107,13 +105,17 @@ function startCycling() {
       nextIndex = Math.floor(Math.random() * boxes.length);
     } while (solved[nextIndex]);
 
-    const isInverted = document.body.classList.contains('inverted');
+    let isInverted = cipher.classList.contains('inverted');
 
     boxes.forEach((box, i) => {
       if (!solved[i]) {
         box.classList.remove('green');
-        box.style.backgroundColor = isInverted ? '#00ff00' : 'red';
-        box.style.boxShadow = `0 0 8px ${isInverted ? '#00ff00' : '#ff0000'}`;
+
+        const bgColor = isInverted ? '#00ff00' : 'red';
+        const shadowColor = isInverted ? '#00ff00' : '#ff0000';
+
+        box.style.backgroundColor = bgColor;
+        box.style.boxShadow = `0 0 8px ${shadowColor}`;
       }
     });
 
@@ -121,15 +123,18 @@ function startCycling() {
     const box = boxes[currentGreenIndex];
     box.classList.add('green');
     box.textContent = correctCode[currentGreenIndex];
-    box.style.backgroundColor = isInverted ? 'red' : '#00ff00';
-    box.style.boxShadow = `0 0 8px ${isInverted ? '#ff0000' : '#00ff00'}`;
+
+    const correctBgColor = isInverted ? 'red' : '#00ff00';
+    const correctShadowColor = isInverted ? '#ff0000' : '#00ff00';
+
+    box.style.backgroundColor = correctBgColor;
+    box.style.boxShadow = `0 0 8px ${correctShadowColor}`;
   }, 600);
 }
 
-// === BOX CLICK LOGIC ===
+// === Box Click Detection w/ Audio ===
 boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
-    console.log(`[CLICK] Box ${i} clicked. Green index: ${currentGreenIndex}, Solved: ${solved[i]}`);
 
     if (i === currentGreenIndex && !solved[i]) {
       solved[i] = true;
@@ -148,7 +153,7 @@ boxes.forEach((box, i) => {
           fadeOutSound('glitchThrob', 1000);
           playSound('preterminalGlitch');
           triggerFullscreenGlitch();
-          if (lpWrapper) lpWrapper.classList.remove('hidden');
+          // Removed glitchThrob replay to avoid early kick-in
         }, 800);
       }
     } else {
@@ -533,272 +538,3 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 2300);
   });
 });
-
-
-/* === MUTE TOGGLE === */
-
-// Mute Toggle Logic
-let isMuted = true;
-const audioElements = document.querySelectorAll('audio');
-
-function toggleMute() {
-  isMuted = !isMuted;
-  audioElements.forEach(el => {
-    el.muted = isMuted;
-    if (!el.paused && !el.ended && el.readyState > 2) {
-      if (!isMuted) el.play();
-    }
-  });
-  console.log("Audio is now", isMuted ? "Muted" : "Unmuted");
-}
-
-
-/* === LANDING PAGE SCRIPT START === */
-// === GRIMMWARE OS CORE JS ===
-
-document.addEventListener("DOMContentLoaded", () => {
-  // 🎯 FLOATING EGGS — Randomized position + animation
-  const floatingEggs = document.querySelectorAll(".drifting-egg");
-  floatingEggs.forEach((egg) => {
-    const pageHeight = document.body.scrollHeight;
-    const pageWidth = document.body.scrollWidth;
-    const top = Math.random() * (pageHeight - 100);
-    const left = Math.random() * (pageWidth - 100);
-
-    egg.style.position = "absolute";
-    egg.style.top = `${top}px`;
-    egg.style.left = `${left}px`;
-    egg.style.zIndex = "1000";
-
-    egg.animate(
-      [
-        { transform: "translate(0, 0)" },
-        { transform: "translate(5px, -10px)" },
-        { transform: "translate(-5px, 5px)" },
-        { transform: "translate(0, 0)" },
-      ],
-      {
-        duration: 15000 + Math.random() * 10000,
-        iterations: Infinity,
-        direction: "alternate",
-        easing: "ease-in-out",
-      }
-    );
-  });
-
-  // 👁 REVEAL ON SCROLL
-  const revealOnScroll = () => {
-    const reveals = document.querySelectorAll(".reveal");
-    const winH = window.innerHeight;
-    reveals.forEach((el) => {
-      if (el.getBoundingClientRect().top < winH) {
-        el.classList.add("reveal-active");
-      }
-    });
-  };
-  window.addEventListener("scroll", revealOnScroll);
-  revealOnScroll();
-
-  // 🧠 TYPING ANIMATION
-  const loading1 = document.getElementById("loading-1");
-  const loading2 = document.getElementById("loading-2");
-
-  const lines1 = [
-    "&gt;&gt;&gt; <span class='white'>Authenticating system integrity...</span>",
-    "&gt;&gt;&gt; <span class='cyan'>Initializing GWOS...</span>",
-    "&gt;&gt;&gt; <span class='red'>System breach imminent...</span>",
-  ];
-
-  const lines2 = [
-    "&gt;&gt;&gt; Compiling pain... <span class='green'>Complete</span>",
-    "&gt;&gt;&gt; Parsing guilt... <span class='green'>Complete</span>",
-    "&gt;&gt;&gt; Injecting honesty... <span class='green'>Complete</span>",
-    "&gt;&gt;&gt; <span class='red'>WARNING: Emotional stability compromised...</span>",
-    "&gt;&gt;&gt; <span class='pink'>Manifesting audio signature...</span>",
-    "&gt;&gt;&gt; <span class='red'>SIGNAL DISTORTION DETECTED...</span>",
-    "&gt;&gt;&gt; ...recalibrating...",
-    "&gt;&gt;&gt; <span class='limegreen'>AUTHORIZED OVERRIDE — PLAYBACK UNLOCKED</span>",
-    "&gt;&gt;&gt; Deploying featured track: <span class='blue'><i>I See It All</i></span>",
-  ];
-
-  const typeLines = (target, lines, delay = 60, callback) => {
-    let lineIndex = 0;
-    target.innerHTML = "";
-
-    const typeLine = () => {
-      if (lineIndex >= lines.length) {
-        callback?.();
-        return;
-      }
-
-      const line = lines[lineIndex];
-      let charIndex = 0;
-      let currentLine = "";
-
-      const typeChar = () => {
-        currentLine += line.charAt(charIndex);
-        target.innerHTML =
-          lines.slice(0, lineIndex).join("<br>") +
-          "<br>" +
-          currentLine +
-          `<span class="blink">|</span>`;
-        charIndex++;
-
-        if (charIndex < line.length) {
-          setTimeout(typeChar, delay);
-        } else {
-          lineIndex++;
-          setTimeout(typeLine, 0);
-        }
-      };
-
-      typeChar();
-    };
-
-    typeLine();
-  };
-
-  const loopLoading1 = () => {
-    if (!loading1) return;
-    typeLines(loading1, lines1, 60, () => {
-      setTimeout(loopLoading1, 2000);
-    });
-  };
-
-  const loopLoading2 = () => {
-    if (!loading2) return;
-    typeLines(loading2, lines2, 60, () => {
-      setTimeout(loopLoading2, 2000);
-    });
-  };
-
-  loopLoading1();
-  loopLoading2();
-
-  // === RED MATRIX RAIN CANVAS ===
-  const canvas = document.getElementById("matrix");
-  if (canvas) {
-    const ctx = canvas.getContext("2d");
-    canvas.height = window.innerHeight;
-    canvas.width = window.innerWidth;
-
-    function hexToRGBA(hex, alpha) {
-      const shorthand = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-      hex = hex.replace(shorthand, (m, r, g, b) => r + r + g + g + b + b);
-      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-      if (!result) return `rgba(255,255,255,${alpha})`;
-      const r = parseInt(result[1], 16);
-      const g = parseInt(result[2], 16);
-      const b = parseInt(result[3], 16);
-      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-    }
-
-    const letters = [
-      ..."01",
-      ..."GWOS",
-      ..."I SEE IT ALL",
-      ..."RUN IT.",
-      ..."GRMOSSYS",
-      ..."GIZGZMO",
-      ..."U R NT ALNE",
-      ..."EMO IS EXE",
-      "#",
-      "@",
-      ">",
-      "~",
-      "|",
-      "▓",
-      "░",
-      "█",
-      ..."ABCDEF",
-    ];
-
-    const glitchPhrases = [
-      "I SEE IT ALL",
-      "U R NT ALNE",
-      "EMO IS EXE",
-      "RUN IT",
-      "GRIMMWARE_OS",
-      "GIZ // SIGNAL FOUND",
-    ];
-
-    const activeGlitchLines = [];
-    const fontSize = 14;
-    const columnCount = 400;
-    const spacing = canvas.width / columnCount;
-    const drops = Array.from({ length: columnCount }, () => 1);
-
-    const draw = () => {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#ff0000";
-      ctx.font = `${fontSize}px monospace`;
-
-      drops.forEach((y, i) => {
-        const text = letters[Math.floor(Math.random() * letters.length)];
-        const x = i * spacing;
-        ctx.fillText(text, x, y * fontSize);
-        if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-        drops[i]++;
-      });
-
-      // 👻 Glitch overlay
-      for (let i = activeGlitchLines.length - 1; i >= 0; i--) {
-        const line = activeGlitchLines[i];
-        ctx.font = "bold 14px monospace";
-        ctx.fillStyle = hexToRGBA(line.color, line.alpha);
-        ctx.fillText(line.phrase, line.x, line.y);
-        line.alpha -= line.fadeRate;
-        if (line.alpha <= 0) activeGlitchLines.splice(i, 1);
-      }
-    };
-
-    const drawHorizontalGlitch = () => {
-      const phrase =
-        glitchPhrases[Math.floor(Math.random() * glitchPhrases.length)];
-      const x = Math.floor(Math.random() * (canvas.width - 300));
-      const y = Math.floor(Math.random() * canvas.height);
-      const colors = [
-        "#ff003c",
-        "#00ffff",
-        "#ff69b4",
-        "#00ff66",
-        "#ffffff",
-      ];
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      activeGlitchLines.push({
-        phrase,
-        x,
-        y,
-        color,
-        alpha: 1.0,
-        fadeRate: Math.random() * 0.015 + 0.01,
-      });
-    };
-
-    setInterval(draw, 33);
-    setInterval(drawHorizontalGlitch, 3000);
-  }
-
-  // === 📟 EMOTIONAL TRIGGER ===
-  const trigger = document.getElementById("message-trigger");
-  const message = document.getElementById("hidden-message");
-
-  if (trigger && message) {
-    trigger.addEventListener("click", () => {
-      if (message.classList.contains("visible")) {
-        message.classList.remove("visible");
-        message.classList.add("fade-out");
-
-        setTimeout(() => {
-          message.classList.remove("fade-out");
-          message.style.display = "none";
-        }, 600);
-      } else {
-        message.style.display = "block";
-        message.classList.add("visible");
-      }
-    });
-  }
-});
-
