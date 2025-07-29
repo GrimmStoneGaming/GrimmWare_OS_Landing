@@ -8,7 +8,7 @@ let decryptInstructions = document.querySelector('.decrypt-instruction');
 const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
 let currentGreenIndex = null;
 let intervalId = null;
-let solved = Array(gatewayboxes.length).fill(false);
+let solved = Array(gatewayBoxes.length).fill(false);
 let transitionInProgress = false;
 let cipherSolved = false; // ✅ Flag to track completion
 
