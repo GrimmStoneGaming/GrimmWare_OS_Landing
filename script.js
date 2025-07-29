@@ -1,3 +1,4 @@
+
 /* === GRIMMWare OS Gateway Script === */
 
 const boxes = document.querySelectorAll('.box');
@@ -514,6 +515,16 @@ document.getElementById('run-button').addEventListener('click', () => {
       const totalDelay = shuffled.length * 30 + fallOutDuration;
       setTimeout(() => {
         overlay.style.display = 'none';
+
+        // 🔥 LANDING PAGE GO TIME
+        const landing = document.getElementById('landing-page');
+        if (landing) {
+          landing.classList.add('visible');
+          console.log('[HANDOFF] Landing page revealed.');
+        } else {
+          console.warn('[HANDOFF] #landing-page not found.');
+        }
+
       }, totalDelay + 500);
     }, fallInDuration + delayBeforeReveal);
   }, 1000); // ⌛ Delay for final tension
