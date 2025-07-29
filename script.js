@@ -1,4 +1,3 @@
-(() => {
   // === GRIMWare OS Gateway Script ===
 
   const gatewayBoxes = document.querySelectorAll('.box');
