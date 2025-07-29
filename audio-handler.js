@@ -1,4 +1,4 @@
-// === EASTER EGG AUDIO LOGIC FOR GRIMMWare OS ===
+// === EASTER EGG AUDIO LOGIC FOR GRIMMWare OS ===//
 
 const easterTrack = new Audio("sounds/Dyfyushun.mp3");
 easterTrack.loop = true;
