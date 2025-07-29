@@ -1,3 +1,4 @@
+/* === GATEWAY SCRIPT START === */
 /* === GRIMMWare OS Gateway Script === */
 
 const boxes = document.querySelectorAll('.box');
@@ -183,13 +184,13 @@ function triggerFullscreenGlitch() {
 
 // === Glitch Destruction Logic ===
 function zapElement(selector, delay = 0) {
-  if (!selector || typeof selector !== 'string' || selector === '#') return;
-
   setTimeout(() => {
     const el = document.querySelector(selector);
     if (el) {
       el.classList.add('purge-glitch');
-      setTimeout(() => el.remove(), 600);
+      setTimeout(() => {
+        el.remove();
+      }, 600);
     }
   }, delay);
 }
@@ -221,41 +222,6 @@ function typeText(target, text, speed, callback) {
   }, speed);
 }
 
-function revealAccessGranted() {
-  const accessMsg = document.getElementById("access-message");
-  const runWrapper = document.querySelector(".run-button-wrapper");
-
-  if (!accessMsg || !runWrapper) {
-    console.warn("[WARN] Missing elements for revealAccessGranted.");
-    return;
-  }
-
-  // UNHIDE elements
-  accessMsg.classList.remove("hidden");
-  runWrapper.classList.remove("hidden");
-
-  accessMsg.innerHTML = "";
-  accessMsg.style.opacity = 1;
-
-  const grantedLine = document.createElement("span");
-  grantedLine.classList.add("granted");
-  grantedLine.textContent = "ACCESS GRANTED";
-
-  const warningLine = document.createElement("span");
-  warningLine.classList.add("warning");
-  warningLine.textContent = ">>> WARNING: THIS MAY CHANGE YOU";
-
-  accessMsg.appendChild(grantedLine);
-
-  setTimeout(() => {
-    accessMsg.appendChild(warningLine);
-  }, 1000);
-
-  setTimeout(() => {
-    runWrapper.classList.add("glitch-in");
-  }, 1800);
-}
-
 // === Terminal Sequence Logic (w/ Audio) ===
 function startTerminalSequence() {
   const terminalOverlay = document.getElementById('terminal-overlay');
@@ -265,6 +231,7 @@ function startTerminalSequence() {
   linesContainer.innerHTML = '';
 
   playSound('terminalFight');
+  // Removed glitchThrob replay // time-aligned to throb after terminalFight starts
 
   const sequence = [
     { tag: 'SYS', text: 'Protocol breach detected...', delay: 1000 },
@@ -317,12 +284,14 @@ function startTerminalSequence() {
         switch (index) {
           case 6: zapElement('.decrypt-instruction'); break;
           case 7:
-            document.querySelectorAll('.green').forEach((el, idx) => {
+            const green = document.querySelectorAll('.green');
+            [...green].sort(() => Math.random() - 0.5).forEach((el, idx) => {
               setTimeout(() => zapElement(`#${el.id}`), idx * 75);
             });
             break;
           case 8:
-            document.querySelectorAll('.box:not(.green)').forEach((el, idx) => {
+            const boxes = document.querySelectorAll('.box:not(.green)');
+            [...boxes].sort(() => Math.random() - 0.5).forEach((el, idx) => {
               setTimeout(() => zapElement(`#${el.id}`), idx * 75);
             });
             break;
@@ -334,27 +303,12 @@ function startTerminalSequence() {
 
         if (isFinal) {
           setTimeout(() => {
-            injectFinalRunItLine();  // Typing animation for "Run it."
-            purgeTopContainer();     // Clean the top
-
-            // === Show Access Text & Button Properly ===
-            revealAccessGranted();
-
-            // Fade terminal overlay out
-            terminalOverlay.classList.add('hidden');
-
-            // Trigger optional music
-            const preloadOverlay = document.getElementById('preload-overlay');
-            if (preloadOverlay) {
-              preloadOverlay.classList.add('fade-out');
-              setTimeout(() => {
-                preloadOverlay.classList.add('hidden');
-                if (typeof startHandoffTrack === 'function') {
-                  startHandoffTrack();
-                }
-              }, 1000);
-            }
-
+            injectFinalRunItLine();
+            purgeTopContainer();
+            setTimeout(() => {
+              terminalOverlay.classList.add('hidden');
+              revealAccessGranted();
+            }, 3000);
           }, 500);
         } else if (index + 1 < sequence.length) {
           setTimeout(() => {
@@ -367,7 +321,6 @@ function startTerminalSequence() {
 
   typeLine(sequence[0], 0);
 }
-
 
 // === FINAL FLICKERING LINE ===
 function injectFinalRunItLine() {
@@ -423,22 +376,41 @@ function injectFinalRunItLine() {
   // Audio
   playSound('runIt');
   setTimeout(() => { playSound('runItPulse'); }, 500);
-
-  // === 🔥 LANDING PAGE HANDOFF INITIATOR ===
-  const preloadOverlay = document.getElementById('preload-overlay');
-if (preloadOverlay) {
-  preloadOverlay.classList.add('fade-out');
-
-  setTimeout(() => {
-    preloadOverlay.classList.add('hidden'); // Don't remove from DOM
-
-    // Optionally trigger Dyfyushun.mp3 handoff audio
-    if (typeof startHandoffTrack === 'function') {
-      startHandoffTrack();
-      }
-    }, 1000);
-  }
 }
+
+// === ACCESS GRANTED SEQUENCE ===
+function revealAccessGranted() {
+  const grantedLine = document.querySelector('.granted');
+  const warningLine = document.querySelector('.warning');
+  const runWrapper = document.getElementById('run-wrapper');
+  const accessMessage = document.getElementById('access-message');
+
+  accessMessage.classList.remove('hidden');
+  accessMessage.style.opacity = 1;
+
+  typeText(grantedLine, 'ACCESS GRANTED.  SYSTEM UNLOCKED.', 40, () => {
+    setTimeout(() => {
+      typeText(warningLine, '>>> WARNING: THIS MAY CHANGE YOU.', 75, () => {
+        warningLine.classList.add('glitch');
+
+        const rawText = warningLine.textContent;
+        const glitchChars = '!@#$%?~*';
+
+        setInterval(() => {
+          const corrupted = rawText.split('').map(char =>
+            Math.random() < 0.07 && char !== ' ' ? glitchChars[Math.floor(Math.random() * glitchChars.length)] : char
+          ).join('');
+          warningLine.textContent = corrupted;
+        }, 200);
+
+        runWrapper.classList.remove('hidden');
+        runWrapper.classList.add('glitch-in');
+        runWrapper.style.display = 'block';
+      });
+    }, 1000);
+  });
+}
+
 // === RUN BUTTON / TRANSITION (with Audio) ===
 document.getElementById('run-button').addEventListener('click', () => {
  playSound('runIt');
@@ -573,3 +545,272 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 2300);
   });
 });
+
+
+/* === MUTE TOGGLE === */
+
+// Mute Toggle Logic
+let isMuted = true;
+const audioElements = document.querySelectorAll('audio');
+
+function toggleMute() {
+  isMuted = !isMuted;
+  audioElements.forEach(el => {
+    el.muted = isMuted;
+    if (!el.paused && !el.ended && el.readyState > 2) {
+      if (!isMuted) el.play();
+    }
+  });
+  console.log("Audio is now", isMuted ? "Muted" : "Unmuted");
+}
+
+
+/* === LANDING PAGE SCRIPT START === */
+// === GRIMMWARE OS CORE JS ===
+
+document.addEventListener("DOMContentLoaded", () => {
+  // 🎯 FLOATING EGGS — Randomized position + animation
+  const floatingEggs = document.querySelectorAll(".drifting-egg");
+  floatingEggs.forEach((egg) => {
+    const pageHeight = document.body.scrollHeight;
+    const pageWidth = document.body.scrollWidth;
+    const top = Math.random() * (pageHeight - 100);
+    const left = Math.random() * (pageWidth - 100);
+
+    egg.style.position = "absolute";
+    egg.style.top = `${top}px`;
+    egg.style.left = `${left}px`;
+    egg.style.zIndex = "1000";
+
+    egg.animate(
+      [
+        { transform: "translate(0, 0)" },
+        { transform: "translate(5px, -10px)" },
+        { transform: "translate(-5px, 5px)" },
+        { transform: "translate(0, 0)" },
+      ],
+      {
+        duration: 15000 + Math.random() * 10000,
+        iterations: Infinity,
+        direction: "alternate",
+        easing: "ease-in-out",
+      }
+    );
+  });
+
+  // 👁 REVEAL ON SCROLL
+  const revealOnScroll = () => {
+    const reveals = document.querySelectorAll(".reveal");
+    const winH = window.innerHeight;
+    reveals.forEach((el) => {
+      if (el.getBoundingClientRect().top < winH) {
+        el.classList.add("reveal-active");
+      }
+    });
+  };
+  window.addEventListener("scroll", revealOnScroll);
+  revealOnScroll();
+
+  // 🧠 TYPING ANIMATION
+  const loading1 = document.getElementById("loading-1");
+  const loading2 = document.getElementById("loading-2");
+
+  const lines1 = [
+    "&gt;&gt;&gt; <span class='white'>Authenticating system integrity...</span>",
+    "&gt;&gt;&gt; <span class='cyan'>Initializing GWOS...</span>",
+    "&gt;&gt;&gt; <span class='red'>System breach imminent...</span>",
+  ];
+
+  const lines2 = [
+    "&gt;&gt;&gt; Compiling pain... <span class='green'>Complete</span>",
+    "&gt;&gt;&gt; Parsing guilt... <span class='green'>Complete</span>",
+    "&gt;&gt;&gt; Injecting honesty... <span class='green'>Complete</span>",
+    "&gt;&gt;&gt; <span class='red'>WARNING: Emotional stability compromised...</span>",
+    "&gt;&gt;&gt; <span class='pink'>Manifesting audio signature...</span>",
+    "&gt;&gt;&gt; <span class='red'>SIGNAL DISTORTION DETECTED...</span>",
+    "&gt;&gt;&gt; ...recalibrating...",
+    "&gt;&gt;&gt; <span class='limegreen'>AUTHORIZED OVERRIDE — PLAYBACK UNLOCKED</span>",
+    "&gt;&gt;&gt; Deploying featured track: <span class='blue'><i>I See It All</i></span>",
+  ];
+
+  const typeLines = (target, lines, delay = 60, callback) => {
+    let lineIndex = 0;
+    target.innerHTML = "";
+
+    const typeLine = () => {
+      if (lineIndex >= lines.length) {
+        callback?.();
+        return;
+      }
+
+      const line = lines[lineIndex];
+      let charIndex = 0;
+      let currentLine = "";
+
+      const typeChar = () => {
+        currentLine += line.charAt(charIndex);
+        target.innerHTML =
+          lines.slice(0, lineIndex).join("<br>") +
+          "<br>" +
+          currentLine +
+          `<span class="blink">|</span>`;
+        charIndex++;
+
+        if (charIndex < line.length) {
+          setTimeout(typeChar, delay);
+        } else {
+          lineIndex++;
+          setTimeout(typeLine, 0);
+        }
+      };
+
+      typeChar();
+    };
+
+    typeLine();
+  };
+
+  const loopLoading1 = () => {
+    if (!loading1) return;
+    typeLines(loading1, lines1, 60, () => {
+      setTimeout(loopLoading1, 2000);
+    });
+  };
+
+  const loopLoading2 = () => {
+    if (!loading2) return;
+    typeLines(loading2, lines2, 60, () => {
+      setTimeout(loopLoading2, 2000);
+    });
+  };
+
+  loopLoading1();
+  loopLoading2();
+
+  // === RED MATRIX RAIN CANVAS ===
+  const canvas = document.getElementById("matrix");
+  if (canvas) {
+    const ctx = canvas.getContext("2d");
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    function hexToRGBA(hex, alpha) {
+      const shorthand = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+      hex = hex.replace(shorthand, (m, r, g, b) => r + r + g + g + b + b);
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      if (!result) return `rgba(255,255,255,${alpha})`;
+      const r = parseInt(result[1], 16);
+      const g = parseInt(result[2], 16);
+      const b = parseInt(result[3], 16);
+      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+
+    const letters = [
+      ..."01",
+      ..."GWOS",
+      ..."I SEE IT ALL",
+      ..."RUN IT.",
+      ..."GRMOSSYS",
+      ..."GIZGZMO",
+      ..."U R NT ALNE",
+      ..."EMO IS EXE",
+      "#",
+      "@",
+      ">",
+      "~",
+      "|",
+      "▓",
+      "░",
+      "█",
+      ..."ABCDEF",
+    ];
+
+    const glitchPhrases = [
+      "I SEE IT ALL",
+      "U R NT ALNE",
+      "EMO IS EXE",
+      "RUN IT",
+      "GRIMMWARE_OS",
+      "GIZ // SIGNAL FOUND",
+    ];
+
+    const activeGlitchLines = [];
+    const fontSize = 14;
+    const columnCount = 400;
+    const spacing = canvas.width / columnCount;
+    const drops = Array.from({ length: columnCount }, () => 1);
+
+    const draw = () => {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#ff0000";
+      ctx.font = `${fontSize}px monospace`;
+
+      drops.forEach((y, i) => {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        const x = i * spacing;
+        ctx.fillText(text, x, y * fontSize);
+        if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      });
+
+      // 👻 Glitch overlay
+      for (let i = activeGlitchLines.length - 1; i >= 0; i--) {
+        const line = activeGlitchLines[i];
+        ctx.font = "bold 14px monospace";
+        ctx.fillStyle = hexToRGBA(line.color, line.alpha);
+        ctx.fillText(line.phrase, line.x, line.y);
+        line.alpha -= line.fadeRate;
+        if (line.alpha <= 0) activeGlitchLines.splice(i, 1);
+      }
+    };
+
+    const drawHorizontalGlitch = () => {
+      const phrase =
+        glitchPhrases[Math.floor(Math.random() * glitchPhrases.length)];
+      const x = Math.floor(Math.random() * (canvas.width - 300));
+      const y = Math.floor(Math.random() * canvas.height);
+      const colors = [
+        "#ff003c",
+        "#00ffff",
+        "#ff69b4",
+        "#00ff66",
+        "#ffffff",
+      ];
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      activeGlitchLines.push({
+        phrase,
+        x,
+        y,
+        color,
+        alpha: 1.0,
+        fadeRate: Math.random() * 0.015 + 0.01,
+      });
+    };
+
+    setInterval(draw, 33);
+    setInterval(drawHorizontalGlitch, 3000);
+  }
+
+  // === 📟 EMOTIONAL TRIGGER ===
+  const trigger = document.getElementById("message-trigger");
+  const message = document.getElementById("hidden-message");
+
+  if (trigger && message) {
+    trigger.addEventListener("click", () => {
+      if (message.classList.contains("visible")) {
+        message.classList.remove("visible");
+        message.classList.add("fade-out");
+
+        setTimeout(() => {
+          message.classList.remove("fade-out");
+          message.style.display = "none";
+        }, 600);
+      } else {
+        message.style.display = "block";
+        message.classList.add("visible");
+      }
+    });
+  }
+});
+
