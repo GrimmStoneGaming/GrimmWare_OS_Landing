@@ -305,7 +305,6 @@ function startTerminalSequence() {
         if (isFinal) {
           setTimeout(() => {
             injectFinalRunItLine();
-            preloadLandingSkeleton();
             purgeTopContainer();
             setTimeout(() => {
               terminalOverlay.classList.add('hidden');
