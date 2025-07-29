@@ -1,575 +1,312 @@
-/* === GRIMMWare OS Gateway Script === */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>GrimmWare OS Gateway</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="LP-style.css">
+  </head>
+<body>
+<div id="preload-overlay"></div>
+<div id="smash-overlay"></div>
 
-const boxes = document.querySelectorAll('.box');
-const decryptWrapper = document.querySelector('.decrypt-wrapper');
-const cipher = document.querySelector('.decrypt-wrapper');
-let decryptInstructions = document.querySelector('.decrypt-instruction');
-const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
-let currentGreenIndex = null;
-let intervalId = null;
-let solved = Array(boxes.length).fill(false);
-let transitionInProgress = false;
-let cipherSolved = false; // ✅ Flag to track completion
+  <!-- LANDING PAGE --->
+<div class="landing-wrapper">
+  <div id="landing-page" class="preloaded" aria-hidden="true">
+<canvas id="matrix"></canvas>
 
-const traceDevMode = false; // 🧪 Toggle this to true to override lockdown timer for testing
-
-console.log("[INIT] Cipher Solved Flag:", cipherSolved);
-console.log("[INIT] Decrypt Wrapper:", decryptWrapper);
-console.log("[INIT] Decrypt Instructions:", decryptInstructions);
-
-// === AUDIO SETUP ===
-const sounds = {
-  gatewayIntro: new Audio('sounds/Gateway Intro.mp3'),
-  glitchThrob: new Audio('sounds/Glitch Throb Heart.mp3?v=2'),
-  preterminalGlitch: new Audio('sounds/preterminal glitch.mp3'),
-  correctGlitch: new Audio('sounds/Correct Glitch.mp3'),
-  incorrectGlitch: new Audio('sounds/Incorrect Glitch.mp3'),
-  terminalFight: new Audio('sounds/Terminal Fight.mp3'),
-  glitchTyping: new Audio('sounds/glitch typing.mp3'),
-  runIt: new Audio('sounds/RUN IT BUTTON.mp3'),
-  static: new Audio('sounds/Static.mp3'),
-  runItPulse: new Audio('sounds/Run It Pulse.mp3')
-};
-
-function unlockAudio() {
-  Object.values(sounds).forEach(audio => {
-    audio.volume = 0;
-    audio.play().then(() => {
-      audio.pause();
-      audio.currentTime = 0;
-      audio.volume = 1;
-    }).catch(() => {
-      // Silently ignore autoplay errors
-    });
-  });
+  <!-- Hidden Easter Eggs -->
+  <pre id="bleeding-syntax" class="hidden-egg drifting-egg">
+ERROR: Syntax is bleeding...
+if (pain > threshold) {
+    scream();
+} else {
+    compile(hope);
 }
-
-function playSound(key, delay = 0, reset = true) {
-  if (!sounds[key]) return;
-  if (reset) {
-    sounds[key].pause();
-    sounds[key].currentTime = 0;
-  }
-  setTimeout(() => {
-    sounds[key].play();
-
-    // Special override: stop 'gatewayIntro' at 2300ms
-    if (key === 'gatewayIntro') {
-      setTimeout(() => {
-        sounds.gatewayIntro.pause();
-        sounds.gatewayIntro.currentTime = 0;
-      }, 2300);
-    }
-  }, delay);
-}
-
-function fadeOutSound(key, duration = 1000) {
-  if (!sounds[key]) return;
-  const audio = sounds[key];
-  let step = audio.volume / (duration / 100);
-  let fade = setInterval(() => {
-    audio.volume = Math.max(0, audio.volume - step);
-    if (audio.volume <= 0.01) {
-      clearInterval(fade);
-      audio.pause();
-      audio.volume = 1;
-    }
-  }, 100);
-}
-
-const typingSpeed = 35;
-const baseDelay = 100;
-
-function markCipherSolved() {
-  cipherSolved = true;
-  console.log("[MARK] Cipher marked as solved.");
-
-  // Stop glitchThrob immediately
-  fadeOutSound('glitchThrob', 200);
-}
-
-function getRandomChar() {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  return chars[Math.floor(Math.random() * chars.length)];
-}
-
-function cycleCharacters() {
-  setInterval(() => {
-    boxes.forEach((box, i) => {
-      if (!solved[i] && i !== currentGreenIndex) {
-        box.textContent = getRandomChar();
-      }
-    });
-  }, 100);
-}
-
-function startCycling() {
-  intervalId = setInterval(() => {
-    let nextIndex;
-    do {
-      nextIndex = Math.floor(Math.random() * boxes.length);
-    } while (solved[nextIndex]);
-
-    let isInverted = cipher.classList.contains('inverted');
-
-    boxes.forEach((box, i) => {
-      if (!solved[i]) {
-        box.classList.remove('green');
-
-        const bgColor = isInverted ? '#00ff00' : 'red';
-        const shadowColor = isInverted ? '#00ff00' : '#ff0000';
-
-        box.style.backgroundColor = bgColor;
-        box.style.boxShadow = `0 0 8px ${shadowColor}`;
-      }
-    });
-
-    currentGreenIndex = nextIndex;
-    const box = boxes[currentGreenIndex];
-    box.classList.add('green');
-    box.textContent = correctCode[currentGreenIndex];
-
-    const correctBgColor = isInverted ? 'red' : '#00ff00';
-    const correctShadowColor = isInverted ? '#ff0000' : '#00ff00';
-
-    box.style.backgroundColor = correctBgColor;
-    box.style.boxShadow = `0 0 8px ${correctShadowColor}`;
-  }, 600);
-}
-
-// === Box Click Detection w/ Audio ===
-boxes.forEach((box, i) => {
-  box.addEventListener('click', () => {
-    console.log(`[CLICK] Box ${i} clicked. Green index: ${currentGreenIndex}, Solved: ${solved[i]}`);
-
-    if (i === currentGreenIndex && !solved[i]) {
-      solved[i] = true;
-      box.classList.add('green');
-      box.style.backgroundColor = '#00ff00';
-      box.style.boxShadow = '0 0 12px #00ff00';
-      box.textContent = correctCode[i];
-      currentGreenIndex = null;
-
-      playSound('correctGlitch');
-
-      if (solved.every(Boolean)) {
-        markCipherSolved();
-        clearInterval(intervalId);
-        setTimeout(() => {
-          fadeOutSound('glitchThrob', 1000);
-          playSound('preterminalGlitch');
-          triggerFullscreenGlitch();
-          // Removed glitchThrob replay to avoid early kick-in
-        }, 800);
-      }
-    } else {
-      playSound('incorrectGlitch');
-    }
-  });
-});
-
-
-// === Fullscreen Glitch to Terminal Trigger ===
-function triggerFullscreenGlitch() {
-  const glitchDiv = document.createElement('div');
-  glitchDiv.classList.add('fullscreen-glitch');
-  document.body.appendChild(glitchDiv);
-
-  setTimeout(() => {
-    glitchDiv.remove();
-    startTerminalSequence();
-  }, 2400);
-}
-
-// === Glitch Destruction Logic ===
-function zapElement(selector, delay = 0) {
-  if (!selector || typeof selector !== 'string' || selector === '#') return;
-
-  setTimeout(() => {
-    const el = document.querySelector(selector);
-    if (el) {
-      el.classList.add('purge-glitch');
-      setTimeout(() => el.remove(), 600);
-    }
-  }, delay);
-}
-
-function purgeTopContainer() {
-  zapElement('.logo-main');
-  zapElement('.tagline');
-  zapElement('.logo-container');
-
-  const topContainer = document.getElementById('top-container');
-  if (topContainer) {
-    topContainer.classList.add('purge-glitch');
-    setTimeout(() => {
-      topContainer.remove();
-    }, 600);
-  }
-}
-
-// === Type Text Logic ===
-function typeText(target, text, speed, callback) {
-  let i = 0;
-  target.textContent = '';
-  const interval = setInterval(() => {
-    target.textContent += text.charAt(i++);
-    if (i >= text.length) {
-      clearInterval(interval);
-      if (callback) callback();
-    }
-  }, speed);
-}
-
-function revealAccessGranted() {
-  const accessMsg = document.getElementById("access-message");
-  const runWrapper = document.querySelector(".run-button-wrapper");
-
-  if (!accessMsg || !runWrapper) {
-    console.warn("[WARN] Missing elements for revealAccessGranted.");
-    return;
-  }
-
-  // UNHIDE elements
-  accessMsg.classList.remove("hidden");
-  runWrapper.classList.remove("hidden");
-
-  accessMsg.innerHTML = "";
-  accessMsg.style.opacity = 1;
-
-  const grantedLine = document.createElement("span");
-  grantedLine.classList.add("granted");
-  grantedLine.textContent = "ACCESS GRANTED";
-
-  const warningLine = document.createElement("span");
-  warningLine.classList.add("warning");
-  warningLine.textContent = ">>> WARNING: THIS MAY CHANGE YOU";
-
-  accessMsg.appendChild(grantedLine);
-
-  setTimeout(() => {
-    accessMsg.appendChild(warningLine);
-  }, 1000);
-
-  setTimeout(() => {
-    runWrapper.classList.add("glitch-in");
-  }, 1800);
-}
-
-// === Terminal Sequence Logic (w/ Audio) ===
-function startTerminalSequence() {
-  const terminalOverlay = document.getElementById('terminal-overlay');
-  const linesContainer = document.getElementById('terminal-lines');
-  terminalOverlay.classList.add('show');
-  terminalOverlay.classList.remove('hidden');
-  linesContainer.innerHTML = '';
-
-  playSound('terminalFight');
-
-  const sequence = [
-    { tag: 'SYS', text: 'Protocol breach detected...', delay: 1000 },
-    { tag: 'HANDLER', text: 'Initializing command injection...', delay: 1000 },
-    { tag: 'SYS', text: 'Firewall spike deployed.', delay: 1000 },
-    { tag: 'HANDLER', text: 'Injecting signal disruptor...', delay: 1000 },
-    { tag: 'GATEWAY', text: 'Rejecting foreign signal...', delay: 1000 },
-    { tag: 'SYS', text: 'Override vector accepted.', delay: 1000 },
-    { tag: 'SYS', text: 'Beginning internal sequence...', delay: 1000 },
-    { tag: 'HANDLER', text: 'Forcing cipher lockout...', delay: 1000 },
-    { tag: 'GATEWAY', text: 'Memory lattice destabilizing...', delay: 1000 },
-    { tag: 'SYS', text: 'Subsystem identity layers disabled.', delay: 1000 },
-    { tag: 'SYS', text: 'Visual anchor nodes disengaged.', delay: 1000 },
-    { tag: 'SYS', text: 'Sequence continues...', delay: 1000 },
-    { tag: 'SYS', text: 'Connection integrity failing...', delay: 1000 },
-    { tag: 'SYS', text: 'Cipher structure collapse confirmed.', delay: 1000 },
-    { tag: 'HANDLER', text: 'Awaiting final response...', delay: 1000 },
-    { tag: 'SYS', text: 'Instruction stream fragmentation in progress...', delay: 1000 },
-    { tag: 'HANDLER', text: 'No more walls. Only wires.', delay: 2000 },
-    { tag: '', text: '', delay: 200, action: () => zapElement('.logo-container') },
-    { tag: '', text: '', delay: 0, isFinal: true }
-  ];
-
-  function typeLine({ tag, text, delay, isFinal, action }, index) {
-    const line = document.createElement('div');
-    line.classList.add('terminal-line');
-
-    if (tag) {
-      const prefix = document.createElement('span');
-      prefix.classList.add(`${tag.toLowerCase()}-prefix`);
-      prefix.textContent = `[${tag}] ::`;
-      line.appendChild(prefix);
-    }
-
-    const content = document.createElement('span');
-    content.classList.add('terminal-content');
-    line.appendChild(content);
-    linesContainer.appendChild(line);
-    terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
-
-    let charIndex = 0;
-    const interval = setInterval(() => {
-      if (charIndex < text.length) {
-        content.textContent += text.charAt(charIndex++);
-        terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
-        playSound('glitchTyping', 0, false);
-      } else {
-        clearInterval(interval);
-
-        switch (index) {
-          case 6: zapElement('.decrypt-instruction'); break;
-          case 7:
-            document.querySelectorAll('.green').forEach((el, idx) => {
-              setTimeout(() => zapElement(`#${el.id}`), idx * 75);
-            });
-            break;
-          case 8:
-            document.querySelectorAll('.box:not(.green)').forEach((el, idx) => {
-              setTimeout(() => zapElement(`#${el.id}`), idx * 75);
-            });
-            break;
-          case 9: zapElement('.decrypt-wrapper'); break;
-          case 10: zapElement('.tagline'); break;
-        }
-
-        if (action) action();
-
-        if (isFinal) {
-          setTimeout(() => {
-            injectFinalRunItLine();  // Typing animation for "Run it."
-            purgeTopContainer();     // Clean the top
-
-            // === Show Access Text & Button Properly ===
-            revealAccessGranted();
-
-            // Fade terminal overlay out
-            terminalOverlay.classList.add('hidden');
-
-            // Trigger optional music
-            const preloadOverlay = document.getElementById('preload-overlay');
-            if (preloadOverlay) {
-              preloadOverlay.classList.add('fade-out');
-              setTimeout(() => {
-                preloadOverlay.classList.add('hidden');
-                if (typeof startHandoffTrack === 'function') {
-                  startHandoffTrack();
-                }
-              }, 1000);
-            }
-
-          }, 500);
-        } else if (index + 1 < sequence.length) {
-          setTimeout(() => {
-            typeLine(sequence[index + 1], index + 1);
-          }, delay);
-        }
-      }
-    }, typingSpeed);
-  }
-
-  typeLine(sequence[0], 0);
-}
-
-
-// === FINAL FLICKERING LINE ===
-function injectFinalRunItLine() {
-  const linesContainer = document.getElementById('terminal-lines');
-
-  const finalLine = document.createElement('div');
-  finalLine.classList.add('terminal-line');
-  Object.assign(finalLine.style, {
-    opacity: '1',
-    display: 'flex',
-    visibility: 'visible',
-    position: 'relative',
-    flexWrap: 'nowrap',
-    alignItems: 'center',
-    zIndex: '1000'
-  });
-
-  const finalPrefix = document.createElement('span');
-  finalPrefix.classList.add('handler-prefix');
-  finalPrefix.textContent = '[HANDLER] ::';
-  finalLine.appendChild(finalPrefix);
-
-  const runItSpan = document.createElement('span');
-  runItSpan.classList.add('run-it');
-  runItSpan.textContent = 'Run it.';
-  Object.assign(runItSpan.style, {
-    color: 'red',
-    display: 'inline',
-    visibility: 'visible',
-    opacity: '1',
-    position: 'relative',
-    zIndex: '1001',
-    marginLeft: '5px',
-    fontWeight: 'bold'
-  });
-
-  finalLine.appendChild(runItSpan);
-  linesContainer.appendChild(finalLine);
-
-  // Animation trigger
-  void runItSpan.offsetWidth;
-  runItSpan.style.removeProperty('animation');
-
-  requestAnimationFrame(() => {
-    runItSpan.classList.remove('run-it');
-    runItSpan.classList.add('run-it-flicker', 'shock-pulse');
-  });
-
-  linesContainer.scrollTop = linesContainer.scrollHeight;
-  linesContainer.classList.add('terminal-pulse');
-  setTimeout(() => linesContainer.classList.remove('terminal-pulse'), 1000);
-
-  // Audio
-  playSound('runIt');
-  setTimeout(() => { playSound('runItPulse'); }, 500);
-
-  // === 🔥 LANDING PAGE HANDOFF INITIATOR ===
-  const preloadOverlay = document.getElementById('preload-overlay');
-if (preloadOverlay) {
-  preloadOverlay.classList.add('fade-out');
-
-  setTimeout(() => {
-    preloadOverlay.classList.add('hidden'); // Don't remove from DOM
-
-    // Optionally trigger Dyfyushun.mp3 handoff audio
-    if (typeof startHandoffTrack === 'function') {
-      startHandoffTrack();
-      }
-    }, 1000);
-  }
-}
-// === RUN BUTTON / TRANSITION (with Audio) ===
-document.getElementById('run-button').addEventListener('click', () => {
- playSound('runIt');
-  fadeOutSound('glitchThrob', 1500);
-  sounds.runItPulse.pause();
-  sounds.runItPulse.currentTime = 0;
-
-  const footer = document.querySelector('.grimm-footer');
-  if (footer) {
+  </pre>
+
+  <!-- Ghost Easter Egg (FLOATING) -->
+  <pre id="ghost-behind" class="hidden-egg drifting-egg">
+  (      )
+   \____/    . . .
+   |    |   (o o)
+   |____|    >_<
+  /| || |\   |||
+ /_|_||_|_\  |||
+   |    |    ||
+   |    |    ||
+  /______\  /__\
+  </pre>
+
+<header class="hero-section">
+  <div class="logo-container">
+     <img src="images/grimmware-logo.png" alt="GrimmWare OS Logo" class="main-logo" />
+  </div>
+
+  <div class="hero-bg">
+    <div class="text-overlay">
+      <h1>EMOTION <span style="color: #ff0000;">IS</span> EXECUTABLE</h1>
+      <div class="hero-text">
+        <p><strong>This isn’t <span class="red">AI-generated fluff</span>.</strong></p>
+        <p>This is <em>soul stitched to sound</em>—music forged by <span class="blue">fire</span>,<br>built from <span class="green">scars</span>, and crafted with <span class="accent">intent</span>.</p>
+        <p>I don’t just use AI—<em><span class="red">I wield it.</span></em></p>
+        <p>Every track starts with <span class="cyan">my words, my vision, my emotion.</span></p>
+        <p>I generate the stems like legos,<br>then reshape, remix, and refine them.</p>
+        <p>The tech doesn’t replace me—it <span class="red">amplifies</span> me.</p>
+      </div>
+    </div>
+
+    <section class="button-group reveal">
+      <div class="left-buttons">
+        <a href="#about" class="btn-red">> WHAT IS GRIMMWARE OS?</a>
+        <a href="#featured-track" class="btn-red">> LISTEN NOW</a>
+        <a href="#uplink" class="btn-red">> ESTABLISH CONNECTION</a>
+      </div>
+      <div class="right-button">
+        <a href="#easter-egg" class="btn-cyan">> eXeKY00T?</a>
+      </div>
+    </section>
+  </div>
+</header>
+
+<!-- LOADING BARS -->
+<div class="loading-bar" id="loading-bar-1">
+  <section id="loading-1" class="terminal-lines reveal"></section>
+</div>
+
+  <div class="emo-banner-container reveal">
+    <img src="images/emotion-is-executable.png" alt="Emotion is Executable Banner" class="emo-banner" />
+  </div>
+
+<!-- ABOUT SECTION -->
+<section id="about" class="reveal">
+  <div class="about-container">
+    <div class="about-text text-overlay">
+        <h2>What is <strong class="red">GrimmWare OS</strong>?</h2>
+        <p><strong>GrimmWare OS isn’t just sound—</strong> it’s a system.</p>
+        <p>It’s music engineered from <span class="cyan">raw emotion</span>, forged with <span class="red">pain</span>, <span class="pink">scars</span>, and powered by <span class="blue">pure creativity</span>.</p>
+        <p>I don’t chase trends—I craft <span class="blue">code-driven chaos</span> and <span class="blue">purpose-built passion</span>.</p>
+        <p>From glitchy synths to guttural screams, every track pulses with intent—designed to hit you where it <span class="red">hurts</span>… or <span class="blue">heals</span>.</p>
+        <p><span class="pink"><span class="red">This is music as emotional malware.</span></span></p>
+
+        <div class="spacer"></div>
+
+        <p><span style="color: #ffb84d; font-weight: bold;">Why does it exist?</span></p>
+        <p>Because art doesn’t begin and end with a six-string or a set of lungs.<br>Because creativity isn’t defined by your tools—only by your truth.</p>
+        <p><span class="red">GrimmWare OS</span> was <span style="color: #ffb84d; font-weight: bold;">born from rebellion</span>, sculpted in silence, and lit on fire by creators who got tired of asking permission to feel something.</p>
+
+        <div class="spacer"></div>
+
+        <p>I don’t use AI to skip the work—I use it to <span class="blue">dig deeper</span>. I generate. I reshape. I rebuild.<br>And what comes out the other side? That’s <strong>me</strong>—in executable form.</p>
+        <p>To anyone scared to show what they’ve made because of judgment—<span class="cyan">you’re not alone</span>.<br>We’ve bled into our machines and made art from the aftermath.</p>
+        <p>They can call it cheating all they want.<br><span class="red">Let ‘em.</span><br>We’ll still be over here—<span class="blue">rewriting the definition of creative warfare.</span></p>
+
+        <div class="spacer"></div>
+
+        <p><span class="red">The hammer never swung itself.</span><br>But we sure as hell did.</p>
+
+        <div class="spacer"></div>
+
+        <p><span class="pink">This is the uprising.</span><br><span class="red">This is GrimmWare OS.</span><br><span class="cyan">Run it.</span></p>
+    </div>
+  </div>
+</section>
+
+<div class="loading-bar" id="loading-bar-2">
+  <section id="loading-2" class="terminal-lines reveal"></section>
+</div>
+ <!-- FEATURED TRACK -->
+<section id="featured-track" class="featured-track reveal">
+  <div class="text-overlay">
+    <h3>>> File attached: <span class="cyan">I See It All</span></h3>
+    <p><span class="green">Status: Declassified</span></p>
+    <p>This track is a signal flare from the shadows.<br>
+      A raw, emotional burst from the perspective of the one standing silently behind the strong— <br>
+      the one who sees <em>everything</em>, but says nothing.<br>
+      <span class="red">It’s not just music.</span> <span class="cyan">It’s a confession in code. A transmission in trust.</span>
+    </p>
+    <p><span class="green">Play it loud.</span> <em>Feel</em> what’s been left unsaid.</p>
+  </div>
+
+  <div class="track-container">
+    <div class="holo-player">
+      <div class="holo-header">
+        🎵 SIGNAL // <span class="glow">I SEE IT ALL</span>
+      </div>
+      <div class="holo-frame">
+        <div class="holo-video-wrapper">
+          <iframe id="yt-embed" src="https://www.youtube.com/embed/TNy0vTO33M?enablejsapi=1" allowfullscreen></iframe>
+          <div class="static-overlay"></div>
+        </div>
+        <div class="holo-corners">
+          <span class="corner tl">x</span>
+          <span class="corner tr">x</span>
+          <span class="corner bl">x</span>
+          <span class="corner br">x</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lyrics-container">
+    <div class="lyrics-box">
+      <p><span class="song-title">“I See It All”</span></p>
+
+      <p>I see the storm behind your eyes<br>
+      The sleepless nights you try to disguise<br>
+      You don’t have to bleed alone tonight<br>
+      Just reach out to me and let me help you fight</p>
+
+      <p>They look to me when the sky turns black<br>
+      When the walls cave in, I hold them back<br>
+      I try so hard to keep the evil at bay,<br>
+      To keep them from seeing me give way<br>
+      I'm breaking beneath what they’ll never know<br>
+      But I'm the one protecting - I can never let it show</p>
+
+      <p>I've gotta hold up their world so they don’t fall<br>
+      I won't watch you be crushed beneath it all<br>
+      I can never let go, or it'll all be lost<br>
+      I'll help carry it all, no matter what the cost<br>
+      If I fall apart now, it'll all come down<br>
+      Then I'll be there to help you before you drown</p>
+
+      <p>You scream out in silence, but drown in the noise<br>
+      Give away your soul like you’ve got no choice<br>
+      They praise the light but miss the flame<br>
+      That’s burning you down just to keep them sane<br>
+      You ache in places no one sees<br>
+      But I can feel the tremble in your knees</p>
+
+      <p>I can’t afford to fall apart<br>
+      This is how I guard all your hearts<br>
+      But in the silence I admit my fear<br>
+      Being forgotten just for being sincere</p>
+
+      <p>I've gotta hold up their world so they don’t fall<br>
+      I won't watch you be crushed beneath it all<br>
+      I can never let go, or it'll all be lost<br>
+      I'll help carry it all, no matter what the cost<br>
+      If I fall apart now, it'll all come down<br>
+      Then I'll be there to help you before you drown</p>
+
+      <p>You think your pain makes you weak, but that's a lie<br>
+      But what if I stop and they all ask why?<br>
+      Then let them see all the cracks you hide<br>
+      But what if I should fall?<br>
+      Then I’ll be by your side!</p>
+
+      <p>I gotta hold up their world so they don’t fall<br>
+      I won't watch you be crushed beneath it all<br>
+      I can never let go, or it'll all be lost<br>
+      I'll help carry it all, no matter what the cost<br>
+      I feel broken inside, but I still stand tall<br>
+      I promise you're not alone... I see it all...</p>
+    </div> <!-- .lyrics-box -->
+
+    <span id="message-trigger">&gt;&gt;&gt; // inspect emotional residue</span>
+
+    <div id="hidden-message">
+      Always remember<br>
+      You are enough.<br>
+      Always remember<br>
+      You are worth it.
+    </div>
+  </div> <!-- .lyrics-container -->
+</section>
   
-  footer.style.transition = 'opacity 0.8s ease';
-  footer.style.opacity = '0';
-}
-  const terminal = document.getElementById('terminal');
-  if (terminal) terminal.remove();
-  if (transitionInProgress) return;
-  transitionInProgress = true;
+<div class="spacer"></div>
 
-  const terminalOverlay = document.getElementById('terminal-overlay');
-  if (terminalOverlay) terminalOverlay.remove();
+<section id="uplink" class="cta-section reveal">
+  <div class="cta-container">
+    <div class="cta-content">
+      <div class="cta-text">
+        <h3>>> TRANSMISSION STANDING BY.</h3>
+        <p>Secure your uplink. Expect encrypted chaos, decrypted truth, and exclusive drops.</p>
+        <ul>
+          <li><span class="red">✚</span> No spam. No fluff. Just raw intel.</li>
+          <li><span class="red">✚</span> Priority access to classified updates & releases.</li>
+        </ul>
+      </div>
+      <form class="cta-form">
+        <input type="email" placeholder=">>> INPUT NODE: Secure uplink address" required>
+        <input type="text" placeholder="Alias (Required For Authentication)" required>
+        <button type="submit">>>> INITIATE UPLINK</button>
+        <small>Data is encrypted. No signal sold. Only transmissions you asked for.</small>
+      </form>
+    </div>
+  </div>
+</section>
 
-  const smashOverlay = document.getElementById('smash-overlay');
-  smashOverlay.classList.add('active');
+<footer class="reveal">
+  <p>© 2025 GrimmWare OS | The future doesn't ask for permission. <br>It Executes.</p>
+  <p><a href="mailto:contact@grimmwareos.com">contact@grimmwareos.com</a></p>
+</footer>
+</div>
+  </div>
 
-  // Screen smash FX
-  setTimeout(() => {
-    smashOverlay.classList.remove('active');
-  }, 1300);
+  <!-- GATEWAY UI -->
+  <div id="gateway-ui">
+    <div class="top-container" id="top-container">
+      <div class="logo-container">
+        <img class="logo-main" src="images/grimmware-logo.png" alt="GRIMMWARE OS Logo" loading="lazy"/>
+        <img class="tagline" src="images/emotion-is-executable.png" alt="Emotion is Executable" loading="lazy"/>
+      </div>
+</div>
 
-  // Gateway strip transition
-  setTimeout(() => {
-    const overlay = document.getElementById('gateway-overlay');
-    const landingPage = document.getElementById('landing-page');
-    const runWrapper = document.getElementById('run-wrapper');
-    const accessMessage = document.getElementById('access-message');
+      <div class="decrypt-wrapper hidden" role="region" aria-label="Decryption Puzzle">
+        <div class="decrypt-boxes" id="decrypt-boxes">
+          <div class="box" id="box0" role="button" tabindex="0" aria-label="Box 1">G</div>
+          <div class="box" id="box1" role="button" tabindex="0" aria-label="Box 2">W</div>
+          <div class="box" id="box2" role="button" tabindex="0" aria-label="Box 3">O</div>
+          <div class="box" id="box3" role="button" tabindex="0" aria-label="Box 4">S</div>
+          <div class="separator" aria-hidden="true">_</div>
+          <div class="box" id="box4" role="button" tabindex="0" aria-label="Box 5">E</div>
+          <div class="box" id="box5" role="button" tabindex="0" aria-label="Box 6">X</div>
+          <div class="box" id="box6" role="button" tabindex="0" aria-label="Box 7">E</div>
+        </div>
+      </div>
 
-    const numStrips = 60;
-    const fallInDuration = 500;
-    const fallOutDuration = 600;
-    const delayBeforeReveal = 1500;
+      <div class="decrypt-instruction" id="decrypt-instruction"></div>
+    </div>
 
-    runWrapper.style.display = 'none';
-    accessMessage.style.display = 'none';
-    landingPage.style.display = 'flex';
-    landingPage.style.opacity = 0;
-    overlay.innerHTML = '';
-    overlay.style.display = 'flex';
-    overlay.style.background = 'transparent';
+    <!-- Spacer below puzzle -->
+    <div style="height: 250px; width: 100%;"></div>
 
-    for (let i = 0; i < numStrips; i++) {
-      const strip = document.createElement('div');
-      strip.classList.add('strip', 'cover');
-      strip.style.left = `${(100 / numStrips) * i}%`;
-      strip.style.width = `${100 / numStrips}%`;
-      strip.style.animation = `fallCover ${fallInDuration}ms forwards`;
-      overlay.appendChild(strip);
-    }
+    <!-- ACCESS MESSAGE -->
+    <div id="access-container">
+      <div id="access-message" class="hidden" aria-live="polite">
+        <span class="granted"></span>
+        <span class="warning" id="warning-line"></span>
+      </div>
 
-    setTimeout(() => {
-      landingPage.style.opacity = 1;
+      <div id="run-wrapper" class="run-button-wrapper hidden">
+        <button id="run-button" aria-label="Execute Gateway Unlock">&gt;&gt;&gt; RUN IT</button>
+      </div>
+    </div>
 
-      const strips = Array.from(overlay.querySelectorAll('.strip'));
-      const shuffled = strips.sort(() => Math.random() - 0.5);
+<!-- INIT SCREEN (Pre-Gateway Trigger) -->
+<div id="init-screen">
+  <button id="init-button">&gt;&gt;&gt; INITIATE &lt;&lt;&lt;</button>
+</div>
+    
+    <!-- Overlay to trigger glitch -->
+    <div id="gateway-overlay" aria-hidden="true"></div>
 
-      shuffled.forEach((strip, index) => {
-        setTimeout(() => {
-          strip.classList.remove('cover');
-          strip.classList.add('reveal');
-          strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
-        }, index * 30);
-      });
+    <!-- TERMINAL WINDOW -->
+    <div id="terminal-overlay" class="hidden">
+      <div id="terminal-lines" class="terminal-inner"></div>
+    </div>
+  </div>
+ <div class="grimm-footer">
+  Built by GrimmStone & Gizmo 🖤 Emotion is Executable
+</div>
+<audio id="easterEggTrack" loop preload="auto">
+  <source src="sounds/Dyfyushun.mp3" type="audio/mpeg">
+</audio>
 
-      const totalDelay = shuffled.length * 30 + fallOutDuration;
-      setTimeout(() => {
-        overlay.style.display = 'none';
-      }, totalDelay + 500);
-    }, fallInDuration + delayBeforeReveal);
-  }, 1000); // ⌛ Delay for final tension
-});
-
-// === INIT SCREEN TRIGGER ===
-window.addEventListener('DOMContentLoaded', () => {
-  const initScreen = document.getElementById('init-screen');
-  const initButton = document.getElementById('init-button');
-  const preloadOverlay = document.getElementById('preload-overlay');
-
-  initButton.addEventListener('click', () => {
-    unlockAudio();
-
-    initScreen.style.display = 'none';
-    preloadOverlay.style.display = 'block';
-    preloadOverlay.style.opacity = '1';
-    preloadOverlay.classList.remove('fade-out');
-
-    playSound('gatewayIntro', 100);
-
-    setTimeout(() => {
-      preloadOverlay.classList.add('fade-out');
-      setTimeout(() => preloadOverlay.remove(), 1000);
-
-      const logo = document.querySelector('.logo-main');
-      const tagline = document.querySelector('.tagline');
-      const instruction = document.querySelector('.decrypt-instruction');
-
-      setTimeout(() => { logo.style.animation = 'fadeIn 1.2s forwards'; }, 0);
-      setTimeout(() => { tagline.style.animation = 'fadeIn 1.2s forwards'; }, 800);
-      setTimeout(() => {
-        cipher.classList.remove('hidden');
-        cipher.style.animation = 'glitchIn 0.6s forwards';
-        playSound('glitchThrob');
-      }, 100);
-
-      setTimeout(() => {
-        instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
-        instruction.style.animation = 'corruptText 6s infinite';
-        instruction.style.opacity = '1';
-
-        const raw = instruction.textContent;
-        const glitchChars = '!@#$%?~*';
-        setInterval(() => {
-          const corrupted = raw.split('').map(char =>
-            Math.random() < 0.07 && char !== ' '
-              ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
-              : char
-          ).join('');
-          instruction.textContent = corrupted;
-        }, 200);
-      }, 1800);
-
-      cycleCharacters();
-      startCycling();
-    }, 2300);
-  });
-});
+  <script src="script.js"></script>
+   <script src="audio-handler.js"></script>
+</body>
+</html>
