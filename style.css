@@ -912,7 +912,7 @@ opacity: 0.2;
   z-index: 99999;
   opacity: 1;
   pointer-events: none;
-  display: none; /* ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â THIS RIGHT HERE */
+  display: none; /* ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂºÃƒâ€šÃ‚Â ÃƒÆ’Ã‚Â¯Ãƒâ€šÃ‚Â¸Ãƒâ€šÃ‚Â THIS RIGHT HERE */
   transition: opacity 0.8s ease;
 }
 
@@ -1084,7 +1084,7 @@ html, body {
 /* === MOBILE ONLY LANDSCAPE LOCK === */
 @media screen and (orientation: landscape) and (max-width: 768px) {
   body::before {
-    content: "Flip your phone, rookie. GrimmWare doesnâ€™t run sideways.";
+    content: "Flip your phone, rookie. GrimmWare doesnÃ¢â‚¬â„¢t run sideways.";
     position: fixed;
     top: 50%;
     left: 50%;
@@ -1164,37 +1164,4 @@ html, body {
     font-size: 0.65rem;
     bottom: 6px;
   }
-}
-@keyframes fallCover {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(0%);
-  }
-}
-
-@keyframes fallReveal {
-  0% {
-    transform: translateY(0%);
-  }
-  100% {
-    transform: translateY(100%);
-  }
-}
-
-.strip {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  background: black;
-  z-index: 9999;
-}
-
-.strip.cover {
-  animation: fallCover 500ms forwards;
-}
-
-.strip.reveal {
-  animation: fallReveal 600ms forwards;
 }
