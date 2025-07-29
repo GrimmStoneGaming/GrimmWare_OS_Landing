@@ -6,6 +6,7 @@
 const boxes = document.querySelectorAll('.box');
 const decryptWrapper = document.querySelector('.decrypt-wrapper');
 const decryptInstructions = document.querySelector('.decrypt-instruction');
+const lpWrapper = document.getElementById('lp-wrapper');
 
 // Cipher Configuration
 const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
@@ -147,6 +148,7 @@ boxes.forEach((box, i) => {
           fadeOutSound('glitchThrob', 1000);
           playSound('preterminalGlitch');
           triggerFullscreenGlitch();
+          if (lpWrapper) lpWrapper.classList.remove('hidden');
         }, 800);
       }
     } else {
@@ -154,6 +156,7 @@ boxes.forEach((box, i) => {
     }
   });
 });
+
 
 // === Fullscreen Glitch to Terminal Trigger ===
 function triggerFullscreenGlitch() {
