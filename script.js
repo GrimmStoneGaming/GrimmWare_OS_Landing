@@ -1,22 +1,22 @@
 /* === GATEWAY SCRIPT START === */
-/* === GRIMMWare OS Gateway Script === */
 
+/* === GRIMMWare OS Gateway Script (Cleaned + Patched) === */
+
+// DOM Selectors
 const boxes = document.querySelectorAll('.box');
 const decryptWrapper = document.querySelector('.decrypt-wrapper');
-const cipher = document.querySelector('.decrypt-wrapper');
-let decryptInstructions = document.querySelector('.decrypt-instruction');
+const decryptInstructions = document.querySelector('.decrypt-instruction');
+
+// Cipher Configuration
 const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
+let solved = Array(correctCode.length).fill(false);
 let currentGreenIndex = null;
 let intervalId = null;
-let solved = Array(boxes.length).fill(false);
-let transitionInProgress = false;
-let cipherSolved = false; // ✅ Flag to track completion
+let cipherSolved = false;
 
-const traceDevMode = false; // 🧪 Toggle this to true to override lockdown timer for testing
-
-console.log("[INIT] Cipher Solved Flag:", cipherSolved);
-console.log("[INIT] Decrypt Wrapper:", decryptWrapper);
-console.log("[INIT] Decrypt Instructions:", decryptInstructions);
+// Dev Mode Flag
+const traceDevMode = false;
+console.log("[INIT] Cipher Initialized", { cipherSolved, decryptWrapper, decryptInstructions });
 
 // === AUDIO SETUP ===
 const sounds = {
@@ -39,9 +39,7 @@ function unlockAudio() {
       audio.pause();
       audio.currentTime = 0;
       audio.volume = 1;
-    }).catch(() => {
-      // Silently ignore autoplay errors
-    });
+    }).catch(() => { /* ignore autoplay fails */ });
   });
 }
 
@@ -53,8 +51,6 @@ function playSound(key, delay = 0, reset = true) {
   }
   setTimeout(() => {
     sounds[key].play();
-
-    // Special override: stop 'gatewayIntro' at 2300ms
     if (key === 'gatewayIntro') {
       setTimeout(() => {
         sounds.gatewayIntro.pause();
@@ -67,8 +63,8 @@ function playSound(key, delay = 0, reset = true) {
 function fadeOutSound(key, duration = 1000) {
   if (!sounds[key]) return;
   const audio = sounds[key];
-  let step = audio.volume / (duration / 100);
-  let fade = setInterval(() => {
+  const step = audio.volume / (duration / 100);
+  const fade = setInterval(() => {
     audio.volume = Math.max(0, audio.volume - step);
     if (audio.volume <= 0.01) {
       clearInterval(fade);
@@ -78,20 +74,19 @@ function fadeOutSound(key, duration = 1000) {
   }, 100);
 }
 
+// === CIPHER UTILITIES ===
 const typingSpeed = 35;
 const baseDelay = 100;
-
-function markCipherSolved() {
-  cipherSolved = true;
-  console.log("[MARK] Cipher marked as solved.");
-
-  // Stop glitchThrob immediately
-  fadeOutSound('glitchThrob', 200);
-}
 
 function getRandomChar() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return chars[Math.floor(Math.random() * chars.length)];
+}
+
+function markCipherSolved() {
+  cipherSolved = true;
+  console.log("[MARK] Cipher marked as solved.");
+  fadeOutSound('glitchThrob', 200);
 }
 
 function cycleCharacters() {
@@ -111,17 +106,13 @@ function startCycling() {
       nextIndex = Math.floor(Math.random() * boxes.length);
     } while (solved[nextIndex]);
 
-    let isInverted = cipher.classList.contains('inverted');
+    const isInverted = document.body.classList.contains('inverted');
 
     boxes.forEach((box, i) => {
       if (!solved[i]) {
         box.classList.remove('green');
-
-        const bgColor = isInverted ? '#00ff00' : 'red';
-        const shadowColor = isInverted ? '#00ff00' : '#ff0000';
-
-        box.style.backgroundColor = bgColor;
-        box.style.boxShadow = `0 0 8px ${shadowColor}`;
+        box.style.backgroundColor = isInverted ? '#00ff00' : 'red';
+        box.style.boxShadow = `0 0 8px ${isInverted ? '#00ff00' : '#ff0000'}`;
       }
     });
 
@@ -129,16 +120,12 @@ function startCycling() {
     const box = boxes[currentGreenIndex];
     box.classList.add('green');
     box.textContent = correctCode[currentGreenIndex];
-
-    const correctBgColor = isInverted ? 'red' : '#00ff00';
-    const correctShadowColor = isInverted ? '#ff0000' : '#00ff00';
-
-    box.style.backgroundColor = correctBgColor;
-    box.style.boxShadow = `0 0 8px ${correctShadowColor}`;
+    box.style.backgroundColor = isInverted ? 'red' : '#00ff00';
+    box.style.boxShadow = `0 0 8px ${isInverted ? '#ff0000' : '#00ff00'}`;
   }, 600);
 }
 
-// === Box Click Detection w/ Audio ===
+// === BOX CLICK LOGIC ===
 boxes.forEach((box, i) => {
   box.addEventListener('click', () => {
     console.log(`[CLICK] Box ${i} clicked. Green index: ${currentGreenIndex}, Solved: ${solved[i]}`);
@@ -160,7 +147,6 @@ boxes.forEach((box, i) => {
           fadeOutSound('glitchThrob', 1000);
           playSound('preterminalGlitch');
           triggerFullscreenGlitch();
-          // Removed glitchThrob replay to avoid early kick-in
         }, 800);
       }
     } else {
@@ -168,7 +154,6 @@ boxes.forEach((box, i) => {
     }
   });
 });
-
 
 // === Fullscreen Glitch to Terminal Trigger ===
 function triggerFullscreenGlitch() {
