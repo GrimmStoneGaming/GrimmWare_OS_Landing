@@ -474,32 +474,52 @@ document.getElementById('run-button').addEventListener('click', () => {
       overlay.appendChild(strip);
     }
 
-    // Inject LP CSS & JS during overlay drop
-    const lpStyle = document.createElement("link");
-    lpStyle.rel = "stylesheet";
-    lpStyle.href = "LP-style-LEGACY.css";
-    document.head.appendChild(lpStyle);
+// Inject LP CSS & JS during overlay drop
+const lpStyle = document.createElement("link");
+lpStyle.rel = "stylesheet";
+lpStyle.href = "LP-style-LEGACY.css";
+document.head.appendChild(lpStyle);
 
-    const lpScript = document.createElement("script");
-    lpScript.src = "LP-script-LEGACY.js";
-    lpScript.defer = true;
+const lpScript = document.createElement("script");
+lpScript.src = "LP-script-LEGACY.js";
+lpScript.defer = true;
 
-    lpScript.onload = () => {
+lpScript.onload = () => {
+  setTimeout(() => {
+    const landingWrapper = document.getElementById("landing-page-wrapper");
+    if (landingWrapper) {
+      landingWrapper.style.display = "block";
+      landingWrapper.setAttribute("aria-hidden", "false");
+      landingWrapper.classList.add("visible");
+    }
+
+    // 👾 INIT THE FULL THING
+    if (typeof initLandingPage === "function") {
+      initLandingPage();
+    }
+
+    // ⬇️ Bar reveal animation
+    const strips = Array.from(overlay.querySelectorAll('.strip'));
+    const shuffled = strips.sort(() => Math.random() - 0.5);
+
+    shuffled.forEach((strip, index) => {
       setTimeout(() => {
-        const landingWrapper = document.getElementById("landing-page-wrapper");
-        if (landingWrapper) {
-          landingWrapper.style.display = "block";
-          landingWrapper.setAttribute("aria-hidden", "false");
-          landingWrapper.classList.add("visible");
-        }
+        strip.classList.remove('cover');
+        strip.classList.add('reveal');
+        strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
+      }, index * 30);
+    });
 
-        if (typeof initLandingPage === "function") {
-          initLandingPage();
-        }
-      }, 300);
-    };
+    const totalDelay = shuffled.length * 30 + fallOutDuration;
+    setTimeout(() => {
+      overlay.style.display = 'none';
+    }, totalDelay + 500);
 
-    document.body.appendChild(lpScript);
+  }, 300);
+};
+
+document.body.appendChild(lpScript);
+
 
     setTimeout(() => {
       landingPage.style.opacity = 1;
