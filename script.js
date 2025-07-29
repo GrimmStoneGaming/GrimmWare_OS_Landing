@@ -413,19 +413,22 @@ function revealAccessGranted() {
   });
 }
 
-// === RUN BUTTON / TRANSITION (with Audio) ===
+// === RUN BUTTON / TRANSITION (with Audio & LP Injection) ===
 document.getElementById('run-button').addEventListener('click', () => {
- playSound('runIt');
+  // 🎵 Audio FX
+  playSound('runIt');
   fadeOutSound('glitchThrob', 1500);
   sounds.runItPulse.pause();
   sounds.runItPulse.currentTime = 0;
 
+  // 🔻 Fade footer
   const footer = document.querySelector('.grimm-footer');
   if (footer) {
-  
-  footer.style.transition = 'opacity 0.8s ease';
-  footer.style.opacity = '0';
-}
+    footer.style.transition = 'opacity 0.8s ease';
+    footer.style.opacity = '0';
+  }
+
+  // 💻 Remove terminal elements
   const terminal = document.getElementById('terminal');
   if (terminal) terminal.remove();
   if (transitionInProgress) return;
@@ -437,12 +440,12 @@ document.getElementById('run-button').addEventListener('click', () => {
   const smashOverlay = document.getElementById('smash-overlay');
   smashOverlay.classList.add('active');
 
-  // Screen smash FX
+  // 💥 Smash FX
   setTimeout(() => {
     smashOverlay.classList.remove('active');
   }, 1300);
 
-  // Gateway strip transition
+  // 🎬 Gateway strip transition + LP load
   setTimeout(() => {
     const overlay = document.getElementById('gateway-overlay');
     const landingPage = document.getElementById('landing-page');
@@ -471,6 +474,33 @@ document.getElementById('run-button').addEventListener('click', () => {
       overlay.appendChild(strip);
     }
 
+    // Inject LP CSS & JS during overlay drop
+    const lpStyle = document.createElement("link");
+    lpStyle.rel = "stylesheet";
+    lpStyle.href = "LP-style-LEGACY.css";
+    document.head.appendChild(lpStyle);
+
+    const lpScript = document.createElement("script");
+    lpScript.src = "LP-script-LEGACY.js";
+    lpScript.defer = true;
+
+    lpScript.onload = () => {
+      setTimeout(() => {
+        const landingWrapper = document.getElementById("landing-page-wrapper");
+        if (landingWrapper) {
+          landingWrapper.style.display = "block";
+          landingWrapper.setAttribute("aria-hidden", "false");
+          landingWrapper.classList.add("visible");
+        }
+
+        if (typeof initLandingPage === "function") {
+          initLandingPage();
+        }
+      }, 300);
+    };
+
+    document.body.appendChild(lpScript);
+
     setTimeout(() => {
       landingPage.style.opacity = 1;
 
@@ -490,7 +520,7 @@ document.getElementById('run-button').addEventListener('click', () => {
         overlay.style.display = 'none';
       }, totalDelay + 500);
     }, fallInDuration + delayBeforeReveal);
-  }, 1000); // ⌛ Delay for final tension
+  }, 1000);
 });
 
 // === INIT SCREEN TRIGGER ===
