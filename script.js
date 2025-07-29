@@ -452,9 +452,11 @@ document.getElementById('run-button').addEventListener('click', () => {
   footer.style.opacity = '0';
 }
     // 🔥 Inject LP logic
-  if (typeof loadLPAssets === 'function') {
-    loadLPAssets();
-  }
+if (typeof window.loadLPAssets === 'function') {
+  window.loadLPAssets();
+} else {
+  console.warn("loadLPAssets not found!");
+}
   
   const terminal = document.getElementById('terminal');
   if (terminal) terminal.remove();
