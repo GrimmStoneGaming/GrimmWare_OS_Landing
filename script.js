@@ -439,128 +439,23 @@ if (preloadOverlay) {
     }, 1000);
   }
 }
-/* === GRIMMWare OS Gateway Script === */
-
-/* === GRIMMWare OS Gateway Script === */
-
-// === INIT SCREEN TRIGGER ===
-window.addEventListener('DOMContentLoaded', () => {
-  const initScreen = document.getElementById('init-screen');
-  const initButton = document.getElementById('init-button');
-  const preloadOverlay = document.getElementById('preload-overlay');
-
-  initButton.addEventListener('click', () => {
-    unlockAudio();
-
-    initScreen.style.display = 'none';
-    preloadOverlay.style.display = 'block';
-    preloadOverlay.style.opacity = '1';
-    preloadOverlay.classList.remove('fade-out');
-
-    playSound('gatewayIntro', 100);
-
-    setTimeout(() => {
-      preloadOverlay.classList.add('fade-out');
-      setTimeout(() => preloadOverlay.remove(), 1000);
-
-      const logo = document.querySelector('.logo-main');
-      const tagline = document.querySelector('.tagline');
-      const instruction = document.querySelector('.decrypt-instruction');
-
-      setTimeout(() => { logo.style.animation = 'fadeIn 1.2s forwards'; }, 0);
-      setTimeout(() => { tagline.style.animation = 'fadeIn 1.2s forwards'; }, 800);
-      setTimeout(() => {
-        cipher.classList.remove('hidden');
-        cipher.style.animation = 'glitchIn 0.6s forwards';
-        playSound('glitchThrob');
-      }, 100);
-
-      setTimeout(() => {
-        instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
-        instruction.style.animation = 'corruptText 6s infinite';
-        instruction.style.opacity = '1';
-
-        const raw = instruction.textContent;
-        const glitchChars = '!@#$%?~*';
-        setInterval(() => {
-          const corrupted = raw.split('').map(char =>
-            Math.random() < 0.07 && char !== ' '
-              ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
-              : char
-          ).join('');
-          instruction.textContent = corrupted;
-        }, 200);
-      }, 1800);
-
-      cycleCharacters();
-      startCycling();
-
-      // === ACCESS GRANTED SEQUENCE ===
-      setTimeout(() => {
-        const access = document.getElementById('access');
-        const warning = document.getElementById('warning');
-        const runBtn = document.getElementById('run-button');
-
-        if (!access || !warning || !runBtn) {
-          console.error("Missing critical elements: #access, #warning, or #run-button");
-          return;
-        }
-
-        let accessText = 'ACCESS GRANTED';
-        let i = 0;
-
-        const typeInterval = setInterval(() => {
-          access.textContent = accessText.substring(0, i + 1);
-          i++;
-          if (i === accessText.length) {
-            clearInterval(typeInterval);
-
-            setTimeout(() => {
-              warning.classList.remove('hidden');
-              warning.style.animation = 'glitchIn 1s forwards';
-
-              setTimeout(() => {
-                const raw = warning.textContent;
-                const glitchChars = '!@#$%?~*';
-                setInterval(() => {
-                  const corrupted = raw.split('').map(char =>
-                    Math.random() < 0.12 && char !== ' '
-                      ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
-                      : char
-                  ).join('');
-                  warning.textContent = corrupted;
-                }, 130);
-
-                runBtn.style.opacity = '1';
-                runBtn.classList.add('active');
-              }, 300);
-            }, 600);
-          }
-        }, 70);
-      }, 1800);
-    }, 2300);
-  });
-});
-
-// === RUN BUTTON / TRANSITION (with Audio + Legacy Look) ===
+// === RUN BUTTON / TRANSITION (with Audio) ===
 document.getElementById('run-button').addEventListener('click', () => {
-  if (transitionInProgress) return;
-  transitionInProgress = true;
-
-  startHandoffTrack();
-  playSound('runIt');
+ playSound('runIt');
   fadeOutSound('glitchThrob', 1500);
   sounds.runItPulse.pause();
   sounds.runItPulse.currentTime = 0;
 
   const footer = document.querySelector('.grimm-footer');
   if (footer) {
-    footer.style.transition = 'opacity 0.8s ease';
-    footer.style.opacity = '0';
-  }
-
+  
+  footer.style.transition = 'opacity 0.8s ease';
+  footer.style.opacity = '0';
+}
   const terminal = document.getElementById('terminal');
   if (terminal) terminal.remove();
+  if (transitionInProgress) return;
+  transitionInProgress = true;
 
   const terminalOverlay = document.getElementById('terminal-overlay');
   if (terminalOverlay) terminalOverlay.remove();
@@ -624,3 +519,57 @@ document.getElementById('run-button').addEventListener('click', () => {
   }, 1000); // ⌛ Delay for final tension
 });
 
+// === INIT SCREEN TRIGGER ===
+window.addEventListener('DOMContentLoaded', () => {
+  const initScreen = document.getElementById('init-screen');
+  const initButton = document.getElementById('init-button');
+  const preloadOverlay = document.getElementById('preload-overlay');
+
+  initButton.addEventListener('click', () => {
+    unlockAudio();
+
+    initScreen.style.display = 'none';
+    preloadOverlay.style.display = 'block';
+    preloadOverlay.style.opacity = '1';
+    preloadOverlay.classList.remove('fade-out');
+
+    playSound('gatewayIntro', 100);
+
+    setTimeout(() => {
+      preloadOverlay.classList.add('fade-out');
+      setTimeout(() => preloadOverlay.remove(), 1000);
+
+      const logo = document.querySelector('.logo-main');
+      const tagline = document.querySelector('.tagline');
+      const instruction = document.querySelector('.decrypt-instruction');
+
+      setTimeout(() => { logo.style.animation = 'fadeIn 1.2s forwards'; }, 0);
+      setTimeout(() => { tagline.style.animation = 'fadeIn 1.2s forwards'; }, 800);
+      setTimeout(() => {
+        cipher.classList.remove('hidden');
+        cipher.style.animation = 'glitchIn 0.6s forwards';
+        playSound('glitchThrob');
+      }, 100);
+
+      setTimeout(() => {
+        instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
+        instruction.style.animation = 'corruptText 6s infinite';
+        instruction.style.opacity = '1';
+
+        const raw = instruction.textContent;
+        const glitchChars = '!@#$%?~*';
+        setInterval(() => {
+          const corrupted = raw.split('').map(char =>
+            Math.random() < 0.07 && char !== ' '
+              ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
+              : char
+          ).join('');
+          instruction.textContent = corrupted;
+        }, 200);
+      }, 1800);
+
+      cycleCharacters();
+      startCycling();
+    }, 2300);
+  });
+});
