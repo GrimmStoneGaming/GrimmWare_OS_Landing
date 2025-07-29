@@ -47,17 +47,17 @@
   }
 
   function playSound(key, delay = 0, reset = true) {
-    if (!sounds[key]) return;
-    if (reset) {
-      sounds[key].pause();
-      sounds[key].currentTime = 0;
-    }
-    setTimeout(() => {
-      sounds[key].play();
-    }, delay);
+  if (!sounds[key]) return;
+
+  if (reset) {
+    sounds[key].pause();
+    sounds[key].currentTime = 0;
   }
 
-  // Special override: Stop 'gatewayIntro' at 2380ms
+  setTimeout(() => {
+    sounds[key].play();
+
+    // Special override: Stop 'gatewayIntro' at 2380ms
     if (key === 'gatewayIntro') {
       setTimeout(() => {
         sounds.gatewayIntro.pause();
@@ -66,7 +66,7 @@
     }
   }, delay);
 }
-
+  
 function fadeOutSound(key, duration = 1000) {
   if (!sounds[key]) return;
   const audio = sounds[key];
