@@ -441,6 +441,8 @@ if (preloadOverlay) {
 }
 /* === GRIMMWare OS Gateway Script === */
 
+/* === GRIMMWare OS Gateway Script === */
+
 // === INIT SCREEN TRIGGER ===
 window.addEventListener('DOMContentLoaded', () => {
   const initScreen = document.getElementById('init-screen');
@@ -492,6 +494,45 @@ window.addEventListener('DOMContentLoaded', () => {
 
       cycleCharacters();
       startCycling();
+
+      // === ACCESS GRANTED SEQUENCE ===
+      setTimeout(() => {
+        const access = document.getElementById('access');
+        const warning = document.getElementById('warning');
+        const runBtn = document.getElementById('run-button');
+
+        let accessText = 'ACCESS GRANTED';
+        let i = 0;
+
+        const typeInterval = setInterval(() => {
+          access.textContent = accessText.substring(0, i + 1);
+          i++;
+          if (i === accessText.length) {
+            clearInterval(typeInterval);
+
+            setTimeout(() => {
+              warning.classList.remove('hidden');
+              warning.style.animation = 'glitchIn 1s forwards';
+
+              const raw = warning.textContent;
+              const glitchChars = '!@#$%?~*';
+              setInterval(() => {
+                const corrupted = raw.split('').map(char =>
+                  Math.random() < 0.12 && char !== ' '
+                    ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
+                    : char
+                ).join('');
+                warning.textContent = corrupted;
+              }, 130);
+
+              setTimeout(() => {
+                runBtn.style.opacity = '1';
+                runBtn.classList.add('active');
+              }, 1300);
+            }, 600);
+          }
+        }, 70);
+      }, 1800);
     }, 2300);
   });
 });
@@ -577,3 +618,4 @@ document.getElementById('run-button').addEventListener('click', () => {
     }, fallInDuration + delayBeforeReveal);
   }, 1000); // ⌛ Delay for final tension
 });
+
