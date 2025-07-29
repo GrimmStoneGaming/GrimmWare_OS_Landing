@@ -183,13 +183,13 @@ function triggerFullscreenGlitch() {
 
 // === Glitch Destruction Logic ===
 function zapElement(selector, delay = 0) {
-  if (!selector || typeof selector !== 'string' || selector === '#') return;
-
   setTimeout(() => {
     const el = document.querySelector(selector);
     if (el) {
       el.classList.add('purge-glitch');
-      setTimeout(() => el.remove(), 600);
+      setTimeout(() => {
+        el.remove();
+      }, 600);
     }
   }, delay);
 }
@@ -221,41 +221,6 @@ function typeText(target, text, speed, callback) {
   }, speed);
 }
 
-function revealAccessGranted() {
-  const accessMsg = document.getElementById("access-message");
-  const runWrapper = document.querySelector(".run-button-wrapper");
-
-  if (!accessMsg || !runWrapper) {
-    console.warn("[WARN] Missing elements for revealAccessGranted.");
-    return;
-  }
-
-  // UNHIDE elements
-  accessMsg.classList.remove("hidden");
-  runWrapper.classList.remove("hidden");
-
-  accessMsg.innerHTML = "";
-  accessMsg.style.opacity = 1;
-
-  const grantedLine = document.createElement("span");
-  grantedLine.classList.add("granted");
-  grantedLine.textContent = "ACCESS GRANTED";
-
-  const warningLine = document.createElement("span");
-  warningLine.classList.add("warning");
-  warningLine.textContent = ">>> WARNING: THIS MAY CHANGE YOU";
-
-  accessMsg.appendChild(grantedLine);
-
-  setTimeout(() => {
-    accessMsg.appendChild(warningLine);
-  }, 1000);
-
-  setTimeout(() => {
-    runWrapper.classList.add("glitch-in");
-  }, 1800);
-}
-
 // === Terminal Sequence Logic (w/ Audio) ===
 function startTerminalSequence() {
   const terminalOverlay = document.getElementById('terminal-overlay');
@@ -265,6 +230,7 @@ function startTerminalSequence() {
   linesContainer.innerHTML = '';
 
   playSound('terminalFight');
+  // Removed glitchThrob replay // time-aligned to throb after terminalFight starts
 
   const sequence = [
     { tag: 'SYS', text: 'Protocol breach detected...', delay: 1000 },
@@ -317,12 +283,14 @@ function startTerminalSequence() {
         switch (index) {
           case 6: zapElement('.decrypt-instruction'); break;
           case 7:
-            document.querySelectorAll('.green').forEach((el, idx) => {
+            const green = document.querySelectorAll('.green');
+            [...green].sort(() => Math.random() - 0.5).forEach((el, idx) => {
               setTimeout(() => zapElement(`#${el.id}`), idx * 75);
             });
             break;
           case 8:
-            document.querySelectorAll('.box:not(.green)').forEach((el, idx) => {
+            const boxes = document.querySelectorAll('.box:not(.green)');
+            [...boxes].sort(() => Math.random() - 0.5).forEach((el, idx) => {
               setTimeout(() => zapElement(`#${el.id}`), idx * 75);
             });
             break;
@@ -334,27 +302,12 @@ function startTerminalSequence() {
 
         if (isFinal) {
           setTimeout(() => {
-            injectFinalRunItLine();  // Typing animation for "Run it."
-            purgeTopContainer();     // Clean the top
-
-            // === Show Access Text & Button Properly ===
-            revealAccessGranted();
-
-            // Fade terminal overlay out
-            terminalOverlay.classList.add('hidden');
-
-            // Trigger optional music
-            const preloadOverlay = document.getElementById('preload-overlay');
-            if (preloadOverlay) {
-              preloadOverlay.classList.add('fade-out');
-              setTimeout(() => {
-                preloadOverlay.classList.add('hidden');
-                if (typeof startHandoffTrack === 'function') {
-                  startHandoffTrack();
-                }
-              }, 1000);
-            }
-
+            injectFinalRunItLine();
+            purgeTopContainer();
+            setTimeout(() => {
+              terminalOverlay.classList.add('hidden');
+              revealAccessGranted();
+            }, 3000);
           }, 500);
         } else if (index + 1 < sequence.length) {
           setTimeout(() => {
@@ -367,7 +320,6 @@ function startTerminalSequence() {
 
   typeLine(sequence[0], 0);
 }
-
 
 // === FINAL FLICKERING LINE ===
 function injectFinalRunItLine() {
@@ -423,22 +375,41 @@ function injectFinalRunItLine() {
   // Audio
   playSound('runIt');
   setTimeout(() => { playSound('runItPulse'); }, 500);
-
-  // === 🔥 LANDING PAGE HANDOFF INITIATOR ===
-  const preloadOverlay = document.getElementById('preload-overlay');
-if (preloadOverlay) {
-  preloadOverlay.classList.add('fade-out');
-
-  setTimeout(() => {
-    preloadOverlay.classList.add('hidden'); // Don't remove from DOM
-
-    // Optionally trigger Dyfyushun.mp3 handoff audio
-    if (typeof startHandoffTrack === 'function') {
-      startHandoffTrack();
-      }
-    }, 1000);
-  }
 }
+
+// === ACCESS GRANTED SEQUENCE ===
+function revealAccessGranted() {
+  const grantedLine = document.querySelector('.granted');
+  const warningLine = document.querySelector('.warning');
+  const runWrapper = document.getElementById('run-wrapper');
+  const accessMessage = document.getElementById('access-message');
+
+  accessMessage.classList.remove('hidden');
+  accessMessage.style.opacity = 1;
+
+  typeText(grantedLine, 'ACCESS GRANTED.  SYSTEM UNLOCKED.', 40, () => {
+    setTimeout(() => {
+      typeText(warningLine, '>>> WARNING: THIS MAY CHANGE YOU.', 75, () => {
+        warningLine.classList.add('glitch');
+
+        const rawText = warningLine.textContent;
+        const glitchChars = '!@#$%?~*';
+
+        setInterval(() => {
+          const corrupted = rawText.split('').map(char =>
+            Math.random() < 0.07 && char !== ' ' ? glitchChars[Math.floor(Math.random() * glitchChars.length)] : char
+          ).join('');
+          warningLine.textContent = corrupted;
+        }, 200);
+
+        runWrapper.classList.remove('hidden');
+        runWrapper.classList.add('glitch-in');
+        runWrapper.style.display = 'block';
+      });
+    }, 1000);
+  });
+}
+
 // === RUN BUTTON / TRANSITION (with Audio) ===
 document.getElementById('run-button').addEventListener('click', () => {
  playSound('runIt');
@@ -448,16 +419,10 @@ document.getElementById('run-button').addEventListener('click', () => {
 
   const footer = document.querySelector('.grimm-footer');
   if (footer) {
+  
   footer.style.transition = 'opacity 0.8s ease';
   footer.style.opacity = '0';
 }
-    // 🔥 Inject LP logic
-if (typeof window.loadLPAssets === 'function') {
-  window.loadLPAssets();
-} else {
-  console.warn("loadLPAssets not found!");
-}
-  
   const terminal = document.getElementById('terminal');
   if (terminal) terminal.remove();
   if (transitionInProgress) return;
