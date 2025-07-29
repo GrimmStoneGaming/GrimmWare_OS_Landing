@@ -245,3 +245,12 @@ function initLandingPage() {
     });
   }
 }
+document.addEventListener("DOMContentLoaded", () => {
+  const landingWrapper = document.getElementById("landing-page-wrapper");
+  if (landingWrapper) {
+    landingWrapper.style.display = "block";
+    landingWrapper.setAttribute("aria-hidden", "false");
+    landingWrapper.classList.add("visible");
+  }
+});
+
