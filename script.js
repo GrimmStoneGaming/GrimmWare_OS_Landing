@@ -11,8 +11,6 @@ let solved = Array(boxes.length).fill(false);
 let transitionInProgress = false;
 let cipherSolved = false; // ✅ Flag to track completion
 
-const traceDevMode = false; // 🧪 Toggle this to true to override lockdown timer for testing
-
 // === AUDIO SETUP ===
 const sounds = {
   gatewayIntro: new Audio('sounds/Gateway Intro.mp3'),
