@@ -533,9 +533,10 @@ opacity: 0.1;
 
 /* === UTILITY === */
 .hidden {
-  visibility: hidden;
-  opacity: 0;
-  pointer-events: none;
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 
 /* === Purge Glitch Animation === */
