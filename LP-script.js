@@ -1,4 +1,4 @@
-// === GRIMMWARE OS CORE JS ===//
+// === GRIMMWARE OS CORE JS ====//
 
 document.addEventListener("DOMContentLoaded", () => {
   const landingRoot = document.querySelector(".landing-wrapper");
