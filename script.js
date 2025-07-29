@@ -239,7 +239,7 @@ function revealAccessGranted() {
 
   const grantedLine = document.createElement("span");
   grantedLine.classList.add("granted");
-  grantedLine.textContent = "ACCESS GRANTED";
+  grantedLine.textContent = "ACCESS GRANTED. CONSOLE UNLOCKED";
 
   const warningLine = document.createElement("span");
   warningLine.classList.add("warning");
