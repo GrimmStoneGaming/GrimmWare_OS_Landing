@@ -448,10 +448,14 @@ document.getElementById('run-button').addEventListener('click', () => {
 
   const footer = document.querySelector('.grimm-footer');
   if (footer) {
-  
   footer.style.transition = 'opacity 0.8s ease';
   footer.style.opacity = '0';
 }
+    // 🔥 Inject LP logic
+  if (typeof loadLPAssets === 'function') {
+    loadLPAssets();
+  }
+  
   const terminal = document.getElementById('terminal');
   if (terminal) terminal.remove();
   if (transitionInProgress) return;
