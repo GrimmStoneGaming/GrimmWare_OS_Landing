@@ -17,8 +17,6 @@ console.log("[INIT] Cipher Solved Flag:", cipherSolved);
 console.log("[INIT] Decrypt Wrapper:", decryptWrapper);
 console.log("[INIT] Decrypt Instructions:", decryptInstructions);
 
-
-
 // === AUDIO SETUP ===
 const sounds = {
   gatewayIntro: new Audio('sounds/Gateway Intro.mp3'),
@@ -185,13 +183,13 @@ function triggerFullscreenGlitch() {
 
 // === Glitch Destruction Logic ===
 function zapElement(selector, delay = 0) {
+  if (!selector || typeof selector !== 'string' || selector === '#') return;
+
   setTimeout(() => {
     const el = document.querySelector(selector);
     if (el) {
       el.classList.add('purge-glitch');
-      setTimeout(() => {
-        el.remove();
-      }, 600);
+      setTimeout(() => el.remove(), 600);
     }
   }, delay);
 }
@@ -223,6 +221,41 @@ function typeText(target, text, speed, callback) {
   }, speed);
 }
 
+function revealAccessGranted() {
+  const accessMsg = document.getElementById("access-message");
+  const runWrapper = document.querySelector(".run-button-wrapper");
+
+  if (!accessMsg || !runWrapper) {
+    console.warn("[WARN] Missing elements for revealAccessGranted.");
+    return;
+  }
+
+  // UNHIDE elements
+  accessMsg.classList.remove("hidden");
+  runWrapper.classList.remove("hidden");
+
+  accessMsg.innerHTML = "";
+  accessMsg.style.opacity = 1;
+
+  const grantedLine = document.createElement("span");
+  grantedLine.classList.add("granted");
+  grantedLine.textContent = "ACCESS GRANTED";
+
+  const warningLine = document.createElement("span");
+  warningLine.classList.add("warning");
+  warningLine.textContent = ">>> WARNING: THIS MAY CHANGE YOU";
+
+  accessMsg.appendChild(grantedLine);
+
+  setTimeout(() => {
+    accessMsg.appendChild(warningLine);
+  }, 1000);
+
+  setTimeout(() => {
+    runWrapper.classList.add("glitch-in");
+  }, 1800);
+}
+
 // === Terminal Sequence Logic (w/ Audio) ===
 function startTerminalSequence() {
   const terminalOverlay = document.getElementById('terminal-overlay');
@@ -232,7 +265,6 @@ function startTerminalSequence() {
   linesContainer.innerHTML = '';
 
   playSound('terminalFight');
-  // Removed glitchThrob replay // time-aligned to throb after terminalFight starts
 
   const sequence = [
     { tag: 'SYS', text: 'Protocol breach detected...', delay: 1000 },
@@ -285,14 +317,12 @@ function startTerminalSequence() {
         switch (index) {
           case 6: zapElement('.decrypt-instruction'); break;
           case 7:
-            const green = document.querySelectorAll('.green');
-            [...green].sort(() => Math.random() - 0.5).forEach((el, idx) => {
+            document.querySelectorAll('.green').forEach((el, idx) => {
               setTimeout(() => zapElement(`#${el.id}`), idx * 75);
             });
             break;
           case 8:
-            const boxes = document.querySelectorAll('.box:not(.green)');
-            [...boxes].sort(() => Math.random() - 0.5).forEach((el, idx) => {
+            document.querySelectorAll('.box:not(.green)').forEach((el, idx) => {
               setTimeout(() => zapElement(`#${el.id}`), idx * 75);
             });
             break;
@@ -304,12 +334,27 @@ function startTerminalSequence() {
 
         if (isFinal) {
           setTimeout(() => {
-            injectFinalRunItLine();
-            purgeTopContainer();
-            setTimeout(() => {
-              terminalOverlay.classList.add('hidden');
-              revealAccessGranted();
-            }, 3000);
+            injectFinalRunItLine();  // Typing animation for "Run it."
+            purgeTopContainer();     // Clean the top
+
+            // === Show Access Text & Button Properly ===
+            revealAccessGranted();
+
+            // Fade terminal overlay out
+            terminalOverlay.classList.add('hidden');
+
+            // Trigger optional music
+            const preloadOverlay = document.getElementById('preload-overlay');
+            if (preloadOverlay) {
+              preloadOverlay.classList.add('fade-out');
+              setTimeout(() => {
+                preloadOverlay.classList.add('hidden');
+                if (typeof startHandoffTrack === 'function') {
+                  startHandoffTrack();
+                }
+              }, 1000);
+            }
+
           }, 500);
         } else if (index + 1 < sequence.length) {
           setTimeout(() => {
@@ -322,6 +367,7 @@ function startTerminalSequence() {
 
   typeLine(sequence[0], 0);
 }
+
 
 // === FINAL FLICKERING LINE ===
 function injectFinalRunItLine() {
@@ -377,57 +423,35 @@ function injectFinalRunItLine() {
   // Audio
   playSound('runIt');
   setTimeout(() => { playSound('runItPulse'); }, 500);
-}
 
-// === ACCESS GRANTED SEQUENCE ===
-function revealAccessGranted() {
-  const grantedLine = document.querySelector('.granted');
-  const warningLine = document.querySelector('.warning');
-  const runWrapper = document.getElementById('run-wrapper');
-  const accessMessage = document.getElementById('access-message');
+  // === 🔥 LANDING PAGE HANDOFF INITIATOR ===
+  const preloadOverlay = document.getElementById('preload-overlay');
+if (preloadOverlay) {
+  preloadOverlay.classList.add('fade-out');
 
-  accessMessage.classList.remove('hidden');
-  accessMessage.style.opacity = 1;
+  setTimeout(() => {
+    preloadOverlay.classList.add('hidden'); // Don't remove from DOM
 
-  typeText(grantedLine, 'ACCESS GRANTED.  SYSTEM UNLOCKED.', 40, () => {
-    setTimeout(() => {
-      typeText(warningLine, '>>> WARNING: THIS MAY CHANGE YOU.', 75, () => {
-        warningLine.classList.add('glitch');
-
-        const rawText = warningLine.textContent;
-        const glitchChars = '!@#$%?~*';
-
-        setInterval(() => {
-          const corrupted = rawText.split('').map(char =>
-            Math.random() < 0.07 && char !== ' ' ? glitchChars[Math.floor(Math.random() * glitchChars.length)] : char
-          ).join('');
-          warningLine.textContent = corrupted;
-        }, 200);
-
-        runWrapper.classList.remove('hidden');
-        runWrapper.classList.add('glitch-in');
-        runWrapper.style.display = 'block';
-      });
+    // Optionally trigger Dyfyushun.mp3 handoff audio
+    if (typeof startHandoffTrack === 'function') {
+      startHandoffTrack();
+      }
     }, 1000);
-  });
+  }
 }
-
-// === RUN BUTTON / TRANSITION (with Audio & LP Injection) ===
+// === RUN BUTTON / TRANSITION (with Audio) ===
 document.getElementById('run-button').addEventListener('click', () => {
-  // 🎵 Audio FX
-  playSound('runIt');
+ playSound('runIt');
   fadeOutSound('glitchThrob', 1500);
   sounds.runItPulse.pause();
   sounds.runItPulse.currentTime = 0;
 
-  // 🔻 Fade footer
   const footer = document.querySelector('.grimm-footer');
   if (footer) {
-    footer.style.transition = 'opacity 0.8s ease';
-    footer.style.opacity = '0';
-  }
-
-  // 💻 Remove terminal elements
+  
+  footer.style.transition = 'opacity 0.8s ease';
+  footer.style.opacity = '0';
+}
   const terminal = document.getElementById('terminal');
   if (terminal) terminal.remove();
   if (transitionInProgress) return;
@@ -439,12 +463,12 @@ document.getElementById('run-button').addEventListener('click', () => {
   const smashOverlay = document.getElementById('smash-overlay');
   smashOverlay.classList.add('active');
 
-  // 💥 Smash FX
+  // Screen smash FX
   setTimeout(() => {
     smashOverlay.classList.remove('active');
   }, 1300);
 
-  // 🎬 Gateway strip transition + LP load
+  // Gateway strip transition
   setTimeout(() => {
     const overlay = document.getElementById('gateway-overlay');
     const landingPage = document.getElementById('landing-page');
@@ -473,53 +497,26 @@ document.getElementById('run-button').addEventListener('click', () => {
       overlay.appendChild(strip);
     }
 
-// Inject LP CSS & JS during overlay drop
-const lpStyle = document.createElement("link");
-lpStyle.rel = "stylesheet";
-lpStyle.href = "LP-style.css";
-document.head.appendChild(lpStyle);
-
-const lpScript = document.createElement("script");
-lpScript.src = "LP-script.js";
-lpScript.defer = true;
-
-lpScript.onload = () => {
-  setTimeout(() => {
-    const landingWrapper = document.getElementById("landing-page-wrapper");
-    if (landingWrapper) {
-      landingWrapper.style.display = "block";
-      landingWrapper.setAttribute("aria-hidden", "false");
-      landingWrapper.classList.add("visible");
-    }
-
-    // 👾 INIT THE FULL THING
-    if (typeof initLandingPage === "function") {
-      initLandingPage();
-    }
-
-    // ⬇️ Bar reveal animation
-    const strips = Array.from(overlay.querySelectorAll('.strip'));
-    const shuffled = strips.sort(() => Math.random() - 0.5);
-
-    shuffled.forEach((strip, index) => {
-      setTimeout(() => {
-        strip.classList.remove('cover');
-        strip.classList.add('reveal');
-        strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
-      }, index * 30);
-    });
-
-    const totalDelay = shuffled.length * 30 + fallOutDuration;
     setTimeout(() => {
-      overlay.style.display = 'none';
-    }, totalDelay + 500);
+      landingPage.style.opacity = 1;
 
-  }, 300);
-};
+      const strips = Array.from(overlay.querySelectorAll('.strip'));
+      const shuffled = strips.sort(() => Math.random() - 0.5);
 
-document.body.appendChild(lpScript);
+      shuffled.forEach((strip, index) => {
+        setTimeout(() => {
+          strip.classList.remove('cover');
+          strip.classList.add('reveal');
+          strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
+        }, index * 30);
+      });
 
-  }, 1000);
+      const totalDelay = shuffled.length * 30 + fallOutDuration;
+      setTimeout(() => {
+        overlay.style.display = 'none';
+      }, totalDelay + 500);
+    }, fallInDuration + delayBeforeReveal);
+  }, 1000); // ⌛ Delay for final tension
 });
 
 // === INIT SCREEN TRIGGER ===
