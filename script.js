@@ -476,11 +476,11 @@ document.getElementById('run-button').addEventListener('click', () => {
 // Inject LP CSS & JS during overlay drop
 const lpStyle = document.createElement("link");
 lpStyle.rel = "stylesheet";
-lpStyle.href = "LP-style-LEGACY.css";
+lpStyle.href = "LP-style.css";
 document.head.appendChild(lpStyle);
 
 const lpScript = document.createElement("script");
-lpScript.src = "LP-script-LEGACY.js";
+lpScript.src = "LP-script.js";
 lpScript.defer = true;
 
 lpScript.onload = () => {
@@ -519,26 +519,6 @@ lpScript.onload = () => {
 
 document.body.appendChild(lpScript);
 
-
-    setTimeout(() => {
-      landingPage.style.opacity = 1;
-
-      const strips = Array.from(overlay.querySelectorAll('.strip'));
-      const shuffled = strips.sort(() => Math.random() - 0.5);
-
-      shuffled.forEach((strip, index) => {
-        setTimeout(() => {
-          strip.classList.remove('cover');
-          strip.classList.add('reveal');
-          strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
-        }, index * 30);
-      });
-
-      const totalDelay = shuffled.length * 30 + fallOutDuration;
-      setTimeout(() => {
-        overlay.style.display = 'none';
-      }, totalDelay + 500);
-    }, fallInDuration + delayBeforeReveal);
   }, 1000);
 });
 
