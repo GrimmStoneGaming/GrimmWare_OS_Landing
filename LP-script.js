@@ -1,6 +1,6 @@
 // === GRIMMWARE OS CORE JS ===
 
-document.addEventListener("DOMContentLoaded", () => {
+function initLandingPage() {
   // 🎯 FLOATING EGGS — Randomized position + animation
   const floatingEggs = document.querySelectorAll(".drifting-egg");
   floatingEggs.forEach((egg) => {
