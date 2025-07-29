@@ -387,7 +387,7 @@ iframe {
   box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
   position: relative;
 }
-/* Ã°Å¸â€Â¹ HOLO FRAME DISTORTION + CORNER GLOW Ã°Å¸â€Â¹ */
+/* ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¹ HOLO FRAME DISTORTION + CORNER GLOW ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¹ */
 
 @keyframes pulseGlow {
  .landing-wrapper 0%, .landing-wrapper 100% {
@@ -474,7 +474,7 @@ iframe {
   border-radius: 4px;
   box-shadow: 0 0 20px rgba(0, .landing-wrapper 255, .landing-wrapper 255, .landing-wrapper 0.3);
 }
-/* Ã°Å¸â€˜Â¾ Static wave distortion overlay Ã¢â‚¬â€ dual-axis glitch */
+/* ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¾ Static wave distortion overlay ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â dual-axis glitch */
 .static-overlay {
   pointer-events: none;
   position: absolute;
@@ -503,7 +503,7 @@ iframe {
 @keyframes scanFlicker {
  .landing-wrapper 0% { transform: translateY(-10%); opacity: 0.1; } .landing-wrapper 50% { transform: translateY(10%); opacity: 0.2; } .landing-wrapper 100% { transform: translateY(-10%); opacity: 0.1; } .landing-wrapper }
 
-/* Ã¢Å“Â¨ Corner highlights for style */
+/* ÃƒÂ¢Ã…â€œÃ‚Â¨ Corner highlights for style */
 .holo-corners .corner {
  .landing-wrapper position: absolute;
   width: 10px;
@@ -524,7 +524,7 @@ iframe {
     text-align: center;
   }
 }
-/* Ã¢Å“Â¨ Animated pulsing glow for corner lights */
+/* ÃƒÂ¢Ã…â€œÃ‚Â¨ Animated pulsing glow for corner lights */
 @keyframes pulseGlow {
  .landing-wrapper 0%, .landing-wrapper 100% { opacity: 1; box-shadow: 0 0 6px #00ffff; } .landing-wrapper 50% { opacity: 0.4; box-shadow: 0 0 12px #00ffff; } .landing-wrapper }
 
