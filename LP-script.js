@@ -1,6 +1,9 @@
-// === GRIMMWARE OS CORE JS ===
+// === GRIMMWARE OS CORE JS ===//
 
-function initLandingPage() {
+document.addEventListener("DOMContentLoaded", () => {
+  const landingRoot = document.querySelector(".landing-wrapper");
+  if (!landingRoot) return; // prevent script from running if LP isn't present
+
   // 🎯 FLOATING EGGS — Randomized position + animation
   const floatingEggs = document.querySelectorAll(".drifting-egg");
   floatingEggs.forEach((egg) => {
@@ -244,13 +247,4 @@ function initLandingPage() {
       }
     });
   }
-}
-document.addEventListener("DOMContentLoaded", () => {
-  const landingWrapper = document.getElementById("landing-page-wrapper");
-  if (landingWrapper) {
-    landingWrapper.style.display = "block";
-    landingWrapper.setAttribute("aria-hidden", "false");
-    landingWrapper.classList.add("visible");
-  }
 });
-
