@@ -14826,6 +14826,32 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+<!-- FIXED LANDING PAGE HANDOFF -->
+<script>
+  // === [LANDING PAGE HANDOFF FIX] ===
+  function revealLandingPage() {
+    const main = document.getElementById("main");
+    const gateway = document.getElementById("gateway");
+    const lp = document.getElementById("lp-wrapper") || document.querySelector(".lp-wrapper");
+
+    if (main && gateway && lp) {
+      main.style.display = "block";
+      lp.style.display = "block";
+      gateway.remove();
+    } else {
+      console.warn("[GWOS] Handoff failed: one or more elements not found.");
+    }
+  }
+  // Add to RUN IT button logic
+  const runBtn = document.getElementById("run-it");
+  if (runBtn) {
+    runBtn.addEventListener("click", () => {
+      setTimeout(() => {
+        revealLandingPage();
+      }, 500); // Delay matches end of bar rain animation
+    });
+  }
+</script>
   // === [LANDING PAGE SCRIPT END] ===
 </script>
 
