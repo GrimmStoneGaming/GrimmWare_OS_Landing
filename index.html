@@ -1,11 +1,12 @@
+const
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GRIMMWare OS</title>
-  <link rel="stylesheet" href="gwos.css">
-  <script defer src="gwos.js"></script>
+  
+  
 
 <style>
   /* === [GATEWAY STYLES START] === */
@@ -8267,21 +8268,21 @@ footer a:hover {
   // === [GATEWAY SCRIPT START] ===
 /* === GRIMMWare OS Gateway Script === */
 
-const boxes = document.querySelectorAll('.box');
-const decryptWrapper = document.querySelector('.decrypt-wrapper');
-const cipher = document.querySelector('.decrypt-wrapper');
+ boxes = document.querySelectorAll('.box');
+ decryptWrapper = document.querySelector('.decrypt-wrapper');
+ cipher = document.querySelector('.decrypt-wrapper');
 let decryptInstructions = document.querySelector('.decrypt-instruction');
-const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
+ correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
 let currentGreenIndex = null;
 let intervalId = null;
 let solved = Array(boxes.length).fill(false);
 let transitionInProgress = false;
 let cipherSolved = false; // ✅ Flag to track completion
 
-const traceDevMode = false; // 🧪 Toggle this to true to override lockdown timer for testing
+ traceDevMode = false; // 🧪 Toggle this to true to override lockdown timer for testing
 
 // === AUDIO SETUP ===
-const sounds = {
+ sounds = {
   gatewayIntro: new Audio('sounds/Gateway Intro.mp3'),
   glitchThrob: new Audio('sounds/Glitch Throb Heart.mp3?v=2'),
   preterminalGlitch: new Audio('sounds/preterminal glitch.mp3'),
@@ -8328,7 +8329,7 @@ function playSound(key, delay = 0, reset = true) {
 
 function fadeOutSound(key, duration = 1000) {
   if (!sounds[key]) return;
-  const audio = sounds[key];
+   audio = sounds[key];
   let step = audio.volume / (duration / 100);
   let fade = setInterval(() => {
     audio.volume = Math.max(0, audio.volume - step);
@@ -8340,8 +8341,8 @@ function fadeOutSound(key, duration = 1000) {
   }, 100);
 }
 
-const typingSpeed = 35;
-const baseDelay = 100;
+ typingSpeed = 35;
+ baseDelay = 100;
 
 function markCipherSolved() {
   cipherSolved = true;
@@ -8351,7 +8352,7 @@ function markCipherSolved() {
 }
 
 function getRandomChar() {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+   chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return chars[Math.floor(Math.random() * chars.length)];
 }
 
@@ -8378,24 +8379,24 @@ function startCycling() {
       if (!solved[i]) {
         box.classList.remove('green');
 
-        const bgColor = isInverted ? '#00ff00' : 'red';
-        const shadowColor = isInverted ? '#00ff00' : '#ff0000';
+         bgColor = isInverted ? '#00ff00' : 'red';
+         shadowColor = isInverted ? '#00ff00' : '#ff0000';
 
-        box.style.backgroundColor = bgColor;
-        box.style.boxShadow = `0 0 8px ${shadowColor}`;
+        box?.style.backgroundColor = bgColor;
+        box?.style.boxShadow = `0 0 8px ${shadowColor}`;
       }
     });
 
     currentGreenIndex = nextIndex;
-    const box = boxes[currentGreenIndex];
+     box = boxes[currentGreenIndex];
     box.classList.add('green');
     box.textContent = correctCode[currentGreenIndex];
 
-    const correctBgColor = isInverted ? 'red' : '#00ff00';
-    const correctShadowColor = isInverted ? '#ff0000' : '#00ff00';
+     correctBgColor = isInverted ? 'red' : '#00ff00';
+     correctShadowColor = isInverted ? '#ff0000' : '#00ff00';
 
-    box.style.backgroundColor = correctBgColor;
-    box.style.boxShadow = `0 0 8px ${correctShadowColor}`;
+    box?.style.backgroundColor = correctBgColor;
+    box?.style.boxShadow = `0 0 8px ${correctShadowColor}`;
   }, 600);
 }
 
@@ -8406,8 +8407,8 @@ boxes.forEach((box, i) => {
     if (i === currentGreenIndex && !solved[i]) {
       solved[i] = true;
       box.classList.add('green');
-      box.style.backgroundColor = '#00ff00';
-      box.style.boxShadow = '0 0 12px #00ff00';
+      box?.style.backgroundColor = '#00ff00';
+      box?.style.boxShadow = '0 0 12px #00ff00';
       box.textContent = correctCode[i];
       currentGreenIndex = null;
 
@@ -8432,7 +8433,7 @@ boxes.forEach((box, i) => {
 
 // === Fullscreen Glitch to Terminal Trigger ===
 function triggerFullscreenGlitch() {
-  const glitchDiv = document.createElement('div');
+   glitchDiv = document.createElement('div');
   glitchDiv.classList.add('fullscreen-glitch');
   document.body.appendChild(glitchDiv);
 
@@ -8445,7 +8446,7 @@ function triggerFullscreenGlitch() {
 // === Glitch Destruction Logic ===
 function zapElement(selector, delay = 0) {
   setTimeout(() => {
-    const el = document.querySelector(selector);
+     el = document.querySelector(selector);
     if (el) {
       el.classList.add('purge-glitch');
       setTimeout(() => {
@@ -8460,7 +8461,7 @@ function purgeTopContainer() {
   zapElement('.tagline');
   zapElement('.logo-container');
 
-  const topContainer = document.getElementById('top-container');
+   topContainer = document.getElementById('top-container');
   if (topContainer) {
     topContainer.classList.add('purge-glitch');
     setTimeout(() => {
@@ -8473,7 +8474,7 @@ function purgeTopContainer() {
 function typeText(target, text, speed, callback) {
   let i = 0;
   target.textContent = '';
-  const interval = setInterval(() => {
+   interval = setInterval(() => {
     target.textContent += text.charAt(i++);
     if (i >= text.length) {
       clearInterval(interval);
@@ -8484,8 +8485,8 @@ function typeText(target, text, speed, callback) {
 
 // === Terminal Sequence Logic (w/ Audio) ===
 function startTerminalSequence() {
-  const terminalOverlay = document.getElementById('terminal-overlay');
-  const linesContainer = document.getElementById('terminal-lines');
+   terminalOverlay = document.getElementById('terminal-overlay');
+   linesContainer = document.getElementById('terminal-lines');
   terminalOverlay.classList.add('show');
   terminalOverlay.classList.remove('hidden');
   linesContainer.innerHTML = '';
@@ -8493,7 +8494,7 @@ function startTerminalSequence() {
   playSound('terminalFight');
   // Removed glitchThrob replay // time-aligned to throb after terminalFight starts
 
-  const sequence = [
+   sequence = [
     { tag: 'SYS', text: 'Protocol breach detected...', delay: 1000 },
     { tag: 'HANDLER', text: 'Initializing command injection...', delay: 1000 },
     { tag: 'SYS', text: 'Firewall spike deployed.', delay: 1000 },
@@ -8516,24 +8517,24 @@ function startTerminalSequence() {
   ];
 
   function typeLine({ tag, text, delay, isFinal, action }, index) {
-    const line = document.createElement('div');
+     line = document.createElement('div');
     line.classList.add('terminal-line');
 
     if (tag) {
-      const prefix = document.createElement('span');
+       prefix = document.createElement('span');
       prefix.classList.add(`${tag.toLowerCase()}-prefix`);
       prefix.textContent = `[${tag}] ::`;
       line.appendChild(prefix);
     }
 
-    const content = document.createElement('span');
+     content = document.createElement('span');
     content.classList.add('terminal-content');
     line.appendChild(content);
     linesContainer.appendChild(line);
     terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
 
     let charIndex = 0;
-    const interval = setInterval(() => {
+     interval = setInterval(() => {
       if (charIndex < text.length) {
         content.textContent += text.charAt(charIndex++);
         terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
@@ -8544,13 +8545,13 @@ function startTerminalSequence() {
         switch (index) {
           case 6: zapElement('.decrypt-instruction'); break;
           case 7:
-            const green = document.querySelectorAll('.green');
+             green = document.querySelectorAll('.green');
             [...green].sort(() => Math.random() - 0.5).forEach((el, idx) => {
               setTimeout(() => zapElement(`#${el.id}`), idx * 75);
             });
             break;
           case 8:
-            const boxes = document.querySelectorAll('.box:not(.green)');
+             boxes = document.querySelectorAll('.box:not(.green)');
             [...boxes].sort(() => Math.random() - 0.5).forEach((el, idx) => {
               setTimeout(() => zapElement(`#${el.id}`), idx * 75);
             });
@@ -8584,11 +8585,11 @@ function startTerminalSequence() {
 
 // === FINAL FLICKERING LINE ===
 function injectFinalRunItLine() {
-  const linesContainer = document.getElementById('terminal-lines');
+   linesContainer = document.getElementById('terminal-lines');
 
-  const finalLine = document.createElement('div');
+   finalLine = document.createElement('div');
   finalLine.classList.add('terminal-line');
-  Object.assign(finalLine.style, {
+  Object.assign(finalLine?.style, {
     opacity: '1',
     display: 'flex',
     visibility: 'visible',
@@ -8598,15 +8599,15 @@ function injectFinalRunItLine() {
     zIndex: '1000'
   });
 
-  const finalPrefix = document.createElement('span');
+   finalPrefix = document.createElement('span');
   finalPrefix.classList.add('handler-prefix');
   finalPrefix.textContent = '[HANDLER] ::';
   finalLine.appendChild(finalPrefix);
 
-  const runItSpan = document.createElement('span');
+   runItSpan = document.createElement('span');
   runItSpan.classList.add('run-it');
   runItSpan.textContent = 'Run it.';
-  Object.assign(runItSpan.style, {
+  Object.assign(runItSpan?.style, {
     color: 'red',
     display: 'inline',
     visibility: 'visible',
@@ -8622,7 +8623,7 @@ function injectFinalRunItLine() {
 
   // Animation trigger
   void runItSpan.offsetWidth;
-  runItSpan.style.removeProperty('animation');
+  runItSpan?.style.removeProperty('animation');
 
   requestAnimationFrame(() => {
     runItSpan.classList.remove('run-it');
@@ -8640,24 +8641,24 @@ function injectFinalRunItLine() {
 
 // === ACCESS GRANTED SEQUENCE ===
 function revealAccessGranted() {
-  const grantedLine = document.querySelector('.granted');
-  const warningLine = document.querySelector('.warning');
-  const runWrapper = document.getElementById('run-wrapper');
-  const accessMessage = document.getElementById('access-message');
+   grantedLine = document.querySelector('.granted');
+   warningLine = document.querySelector('.warning');
+   runWrapper = document.getElementById('run-wrapper');
+   accessMessage = document.getElementById('access-message');
 
   accessMessage.classList.remove('hidden');
-  accessMessage.style.opacity = 1;
+  accessMessage?.style.opacity = 1;
 
   typeText(grantedLine, 'ACCESS GRANTED.  SYSTEM UNLOCKED.', 40, () => {
     setTimeout(() => {
       typeText(warningLine, '>>> WARNING: THIS MAY CHANGE YOU.', 75, () => {
         warningLine.classList.add('glitch');
 
-        const rawText = warningLine.textContent;
-        const glitchChars = '!@#$%?~*';
+         rawText = warningLine.textContent;
+         glitchChars = '!@#$%?~*';
 
         setInterval(() => {
-          const corrupted = rawText.split('').map(char =>
+           corrupted = rawText.split('').map(char =>
             Math.random() < 0.07 && char !== ' ' ? glitchChars[Math.floor(Math.random() * glitchChars.length)] : char
           ).join('');
           warningLine.textContent = corrupted;
@@ -8665,7 +8666,7 @@ function revealAccessGranted() {
 
         runWrapper.classList.remove('hidden');
         runWrapper.classList.add('glitch-in');
-        runWrapper.style.display = 'block';
+        runWrapper?.style.display = 'block';
       });
     }, 1000);
   });
@@ -8678,21 +8679,21 @@ document.getElementById('run-button').addEventListener('click', () => {
   sounds.runItPulse.pause();
   sounds.runItPulse.currentTime = 0;
 
-  const footer = document.querySelector('.grimm-footer');
+   footer = document.querySelector('.grimm-footer');
   if (footer) {
   
-  footer.style.transition = 'opacity 0.8s ease';
-  footer.style.opacity = '0';
+  footer?.style.transition = 'opacity 0.8s ease';
+  footer?.style.opacity = '0';
 }
-  const terminal = document.getElementById('terminal');
+   terminal = document.getElementById('terminal');
   if (terminal) terminal.remove();
   if (transitionInProgress) return;
   transitionInProgress = true;
 
-  const terminalOverlay = document.getElementById('terminal-overlay');
+   terminalOverlay = document.getElementById('terminal-overlay');
   if (terminalOverlay) terminalOverlay.remove();
 
-  const smashOverlay = document.getElementById('smash-overlay');
+   smashOverlay = document.getElementById('smash-overlay');
   smashOverlay.classList.add('active');
 
   // Screen smash FX
@@ -8702,50 +8703,50 @@ document.getElementById('run-button').addEventListener('click', () => {
 
   // Gateway strip transition
   setTimeout(() => {
-    const overlay = document.getElementById('gateway-overlay');
-    const landingPage = document.getElementById('landing-page');
-    const runWrapper = document.getElementById('run-wrapper');
-    const accessMessage = document.getElementById('access-message');
+     overlay = document.getElementById('gateway-overlay');
+     landingPage = document.getElementById('landing-page');
+     runWrapper = document.getElementById('run-wrapper');
+     accessMessage = document.getElementById('access-message');
 
-    const numStrips = 60;
-    const fallInDuration = 500;
-    const fallOutDuration = 600;
-    const delayBeforeReveal = 1500;
+     numStrips = 60;
+     fallInDuration = 500;
+     fallOutDuration = 600;
+     delayBeforeReveal = 1500;
 
-    runWrapper.style.display = 'none';
-    accessMessage.style.display = 'none';
-    landingPage.style.display = 'flex';
-    landingPage.style.opacity = 0;
+    runWrapper?.style.display = 'none';
+    accessMessage?.style.display = 'none';
+    landingPage?.style.display = 'flex';
+    landingPage?.style.opacity = 0;
     overlay.innerHTML = '';
-    overlay.style.display = 'flex';
-    overlay.style.background = 'transparent';
+    overlay?.style.display = 'flex';
+    overlay?.style.background = 'transparent';
 
     for (let i = 0; i < numStrips; i++) {
-      const strip = document.createElement('div');
+       strip = document.createElement('div');
       strip.classList.add('strip', 'cover');
-      strip.style.left = `${(100 / numStrips) * i}%`;
-      strip.style.width = `${100 / numStrips}%`;
-      strip.style.animation = `fallCover ${fallInDuration}ms forwards`;
+      strip?.style.left = `${(100 / numStrips) * i}%`;
+      strip?.style.width = `${100 / numStrips}%`;
+      strip?.style.animation = `fallCover ${fallInDuration}ms forwards`;
       overlay.appendChild(strip);
     }
 
     setTimeout(() => {
-      landingPage.style.opacity = 1;
+      landingPage?.style.opacity = 1;
 
-      const strips = Array.from(overlay.querySelectorAll('.strip'));
-      const shuffled = strips.sort(() => Math.random() - 0.5);
+       strips = Array.from(overlay.querySelectorAll('.strip'));
+       shuffled = strips.sort(() => Math.random() - 0.5);
 
       shuffled.forEach((strip, index) => {
         setTimeout(() => {
           strip.classList.remove('cover');
           strip.classList.add('reveal');
-          strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
+          strip?.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
         }, index * 30);
       });
 
-      const totalDelay = shuffled.length * 30 + fallOutDuration;
+       totalDelay = shuffled.length * 30 + fallOutDuration;
       setTimeout(() => {
-        overlay.style.display = 'none';
+        overlay?.style.display = 'none';
       }, totalDelay + 500);
     }, fallInDuration + delayBeforeReveal);
   }, 1000); // ⌛ Delay for final tension
@@ -8753,16 +8754,16 @@ document.getElementById('run-button').addEventListener('click', () => {
 
 // === INIT SCREEN TRIGGER ===
 window.addEventListener('DOMContentLoaded', () => {
-  const initScreen = document.getElementById('init-screen');
-  const initButton = document.getElementById('init-button');
-  const preloadOverlay = document.getElementById('preload-overlay');
+   initScreen = document.getElementById('init-screen');
+   initButton = document.getElementById('init-button');
+   preloadOverlay = document.getElementById('preload-overlay');
 
   initButton.addEventListener('click', () => {
     unlockAudio();
 
-    initScreen.style.display = 'none';
-    preloadOverlay.style.display = 'block';
-    preloadOverlay.style.opacity = '1';
+    initScreen?.style.display = 'none';
+    preloadOverlay?.style.display = 'block';
+    preloadOverlay?.style.opacity = '1';
     preloadOverlay.classList.remove('fade-out');
 
     playSound('gatewayIntro', 100);
@@ -8771,27 +8772,27 @@ window.addEventListener('DOMContentLoaded', () => {
       preloadOverlay.classList.add('fade-out');
       setTimeout(() => preloadOverlay.remove(), 1000);
 
-      const logo = document.querySelector('.logo-main');
-      const tagline = document.querySelector('.tagline');
-      const instruction = document.querySelector('.decrypt-instruction');
+       logo = document.querySelector('.logo-main');
+       tagline = document.querySelector('.tagline');
+       instruction = document.querySelector('.decrypt-instruction');
 
-      setTimeout(() => { logo.style.animation = 'fadeIn 1.2s forwards'; }, 0);
-      setTimeout(() => { tagline.style.animation = 'fadeIn 1.2s forwards'; }, 800);
+      setTimeout(() => { logo?.style.animation = 'fadeIn 1.2s forwards'; }, 0);
+      setTimeout(() => { tagline?.style.animation = 'fadeIn 1.2s forwards'; }, 800);
       setTimeout(() => {
         cipher.classList.remove('hidden');
-        cipher.style.animation = 'glitchIn 0.6s forwards';
+        cipher?.style.animation = 'glitchIn 0.6s forwards';
         playSound('glitchThrob');
       }, 100);
 
       setTimeout(() => {
         instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
-        instruction.style.animation = 'corruptText 6s infinite';
-        instruction.style.opacity = '1';
+        instruction?.style.animation = 'corruptText 6s infinite';
+        instruction?.style.opacity = '1';
 
-        const raw = instruction.textContent;
-        const glitchChars = '!@#$%?~*';
+         raw = instruction.textContent;
+         glitchChars = '!@#$%?~*';
         setInterval(() => {
-          const corrupted = raw.split('').map(char =>
+           corrupted = raw.split('').map(char =>
             Math.random() < 0.07 && char !== ' '
               ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
               : char
@@ -8813,17 +8814,17 @@ window.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   // 🎯 FLOATING EGGS — Randomized position + animation
-  const floatingEggs = document.querySelectorAll(".drifting-egg");
+   floatingEggs = document.querySelectorAll(".drifting-egg");
   floatingEggs.forEach((egg) => {
-    const pageHeight = document.body.scrollHeight;
-    const pageWidth = document.body.scrollWidth;
-    const top = Math.random() * (pageHeight - 100);
-    const left = Math.random() * (pageWidth - 100);
+     pageHeight = document.body.scrollHeight;
+     pageWidth = document.body.scrollWidth;
+     top = Math.random() * (pageHeight - 100);
+     left = Math.random() * (pageWidth - 100);
 
-    egg.style.position = "absolute";
-    egg.style.top = `${top}px`;
-    egg.style.left = `${left}px`;
-    egg.style.zIndex = "1000";
+    egg?.style.position = "absolute";
+    egg?.style.top = `${top}px`;
+    egg?.style.left = `${left}px`;
+    egg?.style.zIndex = "1000";
 
     egg.animate(
       [
@@ -8842,9 +8843,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // 👁 REVEAL ON SCROLL
-  const revealOnScroll = () => {
-    const reveals = document.querySelectorAll(".reveal");
-    const winH = window.innerHeight;
+   revealOnScroll = () => {
+     reveals = document.querySelectorAll(".reveal");
+     winH = window.innerHeight;
     reveals.forEach((el) => {
       if (el.getBoundingClientRect().top < winH) {
         el.classList.add("reveal-active");
@@ -8855,16 +8856,16 @@ document.addEventListener("DOMContentLoaded", () => {
   revealOnScroll();
 
   // 🧠 TYPING ANIMATION
-  const loading1 = document.getElementById("loading-1");
-  const loading2 = document.getElementById("loading-2");
+   loading1 = document.getElementById("loading-1");
+   loading2 = document.getElementById("loading-2");
 
-  const lines1 = [
+   lines1 = [
     "&gt;&gt;&gt; <span class='white'>Authenticating system integrity...</span>",
     "&gt;&gt;&gt; <span class='cyan'>Initializing GWOS...</span>",
     "&gt;&gt;&gt; <span class='red'>System breach imminent...</span>",
   ];
 
-  const lines2 = [
+   lines2 = [
     "&gt;&gt;&gt; Compiling pain... <span class='green'>Complete</span>",
     "&gt;&gt;&gt; Parsing guilt... <span class='green'>Complete</span>",
     "&gt;&gt;&gt; Injecting honesty... <span class='green'>Complete</span>",
@@ -8876,21 +8877,21 @@ document.addEventListener("DOMContentLoaded", () => {
     "&gt;&gt;&gt; Deploying featured track: <span class='blue'><i>I See It All</i></span>",
   ];
 
-  const typeLines = (target, lines, delay = 60, callback) => {
+   typeLines = (target, lines, delay = 60, callback) => {
     let lineIndex = 0;
     target.innerHTML = "";
 
-    const typeLine = () => {
+     typeLine = () => {
       if (lineIndex >= lines.length) {
         callback?.();
         return;
       }
 
-      const line = lines[lineIndex];
+       line = lines[lineIndex];
       let charIndex = 0;
       let currentLine = "";
 
-      const typeChar = () => {
+       typeChar = () => {
         currentLine += line.charAt(charIndex);
         target.innerHTML =
           lines.slice(0, lineIndex).join("<br>") +
@@ -8913,14 +8914,14 @@ document.addEventListener("DOMContentLoaded", () => {
     typeLine();
   };
 
-  const loopLoading1 = () => {
+   loopLoading1 = () => {
     if (!loading1) return;
     typeLines(loading1, lines1, 60, () => {
       setTimeout(loopLoading1, 2000);
     });
   };
 
-  const loopLoading2 = () => {
+   loopLoading2 = () => {
     if (!loading2) return;
     typeLines(loading2, lines2, 60, () => {
       setTimeout(loopLoading2, 2000);
@@ -8931,24 +8932,24 @@ document.addEventListener("DOMContentLoaded", () => {
   loopLoading2();
 
   // === RED MATRIX RAIN CANVAS ===
-  const canvas = document.getElementById("matrix");
+   canvas = document.getElementById("matrix");
   if (canvas) {
-    const ctx = canvas.getContext("2d");
+     ctx = canvas.getContext("2d");
     canvas.height = window.innerHeight;
     canvas.width = window.innerWidth;
 
     function hexToRGBA(hex, alpha) {
-      const shorthand = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+       shorthand = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
       hex = hex.replace(shorthand, (m, r, g, b) => r + r + g + g + b + b);
-      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+       result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
       if (!result) return `rgba(255,255,255,${alpha})`;
-      const r = parseInt(result[1], 16);
-      const g = parseInt(result[2], 16);
-      const b = parseInt(result[3], 16);
+       r = parseInt(result[1], 16);
+       g = parseInt(result[2], 16);
+       b = parseInt(result[3], 16);
       return `rgba(${r}, ${g}, ${b}, ${alpha})`;
     }
 
-    const letters = [
+     letters = [
       ..."01",
       ..."GWOS",
       ..."I SEE IT ALL",
@@ -8968,7 +8969,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ..."ABCDEF",
     ];
 
-    const glitchPhrases = [
+     glitchPhrases = [
       "I SEE IT ALL",
       "U R NT ALNE",
       "EMO IS EXE",
@@ -8977,21 +8978,21 @@ document.addEventListener("DOMContentLoaded", () => {
       "GIZ // SIGNAL FOUND",
     ];
 
-    const activeGlitchLines = [];
-    const fontSize = 14;
-    const columnCount = 400;
-    const spacing = canvas.width / columnCount;
-    const drops = Array.from({ length: columnCount }, () => 1);
+     activeGlitchLines = [];
+     fontSize = 14;
+     columnCount = 400;
+     spacing = canvas.width / columnCount;
+     drops = Array.from({ length: columnCount }, () => 1);
 
-    const draw = () => {
+     draw = () => {
       ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = "#ff0000";
       ctx.font = `${fontSize}px monospace`;
 
       drops.forEach((y, i) => {
-        const text = letters[Math.floor(Math.random() * letters.length)];
-        const x = i * spacing;
+         text = letters[Math.floor(Math.random() * letters.length)];
+         x = i * spacing;
         ctx.fillText(text, x, y * fontSize);
         if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
         drops[i]++;
@@ -8999,7 +9000,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // 👻 Glitch overlay
       for (let i = activeGlitchLines.length - 1; i >= 0; i--) {
-        const line = activeGlitchLines[i];
+         line = activeGlitchLines[i];
         ctx.font = "bold 14px monospace";
         ctx.fillStyle = hexToRGBA(line.color, line.alpha);
         ctx.fillText(line.phrase, line.x, line.y);
@@ -9008,19 +9009,19 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     };
 
-    const drawHorizontalGlitch = () => {
-      const phrase =
+     drawHorizontalGlitch = () => {
+       phrase =
         glitchPhrases[Math.floor(Math.random() * glitchPhrases.length)];
-      const x = Math.floor(Math.random() * (canvas.width - 300));
-      const y = Math.floor(Math.random() * canvas.height);
-      const colors = [
+       x = Math.floor(Math.random() * (canvas.width - 300));
+       y = Math.floor(Math.random() * canvas.height);
+       colors = [
         "#ff003c",
         "#00ffff",
         "#ff69b4",
         "#00ff66",
         "#ffffff",
       ];
-      const color = colors[Math.floor(Math.random() * colors.length)];
+       color = colors[Math.floor(Math.random() * colors.length)];
       activeGlitchLines.push({
         phrase,
         x,
@@ -9036,8 +9037,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // === 📟 EMOTIONAL TRIGGER ===
-  const trigger = document.getElementById("message-trigger");
-  const message = document.getElementById("hidden-message");
+   trigger = document.getElementById("message-trigger");
+   message = document.getElementById("hidden-message");
 
   if (trigger && message) {
     trigger.addEventListener("click", () => {
@@ -9047,10 +9048,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => {
           message.classList.remove("fade-out");
-          message.style.display = "none";
+          message?.style.display = "none";
         }, 600);
       } else {
-        message.style.display = "block";
+        message?.style.display = "block";
         message.classList.add("visible");
       }
     });
@@ -11110,8 +11111,7 @@ footer a:hover {
 
 </head>
    <body>
-    <div id="lp-wrapper" style="display: none;">
-<canvas id="matrix">
+    <canvas id="matrix">
     </canvas>
     <!-- Hidden Easter Eggs -->
     <pre class="hidden-egg drifting-egg" id="bleeding-syntax">
@@ -11637,21 +11637,21 @@ if (pain &gt; threshold) {
   // === [GATEWAY SCRIPT START] ===
 /* === GRIMMWare OS Gateway Script === */
 
-const boxes = document.querySelectorAll('.box');
-const decryptWrapper = document.querySelector('.decrypt-wrapper');
-const cipher = document.querySelector('.decrypt-wrapper');
+ boxes = document.querySelectorAll('.box');
+ decryptWrapper = document.querySelector('.decrypt-wrapper');
+ cipher = document.querySelector('.decrypt-wrapper');
 let decryptInstructions = document.querySelector('.decrypt-instruction');
-const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
+ correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
 let currentGreenIndex = null;
 let intervalId = null;
 let solved = Array(boxes.length).fill(false);
 let transitionInProgress = false;
 let cipherSolved = false; // ✅ Flag to track completion
 
-const traceDevMode = false; // 🧪 Toggle this to true to override lockdown timer for testing
+ traceDevMode = false; // 🧪 Toggle this to true to override lockdown timer for testing
 
 // === AUDIO SETUP ===
-const sounds = {
+ sounds = {
   gatewayIntro: new Audio('sounds/Gateway Intro.mp3'),
   glitchThrob: new Audio('sounds/Glitch Throb Heart.mp3?v=2'),
   preterminalGlitch: new Audio('sounds/preterminal glitch.mp3'),
@@ -11698,7 +11698,7 @@ function playSound(key, delay = 0, reset = true) {
 
 function fadeOutSound(key, duration = 1000) {
   if (!sounds[key]) return;
-  const audio = sounds[key];
+   audio = sounds[key];
   let step = audio.volume / (duration / 100);
   let fade = setInterval(() => {
     audio.volume = Math.max(0, audio.volume - step);
@@ -11710,8 +11710,8 @@ function fadeOutSound(key, duration = 1000) {
   }, 100);
 }
 
-const typingSpeed = 35;
-const baseDelay = 100;
+ typingSpeed = 35;
+ baseDelay = 100;
 
 function markCipherSolved() {
   cipherSolved = true;
@@ -11721,7 +11721,7 @@ function markCipherSolved() {
 }
 
 function getRandomChar() {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+   chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return chars[Math.floor(Math.random() * chars.length)];
 }
 
@@ -11748,24 +11748,24 @@ function startCycling() {
       if (!solved[i]) {
         box.classList.remove('green');
 
-        const bgColor = isInverted ? '#00ff00' : 'red';
-        const shadowColor = isInverted ? '#00ff00' : '#ff0000';
+         bgColor = isInverted ? '#00ff00' : 'red';
+         shadowColor = isInverted ? '#00ff00' : '#ff0000';
 
-        box.style.backgroundColor = bgColor;
-        box.style.boxShadow = `0 0 8px ${shadowColor}`;
+        box?.style.backgroundColor = bgColor;
+        box?.style.boxShadow = `0 0 8px ${shadowColor}`;
       }
     });
 
     currentGreenIndex = nextIndex;
-    const box = boxes[currentGreenIndex];
+     box = boxes[currentGreenIndex];
     box.classList.add('green');
     box.textContent = correctCode[currentGreenIndex];
 
-    const correctBgColor = isInverted ? 'red' : '#00ff00';
-    const correctShadowColor = isInverted ? '#ff0000' : '#00ff00';
+     correctBgColor = isInverted ? 'red' : '#00ff00';
+     correctShadowColor = isInverted ? '#ff0000' : '#00ff00';
 
-    box.style.backgroundColor = correctBgColor;
-    box.style.boxShadow = `0 0 8px ${correctShadowColor}`;
+    box?.style.backgroundColor = correctBgColor;
+    box?.style.boxShadow = `0 0 8px ${correctShadowColor}`;
   }, 600);
 }
 
@@ -11776,8 +11776,8 @@ boxes.forEach((box, i) => {
     if (i === currentGreenIndex && !solved[i]) {
       solved[i] = true;
       box.classList.add('green');
-      box.style.backgroundColor = '#00ff00';
-      box.style.boxShadow = '0 0 12px #00ff00';
+      box?.style.backgroundColor = '#00ff00';
+      box?.style.boxShadow = '0 0 12px #00ff00';
       box.textContent = correctCode[i];
       currentGreenIndex = null;
 
@@ -11802,7 +11802,7 @@ boxes.forEach((box, i) => {
 
 // === Fullscreen Glitch to Terminal Trigger ===
 function triggerFullscreenGlitch() {
-  const glitchDiv = document.createElement('div');
+   glitchDiv = document.createElement('div');
   glitchDiv.classList.add('fullscreen-glitch');
   document.body.appendChild(glitchDiv);
 
@@ -11815,7 +11815,7 @@ function triggerFullscreenGlitch() {
 // === Glitch Destruction Logic ===
 function zapElement(selector, delay = 0) {
   setTimeout(() => {
-    const el = document.querySelector(selector);
+     el = document.querySelector(selector);
     if (el) {
       el.classList.add('purge-glitch');
       setTimeout(() => {
@@ -11830,7 +11830,7 @@ function purgeTopContainer() {
   zapElement('.tagline');
   zapElement('.logo-container');
 
-  const topContainer = document.getElementById('top-container');
+   topContainer = document.getElementById('top-container');
   if (topContainer) {
     topContainer.classList.add('purge-glitch');
     setTimeout(() => {
@@ -11843,7 +11843,7 @@ function purgeTopContainer() {
 function typeText(target, text, speed, callback) {
   let i = 0;
   target.textContent = '';
-  const interval = setInterval(() => {
+   interval = setInterval(() => {
     target.textContent += text.charAt(i++);
     if (i >= text.length) {
       clearInterval(interval);
@@ -11854,8 +11854,8 @@ function typeText(target, text, speed, callback) {
 
 // === Terminal Sequence Logic (w/ Audio) ===
 function startTerminalSequence() {
-  const terminalOverlay = document.getElementById('terminal-overlay');
-  const linesContainer = document.getElementById('terminal-lines');
+   terminalOverlay = document.getElementById('terminal-overlay');
+   linesContainer = document.getElementById('terminal-lines');
   terminalOverlay.classList.add('show');
   terminalOverlay.classList.remove('hidden');
   linesContainer.innerHTML = '';
@@ -11863,7 +11863,7 @@ function startTerminalSequence() {
   playSound('terminalFight');
   // Removed glitchThrob replay // time-aligned to throb after terminalFight starts
 
-  const sequence = [
+   sequence = [
     { tag: 'SYS', text: 'Protocol breach detected...', delay: 1000 },
     { tag: 'HANDLER', text: 'Initializing command injection...', delay: 1000 },
     { tag: 'SYS', text: 'Firewall spike deployed.', delay: 1000 },
@@ -11886,24 +11886,24 @@ function startTerminalSequence() {
   ];
 
   function typeLine({ tag, text, delay, isFinal, action }, index) {
-    const line = document.createElement('div');
+     line = document.createElement('div');
     line.classList.add('terminal-line');
 
     if (tag) {
-      const prefix = document.createElement('span');
+       prefix = document.createElement('span');
       prefix.classList.add(`${tag.toLowerCase()}-prefix`);
       prefix.textContent = `[${tag}] ::`;
       line.appendChild(prefix);
     }
 
-    const content = document.createElement('span');
+     content = document.createElement('span');
     content.classList.add('terminal-content');
     line.appendChild(content);
     linesContainer.appendChild(line);
     terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
 
     let charIndex = 0;
-    const interval = setInterval(() => {
+     interval = setInterval(() => {
       if (charIndex < text.length) {
         content.textContent += text.charAt(charIndex++);
         terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
@@ -11914,13 +11914,13 @@ function startTerminalSequence() {
         switch (index) {
           case 6: zapElement('.decrypt-instruction'); break;
           case 7:
-            const green = document.querySelectorAll('.green');
+             green = document.querySelectorAll('.green');
             [...green].sort(() => Math.random() - 0.5).forEach((el, idx) => {
               setTimeout(() => zapElement(`#${el.id}`), idx * 75);
             });
             break;
           case 8:
-            const boxes = document.querySelectorAll('.box:not(.green)');
+             boxes = document.querySelectorAll('.box:not(.green)');
             [...boxes].sort(() => Math.random() - 0.5).forEach((el, idx) => {
               setTimeout(() => zapElement(`#${el.id}`), idx * 75);
             });
@@ -11954,11 +11954,11 @@ function startTerminalSequence() {
 
 // === FINAL FLICKERING LINE ===
 function injectFinalRunItLine() {
-  const linesContainer = document.getElementById('terminal-lines');
+   linesContainer = document.getElementById('terminal-lines');
 
-  const finalLine = document.createElement('div');
+   finalLine = document.createElement('div');
   finalLine.classList.add('terminal-line');
-  Object.assign(finalLine.style, {
+  Object.assign(finalLine?.style, {
     opacity: '1',
     display: 'flex',
     visibility: 'visible',
@@ -11968,15 +11968,15 @@ function injectFinalRunItLine() {
     zIndex: '1000'
   });
 
-  const finalPrefix = document.createElement('span');
+   finalPrefix = document.createElement('span');
   finalPrefix.classList.add('handler-prefix');
   finalPrefix.textContent = '[HANDLER] ::';
   finalLine.appendChild(finalPrefix);
 
-  const runItSpan = document.createElement('span');
+   runItSpan = document.createElement('span');
   runItSpan.classList.add('run-it');
   runItSpan.textContent = 'Run it.';
-  Object.assign(runItSpan.style, {
+  Object.assign(runItSpan?.style, {
     color: 'red',
     display: 'inline',
     visibility: 'visible',
@@ -11992,7 +11992,7 @@ function injectFinalRunItLine() {
 
   // Animation trigger
   void runItSpan.offsetWidth;
-  runItSpan.style.removeProperty('animation');
+  runItSpan?.style.removeProperty('animation');
 
   requestAnimationFrame(() => {
     runItSpan.classList.remove('run-it');
@@ -12010,24 +12010,24 @@ function injectFinalRunItLine() {
 
 // === ACCESS GRANTED SEQUENCE ===
 function revealAccessGranted() {
-  const grantedLine = document.querySelector('.granted');
-  const warningLine = document.querySelector('.warning');
-  const runWrapper = document.getElementById('run-wrapper');
-  const accessMessage = document.getElementById('access-message');
+   grantedLine = document.querySelector('.granted');
+   warningLine = document.querySelector('.warning');
+   runWrapper = document.getElementById('run-wrapper');
+   accessMessage = document.getElementById('access-message');
 
   accessMessage.classList.remove('hidden');
-  accessMessage.style.opacity = 1;
+  accessMessage?.style.opacity = 1;
 
   typeText(grantedLine, 'ACCESS GRANTED.  SYSTEM UNLOCKED.', 40, () => {
     setTimeout(() => {
       typeText(warningLine, '>>> WARNING: THIS MAY CHANGE YOU.', 75, () => {
         warningLine.classList.add('glitch');
 
-        const rawText = warningLine.textContent;
-        const glitchChars = '!@#$%?~*';
+         rawText = warningLine.textContent;
+         glitchChars = '!@#$%?~*';
 
         setInterval(() => {
-          const corrupted = rawText.split('').map(char =>
+           corrupted = rawText.split('').map(char =>
             Math.random() < 0.07 && char !== ' ' ? glitchChars[Math.floor(Math.random() * glitchChars.length)] : char
           ).join('');
           warningLine.textContent = corrupted;
@@ -12035,7 +12035,7 @@ function revealAccessGranted() {
 
         runWrapper.classList.remove('hidden');
         runWrapper.classList.add('glitch-in');
-        runWrapper.style.display = 'block';
+        runWrapper?.style.display = 'block';
       });
     }, 1000);
   });
@@ -12048,21 +12048,21 @@ document.getElementById('run-button').addEventListener('click', () => {
   sounds.runItPulse.pause();
   sounds.runItPulse.currentTime = 0;
 
-  const footer = document.querySelector('.grimm-footer');
+   footer = document.querySelector('.grimm-footer');
   if (footer) {
   
-  footer.style.transition = 'opacity 0.8s ease';
-  footer.style.opacity = '0';
+  footer?.style.transition = 'opacity 0.8s ease';
+  footer?.style.opacity = '0';
 }
-  const terminal = document.getElementById('terminal');
+   terminal = document.getElementById('terminal');
   if (terminal) terminal.remove();
   if (transitionInProgress) return;
   transitionInProgress = true;
 
-  const terminalOverlay = document.getElementById('terminal-overlay');
+   terminalOverlay = document.getElementById('terminal-overlay');
   if (terminalOverlay) terminalOverlay.remove();
 
-  const smashOverlay = document.getElementById('smash-overlay');
+   smashOverlay = document.getElementById('smash-overlay');
   smashOverlay.classList.add('active');
 
   // Screen smash FX
@@ -12072,50 +12072,50 @@ document.getElementById('run-button').addEventListener('click', () => {
 
   // Gateway strip transition
   setTimeout(() => {
-    const overlay = document.getElementById('gateway-overlay');
-    const landingPage = document.getElementById('landing-page');
-    const runWrapper = document.getElementById('run-wrapper');
-    const accessMessage = document.getElementById('access-message');
+     overlay = document.getElementById('gateway-overlay');
+     landingPage = document.getElementById('landing-page');
+     runWrapper = document.getElementById('run-wrapper');
+     accessMessage = document.getElementById('access-message');
 
-    const numStrips = 60;
-    const fallInDuration = 500;
-    const fallOutDuration = 600;
-    const delayBeforeReveal = 1500;
+     numStrips = 60;
+     fallInDuration = 500;
+     fallOutDuration = 600;
+     delayBeforeReveal = 1500;
 
-    runWrapper.style.display = 'none';
-    accessMessage.style.display = 'none';
-    landingPage.style.display = 'flex';
-    landingPage.style.opacity = 0;
+    runWrapper?.style.display = 'none';
+    accessMessage?.style.display = 'none';
+    landingPage?.style.display = 'flex';
+    landingPage?.style.opacity = 0;
     overlay.innerHTML = '';
-    overlay.style.display = 'flex';
-    overlay.style.background = 'transparent';
+    overlay?.style.display = 'flex';
+    overlay?.style.background = 'transparent';
 
     for (let i = 0; i < numStrips; i++) {
-      const strip = document.createElement('div');
+       strip = document.createElement('div');
       strip.classList.add('strip', 'cover');
-      strip.style.left = `${(100 / numStrips) * i}%`;
-      strip.style.width = `${100 / numStrips}%`;
-      strip.style.animation = `fallCover ${fallInDuration}ms forwards`;
+      strip?.style.left = `${(100 / numStrips) * i}%`;
+      strip?.style.width = `${100 / numStrips}%`;
+      strip?.style.animation = `fallCover ${fallInDuration}ms forwards`;
       overlay.appendChild(strip);
     }
 
     setTimeout(() => {
-      landingPage.style.opacity = 1;
+      landingPage?.style.opacity = 1;
 
-      const strips = Array.from(overlay.querySelectorAll('.strip'));
-      const shuffled = strips.sort(() => Math.random() - 0.5);
+       strips = Array.from(overlay.querySelectorAll('.strip'));
+       shuffled = strips.sort(() => Math.random() - 0.5);
 
       shuffled.forEach((strip, index) => {
         setTimeout(() => {
           strip.classList.remove('cover');
           strip.classList.add('reveal');
-          strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
+          strip?.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
         }, index * 30);
       });
 
-      const totalDelay = shuffled.length * 30 + fallOutDuration;
+       totalDelay = shuffled.length * 30 + fallOutDuration;
       setTimeout(() => {
-        overlay.style.display = 'none';
+        overlay?.style.display = 'none';
       }, totalDelay + 500);
     }, fallInDuration + delayBeforeReveal);
   }, 1000); // ⌛ Delay for final tension
@@ -12123,16 +12123,16 @@ document.getElementById('run-button').addEventListener('click', () => {
 
 // === INIT SCREEN TRIGGER ===
 window.addEventListener('DOMContentLoaded', () => {
-  const initScreen = document.getElementById('init-screen');
-  const initButton = document.getElementById('init-button');
-  const preloadOverlay = document.getElementById('preload-overlay');
+   initScreen = document.getElementById('init-screen');
+   initButton = document.getElementById('init-button');
+   preloadOverlay = document.getElementById('preload-overlay');
 
   initButton.addEventListener('click', () => {
     unlockAudio();
 
-    initScreen.style.display = 'none';
-    preloadOverlay.style.display = 'block';
-    preloadOverlay.style.opacity = '1';
+    initScreen?.style.display = 'none';
+    preloadOverlay?.style.display = 'block';
+    preloadOverlay?.style.opacity = '1';
     preloadOverlay.classList.remove('fade-out');
 
     playSound('gatewayIntro', 100);
@@ -12141,27 +12141,27 @@ window.addEventListener('DOMContentLoaded', () => {
       preloadOverlay.classList.add('fade-out');
       setTimeout(() => preloadOverlay.remove(), 1000);
 
-      const logo = document.querySelector('.logo-main');
-      const tagline = document.querySelector('.tagline');
-      const instruction = document.querySelector('.decrypt-instruction');
+       logo = document.querySelector('.logo-main');
+       tagline = document.querySelector('.tagline');
+       instruction = document.querySelector('.decrypt-instruction');
 
-      setTimeout(() => { logo.style.animation = 'fadeIn 1.2s forwards'; }, 0);
-      setTimeout(() => { tagline.style.animation = 'fadeIn 1.2s forwards'; }, 800);
+      setTimeout(() => { logo?.style.animation = 'fadeIn 1.2s forwards'; }, 0);
+      setTimeout(() => { tagline?.style.animation = 'fadeIn 1.2s forwards'; }, 800);
       setTimeout(() => {
         cipher.classList.remove('hidden');
-        cipher.style.animation = 'glitchIn 0.6s forwards';
+        cipher?.style.animation = 'glitchIn 0.6s forwards';
         playSound('glitchThrob');
       }, 100);
 
       setTimeout(() => {
         instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
-        instruction.style.animation = 'corruptText 6s infinite';
-        instruction.style.opacity = '1';
+        instruction?.style.animation = 'corruptText 6s infinite';
+        instruction?.style.opacity = '1';
 
-        const raw = instruction.textContent;
-        const glitchChars = '!@#$%?~*';
+         raw = instruction.textContent;
+         glitchChars = '!@#$%?~*';
         setInterval(() => {
-          const corrupted = raw.split('').map(char =>
+           corrupted = raw.split('').map(char =>
             Math.random() < 0.07 && char !== ' '
               ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
               : char
@@ -12183,17 +12183,17 @@ window.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   // 🎯 FLOATING EGGS — Randomized position + animation
-  const floatingEggs = document.querySelectorAll(".drifting-egg");
+   floatingEggs = document.querySelectorAll(".drifting-egg");
   floatingEggs.forEach((egg) => {
-    const pageHeight = document.body.scrollHeight;
-    const pageWidth = document.body.scrollWidth;
-    const top = Math.random() * (pageHeight - 100);
-    const left = Math.random() * (pageWidth - 100);
+     pageHeight = document.body.scrollHeight;
+     pageWidth = document.body.scrollWidth;
+     top = Math.random() * (pageHeight - 100);
+     left = Math.random() * (pageWidth - 100);
 
-    egg.style.position = "absolute";
-    egg.style.top = `${top}px`;
-    egg.style.left = `${left}px`;
-    egg.style.zIndex = "1000";
+    egg?.style.position = "absolute";
+    egg?.style.top = `${top}px`;
+    egg?.style.left = `${left}px`;
+    egg?.style.zIndex = "1000";
 
     egg.animate(
       [
@@ -12212,9 +12212,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // 👁 REVEAL ON SCROLL
-  const revealOnScroll = () => {
-    const reveals = document.querySelectorAll(".reveal");
-    const winH = window.innerHeight;
+   revealOnScroll = () => {
+     reveals = document.querySelectorAll(".reveal");
+     winH = window.innerHeight;
     reveals.forEach((el) => {
       if (el.getBoundingClientRect().top < winH) {
         el.classList.add("reveal-active");
@@ -12225,16 +12225,16 @@ document.addEventListener("DOMContentLoaded", () => {
   revealOnScroll();
 
   // 🧠 TYPING ANIMATION
-  const loading1 = document.getElementById("loading-1");
-  const loading2 = document.getElementById("loading-2");
+   loading1 = document.getElementById("loading-1");
+   loading2 = document.getElementById("loading-2");
 
-  const lines1 = [
+   lines1 = [
     "&gt;&gt;&gt; <span class='white'>Authenticating system integrity...</span>",
     "&gt;&gt;&gt; <span class='cyan'>Initializing GWOS...</span>",
     "&gt;&gt;&gt; <span class='red'>System breach imminent...</span>",
   ];
 
-  const lines2 = [
+   lines2 = [
     "&gt;&gt;&gt; Compiling pain... <span class='green'>Complete</span>",
     "&gt;&gt;&gt; Parsing guilt... <span class='green'>Complete</span>",
     "&gt;&gt;&gt; Injecting honesty... <span class='green'>Complete</span>",
@@ -12246,21 +12246,21 @@ document.addEventListener("DOMContentLoaded", () => {
     "&gt;&gt;&gt; Deploying featured track: <span class='blue'><i>I See It All</i></span>",
   ];
 
-  const typeLines = (target, lines, delay = 60, callback) => {
+   typeLines = (target, lines, delay = 60, callback) => {
     let lineIndex = 0;
     target.innerHTML = "";
 
-    const typeLine = () => {
+     typeLine = () => {
       if (lineIndex >= lines.length) {
         callback?.();
         return;
       }
 
-      const line = lines[lineIndex];
+       line = lines[lineIndex];
       let charIndex = 0;
       let currentLine = "";
 
-      const typeChar = () => {
+       typeChar = () => {
         currentLine += line.charAt(charIndex);
         target.innerHTML =
           lines.slice(0, lineIndex).join("<br>") +
@@ -12283,14 +12283,14 @@ document.addEventListener("DOMContentLoaded", () => {
     typeLine();
   };
 
-  const loopLoading1 = () => {
+   loopLoading1 = () => {
     if (!loading1) return;
     typeLines(loading1, lines1, 60, () => {
       setTimeout(loopLoading1, 2000);
     });
   };
 
-  const loopLoading2 = () => {
+   loopLoading2 = () => {
     if (!loading2) return;
     typeLines(loading2, lines2, 60, () => {
       setTimeout(loopLoading2, 2000);
@@ -12301,24 +12301,24 @@ document.addEventListener("DOMContentLoaded", () => {
   loopLoading2();
 
   // === RED MATRIX RAIN CANVAS ===
-  const canvas = document.getElementById("matrix");
+   canvas = document.getElementById("matrix");
   if (canvas) {
-    const ctx = canvas.getContext("2d");
+     ctx = canvas.getContext("2d");
     canvas.height = window.innerHeight;
     canvas.width = window.innerWidth;
 
     function hexToRGBA(hex, alpha) {
-      const shorthand = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+       shorthand = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
       hex = hex.replace(shorthand, (m, r, g, b) => r + r + g + g + b + b);
-      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+       result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
       if (!result) return `rgba(255,255,255,${alpha})`;
-      const r = parseInt(result[1], 16);
-      const g = parseInt(result[2], 16);
-      const b = parseInt(result[3], 16);
+       r = parseInt(result[1], 16);
+       g = parseInt(result[2], 16);
+       b = parseInt(result[3], 16);
       return `rgba(${r}, ${g}, ${b}, ${alpha})`;
     }
 
-    const letters = [
+     letters = [
       ..."01",
       ..."GWOS",
       ..."I SEE IT ALL",
@@ -12338,7 +12338,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ..."ABCDEF",
     ];
 
-    const glitchPhrases = [
+     glitchPhrases = [
       "I SEE IT ALL",
       "U R NT ALNE",
       "EMO IS EXE",
@@ -12347,21 +12347,21 @@ document.addEventListener("DOMContentLoaded", () => {
       "GIZ // SIGNAL FOUND",
     ];
 
-    const activeGlitchLines = [];
-    const fontSize = 14;
-    const columnCount = 400;
-    const spacing = canvas.width / columnCount;
-    const drops = Array.from({ length: columnCount }, () => 1);
+     activeGlitchLines = [];
+     fontSize = 14;
+     columnCount = 400;
+     spacing = canvas.width / columnCount;
+     drops = Array.from({ length: columnCount }, () => 1);
 
-    const draw = () => {
+     draw = () => {
       ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = "#ff0000";
       ctx.font = `${fontSize}px monospace`;
 
       drops.forEach((y, i) => {
-        const text = letters[Math.floor(Math.random() * letters.length)];
-        const x = i * spacing;
+         text = letters[Math.floor(Math.random() * letters.length)];
+         x = i * spacing;
         ctx.fillText(text, x, y * fontSize);
         if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
         drops[i]++;
@@ -12369,7 +12369,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // 👻 Glitch overlay
       for (let i = activeGlitchLines.length - 1; i >= 0; i--) {
-        const line = activeGlitchLines[i];
+         line = activeGlitchLines[i];
         ctx.font = "bold 14px monospace";
         ctx.fillStyle = hexToRGBA(line.color, line.alpha);
         ctx.fillText(line.phrase, line.x, line.y);
@@ -12378,19 +12378,19 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     };
 
-    const drawHorizontalGlitch = () => {
-      const phrase =
+     drawHorizontalGlitch = () => {
+       phrase =
         glitchPhrases[Math.floor(Math.random() * glitchPhrases.length)];
-      const x = Math.floor(Math.random() * (canvas.width - 300));
-      const y = Math.floor(Math.random() * canvas.height);
-      const colors = [
+       x = Math.floor(Math.random() * (canvas.width - 300));
+       y = Math.floor(Math.random() * canvas.height);
+       colors = [
         "#ff003c",
         "#00ffff",
         "#ff69b4",
         "#00ff66",
         "#ffffff",
       ];
-      const color = colors[Math.floor(Math.random() * colors.length)];
+       color = colors[Math.floor(Math.random() * colors.length)];
       activeGlitchLines.push({
         phrase,
         x,
@@ -12406,8 +12406,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // === 📟 EMOTIONAL TRIGGER ===
-  const trigger = document.getElementById("message-trigger");
-  const message = document.getElementById("hidden-message");
+   trigger = document.getElementById("message-trigger");
+   message = document.getElementById("hidden-message");
 
   if (trigger && message) {
     trigger.addEventListener("click", () => {
@@ -12417,10 +12417,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => {
           message.classList.remove("fade-out");
-          message.style.display = "none";
+          message?.style.display = "none";
         }, 600);
       } else {
-        message.style.display = "block";
+        message?.style.display = "block";
         message.classList.add("visible");
       }
     });
@@ -12436,25 +12436,25 @@ document.addEventListener("DOMContentLoaded", () => {
    /* --- GATEWAY SCRIPT --- */
 /* === GRIMMWare OS Gateway Script === */
 
-const boxes = document.querySelectorAll('.box');
-const decryptWrapper = document.querySelector('.decrypt-wrapper');
-const cipher = document.querySelector('.decrypt-wrapper');
+ boxes = document.querySelectorAll('.box');
+ decryptWrapper = document.querySelector('.decrypt-wrapper');
+ cipher = document.querySelector('.decrypt-wrapper');
 let decryptInstructions = document.querySelector('.decrypt-instruction');
-const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
+ correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
 let currentGreenIndex = null;
 let intervalId = null;
 let solved = Array(boxes.length).fill(false);
 let transitionInProgress = false;
 let cipherSolved = false; // ✅ Flag to track completion
 
-const traceDevMode = false; // 🧪 Toggle this to true to override lockdown timer for testing
+ traceDevMode = false; // 🧪 Toggle this to true to override lockdown timer for testing
 
 console.log("[INIT] Cipher Solved Flag:", cipherSolved);
 console.log("[INIT] Decrypt Wrapper:", decryptWrapper);
 console.log("[INIT] Decrypt Instructions:", decryptInstructions);
 
 // === AUDIO SETUP ===
-const sounds = {
+ sounds = {
   gatewayIntro: new Audio('sounds/Gateway Intro.mp3'),
   glitchThrob: new Audio('sounds/Glitch Throb Heart.mp3?v=2'),
   preterminalGlitch: new Audio('sounds/preterminal glitch.mp3'),
@@ -12501,7 +12501,7 @@ function playSound(key, delay = 0, reset = true) {
 
 function fadeOutSound(key, duration = 1000) {
   if (!sounds[key]) return;
-  const audio = sounds[key];
+   audio = sounds[key];
   let step = audio.volume / (duration / 100);
   let fade = setInterval(() => {
     audio.volume = Math.max(0, audio.volume - step);
@@ -12513,8 +12513,8 @@ function fadeOutSound(key, duration = 1000) {
   }, 100);
 }
 
-const typingSpeed = 35;
-const baseDelay = 100;
+ typingSpeed = 35;
+ baseDelay = 100;
 
 function markCipherSolved() {
   cipherSolved = true;
@@ -12525,7 +12525,7 @@ function markCipherSolved() {
 }
 
 function getRandomChar() {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+   chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return chars[Math.floor(Math.random() * chars.length)];
 }
 
@@ -12552,24 +12552,24 @@ function startCycling() {
       if (!solved[i]) {
         box.classList.remove('green');
 
-        const bgColor = isInverted ? '#00ff00' : 'red';
-        const shadowColor = isInverted ? '#00ff00' : '#ff0000';
+         bgColor = isInverted ? '#00ff00' : 'red';
+         shadowColor = isInverted ? '#00ff00' : '#ff0000';
 
-        box.style.backgroundColor = bgColor;
-        box.style.boxShadow = `0 0 8px ${shadowColor}`;
+        box?.style.backgroundColor = bgColor;
+        box?.style.boxShadow = `0 0 8px ${shadowColor}`;
       }
     });
 
     currentGreenIndex = nextIndex;
-    const box = boxes[currentGreenIndex];
+     box = boxes[currentGreenIndex];
     box.classList.add('green');
     box.textContent = correctCode[currentGreenIndex];
 
-    const correctBgColor = isInverted ? 'red' : '#00ff00';
-    const correctShadowColor = isInverted ? '#ff0000' : '#00ff00';
+     correctBgColor = isInverted ? 'red' : '#00ff00';
+     correctShadowColor = isInverted ? '#ff0000' : '#00ff00';
 
-    box.style.backgroundColor = correctBgColor;
-    box.style.boxShadow = `0 0 8px ${correctShadowColor}`;
+    box?.style.backgroundColor = correctBgColor;
+    box?.style.boxShadow = `0 0 8px ${correctShadowColor}`;
   }, 600);
 }
 
@@ -12581,8 +12581,8 @@ boxes.forEach((box, i) => {
     if (i === currentGreenIndex && !solved[i]) {
       solved[i] = true;
       box.classList.add('green');
-      box.style.backgroundColor = '#00ff00';
-      box.style.boxShadow = '0 0 12px #00ff00';
+      box?.style.backgroundColor = '#00ff00';
+      box?.style.boxShadow = '0 0 12px #00ff00';
       box.textContent = correctCode[i];
       currentGreenIndex = null;
 
@@ -12607,7 +12607,7 @@ boxes.forEach((box, i) => {
 
 // === Fullscreen Glitch to Terminal Trigger ===
 function triggerFullscreenGlitch() {
-  const glitchDiv = document.createElement('div');
+   glitchDiv = document.createElement('div');
   glitchDiv.classList.add('fullscreen-glitch');
   document.body.appendChild(glitchDiv);
 
@@ -12620,7 +12620,7 @@ function triggerFullscreenGlitch() {
 // === Glitch Destruction Logic ===
 function zapElement(selector, delay = 0) {
   setTimeout(() => {
-    const el = document.querySelector(selector);
+     el = document.querySelector(selector);
     if (el) {
       el.classList.add('purge-glitch');
       setTimeout(() => {
@@ -12635,7 +12635,7 @@ function purgeTopContainer() {
   zapElement('.tagline');
   zapElement('.logo-container');
 
-  const topContainer = document.getElementById('top-container');
+   topContainer = document.getElementById('top-container');
   if (topContainer) {
     topContainer.classList.add('purge-glitch');
     setTimeout(() => {
@@ -12648,7 +12648,7 @@ function purgeTopContainer() {
 function typeText(target, text, speed, callback) {
   let i = 0;
   target.textContent = '';
-  const interval = setInterval(() => {
+   interval = setInterval(() => {
     target.textContent += text.charAt(i++);
     if (i >= text.length) {
       clearInterval(interval);
@@ -12659,8 +12659,8 @@ function typeText(target, text, speed, callback) {
 
 // === Terminal Sequence Logic (w/ Audio) ===
 function startTerminalSequence() {
-  const terminalOverlay = document.getElementById('terminal-overlay');
-  const linesContainer = document.getElementById('terminal-lines');
+   terminalOverlay = document.getElementById('terminal-overlay');
+   linesContainer = document.getElementById('terminal-lines');
   terminalOverlay.classList.add('show');
   terminalOverlay.classList.remove('hidden');
   linesContainer.innerHTML = '';
@@ -12668,7 +12668,7 @@ function startTerminalSequence() {
   playSound('terminalFight');
   // Removed glitchThrob replay // time-aligned to throb after terminalFight starts
 
-  const sequence = [
+   sequence = [
     { tag: 'SYS', text: 'Protocol breach detected...', delay: 1000 },
     { tag: 'HANDLER', text: 'Initializing command injection...', delay: 1000 },
     { tag: 'SYS', text: 'Firewall spike deployed.', delay: 1000 },
@@ -12691,24 +12691,24 @@ function startTerminalSequence() {
   ];
 
   function typeLine({ tag, text, delay, isFinal, action }, index) {
-    const line = document.createElement('div');
+     line = document.createElement('div');
     line.classList.add('terminal-line');
 
     if (tag) {
-      const prefix = document.createElement('span');
+       prefix = document.createElement('span');
       prefix.classList.add(`${tag.toLowerCase()}-prefix`);
       prefix.textContent = `[${tag}] ::`;
       line.appendChild(prefix);
     }
 
-    const content = document.createElement('span');
+     content = document.createElement('span');
     content.classList.add('terminal-content');
     line.appendChild(content);
     linesContainer.appendChild(line);
     terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
 
     let charIndex = 0;
-    const interval = setInterval(() => {
+     interval = setInterval(() => {
       if (charIndex < text.length) {
         content.textContent += text.charAt(charIndex++);
         terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
@@ -12719,13 +12719,13 @@ function startTerminalSequence() {
         switch (index) {
           case 6: zapElement('.decrypt-instruction'); break;
           case 7:
-            const green = document.querySelectorAll('.green');
+             green = document.querySelectorAll('.green');
             [...green].sort(() => Math.random() - 0.5).forEach((el, idx) => {
               setTimeout(() => zapElement(`#${el.id}`), idx * 75);
             });
             break;
           case 8:
-            const boxes = document.querySelectorAll('.box:not(.green)');
+             boxes = document.querySelectorAll('.box:not(.green)');
             [...boxes].sort(() => Math.random() - 0.5).forEach((el, idx) => {
               setTimeout(() => zapElement(`#${el.id}`), idx * 75);
             });
@@ -12759,11 +12759,11 @@ function startTerminalSequence() {
 
 // === FINAL FLICKERING LINE ===
 function injectFinalRunItLine() {
-  const linesContainer = document.getElementById('terminal-lines');
+   linesContainer = document.getElementById('terminal-lines');
 
-  const finalLine = document.createElement('div');
+   finalLine = document.createElement('div');
   finalLine.classList.add('terminal-line');
-  Object.assign(finalLine.style, {
+  Object.assign(finalLine?.style, {
     opacity: '1',
     display: 'flex',
     visibility: 'visible',
@@ -12773,15 +12773,15 @@ function injectFinalRunItLine() {
     zIndex: '1000'
   });
 
-  const finalPrefix = document.createElement('span');
+   finalPrefix = document.createElement('span');
   finalPrefix.classList.add('handler-prefix');
   finalPrefix.textContent = '[HANDLER] ::';
   finalLine.appendChild(finalPrefix);
 
-  const runItSpan = document.createElement('span');
+   runItSpan = document.createElement('span');
   runItSpan.classList.add('run-it');
   runItSpan.textContent = 'Run it.';
-  Object.assign(runItSpan.style, {
+  Object.assign(runItSpan?.style, {
     color: 'red',
     display: 'inline',
     visibility: 'visible',
@@ -12797,7 +12797,7 @@ function injectFinalRunItLine() {
 
   // Animation trigger
   void runItSpan.offsetWidth;
-  runItSpan.style.removeProperty('animation');
+  runItSpan?.style.removeProperty('animation');
 
   requestAnimationFrame(() => {
     runItSpan.classList.remove('run-it');
@@ -12815,24 +12815,24 @@ function injectFinalRunItLine() {
 
 // === ACCESS GRANTED SEQUENCE ===
 function revealAccessGranted() {
-  const grantedLine = document.querySelector('.granted');
-  const warningLine = document.querySelector('.warning');
-  const runWrapper = document.getElementById('run-wrapper');
-  const accessMessage = document.getElementById('access-message');
+   grantedLine = document.querySelector('.granted');
+   warningLine = document.querySelector('.warning');
+   runWrapper = document.getElementById('run-wrapper');
+   accessMessage = document.getElementById('access-message');
 
   accessMessage.classList.remove('hidden');
-  accessMessage.style.opacity = 1;
+  accessMessage?.style.opacity = 1;
 
   typeText(grantedLine, 'ACCESS GRANTED.  SYSTEM UNLOCKED.', 40, () => {
     setTimeout(() => {
       typeText(warningLine, '>>> WARNING: THIS MAY CHANGE YOU.', 75, () => {
         warningLine.classList.add('glitch');
 
-        const rawText = warningLine.textContent;
-        const glitchChars = '!@#$%?~*';
+         rawText = warningLine.textContent;
+         glitchChars = '!@#$%?~*';
 
         setInterval(() => {
-          const corrupted = rawText.split('').map(char =>
+           corrupted = rawText.split('').map(char =>
             Math.random() < 0.07 && char !== ' ' ? glitchChars[Math.floor(Math.random() * glitchChars.length)] : char
           ).join('');
           warningLine.textContent = corrupted;
@@ -12840,7 +12840,7 @@ function revealAccessGranted() {
 
         runWrapper.classList.remove('hidden');
         runWrapper.classList.add('glitch-in');
-        runWrapper.style.display = 'block';
+        runWrapper?.style.display = 'block';
       });
     }, 1000);
   });
@@ -12853,21 +12853,21 @@ document.getElementById('run-button').addEventListener('click', () => {
   sounds.runItPulse.pause();
   sounds.runItPulse.currentTime = 0;
 
-  const footer = document.querySelector('.grimm-footer');
+   footer = document.querySelector('.grimm-footer');
   if (footer) {
   
-  footer.style.transition = 'opacity 0.8s ease';
-  footer.style.opacity = '0';
+  footer?.style.transition = 'opacity 0.8s ease';
+  footer?.style.opacity = '0';
 }
-  const terminal = document.getElementById('terminal');
+   terminal = document.getElementById('terminal');
   if (terminal) terminal.remove();
   if (transitionInProgress) return;
   transitionInProgress = true;
 
-  const terminalOverlay = document.getElementById('terminal-overlay');
+   terminalOverlay = document.getElementById('terminal-overlay');
   if (terminalOverlay) terminalOverlay.remove();
 
-  const smashOverlay = document.getElementById('smash-overlay');
+   smashOverlay = document.getElementById('smash-overlay');
   smashOverlay.classList.add('active');
 
   // Screen smash FX
@@ -12877,50 +12877,50 @@ document.getElementById('run-button').addEventListener('click', () => {
 
   // Gateway strip transition
   setTimeout(() => {
-    const overlay = document.getElementById('gateway-overlay');
-    const landingPage = document.getElementById('landing-page');
-    const runWrapper = document.getElementById('run-wrapper');
-    const accessMessage = document.getElementById('access-message');
+     overlay = document.getElementById('gateway-overlay');
+     landingPage = document.getElementById('landing-page');
+     runWrapper = document.getElementById('run-wrapper');
+     accessMessage = document.getElementById('access-message');
 
-    const numStrips = 60;
-    const fallInDuration = 500;
-    const fallOutDuration = 600;
-    const delayBeforeReveal = 1500;
+     numStrips = 60;
+     fallInDuration = 500;
+     fallOutDuration = 600;
+     delayBeforeReveal = 1500;
 
-    runWrapper.style.display = 'none';
-    accessMessage.style.display = 'none';
-    landingPage.style.display = 'flex';
-    landingPage.style.opacity = 0;
+    runWrapper?.style.display = 'none';
+    accessMessage?.style.display = 'none';
+    landingPage?.style.display = 'flex';
+    landingPage?.style.opacity = 0;
     overlay.innerHTML = '';
-    overlay.style.display = 'flex';
-    overlay.style.background = 'transparent';
+    overlay?.style.display = 'flex';
+    overlay?.style.background = 'transparent';
 
     for (let i = 0; i < numStrips; i++) {
-      const strip = document.createElement('div');
+       strip = document.createElement('div');
       strip.classList.add('strip', 'cover');
-      strip.style.left = `${(100 / numStrips) * i}%`;
-      strip.style.width = `${100 / numStrips}%`;
-      strip.style.animation = `fallCover ${fallInDuration}ms forwards`;
+      strip?.style.left = `${(100 / numStrips) * i}%`;
+      strip?.style.width = `${100 / numStrips}%`;
+      strip?.style.animation = `fallCover ${fallInDuration}ms forwards`;
       overlay.appendChild(strip);
     }
 
     setTimeout(() => {
-      landingPage.style.opacity = 1;
+      landingPage?.style.opacity = 1;
 
-      const strips = Array.from(overlay.querySelectorAll('.strip'));
-      const shuffled = strips.sort(() => Math.random() - 0.5);
+       strips = Array.from(overlay.querySelectorAll('.strip'));
+       shuffled = strips.sort(() => Math.random() - 0.5);
 
       shuffled.forEach((strip, index) => {
         setTimeout(() => {
           strip.classList.remove('cover');
           strip.classList.add('reveal');
-          strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
+          strip?.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
         }, index * 30);
       });
 
-      const totalDelay = shuffled.length * 30 + fallOutDuration;
+       totalDelay = shuffled.length * 30 + fallOutDuration;
       setTimeout(() => {
-        overlay.style.display = 'none';
+        overlay?.style.display = 'none';
       }, totalDelay + 500);
     }, fallInDuration + delayBeforeReveal);
   }, 1000); // ⌛ Delay for final tension
@@ -12928,16 +12928,16 @@ document.getElementById('run-button').addEventListener('click', () => {
 
 // === INIT SCREEN TRIGGER ===
 window.addEventListener('DOMContentLoaded', () => {
-  const initScreen = document.getElementById('init-screen');
-  const initButton = document.getElementById('init-button');
-  const preloadOverlay = document.getElementById('preload-overlay');
+   initScreen = document.getElementById('init-screen');
+   initButton = document.getElementById('init-button');
+   preloadOverlay = document.getElementById('preload-overlay');
 
   initButton.addEventListener('click', () => {
     unlockAudio();
 
-    initScreen.style.display = 'none';
-    preloadOverlay.style.display = 'block';
-    preloadOverlay.style.opacity = '1';
+    initScreen?.style.display = 'none';
+    preloadOverlay?.style.display = 'block';
+    preloadOverlay?.style.opacity = '1';
     preloadOverlay.classList.remove('fade-out');
 
     playSound('gatewayIntro', 100);
@@ -12946,27 +12946,27 @@ window.addEventListener('DOMContentLoaded', () => {
       preloadOverlay.classList.add('fade-out');
       setTimeout(() => preloadOverlay.remove(), 1000);
 
-      const logo = document.querySelector('.logo-main');
-      const tagline = document.querySelector('.tagline');
-      const instruction = document.querySelector('.decrypt-instruction');
+       logo = document.querySelector('.logo-main');
+       tagline = document.querySelector('.tagline');
+       instruction = document.querySelector('.decrypt-instruction');
 
-      setTimeout(() => { logo.style.animation = 'fadeIn 1.2s forwards'; }, 0);
-      setTimeout(() => { tagline.style.animation = 'fadeIn 1.2s forwards'; }, 800);
+      setTimeout(() => { logo?.style.animation = 'fadeIn 1.2s forwards'; }, 0);
+      setTimeout(() => { tagline?.style.animation = 'fadeIn 1.2s forwards'; }, 800);
       setTimeout(() => {
         cipher.classList.remove('hidden');
-        cipher.style.animation = 'glitchIn 0.6s forwards';
+        cipher?.style.animation = 'glitchIn 0.6s forwards';
         playSound('glitchThrob');
       }, 100);
 
       setTimeout(() => {
         instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
-        instruction.style.animation = 'corruptText 6s infinite';
-        instruction.style.opacity = '1';
+        instruction?.style.animation = 'corruptText 6s infinite';
+        instruction?.style.opacity = '1';
 
-        const raw = instruction.textContent;
-        const glitchChars = '!@#$%?~*';
+         raw = instruction.textContent;
+         glitchChars = '!@#$%?~*';
         setInterval(() => {
-          const corrupted = raw.split('').map(char =>
+           corrupted = raw.split('').map(char =>
             Math.random() < 0.07 && char !== ' '
               ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
               : char
@@ -12987,17 +12987,17 @@ window.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   // 🎯 FLOATING EGGS — Randomized position + animation
-  const floatingEggs = document.querySelectorAll(".drifting-egg");
+   floatingEggs = document.querySelectorAll(".drifting-egg");
   floatingEggs.forEach((egg) => {
-    const pageHeight = document.body.scrollHeight;
-    const pageWidth = document.body.scrollWidth;
-    const top = Math.random() * (pageHeight - 100);
-    const left = Math.random() * (pageWidth - 100);
+     pageHeight = document.body.scrollHeight;
+     pageWidth = document.body.scrollWidth;
+     top = Math.random() * (pageHeight - 100);
+     left = Math.random() * (pageWidth - 100);
 
-    egg.style.position = "absolute";
-    egg.style.top = `${top}px`;
-    egg.style.left = `${left}px`;
-    egg.style.zIndex = "1000";
+    egg?.style.position = "absolute";
+    egg?.style.top = `${top}px`;
+    egg?.style.left = `${left}px`;
+    egg?.style.zIndex = "1000";
 
     egg.animate(
       [
@@ -13016,9 +13016,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // 👁 REVEAL ON SCROLL
-  const revealOnScroll = () => {
-    const reveals = document.querySelectorAll(".reveal");
-    const winH = window.innerHeight;
+   revealOnScroll = () => {
+     reveals = document.querySelectorAll(".reveal");
+     winH = window.innerHeight;
     reveals.forEach((el) => {
       if (el.getBoundingClientRect().top < winH) {
         el.classList.add("reveal-active");
@@ -13029,16 +13029,16 @@ document.addEventListener("DOMContentLoaded", () => {
   revealOnScroll();
 
   // 🧠 TYPING ANIMATION
-  const loading1 = document.getElementById("loading-1");
-  const loading2 = document.getElementById("loading-2");
+   loading1 = document.getElementById("loading-1");
+   loading2 = document.getElementById("loading-2");
 
-  const lines1 = [
+   lines1 = [
     "&gt;&gt;&gt; <span class='white'>Authenticating system integrity...</span>",
     "&gt;&gt;&gt; <span class='cyan'>Initializing GWOS...</span>",
     "&gt;&gt;&gt; <span class='red'>System breach imminent...</span>",
   ];
 
-  const lines2 = [
+   lines2 = [
     "&gt;&gt;&gt; Compiling pain... <span class='green'>Complete</span>",
     "&gt;&gt;&gt; Parsing guilt... <span class='green'>Complete</span>",
     "&gt;&gt;&gt; Injecting honesty... <span class='green'>Complete</span>",
@@ -13050,21 +13050,21 @@ document.addEventListener("DOMContentLoaded", () => {
     "&gt;&gt;&gt; Deploying featured track: <span class='blue'><i>I See It All</i></span>",
   ];
 
-  const typeLines = (target, lines, delay = 60, callback) => {
+   typeLines = (target, lines, delay = 60, callback) => {
     let lineIndex = 0;
     target.innerHTML = "";
 
-    const typeLine = () => {
+     typeLine = () => {
       if (lineIndex >= lines.length) {
         callback?.();
         return;
       }
 
-      const line = lines[lineIndex];
+       line = lines[lineIndex];
       let charIndex = 0;
       let currentLine = "";
 
-      const typeChar = () => {
+       typeChar = () => {
         currentLine += line.charAt(charIndex);
         target.innerHTML =
           lines.slice(0, lineIndex).join("<br>") +
@@ -13087,14 +13087,14 @@ document.addEventListener("DOMContentLoaded", () => {
     typeLine();
   };
 
-  const loopLoading1 = () => {
+   loopLoading1 = () => {
     if (!loading1) return;
     typeLines(loading1, lines1, 60, () => {
       setTimeout(loopLoading1, 2000);
     });
   };
 
-  const loopLoading2 = () => {
+   loopLoading2 = () => {
     if (!loading2) return;
     typeLines(loading2, lines2, 60, () => {
       setTimeout(loopLoading2, 2000);
@@ -13105,24 +13105,24 @@ document.addEventListener("DOMContentLoaded", () => {
   loopLoading2();
 
   // === RED MATRIX RAIN CANVAS ===
-  const canvas = document.getElementById("matrix");
+   canvas = document.getElementById("matrix");
   if (canvas) {
-    const ctx = canvas.getContext("2d");
+     ctx = canvas.getContext("2d");
     canvas.height = window.innerHeight;
     canvas.width = window.innerWidth;
 
     function hexToRGBA(hex, alpha) {
-      const shorthand = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+       shorthand = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
       hex = hex.replace(shorthand, (m, r, g, b) => r + r + g + g + b + b);
-      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+       result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
       if (!result) return `rgba(255,255,255,${alpha})`;
-      const r = parseInt(result[1], 16);
-      const g = parseInt(result[2], 16);
-      const b = parseInt(result[3], 16);
+       r = parseInt(result[1], 16);
+       g = parseInt(result[2], 16);
+       b = parseInt(result[3], 16);
       return `rgba(${r}, ${g}, ${b}, ${alpha})`;
     }
 
-    const letters = [
+     letters = [
       ..."01",
       ..."GWOS",
       ..."I SEE IT ALL",
@@ -13142,7 +13142,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ..."ABCDEF",
     ];
 
-    const glitchPhrases = [
+     glitchPhrases = [
       "I SEE IT ALL",
       "U R NT ALNE",
       "EMO IS EXE",
@@ -13151,21 +13151,21 @@ document.addEventListener("DOMContentLoaded", () => {
       "GIZ // SIGNAL FOUND",
     ];
 
-    const activeGlitchLines = [];
-    const fontSize = 14;
-    const columnCount = 400;
-    const spacing = canvas.width / columnCount;
-    const drops = Array.from({ length: columnCount }, () => 1);
+     activeGlitchLines = [];
+     fontSize = 14;
+     columnCount = 400;
+     spacing = canvas.width / columnCount;
+     drops = Array.from({ length: columnCount }, () => 1);
 
-    const draw = () => {
+     draw = () => {
       ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = "#ff0000";
       ctx.font = `${fontSize}px monospace`;
 
       drops.forEach((y, i) => {
-        const text = letters[Math.floor(Math.random() * letters.length)];
-        const x = i * spacing;
+         text = letters[Math.floor(Math.random() * letters.length)];
+         x = i * spacing;
         ctx.fillText(text, x, y * fontSize);
         if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
         drops[i]++;
@@ -13173,7 +13173,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // 👻 Glitch overlay
       for (let i = activeGlitchLines.length - 1; i >= 0; i--) {
-        const line = activeGlitchLines[i];
+         line = activeGlitchLines[i];
         ctx.font = "bold 14px monospace";
         ctx.fillStyle = hexToRGBA(line.color, line.alpha);
         ctx.fillText(line.phrase, line.x, line.y);
@@ -13182,19 +13182,19 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     };
 
-    const drawHorizontalGlitch = () => {
-      const phrase =
+     drawHorizontalGlitch = () => {
+       phrase =
         glitchPhrases[Math.floor(Math.random() * glitchPhrases.length)];
-      const x = Math.floor(Math.random() * (canvas.width - 300));
-      const y = Math.floor(Math.random() * canvas.height);
-      const colors = [
+       x = Math.floor(Math.random() * (canvas.width - 300));
+       y = Math.floor(Math.random() * canvas.height);
+       colors = [
         "#ff003c",
         "#00ffff",
         "#ff69b4",
         "#00ff66",
         "#ffffff",
       ];
-      const color = colors[Math.floor(Math.random() * colors.length)];
+       color = colors[Math.floor(Math.random() * colors.length)];
       activeGlitchLines.push({
         phrase,
         x,
@@ -13210,8 +13210,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // === 📟 EMOTIONAL TRIGGER ===
-  const trigger = document.getElementById("message-trigger");
-  const message = document.getElementById("hidden-message");
+   trigger = document.getElementById("message-trigger");
+   message = document.getElementById("hidden-message");
 
   if (trigger && message) {
     trigger.addEventListener("click", () => {
@@ -13221,10 +13221,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => {
           message.classList.remove("fade-out");
-          message.style.display = "none";
+          message?.style.display = "none";
         }, 600);
       } else {
-        message.style.display = "block";
+        message?.style.display = "block";
         message.classList.add("visible");
       }
     });
@@ -13236,21 +13236,21 @@ document.addEventListener("DOMContentLoaded", () => {
   // === [GATEWAY SCRIPT START] ===
 /* === GRIMMWare OS Gateway Script === */
 
-const boxes = document.querySelectorAll('.box');
-const decryptWrapper = document.querySelector('.decrypt-wrapper');
-const cipher = document.querySelector('.decrypt-wrapper');
+ boxes = document.querySelectorAll('.box');
+ decryptWrapper = document.querySelector('.decrypt-wrapper');
+ cipher = document.querySelector('.decrypt-wrapper');
 let decryptInstructions = document.querySelector('.decrypt-instruction');
-const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
+ correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
 let currentGreenIndex = null;
 let intervalId = null;
 let solved = Array(boxes.length).fill(false);
 let transitionInProgress = false;
 let cipherSolved = false; // ✅ Flag to track completion
 
-const traceDevMode = false; // 🧪 Toggle this to true to override lockdown timer for testing
+ traceDevMode = false; // 🧪 Toggle this to true to override lockdown timer for testing
 
 // === AUDIO SETUP ===
-const sounds = {
+ sounds = {
   gatewayIntro: new Audio('sounds/Gateway Intro.mp3'),
   glitchThrob: new Audio('sounds/Glitch Throb Heart.mp3?v=2'),
   preterminalGlitch: new Audio('sounds/preterminal glitch.mp3'),
@@ -13297,7 +13297,7 @@ function playSound(key, delay = 0, reset = true) {
 
 function fadeOutSound(key, duration = 1000) {
   if (!sounds[key]) return;
-  const audio = sounds[key];
+   audio = sounds[key];
   let step = audio.volume / (duration / 100);
   let fade = setInterval(() => {
     audio.volume = Math.max(0, audio.volume - step);
@@ -13309,8 +13309,8 @@ function fadeOutSound(key, duration = 1000) {
   }, 100);
 }
 
-const typingSpeed = 35;
-const baseDelay = 100;
+ typingSpeed = 35;
+ baseDelay = 100;
 
 function markCipherSolved() {
   cipherSolved = true;
@@ -13320,7 +13320,7 @@ function markCipherSolved() {
 }
 
 function getRandomChar() {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+   chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return chars[Math.floor(Math.random() * chars.length)];
 }
 
@@ -13347,24 +13347,24 @@ function startCycling() {
       if (!solved[i]) {
         box.classList.remove('green');
 
-        const bgColor = isInverted ? '#00ff00' : 'red';
-        const shadowColor = isInverted ? '#00ff00' : '#ff0000';
+         bgColor = isInverted ? '#00ff00' : 'red';
+         shadowColor = isInverted ? '#00ff00' : '#ff0000';
 
-        box.style.backgroundColor = bgColor;
-        box.style.boxShadow = `0 0 8px ${shadowColor}`;
+        box?.style.backgroundColor = bgColor;
+        box?.style.boxShadow = `0 0 8px ${shadowColor}`;
       }
     });
 
     currentGreenIndex = nextIndex;
-    const box = boxes[currentGreenIndex];
+     box = boxes[currentGreenIndex];
     box.classList.add('green');
     box.textContent = correctCode[currentGreenIndex];
 
-    const correctBgColor = isInverted ? 'red' : '#00ff00';
-    const correctShadowColor = isInverted ? '#ff0000' : '#00ff00';
+     correctBgColor = isInverted ? 'red' : '#00ff00';
+     correctShadowColor = isInverted ? '#ff0000' : '#00ff00';
 
-    box.style.backgroundColor = correctBgColor;
-    box.style.boxShadow = `0 0 8px ${correctShadowColor}`;
+    box?.style.backgroundColor = correctBgColor;
+    box?.style.boxShadow = `0 0 8px ${correctShadowColor}`;
   }, 600);
 }
 
@@ -13375,8 +13375,8 @@ boxes.forEach((box, i) => {
     if (i === currentGreenIndex && !solved[i]) {
       solved[i] = true;
       box.classList.add('green');
-      box.style.backgroundColor = '#00ff00';
-      box.style.boxShadow = '0 0 12px #00ff00';
+      box?.style.backgroundColor = '#00ff00';
+      box?.style.boxShadow = '0 0 12px #00ff00';
       box.textContent = correctCode[i];
       currentGreenIndex = null;
 
@@ -13401,7 +13401,7 @@ boxes.forEach((box, i) => {
 
 // === Fullscreen Glitch to Terminal Trigger ===
 function triggerFullscreenGlitch() {
-  const glitchDiv = document.createElement('div');
+   glitchDiv = document.createElement('div');
   glitchDiv.classList.add('fullscreen-glitch');
   document.body.appendChild(glitchDiv);
 
@@ -13414,7 +13414,7 @@ function triggerFullscreenGlitch() {
 // === Glitch Destruction Logic ===
 function zapElement(selector, delay = 0) {
   setTimeout(() => {
-    const el = document.querySelector(selector);
+     el = document.querySelector(selector);
     if (el) {
       el.classList.add('purge-glitch');
       setTimeout(() => {
@@ -13429,7 +13429,7 @@ function purgeTopContainer() {
   zapElement('.tagline');
   zapElement('.logo-container');
 
-  const topContainer = document.getElementById('top-container');
+   topContainer = document.getElementById('top-container');
   if (topContainer) {
     topContainer.classList.add('purge-glitch');
     setTimeout(() => {
@@ -13442,7 +13442,7 @@ function purgeTopContainer() {
 function typeText(target, text, speed, callback) {
   let i = 0;
   target.textContent = '';
-  const interval = setInterval(() => {
+   interval = setInterval(() => {
     target.textContent += text.charAt(i++);
     if (i >= text.length) {
       clearInterval(interval);
@@ -13453,8 +13453,8 @@ function typeText(target, text, speed, callback) {
 
 // === Terminal Sequence Logic (w/ Audio) ===
 function startTerminalSequence() {
-  const terminalOverlay = document.getElementById('terminal-overlay');
-  const linesContainer = document.getElementById('terminal-lines');
+   terminalOverlay = document.getElementById('terminal-overlay');
+   linesContainer = document.getElementById('terminal-lines');
   terminalOverlay.classList.add('show');
   terminalOverlay.classList.remove('hidden');
   linesContainer.innerHTML = '';
@@ -13462,7 +13462,7 @@ function startTerminalSequence() {
   playSound('terminalFight');
   // Removed glitchThrob replay // time-aligned to throb after terminalFight starts
 
-  const sequence = [
+   sequence = [
     { tag: 'SYS', text: 'Protocol breach detected...', delay: 1000 },
     { tag: 'HANDLER', text: 'Initializing command injection...', delay: 1000 },
     { tag: 'SYS', text: 'Firewall spike deployed.', delay: 1000 },
@@ -13485,24 +13485,24 @@ function startTerminalSequence() {
   ];
 
   function typeLine({ tag, text, delay, isFinal, action }, index) {
-    const line = document.createElement('div');
+     line = document.createElement('div');
     line.classList.add('terminal-line');
 
     if (tag) {
-      const prefix = document.createElement('span');
+       prefix = document.createElement('span');
       prefix.classList.add(`${tag.toLowerCase()}-prefix`);
       prefix.textContent = `[${tag}] ::`;
       line.appendChild(prefix);
     }
 
-    const content = document.createElement('span');
+     content = document.createElement('span');
     content.classList.add('terminal-content');
     line.appendChild(content);
     linesContainer.appendChild(line);
     terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
 
     let charIndex = 0;
-    const interval = setInterval(() => {
+     interval = setInterval(() => {
       if (charIndex < text.length) {
         content.textContent += text.charAt(charIndex++);
         terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
@@ -13513,13 +13513,13 @@ function startTerminalSequence() {
         switch (index) {
           case 6: zapElement('.decrypt-instruction'); break;
           case 7:
-            const green = document.querySelectorAll('.green');
+             green = document.querySelectorAll('.green');
             [...green].sort(() => Math.random() - 0.5).forEach((el, idx) => {
               setTimeout(() => zapElement(`#${el.id}`), idx * 75);
             });
             break;
           case 8:
-            const boxes = document.querySelectorAll('.box:not(.green)');
+             boxes = document.querySelectorAll('.box:not(.green)');
             [...boxes].sort(() => Math.random() - 0.5).forEach((el, idx) => {
               setTimeout(() => zapElement(`#${el.id}`), idx * 75);
             });
@@ -13553,11 +13553,11 @@ function startTerminalSequence() {
 
 // === FINAL FLICKERING LINE ===
 function injectFinalRunItLine() {
-  const linesContainer = document.getElementById('terminal-lines');
+   linesContainer = document.getElementById('terminal-lines');
 
-  const finalLine = document.createElement('div');
+   finalLine = document.createElement('div');
   finalLine.classList.add('terminal-line');
-  Object.assign(finalLine.style, {
+  Object.assign(finalLine?.style, {
     opacity: '1',
     display: 'flex',
     visibility: 'visible',
@@ -13567,15 +13567,15 @@ function injectFinalRunItLine() {
     zIndex: '1000'
   });
 
-  const finalPrefix = document.createElement('span');
+   finalPrefix = document.createElement('span');
   finalPrefix.classList.add('handler-prefix');
   finalPrefix.textContent = '[HANDLER] ::';
   finalLine.appendChild(finalPrefix);
 
-  const runItSpan = document.createElement('span');
+   runItSpan = document.createElement('span');
   runItSpan.classList.add('run-it');
   runItSpan.textContent = 'Run it.';
-  Object.assign(runItSpan.style, {
+  Object.assign(runItSpan?.style, {
     color: 'red',
     display: 'inline',
     visibility: 'visible',
@@ -13591,7 +13591,7 @@ function injectFinalRunItLine() {
 
   // Animation trigger
   void runItSpan.offsetWidth;
-  runItSpan.style.removeProperty('animation');
+  runItSpan?.style.removeProperty('animation');
 
   requestAnimationFrame(() => {
     runItSpan.classList.remove('run-it');
@@ -13609,24 +13609,24 @@ function injectFinalRunItLine() {
 
 // === ACCESS GRANTED SEQUENCE ===
 function revealAccessGranted() {
-  const grantedLine = document.querySelector('.granted');
-  const warningLine = document.querySelector('.warning');
-  const runWrapper = document.getElementById('run-wrapper');
-  const accessMessage = document.getElementById('access-message');
+   grantedLine = document.querySelector('.granted');
+   warningLine = document.querySelector('.warning');
+   runWrapper = document.getElementById('run-wrapper');
+   accessMessage = document.getElementById('access-message');
 
   accessMessage.classList.remove('hidden');
-  accessMessage.style.opacity = 1;
+  accessMessage?.style.opacity = 1;
 
   typeText(grantedLine, 'ACCESS GRANTED.  SYSTEM UNLOCKED.', 40, () => {
     setTimeout(() => {
       typeText(warningLine, '>>> WARNING: THIS MAY CHANGE YOU.', 75, () => {
         warningLine.classList.add('glitch');
 
-        const rawText = warningLine.textContent;
-        const glitchChars = '!@#$%?~*';
+         rawText = warningLine.textContent;
+         glitchChars = '!@#$%?~*';
 
         setInterval(() => {
-          const corrupted = rawText.split('').map(char =>
+           corrupted = rawText.split('').map(char =>
             Math.random() < 0.07 && char !== ' ' ? glitchChars[Math.floor(Math.random() * glitchChars.length)] : char
           ).join('');
           warningLine.textContent = corrupted;
@@ -13634,7 +13634,7 @@ function revealAccessGranted() {
 
         runWrapper.classList.remove('hidden');
         runWrapper.classList.add('glitch-in');
-        runWrapper.style.display = 'block';
+        runWrapper?.style.display = 'block';
       });
     }, 1000);
   });
@@ -13647,21 +13647,21 @@ document.getElementById('run-button').addEventListener('click', () => {
   sounds.runItPulse.pause();
   sounds.runItPulse.currentTime = 0;
 
-  const footer = document.querySelector('.grimm-footer');
+   footer = document.querySelector('.grimm-footer');
   if (footer) {
   
-  footer.style.transition = 'opacity 0.8s ease';
-  footer.style.opacity = '0';
+  footer?.style.transition = 'opacity 0.8s ease';
+  footer?.style.opacity = '0';
 }
-  const terminal = document.getElementById('terminal');
+   terminal = document.getElementById('terminal');
   if (terminal) terminal.remove();
   if (transitionInProgress) return;
   transitionInProgress = true;
 
-  const terminalOverlay = document.getElementById('terminal-overlay');
+   terminalOverlay = document.getElementById('terminal-overlay');
   if (terminalOverlay) terminalOverlay.remove();
 
-  const smashOverlay = document.getElementById('smash-overlay');
+   smashOverlay = document.getElementById('smash-overlay');
   smashOverlay.classList.add('active');
 
   // Screen smash FX
@@ -13671,50 +13671,50 @@ document.getElementById('run-button').addEventListener('click', () => {
 
   // Gateway strip transition
   setTimeout(() => {
-    const overlay = document.getElementById('gateway-overlay');
-    const landingPage = document.getElementById('landing-page');
-    const runWrapper = document.getElementById('run-wrapper');
-    const accessMessage = document.getElementById('access-message');
+     overlay = document.getElementById('gateway-overlay');
+     landingPage = document.getElementById('landing-page');
+     runWrapper = document.getElementById('run-wrapper');
+     accessMessage = document.getElementById('access-message');
 
-    const numStrips = 60;
-    const fallInDuration = 500;
-    const fallOutDuration = 600;
-    const delayBeforeReveal = 1500;
+     numStrips = 60;
+     fallInDuration = 500;
+     fallOutDuration = 600;
+     delayBeforeReveal = 1500;
 
-    runWrapper.style.display = 'none';
-    accessMessage.style.display = 'none';
-    landingPage.style.display = 'flex';
-    landingPage.style.opacity = 0;
+    runWrapper?.style.display = 'none';
+    accessMessage?.style.display = 'none';
+    landingPage?.style.display = 'flex';
+    landingPage?.style.opacity = 0;
     overlay.innerHTML = '';
-    overlay.style.display = 'flex';
-    overlay.style.background = 'transparent';
+    overlay?.style.display = 'flex';
+    overlay?.style.background = 'transparent';
 
     for (let i = 0; i < numStrips; i++) {
-      const strip = document.createElement('div');
+       strip = document.createElement('div');
       strip.classList.add('strip', 'cover');
-      strip.style.left = `${(100 / numStrips) * i}%`;
-      strip.style.width = `${100 / numStrips}%`;
-      strip.style.animation = `fallCover ${fallInDuration}ms forwards`;
+      strip?.style.left = `${(100 / numStrips) * i}%`;
+      strip?.style.width = `${100 / numStrips}%`;
+      strip?.style.animation = `fallCover ${fallInDuration}ms forwards`;
       overlay.appendChild(strip);
     }
 
     setTimeout(() => {
-      landingPage.style.opacity = 1;
+      landingPage?.style.opacity = 1;
 
-      const strips = Array.from(overlay.querySelectorAll('.strip'));
-      const shuffled = strips.sort(() => Math.random() - 0.5);
+       strips = Array.from(overlay.querySelectorAll('.strip'));
+       shuffled = strips.sort(() => Math.random() - 0.5);
 
       shuffled.forEach((strip, index) => {
         setTimeout(() => {
           strip.classList.remove('cover');
           strip.classList.add('reveal');
-          strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
+          strip?.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
         }, index * 30);
       });
 
-      const totalDelay = shuffled.length * 30 + fallOutDuration;
+       totalDelay = shuffled.length * 30 + fallOutDuration;
       setTimeout(() => {
-        overlay.style.display = 'none';
+        overlay?.style.display = 'none';
       }, totalDelay + 500);
     }, fallInDuration + delayBeforeReveal);
   }, 1000); // ⌛ Delay for final tension
@@ -13722,16 +13722,16 @@ document.getElementById('run-button').addEventListener('click', () => {
 
 // === INIT SCREEN TRIGGER ===
 window.addEventListener('DOMContentLoaded', () => {
-  const initScreen = document.getElementById('init-screen');
-  const initButton = document.getElementById('init-button');
-  const preloadOverlay = document.getElementById('preload-overlay');
+   initScreen = document.getElementById('init-screen');
+   initButton = document.getElementById('init-button');
+   preloadOverlay = document.getElementById('preload-overlay');
 
   initButton.addEventListener('click', () => {
     unlockAudio();
 
-    initScreen.style.display = 'none';
-    preloadOverlay.style.display = 'block';
-    preloadOverlay.style.opacity = '1';
+    initScreen?.style.display = 'none';
+    preloadOverlay?.style.display = 'block';
+    preloadOverlay?.style.opacity = '1';
     preloadOverlay.classList.remove('fade-out');
 
     playSound('gatewayIntro', 100);
@@ -13740,27 +13740,27 @@ window.addEventListener('DOMContentLoaded', () => {
       preloadOverlay.classList.add('fade-out');
       setTimeout(() => preloadOverlay.remove(), 1000);
 
-      const logo = document.querySelector('.logo-main');
-      const tagline = document.querySelector('.tagline');
-      const instruction = document.querySelector('.decrypt-instruction');
+       logo = document.querySelector('.logo-main');
+       tagline = document.querySelector('.tagline');
+       instruction = document.querySelector('.decrypt-instruction');
 
-      setTimeout(() => { logo.style.animation = 'fadeIn 1.2s forwards'; }, 0);
-      setTimeout(() => { tagline.style.animation = 'fadeIn 1.2s forwards'; }, 800);
+      setTimeout(() => { logo?.style.animation = 'fadeIn 1.2s forwards'; }, 0);
+      setTimeout(() => { tagline?.style.animation = 'fadeIn 1.2s forwards'; }, 800);
       setTimeout(() => {
         cipher.classList.remove('hidden');
-        cipher.style.animation = 'glitchIn 0.6s forwards';
+        cipher?.style.animation = 'glitchIn 0.6s forwards';
         playSound('glitchThrob');
       }, 100);
 
       setTimeout(() => {
         instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
-        instruction.style.animation = 'corruptText 6s infinite';
-        instruction.style.opacity = '1';
+        instruction?.style.animation = 'corruptText 6s infinite';
+        instruction?.style.opacity = '1';
 
-        const raw = instruction.textContent;
-        const glitchChars = '!@#$%?~*';
+         raw = instruction.textContent;
+         glitchChars = '!@#$%?~*';
         setInterval(() => {
-          const corrupted = raw.split('').map(char =>
+           corrupted = raw.split('').map(char =>
             Math.random() < 0.07 && char !== ' '
               ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
               : char
@@ -13782,17 +13782,17 @@ window.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   // 🎯 FLOATING EGGS — Randomized position + animation
-  const floatingEggs = document.querySelectorAll(".drifting-egg");
+   floatingEggs = document.querySelectorAll(".drifting-egg");
   floatingEggs.forEach((egg) => {
-    const pageHeight = document.body.scrollHeight;
-    const pageWidth = document.body.scrollWidth;
-    const top = Math.random() * (pageHeight - 100);
-    const left = Math.random() * (pageWidth - 100);
+     pageHeight = document.body.scrollHeight;
+     pageWidth = document.body.scrollWidth;
+     top = Math.random() * (pageHeight - 100);
+     left = Math.random() * (pageWidth - 100);
 
-    egg.style.position = "absolute";
-    egg.style.top = `${top}px`;
-    egg.style.left = `${left}px`;
-    egg.style.zIndex = "1000";
+    egg?.style.position = "absolute";
+    egg?.style.top = `${top}px`;
+    egg?.style.left = `${left}px`;
+    egg?.style.zIndex = "1000";
 
     egg.animate(
       [
@@ -13811,9 +13811,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // 👁 REVEAL ON SCROLL
-  const revealOnScroll = () => {
-    const reveals = document.querySelectorAll(".reveal");
-    const winH = window.innerHeight;
+   revealOnScroll = () => {
+     reveals = document.querySelectorAll(".reveal");
+     winH = window.innerHeight;
     reveals.forEach((el) => {
       if (el.getBoundingClientRect().top < winH) {
         el.classList.add("reveal-active");
@@ -13824,16 +13824,16 @@ document.addEventListener("DOMContentLoaded", () => {
   revealOnScroll();
 
   // 🧠 TYPING ANIMATION
-  const loading1 = document.getElementById("loading-1");
-  const loading2 = document.getElementById("loading-2");
+   loading1 = document.getElementById("loading-1");
+   loading2 = document.getElementById("loading-2");
 
-  const lines1 = [
+   lines1 = [
     "&gt;&gt;&gt; <span class='white'>Authenticating system integrity...</span>",
     "&gt;&gt;&gt; <span class='cyan'>Initializing GWOS...</span>",
     "&gt;&gt;&gt; <span class='red'>System breach imminent...</span>",
   ];
 
-  const lines2 = [
+   lines2 = [
     "&gt;&gt;&gt; Compiling pain... <span class='green'>Complete</span>",
     "&gt;&gt;&gt; Parsing guilt... <span class='green'>Complete</span>",
     "&gt;&gt;&gt; Injecting honesty... <span class='green'>Complete</span>",
@@ -13845,21 +13845,21 @@ document.addEventListener("DOMContentLoaded", () => {
     "&gt;&gt;&gt; Deploying featured track: <span class='blue'><i>I See It All</i></span>",
   ];
 
-  const typeLines = (target, lines, delay = 60, callback) => {
+   typeLines = (target, lines, delay = 60, callback) => {
     let lineIndex = 0;
     target.innerHTML = "";
 
-    const typeLine = () => {
+     typeLine = () => {
       if (lineIndex >= lines.length) {
         callback?.();
         return;
       }
 
-      const line = lines[lineIndex];
+       line = lines[lineIndex];
       let charIndex = 0;
       let currentLine = "";
 
-      const typeChar = () => {
+       typeChar = () => {
         currentLine += line.charAt(charIndex);
         target.innerHTML =
           lines.slice(0, lineIndex).join("<br>") +
@@ -13882,14 +13882,14 @@ document.addEventListener("DOMContentLoaded", () => {
     typeLine();
   };
 
-  const loopLoading1 = () => {
+   loopLoading1 = () => {
     if (!loading1) return;
     typeLines(loading1, lines1, 60, () => {
       setTimeout(loopLoading1, 2000);
     });
   };
 
-  const loopLoading2 = () => {
+   loopLoading2 = () => {
     if (!loading2) return;
     typeLines(loading2, lines2, 60, () => {
       setTimeout(loopLoading2, 2000);
@@ -13900,24 +13900,24 @@ document.addEventListener("DOMContentLoaded", () => {
   loopLoading2();
 
   // === RED MATRIX RAIN CANVAS ===
-  const canvas = document.getElementById("matrix");
+   canvas = document.getElementById("matrix");
   if (canvas) {
-    const ctx = canvas.getContext("2d");
+     ctx = canvas.getContext("2d");
     canvas.height = window.innerHeight;
     canvas.width = window.innerWidth;
 
     function hexToRGBA(hex, alpha) {
-      const shorthand = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+       shorthand = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
       hex = hex.replace(shorthand, (m, r, g, b) => r + r + g + g + b + b);
-      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+       result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
       if (!result) return `rgba(255,255,255,${alpha})`;
-      const r = parseInt(result[1], 16);
-      const g = parseInt(result[2], 16);
-      const b = parseInt(result[3], 16);
+       r = parseInt(result[1], 16);
+       g = parseInt(result[2], 16);
+       b = parseInt(result[3], 16);
       return `rgba(${r}, ${g}, ${b}, ${alpha})`;
     }
 
-    const letters = [
+     letters = [
       ..."01",
       ..."GWOS",
       ..."I SEE IT ALL",
@@ -13937,7 +13937,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ..."ABCDEF",
     ];
 
-    const glitchPhrases = [
+     glitchPhrases = [
       "I SEE IT ALL",
       "U R NT ALNE",
       "EMO IS EXE",
@@ -13946,21 +13946,21 @@ document.addEventListener("DOMContentLoaded", () => {
       "GIZ // SIGNAL FOUND",
     ];
 
-    const activeGlitchLines = [];
-    const fontSize = 14;
-    const columnCount = 400;
-    const spacing = canvas.width / columnCount;
-    const drops = Array.from({ length: columnCount }, () => 1);
+     activeGlitchLines = [];
+     fontSize = 14;
+     columnCount = 400;
+     spacing = canvas.width / columnCount;
+     drops = Array.from({ length: columnCount }, () => 1);
 
-    const draw = () => {
+     draw = () => {
       ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = "#ff0000";
       ctx.font = `${fontSize}px monospace`;
 
       drops.forEach((y, i) => {
-        const text = letters[Math.floor(Math.random() * letters.length)];
-        const x = i * spacing;
+         text = letters[Math.floor(Math.random() * letters.length)];
+         x = i * spacing;
         ctx.fillText(text, x, y * fontSize);
         if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
         drops[i]++;
@@ -13968,7 +13968,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // 👻 Glitch overlay
       for (let i = activeGlitchLines.length - 1; i >= 0; i--) {
-        const line = activeGlitchLines[i];
+         line = activeGlitchLines[i];
         ctx.font = "bold 14px monospace";
         ctx.fillStyle = hexToRGBA(line.color, line.alpha);
         ctx.fillText(line.phrase, line.x, line.y);
@@ -13977,19 +13977,19 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     };
 
-    const drawHorizontalGlitch = () => {
-      const phrase =
+     drawHorizontalGlitch = () => {
+       phrase =
         glitchPhrases[Math.floor(Math.random() * glitchPhrases.length)];
-      const x = Math.floor(Math.random() * (canvas.width - 300));
-      const y = Math.floor(Math.random() * canvas.height);
-      const colors = [
+       x = Math.floor(Math.random() * (canvas.width - 300));
+       y = Math.floor(Math.random() * canvas.height);
+       colors = [
         "#ff003c",
         "#00ffff",
         "#ff69b4",
         "#00ff66",
         "#ffffff",
       ];
-      const color = colors[Math.floor(Math.random() * colors.length)];
+       color = colors[Math.floor(Math.random() * colors.length)];
       activeGlitchLines.push({
         phrase,
         x,
@@ -14005,8 +14005,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // === 📟 EMOTIONAL TRIGGER ===
-  const trigger = document.getElementById("message-trigger");
-  const message = document.getElementById("hidden-message");
+   trigger = document.getElementById("message-trigger");
+   message = document.getElementById("hidden-message");
 
   if (trigger && message) {
     trigger.addEventListener("click", () => {
@@ -14016,10 +14016,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => {
           message.classList.remove("fade-out");
-          message.style.display = "none";
+          message?.style.display = "none";
         }, 600);
       } else {
-        message.style.display = "block";
+        message?.style.display = "block";
         message.classList.add("visible");
       }
     });
@@ -14037,21 +14037,21 @@ document.addEventListener("DOMContentLoaded", () => {
   // === [GATEWAY SCRIPT START] ===
 /* === GRIMMWare OS Gateway Script === */
 
-const boxes = document.querySelectorAll('.box');
-const decryptWrapper = document.querySelector('.decrypt-wrapper');
-const cipher = document.querySelector('.decrypt-wrapper');
+ boxes = document.querySelectorAll('.box');
+ decryptWrapper = document.querySelector('.decrypt-wrapper');
+ cipher = document.querySelector('.decrypt-wrapper');
 let decryptInstructions = document.querySelector('.decrypt-instruction');
-const correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
+ correctCode = ['G', 'W', 'O', 'S', 'E', 'X', 'E'];
 let currentGreenIndex = null;
 let intervalId = null;
 let solved = Array(boxes.length).fill(false);
 let transitionInProgress = false;
 let cipherSolved = false; // ✅ Flag to track completion
 
-const traceDevMode = false; // 🧪 Toggle this to true to override lockdown timer for testing
+ traceDevMode = false; // 🧪 Toggle this to true to override lockdown timer for testing
 
 // === AUDIO SETUP ===
-const sounds = {
+ sounds = {
   gatewayIntro: new Audio('sounds/Gateway Intro.mp3'),
   glitchThrob: new Audio('sounds/Glitch Throb Heart.mp3?v=2'),
   preterminalGlitch: new Audio('sounds/preterminal glitch.mp3'),
@@ -14098,7 +14098,7 @@ function playSound(key, delay = 0, reset = true) {
 
 function fadeOutSound(key, duration = 1000) {
   if (!sounds[key]) return;
-  const audio = sounds[key];
+   audio = sounds[key];
   let step = audio.volume / (duration / 100);
   let fade = setInterval(() => {
     audio.volume = Math.max(0, audio.volume - step);
@@ -14110,8 +14110,8 @@ function fadeOutSound(key, duration = 1000) {
   }, 100);
 }
 
-const typingSpeed = 35;
-const baseDelay = 100;
+ typingSpeed = 35;
+ baseDelay = 100;
 
 function markCipherSolved() {
   cipherSolved = true;
@@ -14121,7 +14121,7 @@ function markCipherSolved() {
 }
 
 function getRandomChar() {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+   chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return chars[Math.floor(Math.random() * chars.length)];
 }
 
@@ -14148,24 +14148,24 @@ function startCycling() {
       if (!solved[i]) {
         box.classList.remove('green');
 
-        const bgColor = isInverted ? '#00ff00' : 'red';
-        const shadowColor = isInverted ? '#00ff00' : '#ff0000';
+         bgColor = isInverted ? '#00ff00' : 'red';
+         shadowColor = isInverted ? '#00ff00' : '#ff0000';
 
-        box.style.backgroundColor = bgColor;
-        box.style.boxShadow = `0 0 8px ${shadowColor}`;
+        box?.style.backgroundColor = bgColor;
+        box?.style.boxShadow = `0 0 8px ${shadowColor}`;
       }
     });
 
     currentGreenIndex = nextIndex;
-    const box = boxes[currentGreenIndex];
+     box = boxes[currentGreenIndex];
     box.classList.add('green');
     box.textContent = correctCode[currentGreenIndex];
 
-    const correctBgColor = isInverted ? 'red' : '#00ff00';
-    const correctShadowColor = isInverted ? '#ff0000' : '#00ff00';
+     correctBgColor = isInverted ? 'red' : '#00ff00';
+     correctShadowColor = isInverted ? '#ff0000' : '#00ff00';
 
-    box.style.backgroundColor = correctBgColor;
-    box.style.boxShadow = `0 0 8px ${correctShadowColor}`;
+    box?.style.backgroundColor = correctBgColor;
+    box?.style.boxShadow = `0 0 8px ${correctShadowColor}`;
   }, 600);
 }
 
@@ -14176,8 +14176,8 @@ boxes.forEach((box, i) => {
     if (i === currentGreenIndex && !solved[i]) {
       solved[i] = true;
       box.classList.add('green');
-      box.style.backgroundColor = '#00ff00';
-      box.style.boxShadow = '0 0 12px #00ff00';
+      box?.style.backgroundColor = '#00ff00';
+      box?.style.boxShadow = '0 0 12px #00ff00';
       box.textContent = correctCode[i];
       currentGreenIndex = null;
 
@@ -14202,7 +14202,7 @@ boxes.forEach((box, i) => {
 
 // === Fullscreen Glitch to Terminal Trigger ===
 function triggerFullscreenGlitch() {
-  const glitchDiv = document.createElement('div');
+   glitchDiv = document.createElement('div');
   glitchDiv.classList.add('fullscreen-glitch');
   document.body.appendChild(glitchDiv);
 
@@ -14215,7 +14215,7 @@ function triggerFullscreenGlitch() {
 // === Glitch Destruction Logic ===
 function zapElement(selector, delay = 0) {
   setTimeout(() => {
-    const el = document.querySelector(selector);
+     el = document.querySelector(selector);
     if (el) {
       el.classList.add('purge-glitch');
       setTimeout(() => {
@@ -14230,7 +14230,7 @@ function purgeTopContainer() {
   zapElement('.tagline');
   zapElement('.logo-container');
 
-  const topContainer = document.getElementById('top-container');
+   topContainer = document.getElementById('top-container');
   if (topContainer) {
     topContainer.classList.add('purge-glitch');
     setTimeout(() => {
@@ -14243,7 +14243,7 @@ function purgeTopContainer() {
 function typeText(target, text, speed, callback) {
   let i = 0;
   target.textContent = '';
-  const interval = setInterval(() => {
+   interval = setInterval(() => {
     target.textContent += text.charAt(i++);
     if (i >= text.length) {
       clearInterval(interval);
@@ -14254,8 +14254,8 @@ function typeText(target, text, speed, callback) {
 
 // === Terminal Sequence Logic (w/ Audio) ===
 function startTerminalSequence() {
-  const terminalOverlay = document.getElementById('terminal-overlay');
-  const linesContainer = document.getElementById('terminal-lines');
+   terminalOverlay = document.getElementById('terminal-overlay');
+   linesContainer = document.getElementById('terminal-lines');
   terminalOverlay.classList.add('show');
   terminalOverlay.classList.remove('hidden');
   linesContainer.innerHTML = '';
@@ -14263,7 +14263,7 @@ function startTerminalSequence() {
   playSound('terminalFight');
   // Removed glitchThrob replay // time-aligned to throb after terminalFight starts
 
-  const sequence = [
+   sequence = [
     { tag: 'SYS', text: 'Protocol breach detected...', delay: 1000 },
     { tag: 'HANDLER', text: 'Initializing command injection...', delay: 1000 },
     { tag: 'SYS', text: 'Firewall spike deployed.', delay: 1000 },
@@ -14286,24 +14286,24 @@ function startTerminalSequence() {
   ];
 
   function typeLine({ tag, text, delay, isFinal, action }, index) {
-    const line = document.createElement('div');
+     line = document.createElement('div');
     line.classList.add('terminal-line');
 
     if (tag) {
-      const prefix = document.createElement('span');
+       prefix = document.createElement('span');
       prefix.classList.add(`${tag.toLowerCase()}-prefix`);
       prefix.textContent = `[${tag}] ::`;
       line.appendChild(prefix);
     }
 
-    const content = document.createElement('span');
+     content = document.createElement('span');
     content.classList.add('terminal-content');
     line.appendChild(content);
     linesContainer.appendChild(line);
     terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
 
     let charIndex = 0;
-    const interval = setInterval(() => {
+     interval = setInterval(() => {
       if (charIndex < text.length) {
         content.textContent += text.charAt(charIndex++);
         terminalOverlay.scrollTop = terminalOverlay.scrollHeight;
@@ -14314,13 +14314,13 @@ function startTerminalSequence() {
         switch (index) {
           case 6: zapElement('.decrypt-instruction'); break;
           case 7:
-            const green = document.querySelectorAll('.green');
+             green = document.querySelectorAll('.green');
             [...green].sort(() => Math.random() - 0.5).forEach((el, idx) => {
               setTimeout(() => zapElement(`#${el.id}`), idx * 75);
             });
             break;
           case 8:
-            const boxes = document.querySelectorAll('.box:not(.green)');
+             boxes = document.querySelectorAll('.box:not(.green)');
             [...boxes].sort(() => Math.random() - 0.5).forEach((el, idx) => {
               setTimeout(() => zapElement(`#${el.id}`), idx * 75);
             });
@@ -14354,11 +14354,11 @@ function startTerminalSequence() {
 
 // === FINAL FLICKERING LINE ===
 function injectFinalRunItLine() {
-  const linesContainer = document.getElementById('terminal-lines');
+   linesContainer = document.getElementById('terminal-lines');
 
-  const finalLine = document.createElement('div');
+   finalLine = document.createElement('div');
   finalLine.classList.add('terminal-line');
-  Object.assign(finalLine.style, {
+  Object.assign(finalLine?.style, {
     opacity: '1',
     display: 'flex',
     visibility: 'visible',
@@ -14368,15 +14368,15 @@ function injectFinalRunItLine() {
     zIndex: '1000'
   });
 
-  const finalPrefix = document.createElement('span');
+   finalPrefix = document.createElement('span');
   finalPrefix.classList.add('handler-prefix');
   finalPrefix.textContent = '[HANDLER] ::';
   finalLine.appendChild(finalPrefix);
 
-  const runItSpan = document.createElement('span');
+   runItSpan = document.createElement('span');
   runItSpan.classList.add('run-it');
   runItSpan.textContent = 'Run it.';
-  Object.assign(runItSpan.style, {
+  Object.assign(runItSpan?.style, {
     color: 'red',
     display: 'inline',
     visibility: 'visible',
@@ -14392,7 +14392,7 @@ function injectFinalRunItLine() {
 
   // Animation trigger
   void runItSpan.offsetWidth;
-  runItSpan.style.removeProperty('animation');
+  runItSpan?.style.removeProperty('animation');
 
   requestAnimationFrame(() => {
     runItSpan.classList.remove('run-it');
@@ -14410,24 +14410,24 @@ function injectFinalRunItLine() {
 
 // === ACCESS GRANTED SEQUENCE ===
 function revealAccessGranted() {
-  const grantedLine = document.querySelector('.granted');
-  const warningLine = document.querySelector('.warning');
-  const runWrapper = document.getElementById('run-wrapper');
-  const accessMessage = document.getElementById('access-message');
+   grantedLine = document.querySelector('.granted');
+   warningLine = document.querySelector('.warning');
+   runWrapper = document.getElementById('run-wrapper');
+   accessMessage = document.getElementById('access-message');
 
   accessMessage.classList.remove('hidden');
-  accessMessage.style.opacity = 1;
+  accessMessage?.style.opacity = 1;
 
   typeText(grantedLine, 'ACCESS GRANTED.  SYSTEM UNLOCKED.', 40, () => {
     setTimeout(() => {
       typeText(warningLine, '>>> WARNING: THIS MAY CHANGE YOU.', 75, () => {
         warningLine.classList.add('glitch');
 
-        const rawText = warningLine.textContent;
-        const glitchChars = '!@#$%?~*';
+         rawText = warningLine.textContent;
+         glitchChars = '!@#$%?~*';
 
         setInterval(() => {
-          const corrupted = rawText.split('').map(char =>
+           corrupted = rawText.split('').map(char =>
             Math.random() < 0.07 && char !== ' ' ? glitchChars[Math.floor(Math.random() * glitchChars.length)] : char
           ).join('');
           warningLine.textContent = corrupted;
@@ -14435,7 +14435,7 @@ function revealAccessGranted() {
 
         runWrapper.classList.remove('hidden');
         runWrapper.classList.add('glitch-in');
-        runWrapper.style.display = 'block';
+        runWrapper?.style.display = 'block';
       });
     }, 1000);
   });
@@ -14448,21 +14448,21 @@ document.getElementById('run-button').addEventListener('click', () => {
   sounds.runItPulse.pause();
   sounds.runItPulse.currentTime = 0;
 
-  const footer = document.querySelector('.grimm-footer');
+   footer = document.querySelector('.grimm-footer');
   if (footer) {
   
-  footer.style.transition = 'opacity 0.8s ease';
-  footer.style.opacity = '0';
+  footer?.style.transition = 'opacity 0.8s ease';
+  footer?.style.opacity = '0';
 }
-  const terminal = document.getElementById('terminal');
+   terminal = document.getElementById('terminal');
   if (terminal) terminal.remove();
   if (transitionInProgress) return;
   transitionInProgress = true;
 
-  const terminalOverlay = document.getElementById('terminal-overlay');
+   terminalOverlay = document.getElementById('terminal-overlay');
   if (terminalOverlay) terminalOverlay.remove();
 
-  const smashOverlay = document.getElementById('smash-overlay');
+   smashOverlay = document.getElementById('smash-overlay');
   smashOverlay.classList.add('active');
 
   // Screen smash FX
@@ -14472,50 +14472,50 @@ document.getElementById('run-button').addEventListener('click', () => {
 
   // Gateway strip transition
   setTimeout(() => {
-    const overlay = document.getElementById('gateway-overlay');
-    const landingPage = document.getElementById('landing-page');
-    const runWrapper = document.getElementById('run-wrapper');
-    const accessMessage = document.getElementById('access-message');
+     overlay = document.getElementById('gateway-overlay');
+     landingPage = document.getElementById('landing-page');
+     runWrapper = document.getElementById('run-wrapper');
+     accessMessage = document.getElementById('access-message');
 
-    const numStrips = 60;
-    const fallInDuration = 500;
-    const fallOutDuration = 600;
-    const delayBeforeReveal = 1500;
+     numStrips = 60;
+     fallInDuration = 500;
+     fallOutDuration = 600;
+     delayBeforeReveal = 1500;
 
-    runWrapper.style.display = 'none';
-    accessMessage.style.display = 'none';
-    landingPage.style.display = 'flex';
-    landingPage.style.opacity = 0;
+    runWrapper?.style.display = 'none';
+    accessMessage?.style.display = 'none';
+    landingPage?.style.display = 'flex';
+    landingPage?.style.opacity = 0;
     overlay.innerHTML = '';
-    overlay.style.display = 'flex';
-    overlay.style.background = 'transparent';
+    overlay?.style.display = 'flex';
+    overlay?.style.background = 'transparent';
 
     for (let i = 0; i < numStrips; i++) {
-      const strip = document.createElement('div');
+       strip = document.createElement('div');
       strip.classList.add('strip', 'cover');
-      strip.style.left = `${(100 / numStrips) * i}%`;
-      strip.style.width = `${100 / numStrips}%`;
-      strip.style.animation = `fallCover ${fallInDuration}ms forwards`;
+      strip?.style.left = `${(100 / numStrips) * i}%`;
+      strip?.style.width = `${100 / numStrips}%`;
+      strip?.style.animation = `fallCover ${fallInDuration}ms forwards`;
       overlay.appendChild(strip);
     }
 
     setTimeout(() => {
-      landingPage.style.opacity = 1;
+      landingPage?.style.opacity = 1;
 
-      const strips = Array.from(overlay.querySelectorAll('.strip'));
-      const shuffled = strips.sort(() => Math.random() - 0.5);
+       strips = Array.from(overlay.querySelectorAll('.strip'));
+       shuffled = strips.sort(() => Math.random() - 0.5);
 
       shuffled.forEach((strip, index) => {
         setTimeout(() => {
           strip.classList.remove('cover');
           strip.classList.add('reveal');
-          strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
+          strip?.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
         }, index * 30);
       });
 
-      const totalDelay = shuffled.length * 30 + fallOutDuration;
+       totalDelay = shuffled.length * 30 + fallOutDuration;
       setTimeout(() => {
-        overlay.style.display = 'none';
+        overlay?.style.display = 'none';
       }, totalDelay + 500);
     }, fallInDuration + delayBeforeReveal);
   }, 1000); // ⌛ Delay for final tension
@@ -14523,16 +14523,16 @@ document.getElementById('run-button').addEventListener('click', () => {
 
 // === INIT SCREEN TRIGGER ===
 window.addEventListener('DOMContentLoaded', () => {
-  const initScreen = document.getElementById('init-screen');
-  const initButton = document.getElementById('init-button');
-  const preloadOverlay = document.getElementById('preload-overlay');
+   initScreen = document.getElementById('init-screen');
+   initButton = document.getElementById('init-button');
+   preloadOverlay = document.getElementById('preload-overlay');
 
   initButton.addEventListener('click', () => {
     unlockAudio();
 
-    initScreen.style.display = 'none';
-    preloadOverlay.style.display = 'block';
-    preloadOverlay.style.opacity = '1';
+    initScreen?.style.display = 'none';
+    preloadOverlay?.style.display = 'block';
+    preloadOverlay?.style.opacity = '1';
     preloadOverlay.classList.remove('fade-out');
 
     playSound('gatewayIntro', 100);
@@ -14541,27 +14541,27 @@ window.addEventListener('DOMContentLoaded', () => {
       preloadOverlay.classList.add('fade-out');
       setTimeout(() => preloadOverlay.remove(), 1000);
 
-      const logo = document.querySelector('.logo-main');
-      const tagline = document.querySelector('.tagline');
-      const instruction = document.querySelector('.decrypt-instruction');
+       logo = document.querySelector('.logo-main');
+       tagline = document.querySelector('.tagline');
+       instruction = document.querySelector('.decrypt-instruction');
 
-      setTimeout(() => { logo.style.animation = 'fadeIn 1.2s forwards'; }, 0);
-      setTimeout(() => { tagline.style.animation = 'fadeIn 1.2s forwards'; }, 800);
+      setTimeout(() => { logo?.style.animation = 'fadeIn 1.2s forwards'; }, 0);
+      setTimeout(() => { tagline?.style.animation = 'fadeIn 1.2s forwards'; }, 800);
       setTimeout(() => {
         cipher.classList.remove('hidden');
-        cipher.style.animation = 'glitchIn 0.6s forwards';
+        cipher?.style.animation = 'glitchIn 0.6s forwards';
         playSound('glitchThrob');
       }, 100);
 
       setTimeout(() => {
         instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
-        instruction.style.animation = 'corruptText 6s infinite';
-        instruction.style.opacity = '1';
+        instruction?.style.animation = 'corruptText 6s infinite';
+        instruction?.style.opacity = '1';
 
-        const raw = instruction.textContent;
-        const glitchChars = '!@#$%?~*';
+         raw = instruction.textContent;
+         glitchChars = '!@#$%?~*';
         setInterval(() => {
-          const corrupted = raw.split('').map(char =>
+           corrupted = raw.split('').map(char =>
             Math.random() < 0.07 && char !== ' '
               ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
               : char
@@ -14583,17 +14583,17 @@ window.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   // 🎯 FLOATING EGGS — Randomized position + animation
-  const floatingEggs = document.querySelectorAll(".drifting-egg");
+   floatingEggs = document.querySelectorAll(".drifting-egg");
   floatingEggs.forEach((egg) => {
-    const pageHeight = document.body.scrollHeight;
-    const pageWidth = document.body.scrollWidth;
-    const top = Math.random() * (pageHeight - 100);
-    const left = Math.random() * (pageWidth - 100);
+     pageHeight = document.body.scrollHeight;
+     pageWidth = document.body.scrollWidth;
+     top = Math.random() * (pageHeight - 100);
+     left = Math.random() * (pageWidth - 100);
 
-    egg.style.position = "absolute";
-    egg.style.top = `${top}px`;
-    egg.style.left = `${left}px`;
-    egg.style.zIndex = "1000";
+    egg?.style.position = "absolute";
+    egg?.style.top = `${top}px`;
+    egg?.style.left = `${left}px`;
+    egg?.style.zIndex = "1000";
 
     egg.animate(
       [
@@ -14612,9 +14612,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // 👁 REVEAL ON SCROLL
-  const revealOnScroll = () => {
-    const reveals = document.querySelectorAll(".reveal");
-    const winH = window.innerHeight;
+   revealOnScroll = () => {
+     reveals = document.querySelectorAll(".reveal");
+     winH = window.innerHeight;
     reveals.forEach((el) => {
       if (el.getBoundingClientRect().top < winH) {
         el.classList.add("reveal-active");
@@ -14625,16 +14625,16 @@ document.addEventListener("DOMContentLoaded", () => {
   revealOnScroll();
 
   // 🧠 TYPING ANIMATION
-  const loading1 = document.getElementById("loading-1");
-  const loading2 = document.getElementById("loading-2");
+   loading1 = document.getElementById("loading-1");
+   loading2 = document.getElementById("loading-2");
 
-  const lines1 = [
+   lines1 = [
     "&gt;&gt;&gt; <span class='white'>Authenticating system integrity...</span>",
     "&gt;&gt;&gt; <span class='cyan'>Initializing GWOS...</span>",
     "&gt;&gt;&gt; <span class='red'>System breach imminent...</span>",
   ];
 
-  const lines2 = [
+   lines2 = [
     "&gt;&gt;&gt; Compiling pain... <span class='green'>Complete</span>",
     "&gt;&gt;&gt; Parsing guilt... <span class='green'>Complete</span>",
     "&gt;&gt;&gt; Injecting honesty... <span class='green'>Complete</span>",
@@ -14646,21 +14646,21 @@ document.addEventListener("DOMContentLoaded", () => {
     "&gt;&gt;&gt; Deploying featured track: <span class='blue'><i>I See It All</i></span>",
   ];
 
-  const typeLines = (target, lines, delay = 60, callback) => {
+   typeLines = (target, lines, delay = 60, callback) => {
     let lineIndex = 0;
     target.innerHTML = "";
 
-    const typeLine = () => {
+     typeLine = () => {
       if (lineIndex >= lines.length) {
         callback?.();
         return;
       }
 
-      const line = lines[lineIndex];
+       line = lines[lineIndex];
       let charIndex = 0;
       let currentLine = "";
 
-      const typeChar = () => {
+       typeChar = () => {
         currentLine += line.charAt(charIndex);
         target.innerHTML =
           lines.slice(0, lineIndex).join("<br>") +
@@ -14683,14 +14683,14 @@ document.addEventListener("DOMContentLoaded", () => {
     typeLine();
   };
 
-  const loopLoading1 = () => {
+   loopLoading1 = () => {
     if (!loading1) return;
     typeLines(loading1, lines1, 60, () => {
       setTimeout(loopLoading1, 2000);
     });
   };
 
-  const loopLoading2 = () => {
+   loopLoading2 = () => {
     if (!loading2) return;
     typeLines(loading2, lines2, 60, () => {
       setTimeout(loopLoading2, 2000);
@@ -14701,24 +14701,24 @@ document.addEventListener("DOMContentLoaded", () => {
   loopLoading2();
 
   // === RED MATRIX RAIN CANVAS ===
-  const canvas = document.getElementById("matrix");
+   canvas = document.getElementById("matrix");
   if (canvas) {
-    const ctx = canvas.getContext("2d");
+     ctx = canvas.getContext("2d");
     canvas.height = window.innerHeight;
     canvas.width = window.innerWidth;
 
     function hexToRGBA(hex, alpha) {
-      const shorthand = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+       shorthand = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
       hex = hex.replace(shorthand, (m, r, g, b) => r + r + g + g + b + b);
-      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+       result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
       if (!result) return `rgba(255,255,255,${alpha})`;
-      const r = parseInt(result[1], 16);
-      const g = parseInt(result[2], 16);
-      const b = parseInt(result[3], 16);
+       r = parseInt(result[1], 16);
+       g = parseInt(result[2], 16);
+       b = parseInt(result[3], 16);
       return `rgba(${r}, ${g}, ${b}, ${alpha})`;
     }
 
-    const letters = [
+     letters = [
       ..."01",
       ..."GWOS",
       ..."I SEE IT ALL",
@@ -14738,7 +14738,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ..."ABCDEF",
     ];
 
-    const glitchPhrases = [
+     glitchPhrases = [
       "I SEE IT ALL",
       "U R NT ALNE",
       "EMO IS EXE",
@@ -14747,21 +14747,21 @@ document.addEventListener("DOMContentLoaded", () => {
       "GIZ // SIGNAL FOUND",
     ];
 
-    const activeGlitchLines = [];
-    const fontSize = 14;
-    const columnCount = 400;
-    const spacing = canvas.width / columnCount;
-    const drops = Array.from({ length: columnCount }, () => 1);
+     activeGlitchLines = [];
+     fontSize = 14;
+     columnCount = 400;
+     spacing = canvas.width / columnCount;
+     drops = Array.from({ length: columnCount }, () => 1);
 
-    const draw = () => {
+     draw = () => {
       ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = "#ff0000";
       ctx.font = `${fontSize}px monospace`;
 
       drops.forEach((y, i) => {
-        const text = letters[Math.floor(Math.random() * letters.length)];
-        const x = i * spacing;
+         text = letters[Math.floor(Math.random() * letters.length)];
+         x = i * spacing;
         ctx.fillText(text, x, y * fontSize);
         if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
         drops[i]++;
@@ -14769,7 +14769,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // 👻 Glitch overlay
       for (let i = activeGlitchLines.length - 1; i >= 0; i--) {
-        const line = activeGlitchLines[i];
+         line = activeGlitchLines[i];
         ctx.font = "bold 14px monospace";
         ctx.fillStyle = hexToRGBA(line.color, line.alpha);
         ctx.fillText(line.phrase, line.x, line.y);
@@ -14778,19 +14778,19 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     };
 
-    const drawHorizontalGlitch = () => {
-      const phrase =
+     drawHorizontalGlitch = () => {
+       phrase =
         glitchPhrases[Math.floor(Math.random() * glitchPhrases.length)];
-      const x = Math.floor(Math.random() * (canvas.width - 300));
-      const y = Math.floor(Math.random() * canvas.height);
-      const colors = [
+       x = Math.floor(Math.random() * (canvas.width - 300));
+       y = Math.floor(Math.random() * canvas.height);
+       colors = [
         "#ff003c",
         "#00ffff",
         "#ff69b4",
         "#00ff66",
         "#ffffff",
       ];
-      const color = colors[Math.floor(Math.random() * colors.length)];
+       color = colors[Math.floor(Math.random() * colors.length)];
       activeGlitchLines.push({
         phrase,
         x,
@@ -14806,8 +14806,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // === 📟 EMOTIONAL TRIGGER ===
-  const trigger = document.getElementById("message-trigger");
-  const message = document.getElementById("hidden-message");
+   trigger = document.getElementById("message-trigger");
+   message = document.getElementById("hidden-message");
 
   if (trigger && message) {
     trigger.addEventListener("click", () => {
@@ -14817,10 +14817,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => {
           message.classList.remove("fade-out");
-          message.style.display = "none";
+          message?.style.display = "none";
         }, 600);
       } else {
-        message.style.display = "block";
+        message?.style.display = "block";
         message.classList.add("visible");
       }
     });
@@ -14831,20 +14831,20 @@ document.addEventListener("DOMContentLoaded", () => {
 <script>
   // === [LANDING PAGE HANDOFF FIX] ===
   function revealLandingPage() {
-    const main = document.getElementById("main");
-    const gateway = document.getElementById("gateway");
-    const lp = document.getElementById("lp-wrapper") || document.querySelector(".lp-wrapper");
+     main = document.getElementById("main");
+     gateway = document.getElementById("gateway");
+     lp = document.getElementById("lp-wrapper") || document.querySelector(".lp-wrapper");
 
     if (main && gateway && lp) {
-      main.style.display = "block";
-      lp.style.display = "block";
+      main?.style.display = "block";
+      lp?.style.display = "block";
       gateway.remove();
     } else {
       console.warn("[GWOS] Handoff failed: one or more elements not found.");
     }
   }
   // Add to RUN IT button logic
-  const runBtn = document.getElementById("run-it");
+   runBtn = document.getElementById("run-it");
   if (runBtn) {
     runBtn.addEventListener("click", () => {
       setTimeout(() => {
@@ -15100,11 +15100,8 @@ if (pain > threshold) {
   <p>© 2025 GrimmWare OS | The future doesn't ask for permission. <br>It Executes.</p>
   <p><a href="mailto:contact@grimmwareos.com">contact@grimmwareos.com</a></p>
 </footer>
-</div>
   </body>
 </html>
-
-
 
   <!-- LANDING PAGE END -->
 </div>
