@@ -14855,6 +14855,23 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
   // === [LANDING PAGE SCRIPT END] ===
 </script>
+  
+<script>
+  // ✅ Only declare boxes if not already declared
+  if (typeof boxes === "undefined") {
+    var boxes = document.querySelectorAll(".box");
+  }
+
+  // ✅ Only define swapBoxes if not already defined
+  if (typeof swapBoxes === "undefined") {
+    function swapBoxes(i, j) {
+      if (!boxes || !boxes[i] || !boxes[j]) return;
+      const temp = boxes[i].textContent;
+      boxes[i].textContent = boxes[j].textContent;
+      boxes[j].textContent = temp;
+    }
+  }
+</script>
 
 </body>
 </html>
