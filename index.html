@@ -8718,25 +8718,25 @@ document.getElementById('run-button').addEventListener('click', () => {
      fallOutDuration = 600;
      delayBeforeReveal = 1500;
 
-    runWrapper?.style.display = 'none';
-    accessMessage?.style.display = 'none';
-    landingPage?.style.display = 'flex';
-    landingPage?.style.opacity = 0;
+    if (runWrapper) runWrapper.style.display = 'none';
+    if (accessMessage) accessMessage.style.display = 'none';
+    if (landingPage) landingPage.style.display = 'flex';
+    if (landingPage) landingPage.style.opacity = 0;
     overlay.innerHTML = '';
-    overlay?.style.display = 'flex';
-    overlay?.style.background = 'transparent';
+    if (overlay) overlay.style.display = 'flex';
+    if (overlay) overlay.style.background = 'transparent';
 
     for (let i = 0; i < numStrips; i++) {
        strip = document.createElement('div');
       strip.classList.add('strip', 'cover');
-      strip?.style.left = `${(100 / numStrips) * i}%`;
-      strip?.style.width = `${100 / numStrips}%`;
-      strip?.style.animation = `fallCover ${fallInDuration}ms forwards`;
+      if (strip) strip.style.left = `${(100 / numStrips) * i}%`;
+      if (strip) strip.style.width = `${100 / numStrips}%`;
+      if (strip) strip.style.animation = `fallCover ${fallInDuration}ms forwards`;
       overlay.appendChild(strip);
     }
 
     setTimeout(() => {
-      landingPage?.style.opacity = 1;
+      if (landingPage) landingPage.style.opacity = 1;
 
        strips = Array.from(overlay.querySelectorAll('.strip'));
        shuffled = strips.sort(() => Math.random() - 0.5);
@@ -8745,13 +8745,13 @@ document.getElementById('run-button').addEventListener('click', () => {
         setTimeout(() => {
           strip.classList.remove('cover');
           strip.classList.add('reveal');
-          strip?.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
+          if (strip) strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
         }, index * 30);
       });
 
        totalDelay = shuffled.length * 30 + fallOutDuration;
       setTimeout(() => {
-        overlay?.style.display = 'none';
+        if (overlay) overlay.style.display = 'none';
       }, totalDelay + 500);
     }, fallInDuration + delayBeforeReveal);
   }, 1000); // ⌛ Delay for final tension
@@ -8766,9 +8766,9 @@ window.addEventListener('DOMContentLoaded', () => {
   initButton.addEventListener('click', () => {
     unlockAudio();
 
-    initScreen?.style.display = 'none';
-    preloadOverlay?.style.display = 'block';
-    preloadOverlay?.style.opacity = '1';
+    if (initScreen) initScreen.style.display = 'none';
+    if (preloadOverlay) preloadOverlay.style.display = 'block';
+    if (preloadOverlay) preloadOverlay.style.opacity = '1';
     preloadOverlay.classList.remove('fade-out');
 
     playSound('gatewayIntro', 100);
@@ -8781,18 +8781,18 @@ window.addEventListener('DOMContentLoaded', () => {
        tagline = document.querySelector('.tagline');
        instruction = document.querySelector('.decrypt-instruction');
 
-      setTimeout(() => { logo?.style.animation = 'fadeIn 1.2s forwards'; }, 0);
-      setTimeout(() => { tagline?.style.animation = 'fadeIn 1.2s forwards'; }, 800);
+      setTimeout(() => { if (logo) logo.style.animation = 'fadeIn 1.2s forwards'; }, 0);
+      setTimeout(() => { if (tagline) tagline.style.animation = 'fadeIn 1.2s forwards'; }, 800);
       setTimeout(() => {
         cipher.classList.remove('hidden');
-        cipher?.style.animation = 'glitchIn 0.6s forwards';
+        if (cipher) cipher.style.animation = 'glitchIn 0.6s forwards';
         playSound('glitchThrob');
       }, 100);
 
       setTimeout(() => {
         instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
-        instruction?.style.animation = 'corruptText 6s infinite';
-        instruction?.style.opacity = '1';
+        if (instruction) instruction.style.animation = 'corruptText 6s infinite';
+        if (instruction) instruction.style.opacity = '1';
 
          raw = instruction.textContent;
          glitchChars = '!@#$%?~*';
@@ -8826,10 +8826,10 @@ document.addEventListener("DOMContentLoaded", () => {
      top = Math.random() * (pageHeight - 100);
      left = Math.random() * (pageWidth - 100);
 
-    egg?.style.position = "absolute";
-    egg?.style.top = `${top}px`;
-    egg?.style.left = `${left}px`;
-    egg?.style.zIndex = "1000";
+    if (egg) egg.style.position = "absolute";
+    if (egg) egg.style.top = `${top}px`;
+    if (egg) egg.style.left = `${left}px`;
+    if (egg) egg.style.zIndex = "1000";
 
     egg.animate(
       [
@@ -9053,10 +9053,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => {
           message.classList.remove("fade-out");
-          message?.style.display = "none";
+          if (message) message.style.display = "none";
         }, 600);
       } else {
-        message?.style.display = "block";
+        if (message) message.style.display = "block";
         message.classList.add("visible");
       }
     });
@@ -12116,25 +12116,25 @@ document.getElementById('run-button').addEventListener('click', () => {
      fallOutDuration = 600;
      delayBeforeReveal = 1500;
 
-    runWrapper?.style.display = 'none';
-    accessMessage?.style.display = 'none';
-    landingPage?.style.display = 'flex';
-    landingPage?.style.opacity = 0;
+    if (runWrapper) runWrapper.style.display = 'none';
+    if (accessMessage) accessMessage.style.display = 'none';
+    if (landingPage) landingPage.style.display = 'flex';
+    if (landingPage) landingPage.style.opacity = 0;
     overlay.innerHTML = '';
-    overlay?.style.display = 'flex';
-    overlay?.style.background = 'transparent';
+    if (overlay) overlay.style.display = 'flex';
+    if (overlay) overlay.style.background = 'transparent';
 
     for (let i = 0; i < numStrips; i++) {
        strip = document.createElement('div');
       strip.classList.add('strip', 'cover');
-      strip?.style.left = `${(100 / numStrips) * i}%`;
-      strip?.style.width = `${100 / numStrips}%`;
-      strip?.style.animation = `fallCover ${fallInDuration}ms forwards`;
+      if (strip) strip.style.left = `${(100 / numStrips) * i}%`;
+      if (strip) strip.style.width = `${100 / numStrips}%`;
+      if (strip) strip.style.animation = `fallCover ${fallInDuration}ms forwards`;
       overlay.appendChild(strip);
     }
 
     setTimeout(() => {
-      landingPage?.style.opacity = 1;
+      if (landingPage) landingPage.style.opacity = 1;
 
        strips = Array.from(overlay.querySelectorAll('.strip'));
        shuffled = strips.sort(() => Math.random() - 0.5);
@@ -12143,13 +12143,13 @@ document.getElementById('run-button').addEventListener('click', () => {
         setTimeout(() => {
           strip.classList.remove('cover');
           strip.classList.add('reveal');
-          strip?.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
+          if (strip) strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
         }, index * 30);
       });
 
        totalDelay = shuffled.length * 30 + fallOutDuration;
       setTimeout(() => {
-        overlay?.style.display = 'none';
+        if (overlay) overlay.style.display = 'none';
       }, totalDelay + 500);
     }, fallInDuration + delayBeforeReveal);
   }, 1000); // ⌛ Delay for final tension
@@ -12164,9 +12164,9 @@ window.addEventListener('DOMContentLoaded', () => {
   initButton.addEventListener('click', () => {
     unlockAudio();
 
-    initScreen?.style.display = 'none';
-    preloadOverlay?.style.display = 'block';
-    preloadOverlay?.style.opacity = '1';
+    if (initScreen) initScreen.style.display = 'none';
+    if (preloadOverlay) preloadOverlay.style.display = 'block';
+    if (preloadOverlay) preloadOverlay.style.opacity = '1';
     preloadOverlay.classList.remove('fade-out');
 
     playSound('gatewayIntro', 100);
@@ -12179,18 +12179,18 @@ window.addEventListener('DOMContentLoaded', () => {
        tagline = document.querySelector('.tagline');
        instruction = document.querySelector('.decrypt-instruction');
 
-      setTimeout(() => { logo?.style.animation = 'fadeIn 1.2s forwards'; }, 0);
-      setTimeout(() => { tagline?.style.animation = 'fadeIn 1.2s forwards'; }, 800);
+      setTimeout(() => { if (logo) logo.style.animation = 'fadeIn 1.2s forwards'; }, 0);
+      setTimeout(() => { if (tagline) tagline.style.animation = 'fadeIn 1.2s forwards'; }, 800);
       setTimeout(() => {
         cipher.classList.remove('hidden');
-        cipher?.style.animation = 'glitchIn 0.6s forwards';
+        if (cipher) cipher.style.animation = 'glitchIn 0.6s forwards';
         playSound('glitchThrob');
       }, 100);
 
       setTimeout(() => {
         instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
-        instruction?.style.animation = 'corruptText 6s infinite';
-        instruction?.style.opacity = '1';
+        if (instruction) instruction.style.animation = 'corruptText 6s infinite';
+        if (instruction) instruction.style.opacity = '1';
 
          raw = instruction.textContent;
          glitchChars = '!@#$%?~*';
@@ -12224,10 +12224,10 @@ document.addEventListener("DOMContentLoaded", () => {
      top = Math.random() * (pageHeight - 100);
      left = Math.random() * (pageWidth - 100);
 
-    egg?.style.position = "absolute";
-    egg?.style.top = `${top}px`;
-    egg?.style.left = `${left}px`;
-    egg?.style.zIndex = "1000";
+    if (egg) egg.style.position = "absolute";
+    if (egg) egg.style.top = `${top}px`;
+    if (egg) egg.style.left = `${left}px`;
+    if (egg) egg.style.zIndex = "1000";
 
     egg.animate(
       [
@@ -12451,10 +12451,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => {
           message.classList.remove("fade-out");
-          message?.style.display = "none";
+          if (message) message.style.display = "none";
         }, 600);
       } else {
-        message?.style.display = "block";
+        if (message) message.style.display = "block";
         message.classList.add("visible");
       }
     });
@@ -12953,25 +12953,25 @@ document.getElementById('run-button').addEventListener('click', () => {
      fallOutDuration = 600;
      delayBeforeReveal = 1500;
 
-    runWrapper?.style.display = 'none';
-    accessMessage?.style.display = 'none';
-    landingPage?.style.display = 'flex';
-    landingPage?.style.opacity = 0;
+    if (runWrapper) runWrapper.style.display = 'none';
+    if (accessMessage) accessMessage.style.display = 'none';
+    if (landingPage) landingPage.style.display = 'flex';
+    if (landingPage) landingPage.style.opacity = 0;
     overlay.innerHTML = '';
-    overlay?.style.display = 'flex';
-    overlay?.style.background = 'transparent';
+    if (overlay) overlay.style.display = 'flex';
+    if (overlay) overlay.style.background = 'transparent';
 
     for (let i = 0; i < numStrips; i++) {
        strip = document.createElement('div');
       strip.classList.add('strip', 'cover');
-      strip?.style.left = `${(100 / numStrips) * i}%`;
-      strip?.style.width = `${100 / numStrips}%`;
-      strip?.style.animation = `fallCover ${fallInDuration}ms forwards`;
+      if (strip) strip.style.left = `${(100 / numStrips) * i}%`;
+      if (strip) strip.style.width = `${100 / numStrips}%`;
+      if (strip) strip.style.animation = `fallCover ${fallInDuration}ms forwards`;
       overlay.appendChild(strip);
     }
 
     setTimeout(() => {
-      landingPage?.style.opacity = 1;
+      if (landingPage) landingPage.style.opacity = 1;
 
        strips = Array.from(overlay.querySelectorAll('.strip'));
        shuffled = strips.sort(() => Math.random() - 0.5);
@@ -12980,13 +12980,13 @@ document.getElementById('run-button').addEventListener('click', () => {
         setTimeout(() => {
           strip.classList.remove('cover');
           strip.classList.add('reveal');
-          strip?.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
+          if (strip) strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
         }, index * 30);
       });
 
        totalDelay = shuffled.length * 30 + fallOutDuration;
       setTimeout(() => {
-        overlay?.style.display = 'none';
+        if (overlay) overlay.style.display = 'none';
       }, totalDelay + 500);
     }, fallInDuration + delayBeforeReveal);
   }, 1000); // ⌛ Delay for final tension
@@ -13001,9 +13001,9 @@ window.addEventListener('DOMContentLoaded', () => {
   initButton.addEventListener('click', () => {
     unlockAudio();
 
-    initScreen?.style.display = 'none';
-    preloadOverlay?.style.display = 'block';
-    preloadOverlay?.style.opacity = '1';
+    if (initScreen) initScreen.style.display = 'none';
+    if (preloadOverlay) preloadOverlay.style.display = 'block';
+    if (preloadOverlay) preloadOverlay.style.opacity = '1';
     preloadOverlay.classList.remove('fade-out');
 
     playSound('gatewayIntro', 100);
@@ -13016,18 +13016,18 @@ window.addEventListener('DOMContentLoaded', () => {
        tagline = document.querySelector('.tagline');
        instruction = document.querySelector('.decrypt-instruction');
 
-      setTimeout(() => { logo?.style.animation = 'fadeIn 1.2s forwards'; }, 0);
-      setTimeout(() => { tagline?.style.animation = 'fadeIn 1.2s forwards'; }, 800);
+      setTimeout(() => { if (logo) logo.style.animation = 'fadeIn 1.2s forwards'; }, 0);
+      setTimeout(() => { if (tagline) tagline.style.animation = 'fadeIn 1.2s forwards'; }, 800);
       setTimeout(() => {
         cipher.classList.remove('hidden');
-        cipher?.style.animation = 'glitchIn 0.6s forwards';
+        if (cipher) cipher.style.animation = 'glitchIn 0.6s forwards';
         playSound('glitchThrob');
       }, 100);
 
       setTimeout(() => {
         instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
-        instruction?.style.animation = 'corruptText 6s infinite';
-        instruction?.style.opacity = '1';
+        if (instruction) instruction.style.animation = 'corruptText 6s infinite';
+        if (instruction) instruction.style.opacity = '1';
 
          raw = instruction.textContent;
          glitchChars = '!@#$%?~*';
@@ -13060,10 +13060,10 @@ document.addEventListener("DOMContentLoaded", () => {
      top = Math.random() * (pageHeight - 100);
      left = Math.random() * (pageWidth - 100);
 
-    egg?.style.position = "absolute";
-    egg?.style.top = `${top}px`;
-    egg?.style.left = `${left}px`;
-    egg?.style.zIndex = "1000";
+    if (egg) egg.style.position = "absolute";
+    if (egg) egg.style.top = `${top}px`;
+    if (egg) egg.style.left = `${left}px`;
+    if (egg) egg.style.zIndex = "1000";
 
     egg.animate(
       [
@@ -13287,10 +13287,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => {
           message.classList.remove("fade-out");
-          message?.style.display = "none";
+          if (message) message.style.display = "none";
         }, 600);
       } else {
-        message?.style.display = "block";
+        if (message) message.style.display = "block";
         message.classList.add("visible");
       }
     });
@@ -13758,25 +13758,25 @@ document.getElementById('run-button').addEventListener('click', () => {
      fallOutDuration = 600;
      delayBeforeReveal = 1500;
 
-    runWrapper?.style.display = 'none';
-    accessMessage?.style.display = 'none';
-    landingPage?.style.display = 'flex';
-    landingPage?.style.opacity = 0;
+    if (runWrapper) runWrapper.style.display = 'none';
+    if (accessMessage) accessMessage.style.display = 'none';
+    if (landingPage) landingPage.style.display = 'flex';
+    if (landingPage) landingPage.style.opacity = 0;
     overlay.innerHTML = '';
-    overlay?.style.display = 'flex';
-    overlay?.style.background = 'transparent';
+    if (overlay) overlay.style.display = 'flex';
+    if (overlay) overlay.style.background = 'transparent';
 
     for (let i = 0; i < numStrips; i++) {
        strip = document.createElement('div');
       strip.classList.add('strip', 'cover');
-      strip?.style.left = `${(100 / numStrips) * i}%`;
-      strip?.style.width = `${100 / numStrips}%`;
-      strip?.style.animation = `fallCover ${fallInDuration}ms forwards`;
+      if (strip) strip.style.left = `${(100 / numStrips) * i}%`;
+      if (strip) strip.style.width = `${100 / numStrips}%`;
+      if (strip) strip.style.animation = `fallCover ${fallInDuration}ms forwards`;
       overlay.appendChild(strip);
     }
 
     setTimeout(() => {
-      landingPage?.style.opacity = 1;
+      if (landingPage) landingPage.style.opacity = 1;
 
        strips = Array.from(overlay.querySelectorAll('.strip'));
        shuffled = strips.sort(() => Math.random() - 0.5);
@@ -13785,13 +13785,13 @@ document.getElementById('run-button').addEventListener('click', () => {
         setTimeout(() => {
           strip.classList.remove('cover');
           strip.classList.add('reveal');
-          strip?.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
+          if (strip) strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
         }, index * 30);
       });
 
        totalDelay = shuffled.length * 30 + fallOutDuration;
       setTimeout(() => {
-        overlay?.style.display = 'none';
+        if (overlay) overlay.style.display = 'none';
       }, totalDelay + 500);
     }, fallInDuration + delayBeforeReveal);
   }, 1000); // ⌛ Delay for final tension
@@ -13806,9 +13806,9 @@ window.addEventListener('DOMContentLoaded', () => {
   initButton.addEventListener('click', () => {
     unlockAudio();
 
-    initScreen?.style.display = 'none';
-    preloadOverlay?.style.display = 'block';
-    preloadOverlay?.style.opacity = '1';
+    if (initScreen) initScreen.style.display = 'none';
+    if (preloadOverlay) preloadOverlay.style.display = 'block';
+    if (preloadOverlay) preloadOverlay.style.opacity = '1';
     preloadOverlay.classList.remove('fade-out');
 
     playSound('gatewayIntro', 100);
@@ -13821,18 +13821,18 @@ window.addEventListener('DOMContentLoaded', () => {
        tagline = document.querySelector('.tagline');
        instruction = document.querySelector('.decrypt-instruction');
 
-      setTimeout(() => { logo?.style.animation = 'fadeIn 1.2s forwards'; }, 0);
-      setTimeout(() => { tagline?.style.animation = 'fadeIn 1.2s forwards'; }, 800);
+      setTimeout(() => { if (logo) logo.style.animation = 'fadeIn 1.2s forwards'; }, 0);
+      setTimeout(() => { if (tagline) tagline.style.animation = 'fadeIn 1.2s forwards'; }, 800);
       setTimeout(() => {
         cipher.classList.remove('hidden');
-        cipher?.style.animation = 'glitchIn 0.6s forwards';
+        if (cipher) cipher.style.animation = 'glitchIn 0.6s forwards';
         playSound('glitchThrob');
       }, 100);
 
       setTimeout(() => {
         instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
-        instruction?.style.animation = 'corruptText 6s infinite';
-        instruction?.style.opacity = '1';
+        if (instruction) instruction.style.animation = 'corruptText 6s infinite';
+        if (instruction) instruction.style.opacity = '1';
 
          raw = instruction.textContent;
          glitchChars = '!@#$%?~*';
@@ -13866,10 +13866,10 @@ document.addEventListener("DOMContentLoaded", () => {
      top = Math.random() * (pageHeight - 100);
      left = Math.random() * (pageWidth - 100);
 
-    egg?.style.position = "absolute";
-    egg?.style.top = `${top}px`;
-    egg?.style.left = `${left}px`;
-    egg?.style.zIndex = "1000";
+    if (egg) egg.style.position = "absolute";
+    if (egg) egg.style.top = `${top}px`;
+    if (egg) egg.style.left = `${left}px`;
+    if (egg) egg.style.zIndex = "1000";
 
     egg.animate(
       [
@@ -14093,10 +14093,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => {
           message.classList.remove("fade-out");
-          message?.style.display = "none";
+          if (message) message.style.display = "none";
         }, 600);
       } else {
-        message?.style.display = "block";
+        if (message) message.style.display = "block";
         message.classList.add("visible");
       }
     });
@@ -14589,25 +14589,25 @@ document.getElementById('run-button').addEventListener('click', () => {
      fallOutDuration = 600;
      delayBeforeReveal = 1500;
 
-    runWrapper?.style.display = 'none';
-    accessMessage?.style.display = 'none';
-    landingPage?.style.display = 'flex';
-    landingPage?.style.opacity = 0;
+    if (runWrapper) runWrapper.style.display = 'none';
+    if (accessMessage) accessMessage.style.display = 'none';
+    if (landingPage) landingPage.style.display = 'flex';
+    if (landingPage) landingPage.style.opacity = 0;
     overlay.innerHTML = '';
-    overlay?.style.display = 'flex';
-    overlay?.style.background = 'transparent';
+    if (overlay) overlay.style.display = 'flex';
+    if (overlay) overlay.style.background = 'transparent';
 
     for (let i = 0; i < numStrips; i++) {
        strip = document.createElement('div');
       strip.classList.add('strip', 'cover');
-      strip?.style.left = `${(100 / numStrips) * i}%`;
-      strip?.style.width = `${100 / numStrips}%`;
-      strip?.style.animation = `fallCover ${fallInDuration}ms forwards`;
+      if (strip) strip.style.left = `${(100 / numStrips) * i}%`;
+      if (strip) strip.style.width = `${100 / numStrips}%`;
+      if (strip) strip.style.animation = `fallCover ${fallInDuration}ms forwards`;
       overlay.appendChild(strip);
     }
 
     setTimeout(() => {
-      landingPage?.style.opacity = 1;
+      if (landingPage) landingPage.style.opacity = 1;
 
        strips = Array.from(overlay.querySelectorAll('.strip'));
        shuffled = strips.sort(() => Math.random() - 0.5);
@@ -14616,13 +14616,13 @@ document.getElementById('run-button').addEventListener('click', () => {
         setTimeout(() => {
           strip.classList.remove('cover');
           strip.classList.add('reveal');
-          strip?.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
+          if (strip) strip.style.animation = `fallReveal ${fallOutDuration}ms forwards`;
         }, index * 30);
       });
 
        totalDelay = shuffled.length * 30 + fallOutDuration;
       setTimeout(() => {
-        overlay?.style.display = 'none';
+        if (overlay) overlay.style.display = 'none';
       }, totalDelay + 500);
     }, fallInDuration + delayBeforeReveal);
   }, 1000); // ⌛ Delay for final tension
@@ -14637,9 +14637,9 @@ window.addEventListener('DOMContentLoaded', () => {
   initButton.addEventListener('click', () => {
     unlockAudio();
 
-    initScreen?.style.display = 'none';
-    preloadOverlay?.style.display = 'block';
-    preloadOverlay?.style.opacity = '1';
+    if (initScreen) initScreen.style.display = 'none';
+    if (preloadOverlay) preloadOverlay.style.display = 'block';
+    if (preloadOverlay) preloadOverlay.style.opacity = '1';
     preloadOverlay.classList.remove('fade-out');
 
     playSound('gatewayIntro', 100);
@@ -14652,18 +14652,18 @@ window.addEventListener('DOMContentLoaded', () => {
        tagline = document.querySelector('.tagline');
        instruction = document.querySelector('.decrypt-instruction');
 
-      setTimeout(() => { logo?.style.animation = 'fadeIn 1.2s forwards'; }, 0);
-      setTimeout(() => { tagline?.style.animation = 'fadeIn 1.2s forwards'; }, 800);
+      setTimeout(() => { if (logo) logo.style.animation = 'fadeIn 1.2s forwards'; }, 0);
+      setTimeout(() => { if (tagline) tagline.style.animation = 'fadeIn 1.2s forwards'; }, 800);
       setTimeout(() => {
         cipher.classList.remove('hidden');
-        cipher?.style.animation = 'glitchIn 0.6s forwards';
+        if (cipher) cipher.style.animation = 'glitchIn 0.6s forwards';
         playSound('glitchThrob');
       }, 100);
 
       setTimeout(() => {
         instruction.textContent = 'T4p _gr33n_ 2 d3crypt...';
-        instruction?.style.animation = 'corruptText 6s infinite';
-        instruction?.style.opacity = '1';
+        if (instruction) instruction.style.animation = 'corruptText 6s infinite';
+        if (instruction) instruction.style.opacity = '1';
 
          raw = instruction.textContent;
          glitchChars = '!@#$%?~*';
@@ -14697,10 +14697,10 @@ document.addEventListener("DOMContentLoaded", () => {
      top = Math.random() * (pageHeight - 100);
      left = Math.random() * (pageWidth - 100);
 
-    egg?.style.position = "absolute";
-    egg?.style.top = `${top}px`;
-    egg?.style.left = `${left}px`;
-    egg?.style.zIndex = "1000";
+    if (egg) egg.style.position = "absolute";
+    if (egg) egg.style.top = `${top}px`;
+    if (egg) egg.style.left = `${left}px`;
+    if (egg) egg.style.zIndex = "1000";
 
     egg.animate(
       [
@@ -14924,10 +14924,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => {
           message.classList.remove("fade-out");
-          message?.style.display = "none";
+          if (message) message.style.display = "none";
         }, 600);
       } else {
-        message?.style.display = "block";
+        if (message) message.style.display = "block";
         message.classList.add("visible");
       }
     });
@@ -14943,8 +14943,8 @@ document.addEventListener("DOMContentLoaded", () => {
      lp = document.getElementById("lp-wrapper") || document.querySelector(".lp-wrapper");
 
     if (main && gateway && lp) {
-      main?.style.display = "block";
-      lp?.style.display = "block";
+      if (main) main.style.display = "block";
+      if (lp) lp.style.display = "block";
       gateway.remove();
     } else {
       console.warn("[GWOS] Handoff failed: one or more elements not found.");
